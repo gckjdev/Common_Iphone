@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+// THIS IS A TEST CHANGE ON GIT
 
 @interface LiteManager : NSObject {
 
