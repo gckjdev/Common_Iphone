@@ -1,0 +1,11 @@
+/* 
+   Setting.strings
+   ___PROJECTNAME___
+
+   Created by qqn_pipi on 10-10-4.
+   Copyright 2010 QQN-PIPI.com. All rights reserved.
+ */
+
+"ON" = "启用";
+
+"OFF" = "关闭";

@@ -1,0 +1,184 @@
+<plist version="1.0"><dict><key>AO</key><string>{"enName":"Angola", "cnName":"安哥拉", "telPrefix":"244", "code":"AO"}</string>
+<key>AF</key><string>{"enName":"Afghanistan", "cnName":"阿富汗", "telPrefix":"93", "code":"AF"}</string>
+<key>AL</key><string>{"enName":"Albania", "cnName":"阿尔巴尼亚", "telPrefix":"355", "code":"AL"}</string>
+<key>DZ</key><string>{"enName":"Algeria", "cnName":"阿尔及利亚", "telPrefix":"213", "code":"DZ"}</string>
+<key>AD</key><string>{"enName":"Andorra", "cnName":"安道尔共和国", "telPrefix":"376", "code":"AD"}</string>
+<key>AI</key><string>{"enName":"Anguilla", "cnName":"安圭拉岛", "telPrefix":"1264", "code":"AI"}</string>
+<key>AG</key><string>{"enName":"Antigua and Barbuda", "cnName":"安提瓜和巴布达", "telPrefix":"1268", "code":"AG"}</string>
+<key>AR</key><string>{"enName":"Argentina", "cnName":"阿根廷", "telPrefix":"54", "code":"AR"}</string>
+<key>AM</key><string>{"enName":"Armenia", "cnName":"亚美尼亚", "telPrefix":"374", "code":"AM"}</string>
+<key>AU</key><string>{"enName":"Australia", "cnName":"澳大利亚", "telPrefix":"61", "code":"AU"}</string>
+<key>AT</key><string>{"enName":"Austria", "cnName":"奥地利", "telPrefix":"43", "code":"AT"}</string>
+<key>AZ</key><string>{"enName":"Azerbaijan", "cnName":"阿塞拜疆", "telPrefix":"994", "code":"AZ"}</string>
+<key>BS</key><string>{"enName":"Bahamas", "cnName":"巴哈马", "telPrefix":"1242", "code":"BS"}</string>
+<key>BH</key><string>{"enName":"Bahrain", "cnName":"巴林", "telPrefix":"973", "code":"BH"}</string>
+<key>BD</key><string>{"enName":"Bangladesh", "cnName":"孟加拉国", "telPrefix":"880", "code":"BD"}</string>
+<key>BB</key><string>{"enName":"Barbados", "cnName":"巴巴多斯", "telPrefix":"1246", "code":"BB"}</string>
+<key>BY</key><string>{"enName":"Belarus", "cnName":"白俄罗斯", "telPrefix":"375", "code":"BY"}</string>
+<key>BE</key><string>{"enName":"Belgium", "cnName":"比利时", "telPrefix":"32", "code":"BE"}</string>
+<key>BZ</key><string>{"enName":"Belize", "cnName":"伯利兹", "telPrefix":"501", "code":"BZ"}</string>
+<key>BJ</key><string>{"enName":"Benin", "cnName":"贝宁", "telPrefix":"229", "code":"BJ"}</string>
+<key>BM</key><string>{"enName":"Bermuda Is.", "cnName":"百慕大群岛", "telPrefix":"1441", "code":"BM"}</string>
+<key>BO</key><string>{"enName":"Bolivia", "cnName":"玻利维亚", "telPrefix":"591", "code":"BO"}</string>
+<key>BW</key><string>{"enName":"Botswana", "cnName":"博茨瓦纳", "telPrefix":"267", "code":"BW"}</string>
+<key>BR</key><string>{"enName":"Brazil", "cnName":"巴西", "telPrefix":"55", "code":"BR"}</string>
+<key>BN</key><string>{"enName":"Brunei", "cnName":"文莱", "telPrefix":"673", "code":"BN"}</string>
+<key>BG</key><string>{"enName":"Bulgaria", "cnName":"保加利亚", "telPrefix":"359", "code":"BG"}</string>
+<key>BF</key><string>{"enName":"Burkina-faso", "cnName":"布基纳法索", "telPrefix":"226", "code":"BF"}</string>
+<key>MM</key><string>{"enName":"Burma", "cnName":"缅甸", "telPrefix":"95", "code":"MM"}</string>
+<key>BI</key><string>{"enName":"Burundi", "cnName":"布隆迪", "telPrefix":"257", "code":"BI"}</string>
+<key>CM</key><string>{"enName":"Cameroon", "cnName":"喀麦隆", "telPrefix":"237", "code":"CM"}</string>
+<key>CA</key><string>{"enName":"Canada", "cnName":"加拿大", "telPrefix":"1", "code":"CA"}</string>
+<key>CF</key><string>{"enName":"Central African Republic", "cnName":"中非共和国", "telPrefix":"236", "code":"CF"}</string>
+<key>TD</key><string>{"enName":"Chad", "cnName":"乍得", "telPrefix":"235", "code":"TD"}</string>
+<key>CL</key><string>{"enName":"Chile", "cnName":"智利", "telPrefix":"56", "code":"CL"}</string>
+<key>CN</key><string>{"enName":"China", "cnName":"中国", "telPrefix":"86", "code":"CN"}</string>
+<key>CO</key><string>{"enName":"Colombia", "cnName":"哥伦比亚", "telPrefix":"57", "code":"CO"}</string>
+<key>CG</key><string>{"enName":"Congo", "cnName":"刚果", "telPrefix":"242", "code":"CG"}</string>
+<key>CK</key><string>{"enName":"Cook Is.", "cnName":"库克群岛", "telPrefix":"682", "code":"CK"}</string>
+<key>CR</key><string>{"enName":"Costa Rica", "cnName":"哥斯达黎加", "telPrefix":"506", "code":"CR"}</string>
+<key>CU</key><string>{"enName":"Cuba", "cnName":"古巴", "telPrefix":"53", "code":"CU"}</string>
+<key>CY</key><string>{"enName":"Cyprus", "cnName":"塞浦路斯", "telPrefix":"357", "code":"CY"}</string>
+<key>CZ</key><string>{"enName":"Czech Republic", "cnName":"捷克", "telPrefix":"420", "code":"CZ"}</string>
+<key>DK</key><string>{"enName":"Denmark", "cnName":"丹麦", "telPrefix":"45", "code":"DK"}</string>
+<key>DJ</key><string>{"enName":"Djibouti", "cnName":"吉布提", "telPrefix":"253", "code":"DJ"}</string>
+<key>DO</key><string>{"enName":"Dominica Rep.", "cnName":"多米尼加共和国", "telPrefix":"1890", "code":"DO"}</string>
+<key>EC</key><string>{"enName":"Ecuador", "cnName":"厄瓜多尔", "telPrefix":"593", "code":"EC"}</string>
+<key>EG</key><string>{"enName":"Egypt", "cnName":"埃及", "telPrefix":"20", "code":"EG"}</string>
+<key>SV</key><string>{"enName":"EI Salvador", "cnName":"萨尔瓦多", "telPrefix":"503", "code":"SV"}</string>
+<key>EE</key><string>{"enName":"Estonia", "cnName":"爱沙尼亚", "telPrefix":"372", "code":"EE"}</string>
+<key>ET</key><string>{"enName":"Ethiopia", "cnName":"埃塞俄比亚", "telPrefix":"251", "code":"ET"}</string>
+<key>FJ</key><string>{"enName":"Fiji", "cnName":"斐济", "telPrefix":"679", "code":"FJ"}</string>
+<key>FI</key><string>{"enName":"Finland", "cnName":"芬兰", "telPrefix":"358", "code":"FI"}</string>
+<key>FR</key><string>{"enName":"France", "cnName":"法国", "telPrefix":"33", "code":"FR"}</string>
+<key>GF</key><string>{"enName":"French Guiana", "cnName":"法属圭亚那", "telPrefix":"594", "code":"GF"}</string>
+<key>GA</key><string>{"enName":"Gabon", "cnName":"加蓬", "telPrefix":"241", "code":"GA"}</string>
+<key>GM</key><string>{"enName":"Gambia", "cnName":"冈比亚", "telPrefix":"220", "code":"GM"}</string>
+<key>GE</key><string>{"enName":"Georgia", "cnName":"格鲁吉亚", "telPrefix":"995", "code":"GE"}</string>
+<key>DE</key><string>{"enName":"Germany", "cnName":"德国", "telPrefix":"49", "code":"DE"}</string>
+<key>GH</key><string>{"enName":"Ghana", "cnName":"加纳", "telPrefix":"233", "code":"GH"}</string>
+<key>GI</key><string>{"enName":"Gibraltar", "cnName":"直布罗陀", "telPrefix":"350", "code":"GI"}</string>
+<key>GR</key><string>{"enName":"Greece", "cnName":"希腊", "telPrefix":"30", "code":"GR"}</string>
+<key>GD</key><string>{"enName":"Grenada", "cnName":"格林纳达", "telPrefix":"1809", "code":"GD"}</string>
+<key>GU</key><string>{"enName":"Guam", "cnName":"关岛", "telPrefix":"1671", "code":"GU"}</string>
+<key>GT</key><string>{"enName":"Guatemala", "cnName":"危地马拉", "telPrefix":"502", "code":"GT"}</string>
+<key>GN</key><string>{"enName":"Guinea", "cnName":"几内亚", "telPrefix":"224", "code":"GN"}</string>
+<key>GY</key><string>{"enName":"Guyana", "cnName":"圭亚那", "telPrefix":"592", "code":"GY"}</string>
+<key>HT</key><string>{"enName":"Haiti", "cnName":"海地", "telPrefix":"509", "code":"HT"}</string>
+<key>HN</key><string>{"enName":"Honduras", "cnName":"洪都拉斯", "telPrefix":"504", "code":"HN"}</string>
+<key>HK</key><string>{"enName":"Hongkong", "cnName":"香港", "telPrefix":"852", "code":"HK"}</string>
+<key>HU</key><string>{"enName":"Hungary", "cnName":"匈牙利", "telPrefix":"36", "code":"HU"}</string>
+<key>IS</key><string>{"enName":"Iceland", "cnName":"冰岛", "telPrefix":"354", "code":"IS"}</string>
+<key>IN</key><string>{"enName":"India", "cnName":"印度", "telPrefix":"91", "code":"IN"}</string>
+<key>ID</key><string>{"enName":"Indonesia", "cnName":"印度尼西亚", "telPrefix":"62", "code":"ID"}</string>
+<key>IR</key><string>{"enName":"Iran", "cnName":"伊朗", "telPrefix":"98", "code":"IR"}</string>
+<key>IQ</key><string>{"enName":"Iraq", "cnName":"伊拉克", "telPrefix":"964", "code":"IQ"}</string>
+<key>IE</key><string>{"enName":"Ireland", "cnName":"爱尔兰", "telPrefix":"353", "code":"IE"}</string>
+<key>IL</key><string>{"enName":"Israel", "cnName":"以色列", "telPrefix":"972", "code":"IL"}</string>
+<key>IT</key><string>{"enName":"Italy", "cnName":"意大利", "telPrefix":"39", "code":"IT"}</string>
+<key>JM</key><string>{"enName":"Jamaica", "cnName":"牙买加", "telPrefix":"1876", "code":"JM"}</string>
+<key>JP</key><string>{"enName":"Japan", "cnName":"日本", "telPrefix":"81", "code":"JP"}</string>
+<key>JO</key><string>{"enName":"Jordan", "cnName":"约旦", "telPrefix":"962", "code":"JO"}</string>
+<key>KH</key><string>{"enName":"Kampuchea (Cambodia )", "cnName":"柬埔寨", "telPrefix":"855", "code":"KH"}</string>
+<key>KZ</key><string>{"enName":"Kazakstan", "cnName":"哈萨克斯坦", "telPrefix":"327", "code":"KZ"}</string>
+<key>KE</key><string>{"enName":"Kenya", "cnName":"肯尼亚", "telPrefix":"254", "code":"KE"}</string>
+<key>KR</key><string>{"enName":"Korea", "cnName":"韩国", "telPrefix":"82", "code":"KR"}</string>
+<key>KW</key><string>{"enName":"Kuwait", "cnName":"科威特", "telPrefix":"965", "code":"KW"}</string>
+<key>KG</key><string>{"enName":"Kyrgyzstan", "cnName":"吉尔吉斯坦", "telPrefix":"331", "code":"KG"}</string>
+<key>LA</key><string>{"enName":"Laos", "cnName":"老挝", "telPrefix":"856", "code":"LA"}</string>
+<key>LV</key><string>{"enName":"Latvia", "cnName":"拉脱维亚", "telPrefix":"371", "code":"LV"}</string>
+<key>LB</key><string>{"enName":"Lebanon", "cnName":"黎巴嫩", "telPrefix":"961", "code":"LB"}</string>
+<key>LS</key><string>{"enName":"Lesotho", "cnName":"莱索托", "telPrefix":"266", "code":"LS"}</string>
+<key>LR</key><string>{"enName":"Liberia", "cnName":"利比里亚", "telPrefix":"231", "code":"LR"}</string>
+<key>LY</key><string>{"enName":"Libya", "cnName":"利比亚", "telPrefix":"218", "code":"LY"}</string>
+<key>LI</key><string>{"enName":"Liechtenstein", "cnName":"列支敦士登", "telPrefix":"423", "code":"LI"}</string>
+<key>LT</key><string>{"enName":"Lithuania", "cnName":"立陶宛", "telPrefix":"370", "code":"LT"}</string>
+<key>LU</key><string>{"enName":"Luxembourg", "cnName":"卢森堡", "telPrefix":"352", "code":"LU"}</string>
+<key>MO</key><string>{"enName":"Macao", "cnName":"澳门", "telPrefix":"853", "code":"MO"}</string>
+<key>MG</key><string>{"enName":"Madagascar", "cnName":"马达加斯加", "telPrefix":"261", "code":"MG"}</string>
+<key>MW</key><string>{"enName":"Malawi", "cnName":"马拉维", "telPrefix":"265", "code":"MW"}</string>
+<key>MY</key><string>{"enName":"Malaysia", "cnName":"马来西亚", "telPrefix":"60", "code":"MY"}</string>
+<key>MV</key><string>{"enName":"Maldives", "cnName":"马尔代夫", "telPrefix":"960", "code":"MV"}</string>
+<key>ML</key><string>{"enName":"Mali", "cnName":"马里", "telPrefix":"223", "code":"ML"}</string>
+<key>MT</key><string>{"enName":"Malta", "cnName":"马耳他", "telPrefix":"356", "code":"MT"}</string>
+<key>MU</key><string>{"enName":"Mauritius", "cnName":"毛里求斯", "telPrefix":"230", "code":"MU"}</string>
+<key>MX</key><string>{"enName":"Mexico", "cnName":"墨西哥", "telPrefix":"52", "code":"MX"}</string>
+<key>MD</key><string>{"enName":"Moldova, Republic of", "cnName":"摩尔多瓦", "telPrefix":"373", "code":"MD"}</string>
+<key>MC</key><string>{"enName":"Monaco", "cnName":"摩纳哥", "telPrefix":"377", "code":"MC"}</string>
+<key>MN</key><string>{"enName":"Mongolia", "cnName":"蒙古", "telPrefix":"976", "code":"MN"}</string>
+<key>MS</key><string>{"enName":"Montserrat Is", "cnName":"蒙特塞拉特岛", "telPrefix":"1664", "code":"MS"}</string>
+<key>MA</key><string>{"enName":"Morocco", "cnName":"摩洛哥", "telPrefix":"212", "code":"MA"}</string>
+<key>MZ</key><string>{"enName":"Mozambique", "cnName":"莫桑比克", "telPrefix":"258", "code":"MZ"}</string>
+<key>NA</key><string>{"enName":"Namibia", "cnName":"纳米比亚", "telPrefix":"264", "code":"NA"}</string>
+<key>NR</key><string>{"enName":"Nauru", "cnName":"瑙鲁", "telPrefix":"674", "code":"NR"}</string>
+<key>NP</key><string>{"enName":"Nepal", "cnName":"尼泊尔", "telPrefix":"977", "code":"NP"}</string>
+<key>NL</key><string>{"enName":"Netherlands", "cnName":"荷兰", "telPrefix":"31", "code":"NL"}</string>
+<key>NZ</key><string>{"enName":"New Zealand", "cnName":"新西兰", "telPrefix":"64", "code":"NZ"}</string>
+<key>NI</key><string>{"enName":"Nicaragua", "cnName":"尼加拉瓜", "telPrefix":"505", "code":"NI"}</string>
+<key>NE</key><string>{"enName":"Niger", "cnName":"尼日尔", "telPrefix":"227", "code":"NE"}</string>
+<key>NG</key><string>{"enName":"Nigeria", "cnName":"尼日利亚", "telPrefix":"234", "code":"NG"}</string>
+<key>KP</key><string>{"enName":"North Korea", "cnName":"朝鲜", "telPrefix":"850", "code":"KP"}</string>
+<key>NO</key><string>{"enName":"Norway", "cnName":"挪威", "telPrefix":"47", "code":"NO"}</string>
+<key>OM</key><string>{"enName":"Oman", "cnName":"阿曼", "telPrefix":"968", "code":"OM"}</string>
+<key>PK</key><string>{"enName":"Pakistan", "cnName":"巴基斯坦", "telPrefix":"92", "code":"PK"}</string>
+<key>PA</key><string>{"enName":"Panama", "cnName":"巴拿马", "telPrefix":"507", "code":"PA"}</string>
+<key>PG</key><string>{"enName":"Papua New Cuinea", "cnName":"巴布亚新几内亚", "telPrefix":"675", "code":"PG"}</string>
+<key>PY</key><string>{"enName":"Paraguay", "cnName":"巴拉圭", "telPrefix":"595", "code":"PY"}</string>
+<key>PE</key><string>{"enName":"Peru", "cnName":"秘鲁", "telPrefix":"51", "code":"PE"}</string>
+<key>PH</key><string>{"enName":"Philippines", "cnName":"菲律宾", "telPrefix":"63", "code":"PH"}</string>
+<key>PL</key><string>{"enName":"Poland", "cnName":"波兰", "telPrefix":"48", "code":"PL"}</string>
+<key>PF</key><string>{"enName":"French Polynesia", "cnName":"法属玻利尼西亚", "telPrefix":"689", "code":"PF"}</string>
+<key>PT</key><string>{"enName":"Portugal", "cnName":"葡萄牙", "telPrefix":"351", "code":"PT"}</string>
+<key>PR</key><string>{"enName":"Puerto Rico", "cnName":"波多黎各", "telPrefix":"1787", "code":"PR"}</string>
+<key>QA</key><string>{"enName":"Qatar", "cnName":"卡塔尔", "telPrefix":"974", "code":"QA"}</string>
+<key>RO</key><string>{"enName":"Romania", "cnName":"罗马尼亚", "telPrefix":"40", "code":"RO"}</string>
+<key>RU</key><string>{"enName":"Russia", "cnName":"俄罗斯", "telPrefix":"7", "code":"RU"}</string>
+<key>LC</key><string>{"enName":"Saint Lueia", "cnName":"圣卢西亚", "telPrefix":"1758", "code":"LC"}</string>
+<key>VC</key><string>{"enName":"Saint Vincent", "cnName":"圣文森特岛", "telPrefix":"1784", "code":"VC"}</string>
+<key>SM</key><string>{"enName":"San Marino", "cnName":"圣马力诺", "telPrefix":"378", "code":"SM"}</string>
+<key>ST</key><string>{"enName":"Sao Tome and Principe", "cnName":"圣多美和普林西比", "telPrefix":"239", "code":"ST"}</string>
+<key>SA</key><string>{"enName":"Saudi Arabia", "cnName":"沙特阿拉伯", "telPrefix":"966", "code":"SA"}</string>
+<key>SN</key><string>{"enName":"Senegal", "cnName":"塞内加尔", "telPrefix":"221", "code":"SN"}</string>
+<key>SC</key><string>{"enName":"Seychelles", "cnName":"塞舌尔", "telPrefix":"248", "code":"SC"}</string>
+<key>SL</key><string>{"enName":"Sierra Leone", "cnName":"塞拉利昂", "telPrefix":"232", "code":"SL"}</string>
+<key>SG</key><string>{"enName":"Singapore", "cnName":"新加坡", "telPrefix":"65", "code":"SG"}</string>
+<key>SK</key><string>{"enName":"Slovakia", "cnName":"斯洛伐克", "telPrefix":"421", "code":"SK"}</string>
+<key>SI</key><string>{"enName":"Slovenia", "cnName":"斯洛文尼亚", "telPrefix":"386", "code":"SI"}</string>
+<key>SB</key><string>{"enName":"Solomon Is", "cnName":"所罗门群岛", "telPrefix":"677", "code":"SB"}</string>
+<key>SO</key><string>{"enName":"Somali", "cnName":"索马里", "telPrefix":"252", "code":"SO"}</string>
+<key>ZA</key><string>{"enName":"South Africa", "cnName":"南非", "telPrefix":"27", "code":"ZA"}</string>
+<key>ES</key><string>{"enName":"Spain", "cnName":"西班牙", "telPrefix":"34", "code":"ES"}</string>
+<key>LK</key><string>{"enName":"Sri Lanka", "cnName":"斯里兰卡", "telPrefix":"94", "code":"LK"}</string>
+<key>LC</key><string>{"enName":"St.Lucia", "cnName":"圣卢西亚", "telPrefix":"1758", "code":"LC"}</string>
+<key>VC</key><string>{"enName":"St.Vincent", "cnName":"圣文森特", "telPrefix":"1784", "code":"VC"}</string>
+<key>SD</key><string>{"enName":"Sudan", "cnName":"苏丹", "telPrefix":"249", "code":"SD"}</string>
+<key>SR</key><string>{"enName":"Suriname", "cnName":"苏里南", "telPrefix":"597", "code":"SR"}</string>
+<key>SZ</key><string>{"enName":"Swaziland", "cnName":"斯威士兰", "telPrefix":"268", "code":"SZ"}</string>
+<key>SE</key><string>{"enName":"Sweden", "cnName":"瑞典", "telPrefix":"46", "code":"SE"}</string>
+<key>CH</key><string>{"enName":"Switzerland", "cnName":"瑞士", "telPrefix":"41", "code":"CH"}</string>
+<key>SY</key><string>{"enName":"Syria", "cnName":"叙利亚", "telPrefix":"963", "code":"SY"}</string>
+<key>TW</key><string>{"enName":"Taiwan", "cnName":"台湾省", "telPrefix":"886", "code":"TW"}</string>
+<key>TJ</key><string>{"enName":"Tajikstan", "cnName":"塔吉克斯坦", "telPrefix":"992", "code":"TJ"}</string>
+<key>TZ</key><string>{"enName":"Tanzania", "cnName":"坦桑尼亚", "telPrefix":"255", "code":"TZ"}</string>
+<key>TH</key><string>{"enName":"Thailand", "cnName":"泰国", "telPrefix":"66", "code":"TH"}</string>
+<key>TG</key><string>{"enName":"Togo", "cnName":"多哥", "telPrefix":"228", "code":"TG"}</string>
+<key>TO</key><string>{"enName":"Tonga", "cnName":"汤加", "telPrefix":"676", "code":"TO"}</string>
+<key>TT</key><string>{"enName":"Trinidad and Tobago", "cnName":"特立尼达和多巴哥", "telPrefix":"1809", "code":"TT"}</string>
+<key>TN</key><string>{"enName":"Tunisia", "cnName":"突尼斯", "telPrefix":"216", "code":"TN"}</string>
+<key>TR</key><string>{"enName":"Turkey", "cnName":"土耳其", "telPrefix":"90", "code":"TR"}</string>
+<key>TM</key><string>{"enName":"Turkmenistan", "cnName":"土库曼斯坦", "telPrefix":"993", "code":"TM"}</string>
+<key>UG</key><string>{"enName":"Uganda", "cnName":"乌干达", "telPrefix":"256", "code":"UG"}</string>
+<key>UA</key><string>{"enName":"Ukraine", "cnName":"乌克兰", "telPrefix":"380", "code":"UA"}</string>
+<key>AE</key><string>{"enName":"United Arab Emirates", "cnName":"阿拉伯联合酋长国", "telPrefix":"971", "code":"AE"}</string>
+<key>GB</key><string>{"enName":"United Kiongdom", "cnName":"英国", "telPrefix":"44", "code":"GB"}</string>
+<key>US</key><string>{"enName":"United States of America", "cnName":"美国", "telPrefix":"1", "code":"US"}</string>
+<key>UY</key><string>{"enName":"Uruguay", "cnName":"乌拉圭", "telPrefix":"598", "code":"UY"}</string>
+<key>UZ</key><string>{"enName":"Uzbekistan", "cnName":"乌兹别克斯坦", "telPrefix":"233", "code":"UZ"}</string>
+<key>VE</key><string>{"enName":"Venezuela", "cnName":"委内瑞拉", "telPrefix":"58", "code":"VE"}</string>
+<key>VN</key><string>{"enName":"Vietnam", "cnName":"越南", "telPrefix":"84", "code":"VN"}</string>
+<key>YE</key><string>{"enName":"Yemen", "cnName":"也门", "telPrefix":"967", "code":"YE"}</string>
+<key>YU</key><string>{"enName":"Yugoslavia", "cnName":"南斯拉夫", "telPrefix":"381", "code":"YU"}</string>
+<key>ZW</key><string>{"enName":"Zimbabwe", "cnName":"津巴布韦", "telPrefix":"263", "code":"ZW"}</string>
+<key>ZR</key><string>{"enName":"Zaire", "cnName":"扎伊尔", "telPrefix":"243", "code":"ZR"}</string>
+<key>ZM</key><string>{"enName":"Zambia", "cnName":"赞比亚", "telPrefix":"260", "code":"ZM"}</string>
+</dict></plist>

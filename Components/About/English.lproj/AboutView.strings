@@ -1,0 +1,28 @@
+/* 
+   AboutView.strings
+   Redial
+
+   Created by qqn_pipi on 10-8-10.
+   Copyright 2010 QQN-PIPI.com. All rights reserved.
+ */
+
+
+"kAppInfoAndSupport" = "Development : PIPILU Studio\nUI Design : VIRUS\nSupport : support@colapp.com";
+
+"kMoreApp" = "More Applications";
+
+"kAppZZ" = "ZZ Communication";
+
+"kAppContactAppBox" = "Contact AppBox";
+
+"kAppGroupSms" = "Group Text Pro";
+
+"kAppRedialHelper" = "Auto Redial Helper";
+
+"kAppCallReminder" = "Free SMS";
+
+"kViewSupportTitle" = "Support";
+
+"kAppDesktopShortcut" = "Desktop Shortcut";
+
+"kAppPrivateSms" = "Private SMS!";

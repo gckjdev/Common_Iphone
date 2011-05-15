@@ -1,0 +1,15 @@
+//
+//  UIImageUtil.h
+//  three20test
+//
+//  Created by qqn_pipi on 10-3-23.
+//  Copyright 2010 QQN-PIPI.com. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface UIImage (UIImageUtil)
+
+- (BOOL)saveImageToFile:(NSString*)fileName;
+
+@end

@@ -1,0 +1,109 @@
+ {"groups":[
+ 
+	 {
+	  "groupKey":"abc.defaultGroup1", 
+	  "groupName":"Basic Settings", 
+	  "showInGUI":"1",
+	  "groupPosition":"1", 
+	  
+	  "settingDefinitions":
+		[
+			{	
+				"key":"abc.allowLogin1",
+				"name":"Allow Login1",
+				"valueType":"List",
+				"maxNumber":"100",
+				"minNumber":"200",
+				"defaultValue":"1",
+				"maxLength":"99999999",
+				"allowNull":"0",
+				"optionValues":["YES", "NO", "OK", "You can make it!"]
+			},
+		 
+			{
+				 "key":"abc.userName1",
+				 "name":"User Name1",
+				 "valueType":"Bool",
+				 "maxNumber":"-100",
+				 "minNumber":"-200",
+				 "defaultValue":"ON",
+				 "maxLength":"99999999",
+				 "allowNull":"1",
+				 "optionValues":[]
+		 
+			}		
+		]
+	 },
+	 
+	 {
+	  "groupKey":"abc.defaultGroup2", 
+	  "groupName":"Advance Settings", 
+	  "showInGUI":"1",	  
+	  "groupPosition":"2", 
+	  "settingDefinitions":
+		[
+			{	
+				"key":"abc.allowLogin2",
+				"name":"Allow Login2",
+				"valueType":"Int",
+				"maxNumber":"99999",
+				"minNumber":"0",
+				"defaultValue":"99",
+				"maxLength":"20",
+				"allowNull":"0",
+				"optionValues":["YES", "NO"]
+			},
+		 
+			{
+				 "key":"abc.userName2",
+				 "name":"User Name2",
+				 "valueType":"String",
+				 "maxNumber":"-100",
+				 "minNumber":"-200",
+				 "defaultValue":"DEFAULT UNKNOWN",
+				 "maxLength":"200",
+				 "allowNull":"1",
+				 "optionValues":[]
+		 
+			}
+			
+						
+		]
+	 },
+	 
+	{
+	  "groupKey":"abc.hiddenGroup", 
+	  "groupName":"Advance Settings", 
+	  "showInGUI":"0",
+	  "groupPosition":"999", 
+	  "settingDefinitions":
+		[
+			{	
+				"key":"abc.hiddenConfig1",
+				"name":"hiddenConfig1",
+				"valueType":"Int",
+				"maxNumber":"100",
+				"minNumber":"200",
+				"defaultValue":"99",
+				"maxLength":"99999999",
+				"allowNull":"0",
+				"optionValues":["YES", "NO"]
+			},
+		 
+			{
+				 "key":"abc.hiddenConfig2",
+				 "name":"hiddenConfig2",
+				 "valueType":"String",
+				 "maxNumber":"-100",
+				 "minNumber":"-200",
+				 "defaultValue":"DEFAULT UNKNOWN",
+				 "maxLength":"99999999",
+				 "allowNull":"1",
+				 "optionValues":[]
+		 
+			}
+		]
+	 }		 	 
+ 
+ 
+ ]}

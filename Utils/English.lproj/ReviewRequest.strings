@@ -1,0 +1,16 @@
+/* 
+   ReviewRequest.strings
+
+   Created by qqn_pipi on 10-7-18.
+   Copyright 2010 QQN-PIPI.com. All rights reserved.
+ */
+
+"kInfoAppName" = "Enjoying %@?";
+
+"kInfoAppDetails" = "If so, please rate this update with 5 stars on the App Store so we can keep the software updates coming.";
+
+"kInfoRateIt" = "Yes, rate it!";
+
+"kInfoRemindMe"	= "Remind me later";
+
+"kInfoAskAgain"	= "Don't ask again";

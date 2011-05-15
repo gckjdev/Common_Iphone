@@ -1,0 +1,27 @@
+/* 
+   AboutView.strings
+   Redial
+
+   Created by qqn_pipi on 10-8-10.
+   Copyright 2010 QQN-PIPI.com. All rights reserved.
+ */
+
+"kAppInfoAndSupport" = "應用開發: 皮皮路工作室\n界面設計: VIRUS\n服務支持: support@colapp.com";
+
+"kMoreApp" = "更多應用";
+
+"kAppZZ" = "自在通信";
+
+"kAppContactAppBox" = "通訊錄應用盒子";
+
+"kAppGroupSms" = "悠遊簡訊群發";
+
+"kAppRedialHelper" = "智能重撥助手";
+
+"kAppCallReminder" = "免費簡訊";
+
+"kViewSupportTitle" = "服務支持";
+
+"kAppDesktopShortcut" = "桌面快捷聯繫人";
+
+"kAppPrivateSms" = "密語(私密短信)";

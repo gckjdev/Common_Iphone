@@ -1,0 +1,117 @@
+//   1. [UIApplication sharedApplication].idleTimerDisabled=YES;不自动锁屏
+// 2.
+//   3. [UIApplication sharedApplication].idleTimerDisabled=NO;自动锁屏
+
+选中之后 command+/
+
+ABAddressBookRef addressBook = ABAddressBookCreate();
+
+
+
+NSMutableArray *people = [[[(NSArray*) ABAddressBookCopyArrayOfAllPeople(addressBook) autorelease] mutableCopy] autorelease];
+
+[people sortUsingFunction:(int (*)(id, id, void *) ) ABPersonComparePeopleByName context:(void*)ABPersonGetSortOrdering()];
+
+UIImage* image;
+for (int i = 0; i < [people count]; i++)
+{
+    ABRecordRef person = [people objectAtIndex:i];
+
+    if(ABPersonHasImageData(person)){
+        image = [UIImage imageWithData:(NSData *)ABPersonCopyImageData(person)];
+    }else{
+        image = [UIImage imageNamed:@"contact_image.gif"];
+    }
+}
+
+
+如果你希望将某一段文本转化为NSBezierPath路径，然后进行放大或者用特殊方式进行描绘，如何实现呢？下面是方法。
+
+ 
+- (NSBezierPath *) makePathFromString: (NSString *) string
+                              forFont: (NSFont *) font
+{
+    NSTextView *textview;
+    textview = [[NSTextView alloc] init];
+        
+    [textview setString: string];
+    [textview setFont: font];
+        
+    NSLayoutManager *layoutManager;
+    layoutManager = [textview layoutManager];
+        
+    NSRange range;
+    range = [layoutManager glyphRangeForCharacterRange:
+                      NSMakeRange (0, [string length])
+                                                         actualCharacterRange: NULL];
+    NSGlyph *glyphs;
+    glyphs = (NSGlyph *) malloc (sizeof(NSGlyph)
+                                 * (range.length * 2));
+    [layoutManager getGlyphs: glyphs range: range];
+        
+    NSBezierPath *path;
+    path = [NSBezierPath bezierPath];
+        
+    [path moveToPoint: NSMakePoint (20.0, 20.0)];
+    [path appendBezierPathWithGlyphs: glyphs
+                                                    count: range.length inFont: font];
+        
+    free (glyphs);
+    [textview release];
+        
+    return (path);
+        
+} // makePathFromString
+
+正则表达是 http://www.cocoachina.com/bbs/read.php?tid-18111.html
+
+
+alt+cmd   +上
+alt+cmd   +左／右 （sdk3.0之后有不同）
+
+alt+左/右
+control+左 /右
+cmd＋左/右
+
+alt+shift+左/右
+control+shift+左/右
+cmd＋shift+左/右
+
+control+shift+e		
+
+alt+delete				delete one line
+control+ delete		
+cmd＋delete			
+
+shift+cmd+r			console window
+shift+cmd+f			find window
+
+cmd+k
+
+
+#pragma mark PickerView Delegate & Data Source
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+	if (row == 0){
+		return @"China";
+	}
+	else {
+		return @"United States of America";
+	}
+
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+	return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+	return 2;
+}

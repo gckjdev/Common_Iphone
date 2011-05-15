@@ -1,0 +1,693 @@
+//
+//  PPViewController.m
+//  ___PROJECTNAME___
+//
+//  Created by qqn_pipi on 10-10-1.
+//  Copyright 2010 QQN-PIPI.com. All rights reserved.
+//
+
+#import "PPViewController.h"
+#import "UIViewUtils.h"
+#import "UIBarButtonItemExt.h"
+#import "StringUtil.h"
+#import "UINavigationItemExt.h"
+#import <MessageUI/MessageUI.h>
+#import "StringUtil.h"
+
+
+@implementation PPViewController
+
+#ifdef _THREE20_
+@synthesize activityLabel;
+#endif
+
+@synthesize backgroundImageName;
+@synthesize alertView;
+@synthesize timer;
+@synthesize locationManager, currentLocation, reverseGeocoder, currentPlacemark;
+
+
+#pragma mark background and navigation bar buttons
+
+#define	kAlertViewShowTimerInterval		2
+
+- (void)popupMessage:(NSString*)msg title:(NSString*)title
+{
+	if (self.alertView == nil){	
+		self.alertView = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];			
+	}
+	else {
+		[self.alertView dismissWithClickedButtonIndex:0 animated:YES];		
+		[alertView setMessage:msg];
+		[alertView setTitle:title];		
+	}
+
+	[alertView show];	
+	[NSTimer scheduledTimerWithTimeInterval:kAlertViewShowTimerInterval target:self selector:@selector(dismissAlertView:) userInfo:nil repeats:NO];
+}
+
+- (void)popupHappyMessage:(NSString*)msg title:(NSString*)title
+{
+	NSString* newMsg = [NSString stringWithFormat:@"%@ %@", kHappyFace, msg];
+	[self popupMessage:newMsg title:title];
+}
+
+- (void)popupUnhappyMessage:(NSString*)msg title:(NSString*)title
+{
+	NSString* newMsg = [NSString stringWithFormat:@"%@ %@", kUnhappyFace, msg];
+	[self popupMessage:newMsg title:title];
+
+}
+
+- (void)dismissAlertView:(id)sender
+{
+	[self.alertView dismissWithClickedButtonIndex:0 animated:YES];
+	self.alertView = nil;
+}
+
+- (void)showBackgroundImage
+{
+	[self.view setBackgroundImageView:self.backgroundImageName];
+	
+	if ([self respondsToSelector:@selector(dataTableView)]){
+		UITableView* tableView = [self performSelector:@selector(dataTableView)];
+		tableView.backgroundColor = [UIColor clearColor];
+	}
+}
+
+- (void)setNavigationLeftButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action
+{
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] 
+									   initWithCustomView:[UIBarButtonItem getButtonWithTitle:title 
+																					imageName:imageName 
+																					   target:self 
+																					   action:action]
+									   ];
+	
+	self.navigationItem.leftBarButtonItem = barButtonItem;
+	[barButtonItem release];
+	
+}
+
+- (void)setNavigationRightButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action
+{
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] 
+											   initWithCustomView:[UIBarButtonItem getButtonWithTitle:title 
+                                                            imageName:imageName 
+                                                                target:self 
+                                                                action:action]
+											   ];
+	
+	self.navigationItem.rightBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
+- (void)setNavigationRightButton:(NSString*)title action:(SEL)action
+{
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:action];
+	
+	self.navigationItem.rightBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
+- (void)setNavigationLeftButton:(NSString*)title action:(SEL)action
+{
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:action];
+	
+	self.navigationItem.leftBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
+- (void)setNavigationTitle:(NSString*)title textColor:(UIColor*)textColor textFont:(UIFont*)textFont
+{
+
+	[self.navigationItem setRichTextTitleView:title
+									textColor:textColor
+										 font:textFont];
+}
+
+#pragma mark activity loading view
+
+#ifdef _THREE20_
+
+- (TTActivityLabel*)getActivityViewWithText:(NSString*)loadingText
+{
+	if (activityLabel == nil){
+//		self.activityLabel = [[TTActivityLabel alloc] initWithFrame:self.view.frame style:TTActivityLabelStyleBlackBezel text:loadingText];
+		self.activityLabel = [[TTActivityLabel alloc] initWithFrame:CGRectMake(0, 460/2 - 100, 320, 100)
+															  style:TTActivityLabelStyleBlackBezel 
+															   text:loadingText];
+		[self.view addSubview:activityLabel];
+	}
+	
+	return activityLabel;
+}
+
+- (void)showActivityWithText:(NSString*)loadingText
+{
+	activityLabel = [self getActivityViewWithText:loadingText];
+	[activityLabel setText:loadingText];
+	[activityLabel setIsAnimating:YES];
+	activityLabel.hidden = NO;
+}
+
+- (void)showActivity
+{
+	[self showActivityWithText:@""];
+}
+
+- (void)hideActivity
+{
+	[activityLabel setIsAnimating:NO];
+	activityLabel.hidden = YES;
+}
+
+#endif
+
+#pragma mark background selector execution
+
+- (void)performSelectorStopLoading:(NSString*)selectorString
+{
+	[self performSelector:NSSelectorFromString(selectorString) withObject:nil];
+	[self hideActivity];
+}
+
+- (void)performSelectorWithLoading:(SEL)aSelector loadingText:(NSString*)loadingText
+{	
+	[self performSelector:@selector(performSelectorStopLoading:) withObject:NSStringFromSelector(aSelector) afterDelay:0.0];
+	[self showActivityWithText:loadingText];
+}
+
+#pragma mark resource management
+
+- (void)createWorkingQueue
+{
+	workingQueue = dispatch_queue_create([[NSString GetUUID] UTF8String], NULL);
+}
+
+- (void)releaseWorkingQueue
+{	
+	if (workingQueue){
+		dispatch_release(workingQueue);
+		workingQueue = NULL;
+	}
+}
+
+- (void)createAddressBook
+{
+	if (addressBook != NULL){
+		CFRelease(addressBook);
+		addressBook = NULL;
+	}
+	addressBook = ABAddressBookCreate();	
+}
+
+- (void)releaseAddressBook
+{
+	if (addressBook != NULL){
+		CFRelease(addressBook);
+		addressBook = NULL;	
+	}
+}
+
+#pragma mark super view controller methods
+
+- (void)testLog
+{
+	NSLog(@"Test Log");
+}
+
+- (void)test
+{
+	self.backgroundImageName = @"blackbg.png";
+	[self showBackgroundImage];
+	[self setNavigationLeftButton:@"Left" imageName:@"barbutton.png" action:@selector(clickBack:)];
+	[self setNavigationRightButton:@"Right" imageName:@"barbutton.png" action:@selector(clickBack:)];
+	
+//	[self showActivityWithText:@"Loading data from network"];
+
+	[self performSelectorWithLoading:@selector(testLog) loadingText:@"Testing Log"];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[self createAddressBook];
+	[super viewDidAppear:animated];
+}
+
+- (void)viewDidLoad
+{
+	[self createWorkingQueue];
+	[self createAddressBook];
+	[self showBackgroundImage];
+	[self registerKeyboardNotification];
+
+//	[self test];
+	[super viewDidLoad];
+}
+
+- (void)viewDidUnload
+{
+	[self deregsiterKeyboardNotification];
+	[super viewDidUnload];
+}
+
+- (void)releaseResourceForEnterBackground
+{
+	[self releaseAddressBook];
+	[self releaseWorkingQueue];	
+	self.alertView = nil;	
+}
+
+- (void)dealloc
+{
+	[self releaseAddressBook];
+	[self releaseWorkingQueue];
+	[backgroundImageName release];
+	[timer release];
+	
+	[locationManager release];
+	[reverseGeocoder release];
+	[currentLocation release];
+	[currentPlacemark release];
+	
+
+#ifdef _THREE20_	
+	[activityLabel release];
+#endif
+	
+	[alertView release];
+	
+	[super dealloc];
+}
+
+#pragma mark Email Methods
+
+- (void)displayComposerSheetTo:(NSArray*)toRecipients 
+				  ccRecipients:(NSArray*)ccRecipients 
+				 bccRecipients:(NSArray*)bccRecipients 
+					   subject:(NSString*)subject
+						  body:(NSString*)body
+						isHTML:(BOOL)isHTML
+					  delegate:(id)delegate
+
+{
+	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+	
+	if (delegate != nil){
+		picker.mailComposeDelegate = delegate;
+	}
+	else {
+		picker.mailComposeDelegate = self;
+	}
+
+	
+	[picker setSubject:subject];	
+	
+	[picker setToRecipients:toRecipients];
+	[picker setCcRecipients:ccRecipients];	
+	[picker setBccRecipients:bccRecipients];
+	
+	// Attach an image to the email, not used
+	//	NSString *path = [[NSBundle mainBundle] pathForResource:@"rainy" ofType:@"png"];
+	//    NSData *myData = [NSData dataWithContentsOfFile:path];
+	//	[picker addAttachmentData:myData mimeType:@"image/png" fileName:@"rainy"];
+	
+	// Fill out the email body text
+	[picker setMessageBody:body isHTML:isHTML];
+	
+	[self presentModalViewController:picker animated:YES];
+    [picker release];
+}
+
+
+// Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
+// This method is mainly for copy & paste
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+{	
+	NSString* text = nil;
+	
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: canceled";
+			break;
+		case MFMailComposeResultSaved:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: saved";
+			break;
+		case MFMailComposeResultSent:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: sent";
+			break;
+		case MFMailComposeResultFailed:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: failed";
+			break;
+		default:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: not sent";
+			break;
+	}
+	
+	NSLog(@"%@", text);
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark Keyboard Methods
+
+// sub class can implement this method
+- (void)keyboardDidShowWithRect:(CGRect)keyboardRect
+{
+}
+
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+	// adjust current view frame
+	
+	// get keyboard frame
+	NSDictionary* info = [notification userInfo];
+	NSValue *value = [info objectForKey:UIKeyboardCenterEndUserInfoKey];	
+    CGRect keyboardRect;
+    [value getValue:&keyboardRect];
+
+	[self keyboardDidShowWithRect:keyboardRect];
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification
+{
+}
+
+- (void)registerKeyboardNotification
+{
+	// create notification
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+}
+
+- (void)deregsiterKeyboardNotification
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];	
+}
+
+#pragma mark -
+#pragma mark Workaround
+
+// Launches the Mail application on the device.
+-(void)launchMailAppOnDeviceTo:(NSString*)toRecipient 
+				  ccRecipients:(NSArray*)ccRecipients 
+//				 bccRecipients:(NSArray*)bccRecipients 
+					   subject:(NSString*)subject
+						  body:(NSString*)body
+//						isHTML:(BOOL)isHTML
+//					  delegate:(id)delegate
+{
+	
+	// compose cc string
+	NSMutableString* ccString = [[NSMutableString alloc] init];
+	int index = 0;
+	for (NSString* cc in ccRecipients){
+		if (index > 0)
+			[ccString appendFormat:@",%@", cc];
+		else
+			[ccString appendFormat:@"%@", cc];
+		index ++;
+	}
+	
+	NSString *email = [NSString stringWithFormat:@"mailto:%@?cc=%@&subject=%@&body=%@", toRecipient, ccString, subject, body];
+	email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+	
+	[ccString release];
+}
+
+- (BOOL)sendEmailTo:(NSArray*)toRecipients 
+	   ccRecipients:(NSArray*)ccRecipients 
+	  bccRecipients:(NSArray*)bccRecipients 
+			subject:(NSString*)subject
+			   body:(NSString*)body
+			 isHTML:(BOOL)isHTML
+		   delegate:(id)delegate
+{
+	NSString* firstRecipient = @"";
+	if (toRecipients && [toRecipients count] > 0)
+		firstRecipient = [toRecipients objectAtIndex:0];			
+	
+	Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+	if (mailClass != nil)
+	{
+		// We must always check whether the current device is configured for sending emails
+		if ([mailClass canSendMail])
+		{
+			[self displayComposerSheetTo:toRecipients ccRecipients:ccRecipients bccRecipients:bccRecipients subject:subject body:body isHTML:isHTML delegate:delegate];
+		}
+		else
+		{
+			[self launchMailAppOnDeviceTo:firstRecipient ccRecipients:ccRecipients subject:subject body:body];
+		}
+	}
+	else
+	{
+		[self launchMailAppOnDeviceTo:firstRecipient ccRecipients:ccRecipients subject:subject body:body];
+	}
+	
+	return YES;
+}
+
+#pragma mark SMS Methods
+
+-(void)sendSms:(NSString*)receiver body:(NSString*)body
+{
+	NSLog(@"<sendSms> receiver=%@, body=%@", receiver, body);
+	MFMessageComposeViewController* vc = [[[MFMessageComposeViewController alloc] init] autorelease];
+	vc.messageComposeDelegate = self;
+	vc.body = body;
+	vc.recipients = [NSArray arrayWithObject:receiver];
+	
+	if ([MFMessageComposeViewController canSendText] == NO){
+		return;
+	}	 
+	
+	[self presentModalViewController:vc animated:YES];
+}
+
+-(void)sendSmsWithReceivers:(NSArray*)receivers body:(NSString*)body
+{
+	NSLog(@"<sendSms> receiver=%@, body=%@", [receivers description], body);
+	MFMessageComposeViewController* vc = [[[MFMessageComposeViewController alloc] init] autorelease];
+	vc.messageComposeDelegate = self;
+	vc.body = body;
+	vc.recipients = receivers;
+	
+	if ([MFMessageComposeViewController canSendText] == NO){
+		return;
+	}	 
+	
+	[self presentModalViewController:vc animated:YES];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{		
+	NSLog(@"<sendSms> result=%d", result);	
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark Timer Methods
+
+- (void)clearTimer
+{
+	[self.timer invalidate];
+}
+
+#pragma mark Location Methods
+
+- (void)initLocationManager
+{
+	if (self.locationManager == nil){
+		self.locationManager = [[CLLocationManager alloc] init];
+	}
+}
+
+- (void)startUpdatingLocation
+{
+	if (locationManager == nil){
+		[self initLocationManager];
+	}
+	
+	// start to update the location
+	locationManager.delegate = self;		
+	locationManager.desiredAccuracy = 10.0f; //kCLLocationAccuracyNearestTenMeters;	
+	locationManager.distanceFilter = 10.0f;
+	[locationManager startUpdatingLocation];	
+	
+	[self performSelector:@selector(stopUpdatingLocation:) withObject:kTimeOutObjectString afterDelay:kLocationUpdateTimeOut];    
+
+}
+
+- (void)stopUpdatingLocation:(NSString *)state {
+	
+	NSLog(@"stopUpdatingLocation,state=%@", state);
+    [locationManager stopUpdatingLocation];
+    locationManager.delegate = nil;    
+}
+
+// the following code is for copying
+
+/*
+ * We want to get and store a location measurement that meets the desired accuracy. For this example, we are
+ *      going to use horizontal accuracy as the deciding factor. In other cases, you may wish to use vertical
+ *      accuracy, or both together.
+ */
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+	
+    // save to current location
+    self.currentLocation = newLocation;
+	NSLog(@"Current location is %@, horizontalAccuracy=%f, timestamp=%@", [self.currentLocation description], [self.currentLocation horizontalAccuracy], [[currentLocation timestamp] description]);
+	
+	// we can also cancel our previous performSelector:withObject:afterDelay: - it's no longer necessary
+	// [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopUpdatingLocation:) object:kTimeOutObjectString];
+	
+	// we can also cancel our previous performSelector:withObject:afterDelay: - it's no longer necessary
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopUpdatingLocation:) object:kTimeOutObjectString];
+	
+	// IMPORTANT!!! Minimize power usage by stopping the location manager as soon as possible.
+	[self stopUpdatingLocation:NSLocalizedString(@"Acquired Location", @"Acquired Location")];
+	
+	// translate location to address
+	// [self reverseGeocodeCurrentLocation:self.currentLocation];
+	
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+	
+    // The location "unknown" error simply means the manager is currently unable to get the location.
+    // We can ignore this error for the scenario of getting a single location fix, because we already have a 
+    // timeout that will stop the location manager to save power.
+    if ([error code] != kCLErrorLocationUnknown) {
+        [self stopUpdatingLocation:NSLocalizedString(@"Error", @"Error")];
+    }	
+}
+
+
+
+
+#pragma mark reverseGeocoder
+
+
+- (void)reverseGeocode:(CLLocationCoordinate2D)coordinate
+{
+    self.reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:coordinate];
+    reverseGeocoder.delegate = self;
+    [reverseGeocoder start];
+}
+
+- (void)reverseGeocodeCurrentLocation:(CLLocation *)location
+{
+    self.reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:location.coordinate];
+    reverseGeocoder.delegate = self;
+    [reverseGeocoder start];
+}
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error
+{
+    NSLog(@"MKReverseGeocoder has failed.");	
+}
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark
+{
+	self.currentPlacemark = placemark;
+	NSLog(@"reverseGeocoder finish, placemark=%@", [placemark description] );
+	//	NSLog(@"current country is %@, province is %@, city is %@, street is %@%@", self.currentPlacemark.country, currentPlacemark.administrativeArea, currentPlacemark.locality, placemark.thoroughfare, placemark.subThoroughfare);	
+}
+
+@end
+
+
+// the following code is just for copy & paste
+
+
+//[UIView beginAnimations:nil context:nil];
+//[UIView setAnimationDuration:0.5]; 
+//[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:[optionsPane view] cache:YES];
+//[[self view] addSubview:[optionsPane view]];
+//[theWebView setFrame:CGRectMake(0,87,320,230)];
+//[[optionsPane view] setFrame:CGRectMake(0,0,320,87)];
+//[UIView commitAnimations];       
+
+
+#pragma mark Action Sheet
+
+// the following code is just for copy & paste
+
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//	enum ButtonIndex {
+//		kCallNow,
+//		kSendSms,
+//		kAddCalendar,
+//		kDoNothing
+//	};
+//	
+//	int index = actionSheet.tag;
+//	UILocalNotification* notif = [self getObjectFromArray:index];
+//	if (notif == nil)
+//		return;	
+//	
+//	NSString* phone = [notif.userInfo objectForKey:kKeyPhone];	
+//	NSString* contactName = [notif.userInfo objectForKey:kKeyContactName];
+//	
+//	[self removeObjectFromArray:index];
+//	switch (buttonIndex) {
+//		case kDoNothing:
+//			// do nothing
+//			break;
+//		case kCallNow:
+//			[DialManager dial:phone];
+//			break;
+//		case kSendSms:
+//		{
+//			NSLog(@"sendSms %@", phone);
+//			[self sendSms:phone];
+//		}
+//			break;
+//		case kAddCalendar:
+//		{
+//			NSLog(@"addCalendar %@", phone);
+//			[self addCalendar:contactName phone:phone];
+//		}
+//			break;
+//		default:
+//			break;
+//	}
+//	
+//}
+//
+//- (void)handleLocalNotification:(UILocalNotification *)notif
+//{
+//	
+//	[DialManager handleLocalNotification:notif];
+//}
+//
+//#pragma mark Alert View
+//
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//	enum ButtonIndex {
+//		kButtonCloseIndex,
+//		kButtonDialIndex
+//	};
+//	
+//	int index = alertView.tag;
+//	UILocalNotification* notif = [self getObjectFromArray:index];
+//	if (notif == nil)
+//		return;
+//	
+//	if (buttonIndex == kButtonDialIndex){
+//		[self handleLocalNotification:notif];
+//	}
+//	else {
+//		
+//	}
+//	
+//	
+//	[self removeObjectFromArray:index];
+//}
