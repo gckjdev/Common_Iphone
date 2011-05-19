@@ -25,7 +25,7 @@
 @synthesize alertView;
 @synthesize timer;
 @synthesize locationManager, currentLocation, reverseGeocoder, currentPlacemark;
-
+@synthesize titleSegControl;
 
 #pragma mark background and navigation bar buttons
 
@@ -124,6 +124,22 @@
 	[self.navigationItem setRichTextTitleView:title
 									textColor:textColor
 										 font:textFont];
+}
+
+- (void)createNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex
+{    
+    if (titleArray == nil)
+        return;
+    
+    self.titleSegControl = [[UISegmentedControl alloc] initWithItems:titleArray];
+    
+    titleSegControl.segmentedControlStyle = UISegmentedControlStyleBar;    
+    if (defaultSelectIndex >= 0 && defaultSelectIndex < [titleArray count])        titleSegControl.selectedSegmentIndex = defaultSelectIndex;
+    [titleSegControl addTarget:self 
+                        action:@selector(clickSegControl:) 
+              forControlEvents:UIControlEventValueChanged];
+    
+    self.navigationItem.titleView = titleSegControl;    
 }
 
 #pragma mark activity loading view
@@ -271,6 +287,7 @@
 	[currentLocation release];
 	[currentPlacemark release];
 	
+    [titleSegControl release];
 
 #ifdef _THREE20_	
 	[activityLabel release];
@@ -597,6 +614,13 @@
 	self.currentPlacemark = placemark;
 	NSLog(@"reverseGeocoder finish, placemark=%@", [placemark description] );
 	//	NSLog(@"current country is %@, province is %@, city is %@, street is %@%@", self.currentPlacemark.country, currentPlacemark.administrativeArea, currentPlacemark.locality, placemark.thoroughfare, placemark.subThoroughfare);	
+}
+
+#pragma Segment Control Delegate
+
+- (void)clickSegControl:(id)sender
+{
+    NSLog(@"This is PPViewController default implementation");
 }
 
 @end

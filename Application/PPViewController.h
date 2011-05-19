@@ -47,6 +47,7 @@
 	MKReverseGeocoder		*reverseGeocoder;
 	MKPlacemark				*currentPlacemark;
 	
+    UISegmentedControl      *titleSegControl;
 }
 
 #ifdef _THREE20_
@@ -62,12 +63,14 @@
 @property (nonatomic, retain) MKReverseGeocoder		*reverseGeocoder;
 @property (nonatomic, retain) MKPlacemark			*currentPlacemark;
 
+@property (nonatomic, retain) UISegmentedControl    *titleSegControl;
+
 - (void)showBackgroundImage;
 - (void)setNavigationRightButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action;
 - (void)setNavigationLeftButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action;
 - (void)setNavigationLeftButton:(NSString*)title action:(SEL)action;
 - (void)setNavigationRightButton:(NSString*)title action:(SEL)action;
-
+- (void)createNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex;
 
 // this method helps you to performa an internal method with loading view
 - (void)performSelectorWithLoading:(SEL)aSelector loadingText:(NSString*)loadingText;

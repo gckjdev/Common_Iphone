@@ -23,7 +23,7 @@
 @property (nonatomic, retain) IBOutlet UIView			*superViewForWebView;
 @property (nonatomic, retain) IBOutlet UIToolbar		*toolbar;	
 @property (nonatomic, retain) NSMutableArray			*webViewArray;
-@property (nonatomic, retain) int						currentIndex;
+@property (nonatomic, assign) int						currentIndex;
 
 // tool bar actions
 - (void)clickPrev:(id)sender;
