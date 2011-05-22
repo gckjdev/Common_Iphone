@@ -214,6 +214,11 @@ CoreDataManager* GlobalGetCoreDataManager()
 	NSFetchRequest* fq = [self.managedObjectModel fetchRequestFromTemplateWithName:fetchRequestName
 															 substitutionVariables:dict];
 	
+    if (fq == nil){
+        NSLog(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
+        return nil;
+    }
+    
 	// set sorted rules
 	NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
 	NSArray* sortDescriptors = [[NSArray alloc] initWithObjects: sortDescriptor, nil];
