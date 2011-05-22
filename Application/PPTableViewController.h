@@ -10,6 +10,7 @@
 #import "PPViewController.h"
 #import "GroupDataAZ.h"
 #import "ArrayOfCharacters.h"
+#import "EGORefreshTableHeaderView.h"
 
 @interface PPTableViewController : PPViewController <UITableViewDelegate, UITableViewDataSource> {
 
@@ -46,6 +47,11 @@
 	// the following two attributes are useless
 	BOOL			enableCustomIndexView;
 //	CustomIndexView	*customIndexView;
+    
+    // for pull refresh
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
+    BOOL supportRefreshHeader;
 	
 }
 
@@ -83,5 +89,12 @@
 - (void)resetSelectRowAndSection;
 - (void)updateSelectSectionAndRow:(NSIndexPath*)indexPath;
 - (void)reloadForSelectSectionAndRow:(NSIndexPath*)indexPath;
+
+// for pull refresh
+@property(assign,getter=isReloading) BOOL reloading;
+@property(nonatomic,readonly) EGORefreshTableHeaderView *refreshHeaderView;
+@property(nonatomic,assign) BOOL supportRefreshHeader;
+- (void)reloadTableViewDataSource;
+- (void)dataSourceDidFinishLoadingNewData;
 
 @end

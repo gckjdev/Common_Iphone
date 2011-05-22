@@ -30,6 +30,10 @@
 @synthesize footerImage;
 @synthesize sectionLabel;
 
+@synthesize reloading=_reloading;
+@synthesize refreshHeaderView;
+@synthesize supportRefreshHeader;
+
 #pragma mark Select Row And Section Methods
 
 - (void)resetSelectRowAndSection
@@ -63,6 +67,22 @@
 
 #pragma mark Table View Controller
 
+- (void)createRefreshHeaderView
+{
+    if (!supportRefreshHeader)
+        return;
+    
+    if (refreshHeaderView == nil) {
+        refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.dataTableView.bounds.size.height, 320.0f, self.dataTableView.bounds.size.height)];
+        refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+        refreshHeaderView.bottomBorderThickness = 1.0;
+        [self.dataTableView addSubview:refreshHeaderView];
+        self.dataTableView.showsVerticalScrollIndicator = YES;
+        [refreshHeaderView release];
+    }
+}
+
+
 - (void)viewDidLoad
 {
 	dataTableView.delegate = self;
@@ -70,6 +90,7 @@
 	
 	[self resetSelectRowAndSection];	
 	[super viewDidLoad];
+    [self createRefreshHeaderView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -210,6 +231,68 @@
 	return imageView;
 }
 
+#pragma mark ScrollView Callbacks for Pull Refresh
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
+	
+    if (!supportRefreshHeader)
+        return;
+    
+	if (scrollView.isDragging) {
+		if (refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !_reloading) {
+			[refreshHeaderView setState:EGOOPullRefreshNormal];
+		} else if (refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f && !_reloading) {
+			[refreshHeaderView setState:EGOOPullRefreshPulling];
+		}
+	}
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+    if (!supportRefreshHeader)
+        return;
+    
+	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {
+		_reloading = YES;
+		[self reloadTableViewDataSource];
+		[refreshHeaderView setState:EGOOPullRefreshLoading];
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.2];
+		self.dataTableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+		[UIView commitAnimations];
+	}
+}
+
+#pragma mark -
+#pragma mark refreshHeaderView Methods
+
+- (void)dataSourceDidFinishLoadingNewData{
+	
+    if (!supportRefreshHeader)
+        return;
+    
+	_reloading = NO;
+	
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:.3];
+	[self.dataTableView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+	[UIView commitAnimations];
+	
+	[refreshHeaderView setState:EGOOPullRefreshNormal];
+}
+
+#pragma mark For Sub Class to override and implement
+- (void) reloadTableViewDataSource
+{
+	NSLog(@"Please override reloadTableViewDataSource");    
+    
+    // after finish loading data, please call the following codes
+	[refreshHeaderView setCurrentDate];  	
+	[self dataSourceDidFinishLoadingNewData];
+    
+}
+
+
 #pragma mark Table View Delegate
 
 //- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
@@ -348,6 +431,9 @@
 	}
 	
 }
+
+
+
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 //{
