@@ -1,0 +1,23 @@
+/* 
+  EGORefresh.strings
+  Dipan
+
+  Created by qqn_pipi on 11-5-22.
+  Copyright 2011年 __MyCompanyName__. All rights reserved.
+*/
+
+
+//NSLocalizedString(@"Never Updated", @"No Last Update Date text")
+
+
+"kNeverUpdated" = "Never Updated"; 
+
+"kLastUpdated" = "Last Updated";
+
+"kUpToDate" = "Up-to-date.";
+
+"kReleaseToRefresh" = "Release to refresh...";
+
+"kPullDownToRefresh" = "Pull down to refresh...";
+
+"kLoading" = "Loading...";

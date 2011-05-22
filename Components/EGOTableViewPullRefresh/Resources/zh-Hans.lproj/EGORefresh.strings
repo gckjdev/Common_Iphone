@@ -1,0 +1,19 @@
+/* 
+  EGORefresh.strings
+  Dipan
+
+  Created by qqn_pipi on 11-5-22.
+  Copyright 2011年 __MyCompanyName__. All rights reserved.
+*/
+
+"kNeverUpdated" = "未有任何更新"; 
+
+"kLastUpdated" = "最近一次更新";
+
+"kUpToDate" = "已经是最新数据";
+
+"kReleaseToRefresh" = "松开即可刷新...";
+
+"kPullDownToRefresh" = "下拉可以刷新...";
+
+"kLoading" = "加载中...";

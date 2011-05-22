@@ -30,6 +30,7 @@
 #define TEXT_COLOR	 [UIColor colorWithRed:87.0/255.0 green:108.0/255.0 blue:137.0/255.0 alpha:1.0]
 #define BORDER_COLOR [UIColor colorWithRed:160.0/255.0 green:173.0/255.0 blue:182.0/255.0 alpha:1.0]
 
+#define EGONS(x)     (NSLocalizedStringFromTable(x, @"EGORefresh", nil))
 
 @implementation EGORefreshTableHeaderView
 
@@ -59,7 +60,7 @@ static NSDateFormatter *refreshFormatter;
 }
 
 - (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
+    if ((self = [super initWithFrame:frame])) {
 		
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
@@ -128,16 +129,20 @@ static NSDateFormatter *refreshFormatter;
 
 - (void)setLastRefreshDate:(NSDate*)date
 {
+    
   if (!date) {
-    [lastUpdatedLabel setText:NSLocalizedString(@"Never Updated", @"No Last Update Date text")];
+    [lastUpdatedLabel setText:EGONS(@"kNeverUpdated")];
     return;
   }
   
-	lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [refreshFormatter stringFromDate:date]];
+	lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", EGONS(@"kLastUpdated"),
+                             [refreshFormatter stringFromDate:date]];
 }
 
 - (void)setCurrentDate {
-	lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [refreshFormatter stringFromDate:[NSDate date]]];
+	lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", 
+                             EGONS(@"kLastUpdated"),
+                             [refreshFormatter stringFromDate:[NSDate date]]];
 //	[[NSUserDefaults standardUserDefaults] setObject:lastUpdatedLabel.text forKey:@"EGORefreshTableView_LastRefresh"];
 //	[[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -146,8 +151,8 @@ static NSDateFormatter *refreshFormatter;
 	
 	switch (aState) {
 		case EGOOPullRefreshPulling:
-			
-			statusLabel.text = @"Release to refresh...";
+            
+			statusLabel.text = EGONS(@"kReleaseToRefresh"); //@"Release to refresh...";
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:.18];
 			arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -163,7 +168,7 @@ static NSDateFormatter *refreshFormatter;
 				[CATransaction commit];
 			}
 			
-			statusLabel.text = @"Pull down to refresh...";
+			statusLabel.text = EGONS(@"kPullDownToRefresh"); // @"Pull down to refresh...";
 			[activityView stopAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
@@ -174,7 +179,7 @@ static NSDateFormatter *refreshFormatter;
 			break;
 		case EGOOPullRefreshLoading:
 			
-			statusLabel.text = @"Loading...";
+			statusLabel.text = EGONS(@"kLoading"); // @"Loading...";
 			[activityView startAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
@@ -184,7 +189,7 @@ static NSDateFormatter *refreshFormatter;
 			break;
 		case EGOOPullRefreshUpToDate:
         
-			statusLabel.text = @"Up-to-date.";
+			statusLabel.text = EGONS(@"kUpToDate"); // @"Up-to-date.";
 			[activityView stopAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
