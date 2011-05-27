@@ -5,3 +5,15 @@
   Created by qqn_pipi on 11-5-22.
   Copyright 2011年 __MyCompanyName__. All rights reserved.
 */
+
+"kNeverUpdated" = "未有任何更新";
+
+"kLastUpdated" = "最近一次更新";
+
+"kUpToDate" = "已經是最新數據";
+
+"kReleaseToRefresh" = "鬆開即可刷新...";
+
+"kPullDownToRefresh" = "下拉可以刷新...";
+
+"kLoading" = "加載中...";
