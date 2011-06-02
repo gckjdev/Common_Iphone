@@ -90,6 +90,8 @@
 - (void)updateSelectSectionAndRow:(NSIndexPath*)indexPath;
 - (void)reloadForSelectSectionAndRow:(NSIndexPath*)indexPath;
 
+- (void)loadCellFromNib:(NSString*)nibFileNameWithoutSuffix;
+
 // for pull refresh
 @property(assign,getter=isReloading) BOOL reloading;
 @property(nonatomic,readonly) EGORefreshTableHeaderView *refreshHeaderView;

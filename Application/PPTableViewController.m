@@ -34,6 +34,11 @@
 @synthesize refreshHeaderView;
 @synthesize supportRefreshHeader;
 
+- (void)loadCellFromNib:(NSString*)nibFileNameWithoutSuffix 
+{
+    [[NSBundle mainBundle] loadNibNamed:nibFileNameWithoutSuffix owner:self options:nil];
+}
+
 #pragma mark Select Row And Section Methods
 
 - (void)resetSelectRowAndSection
