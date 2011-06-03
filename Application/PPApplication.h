@@ -12,6 +12,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import "HJObjManager.h"
 
 #define kKeyDeviceToken				@"kPushDeviceToken"
 
@@ -20,6 +21,7 @@
 
 extern NSString* GlobalGetAppName();
 extern dispatch_queue_t GlobalGetWorkingQueue();
+extern HJObjManager* GlobalGetImageCache();
 extern BOOL isFree();
 
 @interface PPApplication : NSObject <CLLocationManagerDelegate, MKReverseGeocoderDelegate> {
@@ -32,6 +34,8 @@ extern BOOL isFree();
 	CLLocation				*currentLocation;
 	MKReverseGeocoder		*reverseGeocoder;
 	MKPlacemark				*currentPlacemark;
+    
+    HJObjManager            *imageCacheManager;
 }
 
 @property (nonatomic, assign) dispatch_queue_t		workingQueue;
@@ -41,6 +45,8 @@ extern BOOL isFree();
 @property (nonatomic, copy)	  CLLocation			*currentLocation;
 @property (nonatomic, retain) MKReverseGeocoder		*reverseGeocoder;
 @property (nonatomic, retain) MKPlacemark			*currentPlacemark;
+
+@property (nonatomic, retain) HJObjManager          *imageCacheManager;
 
 - (void)releaseResourceForAllViewControllers;
 
@@ -55,5 +61,7 @@ extern BOOL isFree();
 - (void)initLocationManager;
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation:(NSString *)state;
+
+- (void)initImageCacheManager;
 
 @end
