@@ -87,9 +87,15 @@
     }
 }
 
+- (void)clearRefreshFlag
+{
+    needRefreshNow = NO;
+}
 
 - (void)viewDidLoad
 {
+    needRefreshNow = NO;
+    
 	dataTableView.delegate = self;
 	dataTableView.dataSource = self;
 	
@@ -100,6 +106,12 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (needRefreshNow == YES){
+        [self reloadTableViewDataSource];
+//        [self.dataTableView scrollRectToVisible:refreshHeaderView.frame animated:YES];
+        needRefreshNow = NO;
+    }
+    
 	[dataTableView reloadData];	
 	[super viewDidAppear:animated];
 }
@@ -411,7 +423,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row < 0 || indexPath.row > [dataList count] - 1)
+	if (indexPath.row > [dataList count] - 1)
 		return;
 	
 	[self updateSelectSectionAndRow:indexPath];
@@ -425,7 +437,7 @@
 {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
 		
-		if (indexPath.row < 0 || indexPath.row > [dataList count] - 1)
+		if (indexPath.row > [dataList count] - 1)
 			return;
 
 		// take delete action below, update data list

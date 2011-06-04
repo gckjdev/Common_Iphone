@@ -52,6 +52,8 @@
     EGORefreshTableHeaderView *refreshHeaderView;
 	BOOL _reloading;
     BOOL supportRefreshHeader;
+    BOOL needRefreshNow;
+    
 	
 }
 
@@ -98,5 +100,7 @@
 @property(nonatomic,assign) BOOL supportRefreshHeader;
 - (void)reloadTableViewDataSource;
 - (void)dataSourceDidFinishLoadingNewData;
+
+- (void)clearRefreshFlag;
 
 @end
