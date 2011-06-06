@@ -11,5 +11,6 @@
 @interface UIImage (UIImageUtil)
 
 - (BOOL)saveImageToFile:(NSString*)fileName;
++ (CGRect)shrinkFromOrigRect:(CGRect)origRect imageSize:(CGSize)imageSize;
 
 @end

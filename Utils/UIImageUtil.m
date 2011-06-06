@@ -44,4 +44,44 @@
 	return result;
 }
 
++ (CGRect)shrinkFromOrigRect:(CGRect)origRect imageSize:(CGSize)imageSize
+{
+    CGRect retRect = origRect;
+    
+    if (imageSize.width > origRect.size.width && imageSize.height <= origRect.size.height){
+        // use height 
+        float percentage = origRect.size.width / imageSize.width;
+        float width = imageSize.width * percentage;
+        float height = imageSize.height * percentage;
+        retRect.size = CGSizeMake(width, height);
+    }
+    else if (imageSize.width <= origRect.size.width && imageSize.height > origRect.size.height){
+        // use width
+        float percentage = origRect.size.height / imageSize.height;
+        float width = imageSize.width * percentage;
+        float height = imageSize.height * percentage;
+        retRect.size = CGSizeMake(width, height);            
+    }
+    else if (imageSize.width > origRect.size.width && imageSize.height > origRect.size.height){
+        float percentage1 = origRect.size.height / imageSize.height;
+        float percentage2 = origRect.size.width / imageSize.width;
+        float percentage;
+        if (percentage1 > percentage2){
+            percentage = percentage2;
+        }
+        else{
+            percentage = percentage1;
+        }
+        float width = imageSize.width * percentage;
+        float height = imageSize.height * percentage;
+        retRect.size = CGSizeMake(width, height);                        
+    }
+    else{
+        retRect.size = CGSizeMake(imageSize.width, imageSize.height);
+    }
+    
+    return retRect;
+}
+
+
 @end
