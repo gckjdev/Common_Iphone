@@ -8,13 +8,17 @@
 
 #import "SNSServiceHandler.h"
 #import "CommonSNSRequest.h"
+#import "StringUtil.h"
+#import "OAuthCore.h"
+#import "NetworkUtil.h"
+#import "JSON.h"
 
 @implementation SNSServiceHandler
 
 
 - (BOOL)sendRequestToken:(CommonSNSRequest*)snsRequest
 {
-    BOOL result = YES;
+    __block BOOL result = YES;
 
     NSURL* url = [snsRequest getOAuthTokenAndSecretURL];    
     if (url == nil){
@@ -22,39 +26,18 @@
         return NO;
     }
     
-    NSLog(@"<sendRequestToken> send request URL:%@", [url description]);
-    
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSHTTPURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSLog(@"<sendRequestToken> response : status = %d", [response statusCode]);
-    if (200 == [response statusCode]) {
-        // success
-        if (data != nil){
-            NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            if ([snsRequest parseRequestTokenURLResult:text]){
-                NSLog(@"<sendRequestToken> parse token URL response OK, oauth_token=%@, oauth_secret=%@",
-                      snsRequest.oauthToken, snsRequest.oauthTokenSecret);
-            }
-            else{
-                NSLog(@"<sendRequestToken> fail to parse token URL response, text=%@", text);                
-                result = NO;
-            }
-            [text release];            
-        }         
-    }
-    else{
-        // failure
-        NSLog(@"<sendRequestToken> response error=%@", [error description]);        
-        if (data != nil){
-            NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"<sendRequestToken> response data=%@", text); 
-            [text release];            
-        }         
-        result = NO;
-    }
-
+    [NetworkUtil sendRequest:request respnoseHandlerBlock:^(NSString* responseText){
+        if ([snsRequest parseRequestTokenURLResult:responseText]){
+            NSLog(@"<sendRequestToken> parse token URL response OK, oauth_token=%@, oauth_secret=%@",
+                  snsRequest.oauthToken, snsRequest.oauthTokenSecret);
+        }
+        else{
+            NSLog(@"<sendRequestToken> fail to parse token URL response, text=%@", responseText);                
+            result = NO;
+        }        
+    }];
+        
     return result;
 }
 
@@ -85,6 +68,71 @@
     
     result = [self gotoToAuthorizeURL:snsRequest];  
     return result;
+}
+
+// handle the reponse redirection URL from WEIBO service
+- (BOOL)parseAuthorizationResponseURL:(NSString*)responseURL snsRequest:(CommonSNSRequest*)snsRequest
+{
+    NSMutableDictionary *dict = [responseURL URLQueryStringToDictionary];
+    if (dict == nil)
+        return NO;
+    
+    [dict removeObjectForKey:@"oauth_token"]; // remove to avoid duplicate???      
+    NSURL* url = [NSURL URLWithString:[snsRequest getAccessTokenURLMain]];
+    NSString *queryString = [OAuthCore queryStringWithUrl:url
+                                                   method:@"POST"
+                                               parameters:dict
+                                              consumerKey:snsRequest.appKey
+                                           consumerSecret:snsRequest.appSecret
+                                                    token:snsRequest.oauthToken
+                                              tokenSecret:snsRequest.oauthTokenSecret];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[queryString dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    int result = [NetworkUtil sendRequest:request respnoseHandlerBlock:^(NSString* responseText) {
+        NSDictionary* dict = [responseText URLQueryStringToDictionary];
+        snsRequest.oauthToken = [dict objectForKey:@"oauth_token"];
+        snsRequest.oauthTokenSecret = [dict objectForKey:@"oauth_token_secret"];
+    }];
+    
+    if (result == 0)
+        return YES;
+    else
+        return NO;    
+}
+
+- (NSDictionary*)getUserInfo:(CommonSNSRequest*)snsRequest
+{
+    __block NSMutableDictionary *userInfo = nil;
+    NSURL *url = [NSURL URLWithString:[snsRequest getUserInfoURLMain]];
+    NSString *queryString = [OAuthCore queryStringWithUrl:url
+                                         method:@"POST"
+                                     parameters:nil
+                                    consumerKey:snsRequest.appKey
+                                 consumerSecret:snsRequest.appSecret
+                                          token:snsRequest.oauthToken
+                                    tokenSecret:snsRequest.oauthTokenSecret];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];    
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[queryString dataUsingEncoding:NSUTF8StringEncoding]];
+    [NetworkUtil sendRequest:request respnoseHandlerBlock:^(NSString *responseText) {
+        NSMutableDictionary* dict = [responseText JSONValue];
+        if (dict == nil){                        
+        }
+        else{
+            userInfo = [snsRequest parseUserInfo:dict];
+            [userInfo setObject:snsRequest.oauthToken forKey:SNS_OAUTH_TOKEN];
+            [userInfo setObject:snsRequest.oauthTokenSecret forKey:SNS_OAUTH_TOKEN_SECRET];
+            
+            snsRequest.userInfoCache = userInfo;            
+            NSLog(@"<getUserInfo> userInfo=%@", [userInfo description]);
+        }
+    }];
+    
+    return userInfo;
 }
 
 @end

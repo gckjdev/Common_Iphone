@@ -7,7 +7,7 @@
 //
 
 #import "CommonSNSRequest.h"
-
+#import "OAuthCore.h"
 
 @implementation CommonSNSRequest
 
@@ -16,6 +16,7 @@
 @synthesize appSecret;
 @synthesize oauthToken;
 @synthesize oauthTokenSecret;
+@synthesize userInfoCache;
 
 - (id)initWithAppKey:(NSString*)key
            appSecret:(NSString*)secret
@@ -35,6 +36,7 @@
 
 - (void)dealloc
 {
+    [userInfoCache release];
     [callbackURL release];
     [appKey release];
     [appSecret release];
@@ -117,6 +119,26 @@
 - (NSString*)getRequestTokenURLMain
 {
     return nil;
+}
+
+- (void)safeSetKeyFrom:(NSDictionary*)fromDict toDict:(NSMutableDictionary*)toDict fromKey:(NSString*)fromKey toKey:(NSString*)toKey
+{
+    if (fromKey == nil || toKey == nil)
+        return;
+    
+    NSObject* value = [fromDict objectForKey:fromKey];
+    if (value == nil)
+        return;
+    
+    [toDict setObject:value forKey:toKey];
+}
+
+- (BOOL)hasUserInfoCache
+{
+    return (userInfoCache != nil && 
+            [[userInfoCache objectForKey:SNS_USER_ID] length] > 0 &&
+            [[userInfoCache objectForKey:SNS_OAUTH_TOKEN] length] > 0 &&
+            [[userInfoCache objectForKey:SNS_OAUTH_TOKEN_SECRET] length] > 0);
 }
 
 @end

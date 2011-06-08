@@ -15,5 +15,7 @@
 }
 
 - (BOOL)loginForAuthorization:(CommonSNSRequest*)snsRequest;
+- (BOOL)parseAuthorizationResponseURL:(NSString*)responseURL snsRequest:(CommonSNSRequest*)snsRequest;
+- (NSDictionary*)getUserInfo:(CommonSNSRequest*)snsRequest;
 
 @end

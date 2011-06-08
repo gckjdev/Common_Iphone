@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^HTTPResponseHandlerBlock)(NSString* responseText);
 
 @interface NetworkUtil : NSObject {
 
 }
 
-+ (BOOL) connectedToNetwork;
++ (BOOL)connectedToNetwork;
++ (int)sendRequest:(NSURLRequest*)request respnoseHandlerBlock:(HTTPResponseHandlerBlock)respnoseHandlerBlock;
 
 @end

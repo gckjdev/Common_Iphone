@@ -25,4 +25,31 @@
 
 }
 
++ (int)sendRequest:(NSURLRequest*)request respnoseHandlerBlock:(HTTPResponseHandlerBlock)respnoseHandlerBlock
+{   
+    NSLog(@"<sendRequest> send request URL=%@", [request description]);
+    
+    NSHTTPURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSLog(@"<sendRequest> recv response : status=%d, error=%@", [response statusCode], [error description]);
+    
+    if (data != nil){
+        NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"<sendRequest> recv data : %@", text);
+        if (200 == [response statusCode]){
+            respnoseHandlerBlock(text);
+        }        
+        [text release];            
+        
+        return response.statusCode;
+    }         
+    else if (200 == [response statusCode]) {
+        return 0;
+    }
+    else{
+        return response.statusCode;        
+    }    
+}
+
 @end

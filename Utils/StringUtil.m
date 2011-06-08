@@ -334,6 +334,24 @@ BOOL NSStringIsValidPhone(NSString *checkString)
 	}
 }
 
+- (NSMutableDictionary *)URLQueryStringToDictionary
+{
+    NSArray *pairs = [self componentsSeparatedByString:@"&"];
+    if (pairs == nil || [pairs count] == 0)
+        return nil;
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for(NSString *pair in pairs) {
+        NSArray *keyValue = [pair componentsSeparatedByString:@"="];
+        if([keyValue count] == 2) {
+            NSString *key = [keyValue objectAtIndex:0];
+            NSString *value = [keyValue objectAtIndex:1];
+            [dict setObject:value forKey:key];
+        }
+    }    
+    
+    return dict;
+}
 
 @end
 

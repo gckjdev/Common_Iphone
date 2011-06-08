@@ -46,6 +46,8 @@
 
 - (NSString *)encodedURLParameterString;
 
+- (NSMutableDictionary *)URLQueryStringToDictionary;
+
 - (BOOL)isMobileInChina;
 
 @end
