@@ -45,6 +45,7 @@
     [self safeSetKeyFrom:origUserInfo toDict:retDict fromKey:@"province_code" toKey:SNS_PROVINCE];
     [self safeSetKeyFrom:origUserInfo toDict:retDict fromKey:@"city_code" toKey:SNS_CITY];
     [self safeSetKeyFrom:origUserInfo toDict:retDict fromKey:@"location" toKey:SNS_LOCATION];
+    [self safeSetKeyFrom:origUserInfo toDict:retDict fromKey:@"name" toKey:SNS_DOMAIN];
 
     NSString *gender = [origUserInfo objectForKey:@"sex"];
     if (gender){

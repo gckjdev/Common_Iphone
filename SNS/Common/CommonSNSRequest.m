@@ -130,7 +130,12 @@
     if (value == nil)
         return;
     
-    [toDict setObject:value forKey:toKey];
+    if ([value isKindOfClass:[NSString class]]){    
+        [toDict setObject:value forKey:toKey];
+    }
+    else{
+        [toDict setObject:[value description] forKey:toKey];
+    }
 }
 
 - (BOOL)hasUserInfoCache
