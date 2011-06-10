@@ -57,6 +57,14 @@
 	return success;
 }
 
-
++ (NSURL*)bundleURL:(NSString*)filename
+{
+    if (filename == nil)
+        return nil;
+    
+	NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",filename]];
+	NSURL* url = [NSURL fileURLWithPath:path];	    
+    return url;
+}
 
 @end
