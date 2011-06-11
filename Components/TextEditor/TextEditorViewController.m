@@ -18,6 +18,7 @@
 @synthesize isSingleLine;
 @synthesize isNumber;
 @synthesize textView;
+@synthesize hasSendButton;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -45,6 +46,12 @@
 	
     [super viewDidLoad];
 	
+    [self setNavigationLeftButton:NSLS(@"Cancel") action:@selector(clickBack:)];
+    
+    if (hasSendButton){
+        [self setNavigationRightButton:NSLS(@"Send") action:@selector(clickSend:)];
+    }
+    
 	textView.text = inputText;
 	[textView becomeFirstResponder];
 }
@@ -93,5 +100,11 @@
     [super dealloc];
 }
 
+- (void)clickSend:(id)sender
+{
+    if (delegate && [delegate respondsToSelector:@selector(clickSend:)]){
+        [delegate clickSend:textView.text];
+    }
+}
 
 @end

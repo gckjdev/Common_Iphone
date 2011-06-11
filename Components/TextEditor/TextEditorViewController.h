@@ -13,6 +13,9 @@
 
 - (void)textChanged:(NSString*)newText;
 
+@optional
+- (void)clickSend:(NSString*)text;
+
 @end
 
 @interface TextEditorViewController : PPViewController {
@@ -22,6 +25,7 @@
 	id							delegate;
 	BOOL						isSingleLine;
 	BOOL						isNumber;
+    BOOL                        hasSendButton;
 	
 	IBOutlet UITextView*		textView;
 }
@@ -32,5 +36,6 @@
 @property (nonatomic, assign) id		delegate;
 @property (nonatomic, assign) BOOL		isSingleLine;
 @property (nonatomic, assign) BOOL		isNumber;
+@property (nonatomic, assign) BOOL      hasSendButton;
 
 @end
