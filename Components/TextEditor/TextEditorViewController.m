@@ -35,7 +35,7 @@
 	
 	if (isSingleLine){
 		CGRect rect = textView.frame;
-		rect.size.height = 130;
+		rect.size.height = 145;
 		textView.frame = rect;
 	}
 	if (isNumber){
@@ -54,7 +54,7 @@
 	// notify text change when view is dismissed or disappear (for performance purpose)
 	if (delegate && [delegate respondsToSelector:@selector(textChanged:)]){
 		NSString* text = textView.text;
-		if (isNumber){
+		if ([text length] > 0 && isNumber){
 			int intValue = [textView.text intValue];
 			text = [NSString stringWithInt:intValue];
 		}

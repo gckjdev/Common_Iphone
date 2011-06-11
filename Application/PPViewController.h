@@ -26,7 +26,7 @@
 #import <Three20/Three20.h>
 #endif
 
-@interface PPViewController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate, MKReverseGeocoderDelegate> {
+@interface PPViewController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate, MKReverseGeocoderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 
 	NSString*				backgroundImageName;
 	
@@ -48,6 +48,9 @@
 	MKPlacemark				*currentPlacemark;
 	
     UISegmentedControl      *titleSegControl;
+    
+    UIImage                 *selectedImage;
+    NSString                *selectedImageSaveFileName;
 }
 
 #ifdef _THREE20_
@@ -64,6 +67,10 @@
 @property (nonatomic, retain) MKPlacemark			*currentPlacemark;
 
 @property (nonatomic, retain) UISegmentedControl    *titleSegControl;
+
+@property (nonatomic, retain) UIImage               *selectedImage;
+@property (nonatomic, retain) NSString              *selectedImageSaveFileName;
+
 
 - (void)showBackgroundImage;
 - (void)setNavigationRightButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action;
@@ -104,5 +111,8 @@
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation:(NSString *)state;
 - (void)reverseGeocode:(CLLocationCoordinate2D)coordinate;
+
+- (void)selectPhoto;
+- (void)takePhoto;
 
 @end

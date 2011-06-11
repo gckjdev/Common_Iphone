@@ -26,6 +26,8 @@
 @synthesize timer;
 @synthesize locationManager, currentLocation, reverseGeocoder, currentPlacemark;
 @synthesize titleSegControl;
+@synthesize selectedImage;
+@synthesize selectedImageSaveFileName;
 
 #pragma mark background and navigation bar buttons
 
@@ -288,6 +290,9 @@
 	[currentPlacemark release];
 	
     [titleSegControl release];
+    
+    [selectedImageSaveFileName release];
+    [selectedImage release];
 
 #ifdef _THREE20_	
 	[activityLabel release];
@@ -621,6 +626,48 @@
 - (void)clickSegControl:(id)sender
 {
     NSLog(@"This is PPViewController default implementation");
+}
+
+#pragma Image Picker Related
+
+// this is just for copy
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    if (image != nil){
+    }
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)selectPhoto
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum] &&
+        [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
+        
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        picker.delegate = self;
+        [self presentModalViewController:picker animated:YES];        
+    }
+     
+}
+
+- (void)takePhoto
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.delegate = self;
+        [self presentModalViewController:picker animated:YES];        
+    }
+    
 }
 
 @end
