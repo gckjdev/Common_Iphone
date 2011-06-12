@@ -21,6 +21,9 @@
 - (NSString*)getAccessTokenURLMain;
 - (NSString*)getUserInfoURLMain;
 
+- (NSURL*)getSendTextURL;
+- (NSString*)getSendTextBody:(NSString*)text;
+
 - (NSMutableDictionary*)parseUserInfo:(NSDictionary*)origUserInfo;
 
 @end

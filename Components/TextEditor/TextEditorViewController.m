@@ -46,7 +46,7 @@
 	
     [super viewDidLoad];
 	
-    [self setNavigationLeftButton:NSLS(@"Cancel") action:@selector(clickBack:)];
+    [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
     
     if (hasSendButton){
         [self setNavigationRightButton:NSLS(@"Send") action:@selector(clickSend:)];

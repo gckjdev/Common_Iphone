@@ -7,7 +7,7 @@
 //
 
 #import "SINAWeiboRequest.h"
-
+#import "OAuthCore.h"
 
 @implementation SINAWeiboRequest
 
@@ -54,6 +54,26 @@
     [self safeSetKeyFrom:origUserInfo toDict:retDict fromKey:@"profile_image_url" toKey:SNS_USER_IMAGE_URL];
     
     return retDict;
+}
+
+- (NSURL*)getSendTextURL
+{
+    return [NSURL URLWithString:SINA_CREATE_WEIBO_URL];
+}
+
+- (NSString*)getSendTextBody:(NSString*)text
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:text forKey:@"status"];
+    NSString *body = [OAuthCore queryStringWithUrl:[NSURL URLWithString:SINA_CREATE_WEIBO_URL]
+                                                   method:@"POST"
+                                               parameters:dict
+                                              consumerKey:[self appKey]
+                                           consumerSecret:[self appSecret]
+                                                    token:[self oauthToken]
+                                              tokenSecret:[self oauthTokenSecret]];
+    
+    return body;
 }
 
 @end

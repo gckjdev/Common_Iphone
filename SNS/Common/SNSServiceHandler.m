@@ -135,4 +135,33 @@
     return userInfo;
 }
 
+- (int)sendText:(NSString*)text snsRequest:(CommonSNSRequest*)snsRequest
+{
+    int result;
+    
+    __block NSMutableDictionary *userInfo = nil;
+    NSURL *url = [snsRequest getSendTextURL];    
+    NSString *body = [snsRequest getSendTextBody:text];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];    
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
+    [NetworkUtil sendRequest:request respnoseHandlerBlock:^(NSString *responseText) {
+        NSMutableDictionary* dict = [responseText JSONValue];
+        if (dict == nil){                        
+            
+        }
+        else{
+//            userInfo = [snsRequest parseUserInfo:dict];
+//            [userInfo setObject:snsRequest.oauthToken forKey:SNS_OAUTH_TOKEN];
+//            [userInfo setObject:snsRequest.oauthTokenSecret forKey:SNS_OAUTH_TOKEN_SECRET];
+//            
+//            snsRequest.userInfoCache = userInfo;            
+//            NSLog(@"<getUserInfo> userInfo=%@", [userInfo description]);
+        }
+    }];
+        
+    return result;
+}
+
 @end

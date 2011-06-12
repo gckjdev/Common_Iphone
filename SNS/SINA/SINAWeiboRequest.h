@@ -13,6 +13,8 @@
 #define SINA_AUTHORIZE_URL              @"http://api.t.sina.com.cn/oauth/authorize"
 #define SINA_ACCESS_TOKEN_URL           @"http://api.t.sina.com.cn/oauth/access_token"
 #define SINA_USER_INFO_URL              @"http://api.t.sina.com.cn/account/verify_credentials.json"
+#define SINA_CREATE_WEIBO_URL           @"http://api.t.sina.com.cn/statuses/update.json"
+
 
 @interface SINAWeiboRequest : CommonSNSRequest <CommonSNSProtocol> {
     
