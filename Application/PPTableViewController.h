@@ -54,7 +54,8 @@
     BOOL supportRefreshHeader;
     BOOL needRefreshNow;
     
-	
+	BOOL mayHasMoreData;
+    UIActivityIndicatorView *moreLoadingView;
 }
 
 @property (nonatomic, retain) NSArray			*dataList;
@@ -72,6 +73,9 @@
 @property (nonatomic, retain) UIColor			*cellTextLabelColor;
 @property (nonatomic, retain) UIView			*accessoryView;
 @property (nonatomic, assign) BOOL				enableCustomIndexView;
+@property (nonatomic, retain) UIActivityIndicatorView *moreLoadingView;
+
+
 //@property (nonatomic, retain) CustomIndexView	*customIndexView;
 
 - (void)setSingleCellImageByName:(NSString*)imageName;
@@ -102,5 +106,8 @@
 - (void)dataSourceDidFinishLoadingNewData;
 
 - (void)clearRefreshFlag;
+
+- (int)dataListCountWithMore;
+- (BOOL)isMoreRow:(int)row;
 
 @end

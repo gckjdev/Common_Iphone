@@ -33,6 +33,7 @@
 @synthesize reloading=_reloading;
 @synthesize refreshHeaderView;
 @synthesize supportRefreshHeader;
+@synthesize moreLoadingView;
 
 - (void)loadCellFromNib:(NSString*)nibFileNameWithoutSuffix 
 {
@@ -121,8 +122,25 @@
 	return (indexPath.row == selectRow && indexPath.section == selectSection);
 }
 
+- (int)dataListCountWithMore
+{
+    int count = [dataList count];
+    if (count > 0){
+        return count + 1;
+    }
+    else{
+        return count;
+    }    
+}
+
+- (BOOL)isMoreRow:(int)row
+{
+    return [dataList count] == row;
+}
+
 - (void)dealloc
 {
+    [moreLoadingView release];
 	[groupData release];
 	[dataList release];
 	[dataTableView release];
