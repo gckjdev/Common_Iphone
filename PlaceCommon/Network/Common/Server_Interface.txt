@@ -1,0 +1,455 @@
+﻿
+1) METHOD_REGISTRATION
+
+
+IN
+
+Mandatory
+
+PARA_LOGINID
+PARA_APPID
+PARA_LOGINIDTYPE
+PARA_DEVICEID
+PARA_DEVICEMODEL
+PARA_DEVICEOS
+
+Optional
+
+PARA_COUNTRYCODE
+PARA_LANGUAGE
+PARA_DEVICETOKEN
+
+OUT
+
+PARA_USERID
+
+
+2) METHOD_CREATEPLACE
+
+
+IN
+
+Mandantory
+
+PARA_USERID          // string
+PARA_APPID           // string
+PARA_LONGTITUDE      // double
+PARA_LATITUDE        // double
+PARA_NAME            // string, unique in the city
+PARA_RADIUS          // int
+PARA_POSTTYPE        // int
+
+Optional
+
+PARA_DESC            // string
+
+OUT
+
+PARA_PLACEID         // string
+PARA_NICKNAME        // create user nickname
+
+
+
+3) METHOD_CREATEPOST
+
+
+IN
+
+
+Mandantory
+
+PARA_USERID               
+PARA_APPID
+PARA_CONTENT_TYPE          // int
+PARA_TEXT_CONTENT          
+PARA_LATITUDE
+PARA_LONGTITUDE
+
+PARA_USER_LATITUDE
+PARA_USER_LONGITUDE
+PARA_PLACEID
+
+
+Optional
+
+PARA_SYNC_SNS               // int
+
+
+OUT
+
+Mandantory
+
+PARA_POSTID
+PARA_CREATE_DATE
+
+Optional
+
+PARA_IMAGE_URL
+PARA_TOTAL_VIEW               // int
+PARA_TOTAL_REPLY              // int
+PARA_TOTAL_QUOTE              // int
+PARA_TOTAL_FORWARD            // int
+
+
+4) METHOD_GETUSERPLACES
+
+In
+
+Mandantory
+
+PARA_USERID
+PARA_APPID
+
+Output
+
+Place Array
+
+PARA_PLACEID
+PARA_CREATE_USERID          
+PARA_LONGTITUDE      
+
+PARA_LATITUDE        
+
+PARA_NAME            
+PARA_DESC
+PARA_RADIUS          // int
+
+PARA_POSTTYPE        // int
+
+5) METHOD_GETPLACEPOST
+
+Input
+
+Mandatory
+
+PARA_USERID
+PARA_APPID
+PARA_PLACEID
+PARA_AFTER_TIMESTAMP          // int, empty means latest
+PARA_MAX_COUNT                // int
+
+Output
+
+Post Array
+
+PARA_POSTID
+PARA_USERID
+PARA_PLACEID
+PARA_LONGTITUDE
+PARA_LATITUDE
+PARA_USER_LONGITUDE
+PARA_USER_LATITUDE
+PARA_TEXT_CONTENT
+PARA_IMAGE_URL
+PARA_CONTENT_TYPE
+PARA_CREATE_DATE
+PARA_TOTAL_VIEW
+PARA_TOTAL_FORWARD
+PARA_TOTAL_QUOTE
+PARA_TOTAL_REPLY
+
+
+6) METHOD_GETNEARBYPLACE
+
+In
+
+Mandantory
+
+PARA_USERID
+PARA_APPID
+PARA_LONGTITUDE
+PARA_LATITUDE
+
+Output
+
+Place Array
+
+PARA_PLACEID
+PARA_CREATE_USERID          
+PARA_LONGTITUDE      
+
+PARA_LATITUDE        
+
+PARA_NAME            
+PARA_DESC
+PARA_RADIUS          // int
+
+PARA_POSTTYPE        // int
+
+
+7) METHOD_USERFOLLOWPLACE
+
+In
+
+Mandantory
+
+PARA_USERID
+PARA_APPID
+PARA_PLACEID	
+
+Output
+
+None
+
+
+
+8) METHOD_GETNEARBYPOSTS
+
+Input
+
+Mandatory
+
+PARA_USERID
+PARA_APPID
+PARA_LONGTITUDE
+PARA_LATITUDE
+PARA_BEFORE_TIMESTAMP          // int, empty means latest
+PARA_MAX_COUNT                // int
+
+Output
+
+Post Array
+
+PARA_POSTID
+PARA_USERID
+PARA_PLACEID
+PARA_LONGTITUDE
+PARA_LATITUDE
+PARA_USER_LONGITUDE
+PARA_USER_LATITUDE
+PARA_TEXT_CONTENT
+PARA_IMAGE_URL
+PARA_CONTENT_TYPE
+PARA_CREATE_DATE
+PARA_TOTAL_VIEW
+PARA_TOTAL_FORWARD
+PARA_TOTAL_QUOTE
+PARA_TOTAL_REPLY
+
+9) METHOD_GETUSERFOLLOWPOSTS
+
+Input
+
+Mandatory
+
+PARA_USERID
+PARA_APPID
+PARA_BEFORE_TIMESTAMP          // int, empty means latest
+PARA_MAX_COUNT                // int
+
+Output
+
+Post Array
+
+PARA_POSTID
+PARA_USERID
+PARA_PLACEID
+PARA_LONGTITUDE
+PARA_LATITUDE
+PARA_USER_LONGITUDE
+PARA_USER_LATITUDE
+PARA_TEXT_CONTENT
+PARA_IMAGE_URL
+PARA_CONTENT_TYPE
+PARA_CREATE_DATE
+PARA_TOTAL_VIEW
+PARA_TOTAL_FORWARD
+PARA_TOTAL_QUOTE
+PARA_TOTAL_REPLY
+
+10) METHOD_GETUSERFOLLOWPLACES
+
+Input
+
+Mandatory
+
+PARA_USERID
+PARA_APPID
+PARA_BEFORE_TIMESTAMP          // int, empty means latest
+PARA_MAX_COUNT                // int
+
+Output
+
+Place Array
+
+11) METHOD_USERUNFOLLOWPLACE
+
+In
+
+Mandantory
+
+PARA_USERID
+PARA_APPID
+PARA_PLACEID	
+
+Output
+
+None
+
+12) METHOD_GETMEPOSTS
+
+In
+
+Mandantory
+
+    PARA_USERID
+    PARA_APPID
+    PARA_BEFORE_TIMESTAMP          // int, empty means latest
+    PARA_MAX_COUNT                // int
+
+Out
+
+    PostArray
+
+13) METHOD_GETMYPOSTS
+
+In
+
+Mandantory
+
+    PARA_USERID
+    PARA_APPID
+    PARA_BEFORE_TIMESTAMP          // int, empty means latest
+    PARA_MAX_COUNT                // int
+
+Out
+
+PostArray
+
+14) METHOD_SENDMESSAGE
+
+In
+
+    PARA_USERID
+    PARA_APPID
+    PARA_TO_USERID
+    PARA_TEXT_CONTENT
+
+Out
+
+    PARA_MESSAGE_ID
+
+15) METHOD_GETMYMESSAGE
+
+In
+
+    PARA_USERID
+    PARA_APPID
+    PARA_BEFORE_TIMESTAMP          // int, empty means latest
+    PARA_MAX_COUNT                // int
+
+Out
+
+Message Array
+
+    PARA_MESSAGE_ID
+    PARA_FROM_USERID
+    PARA_TO_USERID
+    PARA_TEXT_CONTENT
+    PARA_CREATEDATE
+
+16) METHOD_DELETEMESSAGE
+
+In
+
+    PARA_USERID
+    PARA_APPID
+    PARA_MESSAGE_ID
+
+Out
+
+    None
+
+
+17) METHOD_UPDATEUSER
+
+In
+
+Mandatory
+
+    PARA_USERID
+    PARA_APPID
+
+Optional
+
+    PARA_MOBILE
+    PARA_EMAIL
+    PARA_PASSWORD
+    PARA_AVATAR
+    PARA_NICKNAME
+
+Out
+
+    None
+
+17) METHOD_UPDATEPLACE
+
+In
+
+Mandatory
+
+    PARA_USERID
+    PARA_PLACEID
+
+Optional
+
+    PARA_NAME
+    PARA_DESC
+    PARA_LONGITUDE
+    PARA_LATITUDE
+    PARA_RADIUS          // int
+    PARA_POSTTYPE        // int
+
+Out
+
+    None
+
+18）METHOD_GETAPPS
+
+// 获取平台其他应用接口
+
+In
+
+Mandatory
+
+    PARA_APPID
+    PARA_LANGUAGE
+
+Out
+
+App Array
+
+    PARA_APPID
+    PARA_APPURL
+    PARA_NAME
+    PARA_DESC
+    PARA_ICON
+
+
+19）METHOD_GETUPDATES
+
+In
+
+Mandatory
+
+    PARA_APPID
+    PARA_USERID
+
+Out
+
+Optional
+
+    PARA_APPVERSION
+    PARA_APPURL
+    PARA_SINA_APPKEY
+    PARA_SINA_APPSECRET
+    PARA_QQ_APPKEY
+    PARA_QQ_APPSECRET
+    PARA_RENREN_APPKEY
+    PARA_RENREN_APPSECRET
+    
+
+
+
+
+
