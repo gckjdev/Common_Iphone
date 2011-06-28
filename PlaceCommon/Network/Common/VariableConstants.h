@@ -1,6 +1,9 @@
 
+extern NSString* GlobalGetServerURL();
 
-#define SERVER_URL                  @"http://192.168.1.161:8000/api/i?"
+#define SERVER_URL                  (GlobalGetServerURL())
+
+//#define SERVER_URL                  @"http://192.168.1.161:8000/api/i?"
 //#define SERVER_URL                  @"http://127.0.0.1:8000/api/i?"
 //#define SERVER_URL                  @"http://192.168.1.188:8000/api/i?"
 
@@ -33,3 +36,7 @@
 #define kMaxCount                   3
 #define kMaxCountForPostRelatedPost 200
 #define kMaxMessageCount            100
+
+#define GENDER_MALE                 @"m"
+#define GENDER_FEMALE               @"f"
+

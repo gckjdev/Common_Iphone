@@ -54,8 +54,16 @@
     BOOL supportRefreshHeader;
     BOOL needRefreshNow;
     
+    // for more row
+    int  moreRowSection;
+    BOOL supportMoreRow;
 	BOOL mayHasMoreData;
-    UIActivityIndicatorView *moreLoadingView;
+    UIActivityIndicatorView *moreLoadingView;    
+    NSIndexPath     *moreRowIndexPath;
+    
+    // for controll row
+    NSIndexPath          *tappedIndexPath;
+    NSIndexPath          *controlRowIndexPath;
 }
 
 @property (nonatomic, retain) NSArray			*dataList;
@@ -74,6 +82,11 @@
 @property (nonatomic, retain) UIView			*accessoryView;
 @property (nonatomic, assign) BOOL				enableCustomIndexView;
 @property (nonatomic, retain) UIActivityIndicatorView *moreLoadingView;
+@property (nonatomic, retain) NSIndexPath       *moreRowIndexPath;
+
+@property (nonatomic, retain) NSIndexPath          *tappedIndexPath;
+@property (nonatomic, retain) NSIndexPath          *controlRowIndexPath;
+
 
 
 //@property (nonatomic, retain) CustomIndexView	*customIndexView;
@@ -104,10 +117,25 @@
 @property(nonatomic,assign) BOOL supportRefreshHeader;
 - (void)reloadTableViewDataSource;
 - (void)dataSourceDidFinishLoadingNewData;
-
 - (void)clearRefreshFlag;
 
-- (int)dataListCountWithMore;
-- (BOOL)isMoreRow:(int)row;
+- (int)dataListCountWithMore;   // to be removed
+- (BOOL)isMoreRow:(int)row;     // to be removed
+
+// call this in viewDidLoad to enable "More Row..." in table view
+- (void)enableMoreRowAtSection:(int)section;
+// call this after reload data list and before [tableView reloadData]
+- (void)updateMoreRowIndexPath;
+// call this to check whether index path is index path of MoreRow
+- (BOOL)isMoreRowIndexPath:(NSIndexPath*)indexPath;
+// overwrite this method when user click MoreRow
+- (void)didSelectMoreRow;
+
+// covert normal data index path when having control row and more row effect
+- (NSIndexPath*)modelIndexPathForIndexPath:(NSIndexPath*)indexPath;
+// check if it's a control row
+- (BOOL)isControlRowIndexPath:(NSIndexPath*)indexPath;
+// call this method in numberOfRowInSection if you are using control row and more row effect
+- (int)calcRowCount;
 
 @end

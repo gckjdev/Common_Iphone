@@ -31,6 +31,7 @@
 @dynamic mobile;
 @dynamic email;
 @dynamic password;
+@dynamic gender;
 
 
 - (BOOL)isLogin

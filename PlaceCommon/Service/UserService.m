@@ -29,8 +29,7 @@
 
 @synthesize user;
 @synthesize delegate;
-
-
+@synthesize gender;
 
 // you MUST call this method whenever you update the user data in database
 - (void)updateUserCache
@@ -76,6 +75,7 @@
     workingQueue = NULL;
     
     [user release];
+    [gender release];
     [super dealloc];
 }
 
@@ -391,7 +391,7 @@
                                                       province:PROVINCE_UNKNOWN
                                                           city:CITY_UNKNOWN
                                                       location:nil
-                                                        gender:nil 
+                                                        gender:self.gender 
                                                       birthday:nil
                                                   sinaNickName:nil
                                                     sinaDomain:nil
@@ -486,8 +486,10 @@
 
 }
 
-- (void)bindUserWithLoginId:(NSString*)loginId viewController:(PPViewController*)viewController
+- (void)bindUserWithLoginId:(NSString*)loginId gender:(NSString*)g  viewController:(PPViewController*)viewController
 {
+    self.gender = g;
+    
     NSString* userId = user.userId;
     NSString* appId = [AppManager getPlaceAppId];
     NSString* deviceToken = @"";      
@@ -512,7 +514,7 @@
                                               province:PROVINCE_UNKNOWN
                                                   city:CITY_UNKNOWN
                                               location:nil
-                                                gender:nil
+                                                gender:self.gender
                                               birthday:nil
                                                 domain:nil];        
         
@@ -534,7 +536,12 @@
             [delegate loginUserResult:output.resultCode];
         });
     });
-    
+
+}
+
+- (void)bindUserWithLoginId:(NSString*)loginId viewController:(PPViewController*)viewController
+{
+    [self bindUserWithLoginId:loginId gender:nil viewController:viewController];
 }
 
 
@@ -580,14 +587,15 @@
             }
             
             [delegate loginUserResult:output.resultCode];
-        });
+        }); 
     });
     
 }
 
-
-- (void)loginUserWithLoginId:(NSString*)loginId viewController:(PPViewController*)viewController
+- (void)loginUserWithLoginId:(NSString*)loginId gender:(NSString*)g viewController:(PPViewController*)viewController
 {
+    self.gender = g;    // save for later usage
+    
     int result = LOGIN_RESULT_UNKNOWN;
     
     switch (userCurrentStatus) {
@@ -595,7 +603,7 @@
         case USER_NOT_EXIST_LOCAL:
             [self registerUserWithLoginId:loginId viewController:viewController];
             break;
-
+            
         case USER_EXIST_LOCAL_STATUS_LOGIN:            
             // it's strange here, we just treat this as login locally again
             if (user.userLoginId != nil){
@@ -625,6 +633,13 @@
     if (result != LOGIN_RESULT_UNKNOWN){
         [delegate loginUserResult:result];
     }        
+
+}
+
+
+- (void)loginUserWithLoginId:(NSString*)loginId viewController:(PPViewController*)viewController
+{
+    [self loginUserWithLoginId:loginId gender:nil viewController:viewController];
 }
 
 - (void)loginUserWithSNSUserInfo:(NSDictionary*)userInfo viewController:(PPViewController*)viewController

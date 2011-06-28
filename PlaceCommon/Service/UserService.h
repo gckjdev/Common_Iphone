@@ -44,6 +44,7 @@ typedef void (^SaveUserSuccessHandler)(PPViewController*);
 
 @interface UserService : NSObject {
     
+    NSString                *gender;            // for temp save
     User                    *user;              // save and cache current user
     id<UserServiceDelegate> delegate;           
     dispatch_queue_t        workingQueue;
@@ -51,6 +52,7 @@ typedef void (^SaveUserSuccessHandler)(PPViewController*);
 }
 
 @property (nonatomic, retain) User        *user;
+@property (nonatomic, retain) NSString    *gender;
 @property (nonatomic, assign) id<UserServiceDelegate> delegate; 
 
 - (id)init;
@@ -58,6 +60,7 @@ typedef void (^SaveUserSuccessHandler)(PPViewController*);
 - (NSString*)userId;
 
 - (void)checkDevice;
+- (void)loginUserWithLoginId:(NSString*)loginId gender:(NSString*)gender viewController:(PPViewController*)viewController;
 - (void)loginUserWithLoginId:(NSString*)loginId viewController:(PPViewController*)viewController;
 - (void)loginUserWithSNSUserInfo:(NSDictionary*)userInfo viewController:(PPViewController*)viewController;
 - (void)logoutUser;

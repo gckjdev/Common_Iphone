@@ -34,6 +34,7 @@
 @property (nonatomic, retain) NSString *mobile;
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) NSString *password;
+@property (nonatomic, retain) NSString *gender;
 
 
 - (BOOL)isLogin;

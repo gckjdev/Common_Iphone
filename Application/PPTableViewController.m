@@ -34,6 +34,10 @@
 @synthesize refreshHeaderView;
 @synthesize supportRefreshHeader;
 @synthesize moreLoadingView;
+@synthesize moreRowIndexPath;
+
+@synthesize tappedIndexPath;
+@synthesize controlRowIndexPath;
 
 - (void)loadCellFromNib:(NSString*)nibFileNameWithoutSuffix 
 {
@@ -138,8 +142,72 @@
     return [dataList count] == row;
 }
 
+- (BOOL)isMoreRowIndexPath:(NSIndexPath*)indexPath
+{
+    if ([moreRowIndexPath isEqual:indexPath])
+        return YES;
+    else  
+        return NO;
+}
+
+- (void)updateMoreRowIndexPath
+{
+    if ([self.dataList count] > 0)
+        self.moreRowIndexPath = [NSIndexPath indexPathForRow:[dataList count] inSection:moreRowSection];
+    else
+        self.moreRowIndexPath = nil;
+}
+
+- (void)enableMoreRowAtSection:(int)section
+{
+    supportMoreRow = YES;
+    moreRowSection = section;
+    [self updateMoreRowIndexPath];
+}
+
+- (NSIndexPath*)modelIndexPathForIndexPath:(NSIndexPath*)indexPath
+{
+    if (controlRowIndexPath == nil){
+        return indexPath;                    
+    }    
+    
+    if ([indexPath isEqual:controlRowIndexPath]){
+        return nil;
+    }
+    
+    if (indexPath.section != controlRowIndexPath.section)
+        return indexPath;
+    
+    if (indexPath.row < controlRowIndexPath.row){
+        return indexPath;
+    }
+    else{
+        return [NSIndexPath indexPathForRow:indexPath.row-1 inSection:indexPath.section];
+    }
+}
+
+- (BOOL)isControlRowIndexPath:(NSIndexPath*)indexPath
+{
+    return [controlRowIndexPath isEqual:indexPath];
+}
+
+- (int)calcRowCount
+{
+    int count = [dataList count];
+    if (controlRowIndexPath)
+        count ++;
+    
+    if (count > 0 && supportMoreRow)
+        count ++;
+    
+    return  count;
+}
+
 - (void)dealloc
 {
+    [tappedIndexPath release];
+    [controlRowIndexPath release];
+    [moreRowIndexPath release];
     [moreLoadingView release];
 	[groupData release];
 	[dataList release];
@@ -439,16 +507,78 @@
 	
 }
 
+- (void)didSelectMoreRow
+{
+    NSLog(@"select more row, default implementation");
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row > [dataList count] - 1)
-		return;
-	
-	[self updateSelectSectionAndRow:indexPath];
-	[self reloadForSelectSectionAndRow:indexPath];	
+    if ([self isMoreRowIndexPath:indexPath]){
+        [self.moreLoadingView startAnimating];
+        if ([self respondsToSelector:@selector(didSelectMoreRow)]){
+            [self performSelector:@selector(didSelectMoreRow)];
+        }
+        
+        // delete control row and tap row
+        if (controlRowIndexPath){
+            
+            [self updateMoreRowIndexPath];
+            
+            NSIndexPath* indexPathForDelete = [self.controlRowIndexPath retain];
+            self.tappedIndexPath = nil;
+            self.controlRowIndexPath = nil;
 
-	// do select row action
-	// NSObject* dataObject = [dataList objectAtIndex:indexPath.row];
+            [self.dataTableView beginUpdates];        
+            [self.dataTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathForDelete] withRowAnimation:UITableViewRowAnimationFade];
+            [self.dataTableView endUpdates];
+
+            [indexPathForDelete release];
+            
+        }
+        return;
+    }
+    
+    if ([indexPath isEqual:self.tappedIndexPath]){
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
+    indexPath = [self modelIndexPathForIndexPath:indexPath];
+    NSIndexPath* indexPathForDelete = [self.controlRowIndexPath retain];
+    
+    if ([indexPath isEqual:self.tappedIndexPath]){
+        self.tappedIndexPath = nil;
+        self.controlRowIndexPath = nil;
+    }
+    else{
+        self.tappedIndexPath = indexPath;
+        self.controlRowIndexPath = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section];
+    }        
+    
+    if (controlRowIndexPath)
+        self.moreRowIndexPath = [NSIndexPath indexPathForRow:[dataList count]+1 inSection:moreRowSection];
+    else
+        [self updateMoreRowIndexPath];
+    
+    [self.dataTableView beginUpdates];        
+    if (indexPathForDelete){                
+        [self.dataTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathForDelete] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    if (self.controlRowIndexPath){                
+        [self.dataTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:self.controlRowIndexPath] withRowAnimation:UITableViewRowAnimationFade];        
+    }    
+    [self.dataTableView endUpdates];
+    
+    [indexPathForDelete release];
+}
+
+- (NSIndexPath*)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // the code below is only valid when control row is used
+    if ([indexPath isEqual:self.controlRowIndexPath]){
+        return self.tappedIndexPath;
+    }
+    return indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
