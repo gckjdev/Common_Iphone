@@ -34,5 +34,6 @@
 @dynamic userAvatar;
 @dynamic replyPostId;
 @dynamic placeName;
+@dynamic userGender;
 
 @end

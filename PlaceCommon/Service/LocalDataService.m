@@ -83,6 +83,7 @@
                   srcPostId:[ResultUtils srcPostId:post]
                 replyPostId:[ResultUtils replyPostId:post]
                  userAvatar:[ResultUtils userAvatar:post]
+                 userGender:[ResultUtils gender:post]
                      useFor:useFor];                    
     
 }

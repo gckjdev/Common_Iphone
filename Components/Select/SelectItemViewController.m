@@ -82,10 +82,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return [self getRowHeight:indexPath.row totalRow:[dataList count]];
-	// return cellImageHeight;
-	
-	return 45;
+    if (self.lastCellImage && self.firstCellImage && self.middleCellImage && self.singleCellImage){
+        return [self getRowHeight:indexPath.row totalRow:[dataList count]];
+    }
+    else{
+        return 45;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -121,7 +123,9 @@
 		return cell;
 	}
 	
-	[self setCellBackground:cell row:row count:count];
+    if (self.lastCellImage && self.firstCellImage && self.middleCellImage && self.singleCellImage){
+        [self setCellBackground:cell row:row count:count];
+    }
 	
 	NSObject* dataObject = [dataList objectAtIndex:row];
 	if ([dataObject isKindOfClass:[NSString class]]){

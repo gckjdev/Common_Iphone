@@ -43,5 +43,6 @@ enum {
 @property (nonatomic, retain) NSString * srcPostId;
 @property (nonatomic, retain) NSString * replyPostId;
 @property (nonatomic, retain) NSString * userAvatar;
+@property (nonatomic, retain) NSString * userGender;
 
 @end

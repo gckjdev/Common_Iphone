@@ -28,6 +28,7 @@
          srcPostId:(NSString*)srcPostId
        replyPostId:(NSString*)replyPostId
          userAvatar:(NSString*)userAvatar
+        userGender:(NSString*)userGender
             useFor:(int)useFor;
 
 

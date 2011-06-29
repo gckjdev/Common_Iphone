@@ -43,6 +43,7 @@
          srcPostId:(NSString*)srcPostId
        replyPostId:(NSString*)replyPostId
         userAvatar:(NSString*)userAvatar
+        userGender:(NSString*)userGender
             useFor:(int)useFor
 
 {
@@ -72,6 +73,7 @@
     post.replyPostId = replyPostId;
     post.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
     post.placeName = placeName;
+    post.userGender = userGender;
     
     NSLog(@"<createPost> post=%@", [post description]);
     

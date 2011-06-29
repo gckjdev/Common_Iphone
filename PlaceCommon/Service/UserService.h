@@ -14,6 +14,8 @@
 
 #define AVATAR_SIZE         CGSizeMake(180, 180)
 #define DEFAULT_AVATAR      @"touxiang.png"
+#define FEMALE_AVATAR       @"girl1.png"
+#define MALE_AVATAR         @"boy1.png"
 #define TEMP_AVATAR_DIR     @"avatar_temp"
 
 enum{
@@ -76,8 +78,11 @@ typedef void (^SaveUserSuccessHandler)(PPViewController*);
 - (void)updateUserNickName:(NSString*)value;
 - (void)updateUserMobile:(NSString*)value;
 - (void)updateUserAvatar:(UIImage*)image;
+- (void)updateUserGender:(NSString*)value;
 
 - (void)updateUserToServer:(PPViewController*)viewController successHandler:(SaveUserSuccessHandler)saveSuccessHandler;
+
++ (NSString*)defaultAvatarByGender:(NSString*)gender;
 
 @end
 

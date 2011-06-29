@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+#define POST_ACTION_LIKE        @"Like"
+
 @class PPViewController;
 
 @protocol PostServiceDelegate <NSObject>
 
+@optional
 - (void)createPostFinish:(int)result;
+- (void)actionOnPostFinish:(int)result;
 
 @end
 
@@ -40,6 +44,10 @@
        replyPostId:(NSString*)replyPostIdVal
          placeName:(NSString*)placeName
     viewController:(PPViewController<PostServiceDelegate>*)viewController;
+
+- (void)actionOnPost:(NSString*)postId              
+          actionName:(NSString*)actionName
+      viewController:(PPViewController<PostServiceDelegate>*)viewController;
 
 @end
 

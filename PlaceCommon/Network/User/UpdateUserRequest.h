@@ -18,6 +18,8 @@
     NSString*       email;
     NSString*       nickName;
     NSString*       password;
+    NSString*       gender;
+
     NSData*         avatar;
 	
 }
@@ -28,6 +30,7 @@
 @property (nonatomic, retain) NSString*       email;
 @property (nonatomic, retain) NSString*       nickName;
 @property (nonatomic, retain) NSString*       password;
+@property (nonatomic, retain) NSString*       gender;
 @property (nonatomic, retain) NSData*         avatar;
 
 @end
@@ -52,5 +55,16 @@
                  password:(NSString*)password                
                  nickName:(NSString*)nickName
                    avatar:(NSData*)avatar;
+
++ (UpdateUserOutput*)send:(NSString*)serverURL
+                   userId:(NSString*)userId
+                    appId:(NSString*)appId
+                   mobile:(NSString*)mobile
+                    email:(NSString*)email                 
+                 password:(NSString*)password                
+                 nickName:(NSString*)nickName
+                   gender:(NSString*)gender
+                   avatar:(NSData*)avatar;
+
 
 @end

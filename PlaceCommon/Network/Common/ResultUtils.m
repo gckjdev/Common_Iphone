@@ -113,6 +113,11 @@
     return [post objectForKey:PARA_AVATAR];
 }
 
++ (NSString*)gender:(NSDictionary*)post
+{
+    return [post objectForKey:PARA_GENDER];
+}
+
 + (NSString*)name:(NSDictionary*)place
 {
     return [place objectForKey:PARA_NAME];

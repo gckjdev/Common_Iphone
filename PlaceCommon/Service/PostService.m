@@ -88,6 +88,7 @@
                               srcPostId:srcPostIdVal
                             replyPostId:replyPostIdVal
                              userAvatar:user.avatar
+                             userGender:user.gender
                                  useFor:POST_FOR_PLACE];
                 
             }
@@ -134,5 +135,39 @@
            placeName:placeName
       viewController:viewController];
 }
+
+- (void)actionOnPost:(NSString*)postId              
+          actionName:(NSString*)actionName
+      viewController:(PPViewController<PostServiceDelegate>*)viewController
+{
+    UserService* userService = GlobalGetUserService();
+    User* user = [userService user];
+    NSString* appId = [AppManager getPlaceAppId];        
+    
+    [viewController showActivity];
+    dispatch_async(workingQueue, ^{
+        
+        CreatePostOutput* output;        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [viewController hideActivity];
+            if (output.resultCode == ERROR_SUCCESS){               
+                // update post action value in DB
+            }
+            else if (output.resultCode == ERROR_NETWORK){
+                [viewController popupUnhappyMessage:NSLS(@"kSystemFailure") title:nil];
+            }
+            else{
+                [viewController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
+            }
+            
+            if ([viewController respondsToSelector:@selector(actionOnPostFinish:)]){
+                [viewController actionOnPostFinish:output.resultCode];
+            }
+        });        
+    });    
+
+}
+
 
 @end

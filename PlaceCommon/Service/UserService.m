@@ -31,6 +31,19 @@
 @synthesize delegate;
 @synthesize gender;
 
++ (NSString*)defaultAvatarByGender:(NSString*)gender
+{
+    if ([gender isEqualToString:GENDER_MALE]){
+        return MALE_AVATAR;
+    }
+    else if ([gender isEqualToString:GENDER_FEMALE]){
+        return FEMALE_AVATAR;
+    }
+    else{
+        return DEFAULT_AVATAR;
+    }
+}
+
 // you MUST call this method whenever you update the user data in database
 - (void)updateUserCache
 {
@@ -107,7 +120,7 @@
     }
     else{
         // use default
-        return [FileUtil bundleURL:DEFAULT_AVATAR];        
+        return [FileUtil bundleURL:[UserService defaultAvatarByGender:[user gender]]];        
     }
 }
 
@@ -148,6 +161,17 @@
         return;
     
     user.mobile = value;
+    [CommonManager save]; 
+    
+    [self setUserUpdateFlag];
+}
+
+- (void)updateUserGender:(NSString*)value
+{
+    if ([value length] == 0 || [user.gender isEqualToString:value])
+        return;
+    
+    user.gender = value;
     [CommonManager save]; 
     
     [self setUserUpdateFlag];
@@ -207,13 +231,14 @@
     [viewController showActivityWithText:NSLS(@"kUpdatingUser")];
     dispatch_async(workingQueue, ^{
         UpdateUserOutput* output = [UpdateUserRequest send:SERVER_URL 
-                         userId:user.userId 
-                          appId:[AppManager getPlaceAppId]
-                         mobile:[user mobile]
-                          email:[user email]
-                       password:[user password]
-                       nickName:[user nickName]
-                         avatar:[self getUserAvatarData]];
+                                                     userId:user.userId 
+                                                      appId:[AppManager getPlaceAppId]
+                                                     mobile:[user mobile]
+                                                      email:[user email]
+                                                   password:[user password]
+                                                   nickName:[user nickName]
+                                                    gender:[user gender]                                    
+                                                    avatar:[self getUserAvatarData]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [viewController hideActivity];

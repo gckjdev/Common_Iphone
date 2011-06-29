@@ -19,9 +19,11 @@
 @synthesize nickName;
 @synthesize password;
 @synthesize avatar;
+@synthesize gender;
 
 - (void)dealloc
 {
+    [gender release];
 	[appId release];
     [userId release];
     [mobile release];
@@ -65,6 +67,10 @@
     if (avatar != nil){
         NSString* HAS_AVATAR = @"1";
         str = [str stringByAddQueryParameter:PARA_AVATAR value:HAS_AVATAR];
+    }
+    
+    if ([gender length] > 0){
+        str = [str stringByAddQueryParameter:PARA_GENDER value:gender];
     }
 
 	return str;
@@ -160,7 +166,28 @@
                  nickName:(NSString*)nickName
                    avatar:(NSData*)avatar
 {
-	int result = ERROR_SUCCESS;
+    return [UpdateUserRequest send:serverURL
+                            userId:userId
+                             appId:appId
+                            mobile:mobile
+                             email:email
+                          password:password
+                          nickName:nickName
+                            gender:nil
+                            avatar:avatar];
+}
+
++ (UpdateUserOutput*)send:(NSString*)serverURL
+                   userId:(NSString*)userId
+                    appId:(NSString*)appId
+                   mobile:(NSString*)mobile
+                    email:(NSString*)email                 
+                 password:(NSString*)password                
+                 nickName:(NSString*)nickName
+                   gender:(NSString*)gender
+                   avatar:(NSData*)avatar
+{
+    int result = ERROR_SUCCESS;
 	UpdateUserInput* input = [[UpdateUserInput alloc] init];
 	UpdateUserOutput* output = [[[UpdateUserOutput alloc] init] autorelease];
 	
@@ -171,6 +198,7 @@
     input.password = password;
     input.nickName = nickName;
     input.avatar = avatar;
+    input.gender = gender;
     
 	if ([[UpdateUserRequest requestWithURL:serverURL] sendPostRequest:input output:output postData:avatar]){
 		result = output.resultCode;
@@ -183,7 +211,6 @@
 	
 	return output;	
 }
-
 
 @end
 
