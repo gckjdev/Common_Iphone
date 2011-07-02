@@ -29,6 +29,8 @@
 #define METHOD_UPDATEUSER @"uu"
 #define METHOD_UPDATEPLACE @"up"
 #define METHOD_GETPLACE @"gtp"
+#define METHOD_GETPUBLICTIMELINE @"gpt"
+#define METHOD_ACTIONONPOST @"aop"	
 
 // request parameters
 

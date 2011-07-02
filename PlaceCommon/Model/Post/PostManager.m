@@ -150,6 +150,30 @@
     return [dataManager save]; 
 }
 
++ (NSArray*)getAllPostByUseFor:(int)useFor
+{
+    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+    return [dataManager execute:@"getAllPostByUseFor"
+                         forKey:@"USE_FOR" 
+                          value:[NSNumber numberWithInt:useFor]
+                         sortBy:@"createDate" 
+                      ascending:NO];    
+
+}
+
++ (BOOL)deletePostByUseFor:(int)useFor
+{
+    NSArray* postArray = [PostManager getAllPostByUseFor:useFor];
+    for (Post* post in postArray){
+        post.deleteFlag = [NSNumber numberWithBool:YES];
+        post.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
+    }
+    
+    CoreDataManager *dataManager = GlobalGetCoreDataManager();
+    return [dataManager save]; 
+}
+
+
 
 + (void)cleanUpDeleteDataBefore:(int)timeStamp
 {

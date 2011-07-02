@@ -141,8 +141,8 @@
       viewController:(PPViewController<PostServiceDelegate>*)viewController
 {
     UserService* userService = GlobalGetUserService();
-    User* user = [userService user];
-    NSString* appId = [AppManager getPlaceAppId];        
+//    User* user = [userService user];
+//    NSString* appId = [AppManager getPlaceAppId];        
     
     [viewController showActivity];
     dispatch_async(workingQueue, ^{

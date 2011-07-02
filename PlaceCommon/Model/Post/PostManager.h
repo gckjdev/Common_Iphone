@@ -31,18 +31,20 @@
         userGender:(NSString*)userGender
             useFor:(int)useFor;
 
-
+// TODO, refactor by using getAllPostByUseFor/deletePostByUseFor later
 + (NSArray*)getAllNearbyPost:(NSString*)userId;
 + (BOOL)deleteAllNearbyPost;
 
-
+// TODO, refactor by using getAllPostByUseFor/deletePostByUseFor later
 + (NSArray*)getAllFollowPost:(NSString*)userId;
 + (BOOL)deleteUserFollowPost;
 
-
+// TODO, refactor by using getAllPostByUseFor/deletePostByUseFor later
 + (NSArray*)getAllAtMePost;
 + (BOOL)deleteAllAtMePost;
 
++ (NSArray*)getAllPostByUseFor:(int)useFor;
++ (BOOL)deletePostByUseFor:(int)useFor;
 
 + (void)cleanUpDeleteDataBefore:(int)timeStamp;
 

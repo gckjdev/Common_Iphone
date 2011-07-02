@@ -17,6 +17,7 @@
 #import "UserFollowPlaceRequest.h"
 #import "GetPlaceRequest.h"
 #import "GetAtMePostRequest.h"
+#import "GetPublicTimelinePostRequest.h"
 
 #import "TimeUtils.h"
 #import "ResultUtils.h"
@@ -309,6 +310,49 @@
         });
         
     });
+}
+
+- (void)requestAppPublicTimelinePostData:(id<LocalDataServiceDelegate>)delegateObject
+                         beforeTimeStamp:(NSString*)beforeTimeStamp
+                               cleanData:(BOOL)cleanData
+{
+    if ([UserManager isUserRegistered] == NO)
+        return;
+    
+    NSString* userId = [UserManager getUserId];
+    NSString* appId = [AppManager getPlaceAppId];
+    
+    dispatch_async(workingQueue, ^{
+        
+        // fetch user place data from server
+        GetPublicTimelinePostOutput* output = [GetPublicTimelinePostRequest send:SERVER_URL 
+                                                                          userId:userId appId:appId 
+                                                                 beforeTimeStamp:beforeTimeStamp];
+        
+        // if succeed, clean local data and save new data
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (output.resultCode == ERROR_SUCCESS){                    
+                // delete all old data
+                if (cleanData){
+                    [PostManager deletePostByUseFor:POST_FOR_PUBLIC];
+                }
+                
+                // insert new data
+                NSArray* postArray = output.postArray;
+                for (NSDictionary* post in postArray){
+                    [self createPost:post userId:userId useFor:POST_FOR_PUBLIC];
+                }                    
+            }
+            
+            // notify UI to refresh data
+            NSLog(@"<requestAppPublicTimelinePostData> result code=%d", 
+                  output.resultCode);
+            [self notifyDelegate:delegateObject selector:@selector(postDataRefresh::) resultCode:output.resultCode];
+        });
+        
+        
+    });
+
 }
 
 - (void)requestUserFollowPlaceData:(id<LocalDataServiceDelegate>)delegateObject

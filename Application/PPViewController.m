@@ -386,7 +386,7 @@
 	
 	// get keyboard frame
 	NSDictionary* info = [notification userInfo];
-	NSValue *value = [info objectForKey:UIKeyboardCenterEndUserInfoKey];	
+	NSValue *value = [info objectForKey:UIKeyboardFrameEndUserInfoKey];	
     CGRect keyboardRect;
     [value getValue:&keyboardRect];
 

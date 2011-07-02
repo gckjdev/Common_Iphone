@@ -14,6 +14,7 @@ enum {
     POST_FOR_NEARBY,
     POST_FOR_FOLLOW,
     POST_FOR_ATME,
+    POST_FOR_PUBLIC,
 };
 
 @interface Post : NSManagedObject {

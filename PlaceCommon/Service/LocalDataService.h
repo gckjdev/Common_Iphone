@@ -20,6 +20,9 @@
 - (void)nearbyPostDataRefresh:(int)result;
 - (void)atMePostDataRefresh:(int)result;
 
+// common method now!!! we can refactor all to this method 
+- (void)postDataRefresh:(int)result;
+
 @end
 
 @interface LocalDataService : NSObject {
@@ -43,6 +46,10 @@
 
 - (void)requestLatestPlacePostData:(id<LocalDataServiceDelegate>)delegateObject 
                            placeId:(NSString*)placeId;
+
+- (void)requestAppPublicTimelinePostData:(id<LocalDataServiceDelegate>)delegateObject
+                         beforeTimeStamp:(NSString*)beforeTimeStamp
+                               cleanData:(BOOL)cleanData;
 
 - (void)requestNearbyPostData:(id<LocalDataServiceDelegate>)delegateObject
               beforeTimeStamp:(NSString*)beforeTimeStamp
