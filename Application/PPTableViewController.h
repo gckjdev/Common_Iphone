@@ -137,5 +137,7 @@
 - (BOOL)isControlRowIndexPath:(NSIndexPath*)indexPath;
 // call this method in numberOfRowInSection if you are using control row and more row effect
 - (int)calcRowCount;
+// call this method to dismiss control row
+- (void)deleteControlRow;
 
 @end

@@ -18,6 +18,7 @@
 #import "Post.h"
 
 #import "CreatePostRequest.h"
+#import "ActionOnPostRequest.h"
 
 @implementation PostService
 
@@ -141,13 +142,17 @@
       viewController:(PPViewController<PostServiceDelegate>*)viewController
 {
     UserService* userService = GlobalGetUserService();
-//    User* user = [userService user];
-//    NSString* appId = [AppManager getPlaceAppId];        
+    User* user = [userService user];
+    NSString* appId = [AppManager getPlaceAppId];        
     
     [viewController showActivity];
     dispatch_async(workingQueue, ^{
         
-        CreatePostOutput* output;        
+        ActionOnPostOutput* output = [ActionOnPostRequest send:SERVER_URL 
+                                                        userId:[user userId] 
+                                                         appId:appId
+                                                        postId:postId
+                                                    actionType:actionName];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [viewController hideActivity];

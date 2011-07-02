@@ -105,6 +105,7 @@
 #define PARA_SRC_POSTID @"spi"
 #define PARA_EXCLUDE_POSTID @"epi"
 #define PARA_REPLY_POSTID @"rpi"
+#define PARA_POST_ACTION_TYPE @"pat"
 
 #define PARA_CREATE_USERID @"cuid"
 

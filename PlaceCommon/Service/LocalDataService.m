@@ -347,7 +347,7 @@
             // notify UI to refresh data
             NSLog(@"<requestAppPublicTimelinePostData> result code=%d", 
                   output.resultCode);
-            [self notifyDelegate:delegateObject selector:@selector(postDataRefresh::) resultCode:output.resultCode];
+            [self notifyDelegate:delegateObject selector:@selector(postDataRefresh:) resultCode:output.resultCode];
         });
         
         

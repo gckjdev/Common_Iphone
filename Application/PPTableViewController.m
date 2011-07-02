@@ -191,6 +191,26 @@
     return [controlRowIndexPath isEqual:indexPath];
 }
 
+- (void)deleteControlRow
+{
+    // delete control row and tap row
+    if (controlRowIndexPath){
+        
+        [self updateMoreRowIndexPath];
+        
+        NSIndexPath* indexPathForDelete = [self.controlRowIndexPath retain];
+        self.tappedIndexPath = nil;
+        self.controlRowIndexPath = nil;
+        
+        [self.dataTableView beginUpdates];        
+        [self.dataTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathForDelete] withRowAnimation:UITableViewRowAnimationFade];
+        [self.dataTableView endUpdates];
+        
+        [indexPathForDelete release];
+        
+    }    
+}
+
 - (int)calcRowCount
 {
     int count = [dataList count];
