@@ -53,6 +53,7 @@
     [sinaRequest release];
     [qqRequest release];
     [super dealloc];
+        
 }
 
 #pragma mark - Cache Handling

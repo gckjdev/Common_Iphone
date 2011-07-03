@@ -32,6 +32,8 @@
 #define METHOD_GETPUBLICTIMELINE @"gpt"
 #define METHOD_ACTIONONPOST @"aop"	
 
+#define METHOD_GETAPPUPDATE @"gau"
+
 // request parameters
 
 #define PARA_USERID @"uid"
@@ -132,5 +134,17 @@
 #define PARA_SINA_ACCESS_TOKEN_SECRET   @"sats"
 #define PARA_QQ_ACCESS_TOKEN            @"qat"
 #define PARA_QQ_ACCESS_TOKEN_SECRET     @"qats"
+
+// app related info
+
+#define PARA_APPURL @"au"
+#define PARA_ICON @"ai"
+#define PARA_SINA_APPKEY @"sak"
+#define PARA_SINA_APPSECRET @"sas"
+#define PARA_QQ_APPKEY @"qak"
+#define PARA_QQ_APPSECRET @"qas"
+#define PARA_RENREN_APPKEY @"rak"
+#define PARA_RENREN_APPSECRET @"ras"
+#define PARA_MESSAGE_TYPE @"mt"
 
 

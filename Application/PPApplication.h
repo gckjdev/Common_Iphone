@@ -64,4 +64,6 @@ extern BOOL isFree();
 
 - (void)initImageCacheManager;
 
++ (NSString*)getAppVersion;
+
 @end

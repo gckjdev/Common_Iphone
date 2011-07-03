@@ -50,6 +50,12 @@ BOOL isFree()
 @synthesize player;
 @synthesize imageCacheManager;
 
++ (NSString*)getAppVersion
+{
+    NSString* version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    return version;
+}
+
 - (void)releaseResourceForAllViewControllers
 {
 	UITabBarController* tabBarController = nil;
