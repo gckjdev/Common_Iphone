@@ -16,6 +16,9 @@
 @synthesize appId;
 @synthesize actionType;
 @synthesize postId;
+@synthesize longitude;
+@synthesize latitude;
+@synthesize placeId;
 
 - (void)dealloc
 {
@@ -23,6 +26,7 @@
     [userId release];    
     [actionType release];
     [postId release];
+    [placeId release];
 	[super dealloc];	
 }
 
@@ -36,6 +40,18 @@
 	str = [str stringByAddQueryParameter:PARA_POST_ACTION_TYPE value:actionType];
 	str = [str stringByAddQueryParameter:PARA_POSTID value:postId];
 	
+    if (longitude != 0.0){
+        str = [str stringByAddQueryParameter:PARA_LONGTITUDE doubleValue:longitude];    
+    }
+    
+    if (latitude != 0.0){
+        str = [str stringByAddQueryParameter:PARA_LATITUDE doubleValue:latitude];            
+    }
+    
+    if ([placeId length] > 0){
+        str = [str stringByAddQueryParameter:PARA_PLACEID value:placeId];    
+    }
+    
 	return str;
 }
 
@@ -107,7 +123,7 @@
 	
 }
 
-+ (ActionOnPostOutput*)send:(NSString*)serverURL userId:(NSString*)userId appId:(NSString*)appId postId:(NSString*)postId actionType:(NSString*)actionType;
++ (ActionOnPostOutput*)send:(NSString*)serverURL userId:(NSString*)userId appId:(NSString*)appId postId:(NSString*)postId actionType:(NSString*)actionType longitude:(double)longitude latitude:(double)latitude placeId:(NSString*)placeId
 {
     
 	int result = ERROR_SUCCESS;
@@ -119,6 +135,9 @@
 	input.appId = appId;
     input.actionType = actionType;
     input.postId = postId;
+    input.longitude = longitude;
+    input.latitude = latitude;
+    input.placeId = placeId;
 	
 	if ([[ActionOnPostRequest requestWithURL:serverURL] sendRequest:input output:output]){
 		result = output.resultCode;

@@ -139,11 +139,17 @@
 
 - (void)actionOnPost:(NSString*)postId              
           actionName:(NSString*)actionName
+             placeId:(NSString*)placeIdValue
       viewController:(PPViewController<PostServiceDelegate>*)viewController
 {
     UserService* userService = GlobalGetUserService();
     User* user = [userService user];
     NSString* appId = [AppManager getPlaceAppId];        
+    
+    // get location;
+    LocationService *locationService = GlobalGetLocationService();
+    double latitude = locationService.currentLocation.coordinate.latitude;
+    double longitude = locationService.currentLocation.coordinate.longitude;    
     
     [viewController showActivity];
     dispatch_async(workingQueue, ^{
@@ -152,7 +158,10 @@
                                                         userId:[user userId] 
                                                          appId:appId
                                                         postId:postId
-                                                    actionType:actionName];
+                                                    actionType:actionName
+                                                     longitude:longitude
+                                                      latitude:latitude
+                                                       placeId:placeIdValue];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [viewController hideActivity];

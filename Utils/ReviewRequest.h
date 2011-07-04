@@ -11,7 +11,7 @@
 }
 
 // just call this method to create a standard review request, if for testing, set isTest to YES
-+ (void)startReviewRequest:(NSString*)appIdValue appName:(NSString*)appNameValue isTest:(BOOL)isTest;
++ (ReviewRequest*)startReviewRequest:(NSString*)appIdValue appName:(NSString*)appNameValue isTest:(BOOL)isTest;
 
 - (id)initWithAppId:(NSString*)appIdValue appName:(NSString*)appNameValue;
 - (BOOL)shouldAskForReviewAtLaunch;
