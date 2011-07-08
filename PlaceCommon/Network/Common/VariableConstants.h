@@ -40,3 +40,12 @@ extern NSString* GlobalGetServerURL();
 #define GENDER_MALE                 @"m"
 #define GENDER_FEMALE               @"f"
 
+#define USER_DEFAULT_SINA_KEY       @"sinaAccessTokenKey"
+#define USER_DEFAULT_SINA_SECRET    @"sinaAccessTokenSecret"
+#define USER_DEFAULT_QQ_KEY       @"qqAccessTokenKey"
+#define USER_DEFAULT_QQ_SECRET    @"qqAccessTokenSecret"
+#define USER_DEFAULT_RENREN_SECRET    @"renrenAccessTokenSecret"
+#define USER_DEFAULT_RENREN_KEY       @"renrenAccessTokenKey"
+
+#define IMAGE_POST_MAX_BYTE  1000000
+#define IMAGE_DEFAULT_COMPRESS_QUALITY 0.7

@@ -12,5 +12,5 @@
 
 - (BOOL)saveImageToFile:(NSString*)fileName;
 + (CGRect)shrinkFromOrigRect:(CGRect)origRect imageSize:(CGSize)imageSize;
-
++ (NSData *)compressImage:(UIImage *)image;
 @end

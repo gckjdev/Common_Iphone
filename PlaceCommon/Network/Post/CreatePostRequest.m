@@ -9,6 +9,7 @@
 #import "CreatePostRequest.h"
 #import "TimeUtils.h"
 #import "LocaleUtils.h"
+#import "UIImageUtil.h"
 
 @implementation CreatePostInput
 
@@ -184,7 +185,8 @@
     
     NSData* postData = nil;
     if (input.contentType == CONTENT_TYPE_TEXT_PHOTO && image != nil){
-        postData = UIImagePNGRepresentation(image);
+        //postData = UIImagePNGRepresentation(image);
+        postData =[UIImage compressImage:image];
     }
 	
 	if ([[CreatePostRequest requestWithURL:serverURL] sendPostRequest:input output:output postData:postData]){

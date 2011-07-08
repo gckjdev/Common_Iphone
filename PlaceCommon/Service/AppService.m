@@ -96,7 +96,17 @@
             if (output.resultCode == ERROR_SUCCESS){               
                 
                 // check app key and secret and store in DB
-//                [self storeAppKeySecret];
+                
+                
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [userDefaults setObject:USER_DEFAULT_SINA_KEY forKey:output.sinaAppKey];
+                [userDefaults setObject:USER_DEFAULT_SINA_SECRET forKey:output.sinaAppSecret];
+                [userDefaults setObject:USER_DEFAULT_QQ_KEY forKey:output.qqAppKey];
+                [userDefaults setObject:USER_DEFAULT_QQ_SECRET forKey:output.qqAppSecret];                
+                [userDefaults setObject:USER_DEFAULT_RENREN_KEY forKey:output.renrenAppKey];
+                [userDefaults setObject:USER_DEFAULT_RENREN_SECRET forKey:output.renrenAppSecret];                
+                [userDefaults synchronize];
+                
                 
                 // compare new version with current version, if higher than show a alert view        
                 NSString* versionToCompare = nil;                
@@ -117,5 +127,6 @@
         });
     });
 }
+
 
 @end

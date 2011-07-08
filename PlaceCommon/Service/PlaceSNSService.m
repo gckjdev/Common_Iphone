@@ -9,7 +9,8 @@
 #import "PlaceSNSService.h"
 #import "PPViewController.h"
 #import "UserService.h"
-
+#import "VariableConstants.h"
+/*
 #define SINA_APP_KEY                    @"1528146353"
 #define SINA_APP_SECRET                 @"4815b7938e960380395e6ac1fe645a5c"
 #define SINA_CALLBACK_URL               @"dipan://sina"
@@ -17,11 +18,29 @@
 #define QQ_APP_KEY                      @"7c78d5b42d514af8bb66f0200bc7c0fc"
 #define QQ_APP_SECRET                   @"6340ae28094e66d5388b4eb127a2af43"
 #define QQ_CALLBACK_URL                 @"dipan://qq"
-
+*/
+#define SINA_CALLBACK_URL               @"dipan://sina"
+#define QQ_CALLBACK_URL                 @"dipan://qq"
 @implementation PlaceSNSService
 
 @synthesize sinaRequest;
 @synthesize qqRequest;
+@synthesize sinaAppkey;
+@synthesize sinaAppSecret;
+@synthesize qqAppKey;
+@synthesize qqAppSecret;
+@synthesize renrenAppKey;
+@synthesize renrenAppSecret;
+
+-(void) initAppKeyValue{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.sinaAppkey = [userDefaults stringForKey:USER_DEFAULT_SINA_KEY];
+    self.sinaAppSecret = [userDefaults stringForKey:USER_DEFAULT_SINA_SECRET];
+    self.qqAppKey = [userDefaults stringForKey:USER_DEFAULT_QQ_KEY];
+    self.qqAppSecret = [userDefaults stringForKey:USER_DEFAULT_QQ_SECRET];
+    self.renrenAppKey = [userDefaults stringForKey:USER_DEFAULT_RENREN_KEY];
+    self.renrenAppSecret = [userDefaults stringForKey:USER_DEFAULT_RENREN_SECRET];
+}
 
 - (id)init
 {
@@ -29,14 +48,16 @@
     
     workingQueue = dispatch_queue_create("sns service queue", NULL);
     
-    self.sinaRequest = [[SINAWeiboRequest alloc] initWithAppKey:SINA_APP_KEY
-                                                      appSecret:SINA_APP_SECRET
+    [self initAppKeyValue];
+    
+    self.sinaRequest = [[SINAWeiboRequest alloc] initWithAppKey:self.sinaAppkey
+                                                      appSecret:self.sinaAppSecret
                                                     callbackURL:SINA_CALLBACK_URL
                                                      oauthToken:nil
                                                oauthTokenSecret:nil];
     
-    self.qqRequest = [[QQWeiboRequest alloc] initWithAppKey:QQ_APP_KEY
-                                                      appSecret:QQ_APP_SECRET
+    self.qqRequest = [[QQWeiboRequest alloc] initWithAppKey:self.sinaAppkey
+                                                      appSecret:self.sinaAppSecret
                                                     callbackURL:QQ_CALLBACK_URL
                                                      oauthToken:nil
                                                oauthTokenSecret:nil];
@@ -49,6 +70,16 @@
     
     dispatch_release(workingQueue);
     workingQueue = NULL;
+    
+    [sinaRequest release];
+    [qqRequest release];
+    
+    [sinaAppkey release];
+    [sinaAppSecret release];
+    [qqAppKey release];
+    [qqAppSecret release];
+    [renrenAppKey release];
+    [renrenAppSecret release];
     
     [sinaRequest release];
     [qqRequest release];
@@ -66,6 +97,31 @@
 - (BOOL)hasSinaCacheData
 {
     return [sinaRequest hasUserInfoCache];    
+}
+
+
+- (void)setSinaAppKey: (NSString *)key Secret:(NSString *)secret{
+    [self setSinaAppkey:key];
+    [self setSinaAppSecret:secret];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:key forKey:USER_DEFAULT_SINA_KEY];
+    [userDefaults setObject:secret forKey:USER_DEFAULT_SINA_SECRET];
+}
+
+- (void)setQQAppKey: (NSString *)key Secret:(NSString *)secret{
+    [self setQqAppKey:key];
+    [self setQqAppSecret:secret];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:key forKey:USER_DEFAULT_QQ_KEY];
+    [userDefaults setObject:secret forKey:USER_DEFAULT_QQ_SECRET];
+}
+
+- (void)setRenrenAppKey: (NSString *)key Secret:(NSString *)secret{
+    [self setRenrenAppKey:key];
+    [self setRenrenAppSecret:secret];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:key forKey:USER_DEFAULT_RENREN_KEY];
+    [userDefaults setObject:secret forKey:USER_DEFAULT_RENREN_SECRET];
 }
 
 #pragma mark - Handle Authroization Response

@@ -8,6 +8,7 @@
 
 #import "UIImageUtil.h"
 #import "FileUtil.h"
+#import "VariableConstants.h"
 
 @implementation UIImage (UIImageUtil)
 
@@ -83,5 +84,15 @@
     return retRect;
 }
 
++ (NSData *)compressImage:(UIImage *)image {
 
+    NSData *data = UIImageJPEGRepresentation(image,IMAGE_DEFAULT_COMPRESS_QUALITY);
+    int length = [data length];
+    if (length <= IMAGE_POST_MAX_BYTE) {
+        return data;
+    }
+    CGFloat quality = IMAGE_POST_MAX_BYTE/(CGFloat)length;
+    NSData *tempData = UIImageJPEGRepresentation(image, quality);
+    return tempData;
+}
 @end
