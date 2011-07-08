@@ -19,7 +19,7 @@
 
 @synthesize appId, appName, minUsageCount, promptInterval;
 
-+ (void)startReviewRequest:(NSString*)appIdValue appName:(NSString*)appNameValue isTest:(BOOL)isTest
++ (ReviewRequest*)startReviewRequest:(NSString*)appIdValue appName:(NSString*)appNameValue isTest:(BOOL)isTest
 {
 	ReviewRequest* review = [[ReviewRequest alloc] initWithAppId:appIdValue appName:appNameValue];	
 	if (isTest == YES){
@@ -34,13 +34,13 @@
 
 - (id)initWithAppId:(NSString*)appIdValue appName:(NSString*)appNameValue
 {
-	if (self = [super init]){
-		self.appId = appIdValue;
-		self.appName = appNameValue;
-		
-		minUsageCount = kDefaultMinUsageCount;
-		promptInterval = kDefaultPromptInterval;
-	}
+	self = [super init];
+    
+    self.appId = appIdValue;
+    self.appName = appNameValue;
+    
+    minUsageCount = kDefaultMinUsageCount;
+    promptInterval = kDefaultPromptInterval;
 	
 	return self;
 }

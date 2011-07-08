@@ -47,6 +47,7 @@
 
 - (void)actionOnPost:(NSString*)postId              
           actionName:(NSString*)actionName
+             placeId:(NSString*)placeId
       viewController:(PPViewController<PostServiceDelegate>*)viewController;
 
 @end

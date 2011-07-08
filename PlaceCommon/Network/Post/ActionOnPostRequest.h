@@ -15,12 +15,18 @@
     NSString*       appId;
     NSString*       postId;
     NSString*       actionType;
+    double          longitude;
+    double          latitude;
+    NSString*       placeId;
 }
 
 @property (nonatomic, retain) NSString*		userId;
 @property (nonatomic, retain) NSString*     appId;
 @property (nonatomic, retain) NSString*     postId;
 @property (nonatomic, retain) NSString*     actionType;
+@property (nonatomic, assign) double          longitude;
+@property (nonatomic, assign) double          latitude;
+@property (nonatomic, retain) NSString*       placeId;
 
 @end
 
@@ -34,6 +40,7 @@
 	
 }
 
-+ (ActionOnPostOutput*)send:(NSString*)serverURL userId:(NSString*)userId appId:(NSString*)appId postId:(NSString*)postId actionType:(NSString*)actionType;
++ (ActionOnPostOutput*)send:(NSString*)serverURL userId:(NSString*)userId appId:(NSString*)appId postId:(NSString*)postId actionType:(NSString*)actionType longitude:(double)longitude latitude:(double)latitude placeId:(NSString*)placeId
+;
 
 @end

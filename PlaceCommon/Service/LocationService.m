@@ -53,14 +53,14 @@
 
     NSLog(@"<didUpdateToLocation> New location is %@", [newLocation description]);
 
+    // save to current location
+    self.currentLocation = newLocation;
+
     // If the time interval is older than 10 seconds, then it's an older location.  Ignore it.
     if ([newLocation.timestamp timeIntervalSinceNow] < -10) {
         return;
     }
-    
-    // save to current location
-    self.currentLocation = newLocation;
-	    
+    	    
 	// we can also cancel our previous performSelector:withObject:afterDelay: - it's no longer necessary
 	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopUpdatingLocation:) object:kTimeOutObjectString];
 	
