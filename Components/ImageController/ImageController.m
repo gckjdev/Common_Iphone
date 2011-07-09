@@ -102,16 +102,16 @@
     UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(scalePiece:)];
     [pinchGesture setDelegate:self];
     [imageView addGestureRecognizer:pinchGesture];
-    [imageView setTag:1000];
+    [imageView setTag:IMAGEVIEW_TAG];
     hasGetSize = NO;
-    scale = 1.0;
+    scale = IMAGEVIEW_MIN_SCALE;
     [pinchGesture release];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    UIView *aview = [self.view viewWithTag:1000];
+    UIView *aview = [self.view viewWithTag:IMAGEVIEW_TAG];
     if (touch.view != aview) {
-        return NO; // 不理這個event
+        return NO; 
     }
     return YES;
 }
@@ -135,7 +135,7 @@
 
         CGFloat tempScale = scale * [gestureRecognizer scale];
 
-        if(tempScale >=1.0 && tempScale <=3.0){
+        if(tempScale >= IMAGEVIEW_MIN_SCALE && tempScale <= IMAGEVIEW_MAX_SCALE){
            [self adjustAnchorPointForGestureRecognizer:gestureRecognizer];
             [gestureRecognizer view].transform = CGAffineTransformScale(gestureRecognizer.view.transform, [gestureRecognizer scale], [gestureRecognizer scale]);
             scale = tempScale;
@@ -152,15 +152,32 @@
     [imageView addGestureRecognizer:panRecognizer];
     panRecognizer.maximumNumberOfTouches = 1;
     panRecognizer.delegate = self;
-    [imageView setTag:1000];
+    [imageView setTag:IMAGEVIEW_TAG];
     [panRecognizer release];
 }
 
 - (void)movePiece:(UIPinchGestureRecognizer *)gestureRecognizer{
-    CGPoint location = [gestureRecognizer locationInView:self.view];
-    UIView *aview= gestureRecognizer.view;
+    if (scale <= 1.0) {
+        return;
+    }
+
     if ([gestureRecognizer state] != UIGestureRecognizerStateEnded) {
-        aview.frame = CGRectMake(location.x, location.y, aview.frame.size.width, aview.frame.size.height);
+        UIView *aview= gestureRecognizer.view;
+        if ([gestureRecognizer state] == UIGestureRecognizerStateBegan) {
+            beginLocation = [gestureRecognizer locationInView:self.view];
+        }else if([gestureRecognizer state] == UIGestureRecognizerStateChanged){
+            
+            CGPoint location = [gestureRecognizer locationInView:self.view];
+            CGFloat x = aview.center.x + (location.x - beginLocation.x);
+            CGFloat y = aview.center.y + (location.y - beginLocation.y);
+            x = MAX(x, self.view.bounds.origin.x);
+            x = MIN(x, self.view.bounds.size.width);
+            y = MAX(y, self.view.bounds.origin.y); 
+            y = MIN(y, self.view.bounds.size.height);
+            [aview setCenter:CGPointMake(x, y)];
+            beginLocation = location;
+        }
+
     }
 }
 
