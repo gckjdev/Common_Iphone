@@ -16,10 +16,13 @@
     
     NSString*         newVersion;
     NSString*         newAppURL;
+    
+    UIAlertView       *alertView;
 }
 
 @property (nonatomic, retain) NSString*         newVersion;
 @property (nonatomic, retain) NSString*         newAppURL;
+@property (nonatomic, retain) UIAlertView       *alertView;
 
 
 - (void)startAppUpdate;
