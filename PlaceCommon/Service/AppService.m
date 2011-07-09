@@ -18,6 +18,7 @@
 
 @synthesize newVersion;
 @synthesize newAppURL;
+@synthesize alertView;
 
 - (id)init
 {
@@ -31,6 +32,7 @@
     dispatch_release(workingQueue);
     workingQueue = NULL;
     
+    [alertView release];
     [newAppURL release];
     [newVersion release];
     [super dealloc];
@@ -65,14 +67,13 @@
     
     NSString* message = [NSString stringWithFormat:NSLS(@"kAskUpdateMsg"), newVersion];
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLS(@"kAskUpdateTitle") 
+    self.alertView = [[UIAlertView alloc] initWithTitle:NSLS(@"kAskUpdateTitle") 
                                                         message:message
                                                        delegate:self 
                                               cancelButtonTitle:NSLS(@"Cancel") 
                                               otherButtonTitles:NSLS(@"Yes"), nil];
 
     [alertView show];
-    [alertView release];    
 }
 
 - (void)startAppUpdate
