@@ -47,5 +47,5 @@ extern NSString* GlobalGetServerURL();
 #define USER_DEFAULT_RENREN_SECRET    @"renrenAccessTokenSecret"
 #define USER_DEFAULT_RENREN_KEY       @"renrenAccessTokenKey"
 
-#define IMAGE_POST_MAX_BYTE  1000000
+#define IMAGE_POST_MAX_BYTE  720000
 #define IMAGE_DEFAULT_COMPRESS_QUALITY 0.7

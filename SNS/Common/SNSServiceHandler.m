@@ -90,6 +90,7 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[queryString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSLog(@"send access_token, POST data=%@", queryString);
     
     int result = [NetworkUtil sendRequest:request respnoseHandlerBlock:^(NSString* responseText) {
         NSDictionary* dict = [responseText URLQueryStringToDictionary];

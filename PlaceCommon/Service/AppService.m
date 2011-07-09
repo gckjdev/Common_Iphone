@@ -99,14 +99,18 @@
                 
                 
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                [userDefaults setObject:USER_DEFAULT_SINA_KEY forKey:output.sinaAppKey];
-                [userDefaults setObject:USER_DEFAULT_SINA_SECRET forKey:output.sinaAppSecret];
-                [userDefaults setObject:USER_DEFAULT_QQ_KEY forKey:output.qqAppKey];
-                [userDefaults setObject:USER_DEFAULT_QQ_SECRET forKey:output.qqAppSecret];                
-                [userDefaults setObject:USER_DEFAULT_RENREN_KEY forKey:output.renrenAppKey];
-                [userDefaults setObject:USER_DEFAULT_RENREN_SECRET forKey:output.renrenAppSecret];                
-                [userDefaults synchronize];
-                
+                if (output.sinaAppKey)
+                    [userDefaults setObject:output.sinaAppKey forKey:USER_DEFAULT_SINA_KEY];
+                if (output.sinaAppSecret)
+                    [userDefaults setObject:output.sinaAppSecret forKey:USER_DEFAULT_SINA_SECRET];
+                if (output.qqAppKey)
+                    [userDefaults setObject:output.qqAppKey forKey:USER_DEFAULT_QQ_KEY];
+                if (output.qqAppSecret)
+                    [userDefaults setObject:output.qqAppSecret forKey:USER_DEFAULT_QQ_SECRET];                
+                if (output.renrenAppKey)
+                    [userDefaults setObject:output.renrenAppKey forKey:USER_DEFAULT_RENREN_KEY];
+                if (output.renrenAppSecret)
+                    [userDefaults setObject:output.renrenAppSecret forKey:USER_DEFAULT_RENREN_SECRET];                                
                 
                 // compare new version with current version, if higher than show a alert view        
                 NSString* versionToCompare = nil;                
