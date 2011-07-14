@@ -47,16 +47,41 @@
 
 @interface CommonOutput : NSObject
 {
-	int			resultCode;
-	NSString*	resultMessage;
+	int             resultCode;
+	NSString*       resultMessage;
+    
+    NSArray*        jsonDataArray;
+    NSDictionary*   jsonDataDict;
 }
 
 @property (nonatomic, assign) int			resultCode;
 @property (nonatomic, retain) NSString*		resultMessage;
+@property (nonatomic, retain) NSArray*        jsonDataArray;
+@property (nonatomic, retain) NSDictionary*   jsonDataDict;
 
 - (void)resultFromJSON:(NSString*)jsonString;
 - (NSDictionary*)dictionaryDataFromJSON:(NSString*)jsonString;
 - (NSArray*)arrayFromJSON:(NSString*)jsonString;
+
+@end
+
+typedef void (^ConstructHTTPRequestBlock)();
+typedef NSString* (^ConstructURLBlock)(NSString* baseURL);
+typedef void (^PPNetworkResponseBlock)(NSDictionary* dict, CommonOutput* output);
+
+@interface PPNetworkRequest : NSObject {
+    
+}
+
++ (CommonOutput*)sendRequest:(NSString*)baseURL
+         constructURLHandler:(ConstructURLBlock)constructURLHandler
+             responseHandler:(PPNetworkResponseBlock)responseHandler
+                      output:(CommonOutput*)output;
+
+
++ (CommonOutput*)deviceLogin:(NSString*)baseURL
+                       appId:(NSString*)appId
+              needReturnUser:(BOOL)needReturnUser;
 
 @end
 

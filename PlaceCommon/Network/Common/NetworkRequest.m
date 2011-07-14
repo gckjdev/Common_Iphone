@@ -11,6 +11,7 @@
 #import <CommonCrypto/CommonCryptor.h>
 #import "GTMBase64.h"
 #import "StringUtil.h"
+#import "NetworkUtil.h"
 
 @implementation NetworkRequest
 
@@ -216,7 +217,7 @@
 
 @implementation CommonOutput
 
-@synthesize resultMessage, resultCode;
+@synthesize resultMessage, resultCode, jsonDataArray, jsonDataDict;
 
 - (void)resultFromJSON:(NSString*)jsonString
 {
@@ -247,8 +248,105 @@
 - (void)dealloc
 {
 	[resultMessage release];
+    [jsonDataArray release];
+    [jsonDataDict release];
 	[super dealloc];
 }
 
+
+@end
+
+@implementation PPNetworkRequest
+
++ (CommonOutput*)sendRequest:(NSString*)baseURL
+         constructURLHandler:(ConstructURLBlock)constructURLHandler
+             responseHandler:(PPNetworkResponseBlock)responseHandler
+                      output:(CommonOutput*)output
+{    
+    NSURL* url = nil;    
+    if (constructURLHandler != NULL)
+        url = [NSURL URLWithString:[constructURLHandler(baseURL) stringByURLEncode]];
+    else
+        url = [NSURL URLWithString:baseURL];        
+    
+    if (url == nil){
+        output.resultCode = ERROR_CLIENT_URL_NULL;
+        return output;
+    }
+        
+    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+    if (request == nil){
+        output.resultCode = ERROR_CLIENT_REQUEST_NULL;
+        return output;
+    }
+    
+    NSLog(@"[SEND] URL=%@", [request description]);    
+    NSHTTPURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSLog(@"[RECV] : status=%d, error=%@", [response statusCode], [error description]);
+    
+    if (response == nil){
+        output.resultCode = ERROR_NETWORK;
+    }
+    else if (response.statusCode != 200){
+        output.resultCode = response.statusCode;
+    }
+    else{
+        if (data != nil){
+            NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"[RECV] data : %@", text);
+            
+            NSDictionary* dataDict = [text JSONValue];
+            [text release];            
+            if (dataDict == nil){
+                output.resultCode = ERROR_CLIENT_PARSE_JSON;
+                return output;
+            }
+            
+            output.resultCode = [[dataDict objectForKey:RET_CODE] intValue];
+            responseHandler(dataDict, output);
+            
+            return output;
+        }         
+        
+    }
+    
+    return output;
+}
+
++ (CommonOutput*)deviceLogin:(NSString*)baseURL
+                       appId:(NSString*)appId
+              needReturnUser:(BOOL)needReturnUser
+{
+    CommonOutput* output = [[[CommonOutput alloc] init] autorelease];
+    NSString* deviceId = [[UIDevice currentDevice] uniqueIdentifier];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+
+        NSString* str = [NSString stringWithString:baseURL];        
+        str = [str stringByAddQueryParameter:METHOD
+                                       value:METHOD_DEVICELOGIN];
+        str = [str stringByAddQueryParameter:PARA_APPID
+                                       value:appId];
+        str = [str stringByAddQueryParameter:PARA_DEVICEID
+                                       value:deviceId];
+        str = [str stringByAddQueryParameter:PARA_NEED_RETURN_USER
+                                    intValue:needReturnUser];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonOutput *output) {
+        NSDictionary* data = [dict objectForKey:RET_DATA];
+        NSLog(@"<deviceLogin> data=%@", [data description]);
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+}
 
 @end

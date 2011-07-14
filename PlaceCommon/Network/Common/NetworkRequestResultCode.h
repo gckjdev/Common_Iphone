@@ -110,6 +110,10 @@ enum ResultCode {
 	
     
 	ERROR_NETWORK                   = 99901,
+    
+    ERROR_CLIENT_URL_NULL           = 190001,
+    ERROR_CLIENT_REQUEST_NULL       = 190002,
+    ERROR_CLIENT_PARSE_JSON         = 190003,
 };
 
 
