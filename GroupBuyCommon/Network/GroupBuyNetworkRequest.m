@@ -121,9 +121,7 @@
     PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
         
         // parse response data and set into output object
-//        NSDictionary* data = [dict objectForKey:RET_DATA];
         output.jsonDataArray = [dict objectForKey:RET_DATA];
-        NSLog(@"<findAllProductsWithPrice> data=%@", [output.jsonDataArray description]);
         return;
     }; 
     

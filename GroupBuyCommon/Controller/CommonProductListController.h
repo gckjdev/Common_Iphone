@@ -10,11 +10,22 @@
 #import "PPTableViewController.h"
 #import "ProductService.h"
 
+@class CommonProductListController;
+
+@protocol ProductDataLoader <NSObject>
+
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end
+
 @interface CommonProductListController : PPTableViewController <ProductServiceDelegate> {
     
-    UIViewController     *superController;
+    UIViewController                *superController;
+    NSObject<ProductDataLoader>     *dataLoader;
 }
 
-@property (nonatomic, retain) UIViewController     *superController;
+@property (nonatomic, retain) UIViewController                *superController;
+@property (nonatomic, retain) NSObject<ProductDataLoader>     *dataLoader;
 
 @end

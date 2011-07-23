@@ -56,12 +56,13 @@
                          forKey:@"USE_FOR" 
                           value:[NSNumber numberWithInt:useFor]
                          sortBy:sortByKey
-                      ascending:NO];    
+                      ascending:YES];    
     
 }
 
 + (BOOL)deleteProductsByUseFor:(int)useFor
 {
+    NSLog(@"<deleteProductsByUseFor> useFor=%d", useFor);
     NSArray* ProductArray = [ProductManager getAllProductsByUseFor:useFor sortByKey:@"deleteFlag"];
     for (Product* Product in ProductArray){
         Product.deleteFlag = [NSNumber numberWithBool:YES];

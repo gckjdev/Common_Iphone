@@ -21,6 +21,7 @@
 @implementation CommonProductListController
 
 @synthesize superController;
+@synthesize dataLoader;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,6 +35,7 @@
 - (void)dealloc
 {
     [superController release];
+    [dataLoader release];
     [super dealloc];
 }
 
@@ -50,39 +52,14 @@
 // to be override
 - (NSArray*)requestProductListFromDB
 {
-    return [ProductManager getAllProductsByUseFor:USE_FOR_PRICE sortByKey:@"price"];
+    return [dataLoader requestProductListFromDB];
 }
 
 // to be override
 - (void)requestProductListFromServer:(BOOL)isRequestLastest
-{
-//    double longitude;
-//    double latitude;
-//    
-//    LocationService* locationService = GlobalGetLocationService();
-//    longitude = locationService.currentLocation.coordinate.longitude;
-//    latitude = locationService.currentLocation.coordinate.latitude;
-//    
-//    LocalDataService* localService = GlobalGetLocalDataService();
-//    
-//    // tag_more_rows
-//    if (!isRequestLastest){
-//        NSString* lastPostId = [PostControllerUtils getLastPostId:dataList];        
-//        [localService requestUserAtMePostData:self beforeTimeStamp:lastPostId cleanData:NO];
-//    }
-//    else{
-//        [localService requestUserAtMePostData:self beforeTimeStamp:nil cleanData:YES];
-//    }    
-    
-    ProductService* productService = GlobalGetProductService();
-    if (!isRequestLastest){
-        int startOffset = [self.dataList count];
-        [productService requestProductData:self useFor:USE_FOR_PRICE startOffset:startOffset cleanData:YES];
-    }
-    else{
-        [productService requestProductData:self useFor:USE_FOR_PRICE startOffset:0 cleanData:YES];
-    }    
-    
+{    
+
+    return [dataLoader requestProductListFromServer:isRequestLastest controller:self];
 }
 
 - (void)productDataRefresh:(int)result
@@ -219,7 +196,6 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // tag_more_rows
     if ([self isMoreRow:indexPath.row]){
         // check if it's last row - to load more
         MoreTableViewCell* moreCell = [MoreTableViewCell createCell:theTableView];
@@ -252,9 +228,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-    
-    // tag_more_rows
+	    
     if ([self isMoreRow:indexPath.row]){
         [self.moreLoadingView startAnimating];
         [self requestProductListFromServer:NO];
