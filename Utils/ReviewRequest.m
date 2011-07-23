@@ -21,7 +21,7 @@
 
 + (ReviewRequest*)startReviewRequest:(NSString*)appIdValue appName:(NSString*)appNameValue isTest:(BOOL)isTest
 {
-	ReviewRequest* review = [[ReviewRequest alloc] initWithAppId:appIdValue appName:appNameValue];	
+	ReviewRequest* review = [[[ReviewRequest alloc] initWithAppId:appIdValue appName:appNameValue] autorelease];	
 	if (isTest == YES){
 		review.minUsageCount = 0;
 		review.promptInterval = 0;
@@ -30,6 +30,8 @@
 	if ([review shouldAskForReviewAtLaunch]){
 		[review askForReview];
 	}	
+    
+    return review;
 }
 
 - (id)initWithAppId:(NSString*)appIdValue appName:(NSString*)appNameValue

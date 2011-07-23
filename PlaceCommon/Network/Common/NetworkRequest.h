@@ -65,23 +65,3 @@
 
 @end
 
-typedef void (^ConstructHTTPRequestBlock)();
-typedef NSString* (^ConstructURLBlock)(NSString* baseURL);
-typedef void (^PPNetworkResponseBlock)(NSDictionary* dict, CommonOutput* output);
-
-@interface PPNetworkRequest : NSObject {
-    
-}
-
-+ (CommonOutput*)sendRequest:(NSString*)baseURL
-         constructURLHandler:(ConstructURLBlock)constructURLHandler
-             responseHandler:(PPNetworkResponseBlock)responseHandler
-                      output:(CommonOutput*)output;
-
-
-+ (CommonOutput*)deviceLogin:(NSString*)baseURL
-                       appId:(NSString*)appId
-              needReturnUser:(BOOL)needReturnUser;
-
-@end
-
