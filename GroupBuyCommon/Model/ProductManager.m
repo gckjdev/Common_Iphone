@@ -12,6 +12,42 @@
 
 @implementation ProductManager
 
++ (BOOL)createProduct:(NSDictionary*)productDict useFor:(int)useFor
+{
+    
+//    @property (nonatomic, retain) NSString * data;
+//    @property (nonatomic, retain) NSNumber * useFor;
+//    @property (nonatomic, retain) NSString * productId;
+//    @property (nonatomic, retain) NSDate * startDate;
+//    @property (nonatomic, retain) NSDate * endDate;
+//    @property (nonatomic, retain) NSNumber * latitude;
+//    @property (nonatomic, retain) NSDate * longitude;
+//    @property (nonatomic, retain) NSNumber * price;
+//    @property (nonatomic, retain) NSNumber * value;
+//    @property (nonatomic, retain) NSNumber * rebate;
+//    @property (nonatomic, retain) NSString * title;
+//    @property (nonatomic, retain) NSString * loc;
+//    @property (nonatomic, retain) NSString * image;
+//    @property (nonatomic, retain) NSNumber * deleteFlag;
+//    @property (nonatomic, retain) NSNumber * deleteTimeStamp;    
+    
+    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+    Product* product = [dataManager insert:@"Product"];
+//    product.productId = [productDict objectForKey:@"_id"];
+    product.title = [productDict objectForKey:@"title"];
+    product.price = [productDict objectForKey:@"price"];
+//    product.startDate = 
+//    product.endDate = 
+//    product.longitude = [NSNumber numberWithDouble:longitude];
+//    product.latitude = [NSNumber numberWithDouble:latitude];
+    product.useFor = [NSNumber numberWithInt:useFor];
+    product.deleteFlag = [NSNumber numberWithBool:NO];
+    product.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
+    
+    NSLog(@"<createProduct> product=%@", [product description]);
+    
+    return [dataManager save];    
+}
 
 + (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey
 {
@@ -44,7 +80,7 @@
     NSArray* dataArray = [dataManager execute:@"getAllProductsForDelete" 
                                        forKey:@"beforeTimeStamp" 
                                         value:[NSNumber numberWithInt:timeStamp]
-                                       sortBy:@"createDate"
+                                       sortBy:@"startDate"
                                     ascending:NO];
     
     for (Product* Product in dataArray){

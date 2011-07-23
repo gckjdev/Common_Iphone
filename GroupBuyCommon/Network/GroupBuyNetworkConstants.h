@@ -6,6 +6,9 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
+extern NSString* GlobalGetServerURL();
+
+#define SERVER_URL                  (GlobalGetServerURL())
 
 
 #define SHARE_KEY @"NetworkRequestShareKey"
@@ -41,6 +44,10 @@
 #define METHOD_ACTIONONPOST @"aop"	
 
 #define METHOD_GETAPPUPDATE @"gau"
+
+#define METHOD_FINDPRODUCTWITHPRICE @"fpp"
+#define METHOD_FINDPRODUCTWITHREBATE @"fpd"
+#define METHOD_FINDPRODUCTWITHBOUGHT @"fpb"
 
 // request parameters
 
@@ -155,4 +162,5 @@
 #define PARA_RENREN_APPSECRET @"ras"
 #define PARA_MESSAGE_TYPE @"mt"
 
+#define PRAR_START_OFFSET @"so"
 

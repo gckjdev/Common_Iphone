@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
 
+@class Product;
+
 @interface ProductTextCell : PPTableViewCell {
     
 }
@@ -16,4 +18,7 @@
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
 
+- (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath;
+
 @end
+

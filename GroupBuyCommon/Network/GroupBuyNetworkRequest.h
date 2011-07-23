@@ -18,4 +18,10 @@
                               appId:(NSString*)appId
                      needReturnUser:(BOOL)needReturnUser;
 
++ (CommonNetworkOutput*)findAllProductsWithPrice:(NSString*)baseURL
+                                           appId:(NSString*)appId
+                                     startOffset:(int)startOffset
+                                            city:(NSString*)city;
+
+
 @end

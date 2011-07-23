@@ -16,6 +16,7 @@
 #import "ProductTextCell.h"
 #import "ProductManager.h"
 #import "Product.h"
+#import "ProductService.h"
 
 @implementation CommonProductListController
 
@@ -72,6 +73,16 @@
 //    else{
 //        [localService requestUserAtMePostData:self beforeTimeStamp:nil cleanData:YES];
 //    }    
+    
+    ProductService* productService = GlobalGetProductService();
+    if (!isRequestLastest){
+        int startOffset = [self.dataList count];
+        [productService requestProductData:self useFor:USE_FOR_PRICE startOffset:startOffset cleanData:YES];
+    }
+    else{
+        [productService requestProductData:self useFor:USE_FOR_PRICE startOffset:0 cleanData:YES];
+    }    
+    
 }
 
 - (void)productDataRefresh:(int)result
@@ -233,8 +244,8 @@
 	
     //	[self setCellBackground:cell row:row count:count];        
 	
-//	Product* product = [dataList objectAtIndex:row];
-//    [cell setCellInfoWithProduct:post indexPath:indexPath];    
+	Product* product = [dataList objectAtIndex:row];
+    [cell setCellInfoWithProduct:product indexPath:indexPath];    
 	
 	return cell;
 	

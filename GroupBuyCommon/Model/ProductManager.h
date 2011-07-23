@@ -20,6 +20,7 @@ enum {
     
 }
 
++ (BOOL)createProduct:(NSDictionary*)productDict useFor:(int)useFor;
 + (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey;
 + (BOOL)deleteProductsByUseFor:(int)useFor;
 

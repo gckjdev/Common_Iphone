@@ -9,8 +9,24 @@
 #import <Foundation/Foundation.h>
 #import "CommonService.h"
 
+@protocol ProductServiceDelegate <NSObject>
+
+@optional
+
+// common method now!!! we can refactor all to this method 
+- (void)productDataRefresh:(int)result;
+
+@end
+
 @interface ProductService : CommonService {
     
 }
 
+- (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
+                    useFor:(int)useFor
+               startOffset:(int)startOffset
+                 cleanData:(BOOL)cleanData;
+
 @end
+
+extern ProductService* GlobalGetProductService();

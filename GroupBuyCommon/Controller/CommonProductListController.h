@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewController.h"
+#import "ProductService.h"
 
-@interface CommonProductListController : PPTableViewController {
+@interface CommonProductListController : PPTableViewController <ProductServiceDelegate> {
     
     UIViewController     *superController;
 }

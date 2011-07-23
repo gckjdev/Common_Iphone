@@ -7,7 +7,7 @@
 //
 
 #import "ProductTextCell.h"
-
+#import "Product.h"
 
 @implementation ProductTextCell
 
@@ -34,6 +34,12 @@
 + (CGFloat)getCellHeight
 {
     return 44.0f;
+}
+
+- (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath
+{
+    self.textLabel.text = [product title];
+    self.detailTextLabel.text = [[product price] description];
 }
 
 @end

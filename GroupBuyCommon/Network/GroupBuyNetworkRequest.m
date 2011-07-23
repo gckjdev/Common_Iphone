@@ -95,4 +95,43 @@
     
 }
 
++ (CommonNetworkOutput*)findAllProductsWithPrice:(NSString*)baseURL
+                                           appId:(NSString*)appId
+                                     startOffset:(int)startOffset
+                                            city:(NSString*)city
+
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    const int MAX_COUNT = 10;
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDPRODUCTWITHPRICE];
+        str = [str stringByAddQueryParameter:PRAR_START_OFFSET intValue:startOffset];
+        str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:MAX_COUNT];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_CITY value:city];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+//        NSDictionary* data = [dict objectForKey:RET_DATA];
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        NSLog(@"<findAllProductsWithPrice> data=%@", [output.jsonDataArray description]);
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
+
 @end
