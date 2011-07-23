@@ -10,6 +10,8 @@
 
 enum {
     
+    ERROR_SUCCESS                   = 0,
+    
 	ERROR_NETWORK                   = 99901,
     
     ERROR_CLIENT_URL_NULL           = 190001,
