@@ -13,12 +13,27 @@
 
 @interface ProductTextCell : PPTableViewCell {
     
+    UILabel *productDescLabel;
+    UILabel *valueLabel;
+    UILabel *priceLabel;
+    UILabel *rebateLabel;
+    UILabel *leftTimeLabel;
+    UILabel *distanceLabel;
+    UILabel *boughtLabel;
 }
 + (ProductTextCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
 
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath;
+
+@property (nonatomic, retain) IBOutlet UILabel *productDescLabel;
+@property (nonatomic, retain) IBOutlet UILabel *valueLabel;
+@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *rebateLabel;
+@property (nonatomic, retain) IBOutlet UILabel *leftTimeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *distanceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *boughtLabel;
 
 @end
 

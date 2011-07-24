@@ -11,19 +11,34 @@
 
 @implementation ProductTextCell
 
+@synthesize productDescLabel;
+@synthesize valueLabel;
+@synthesize priceLabel;
+@synthesize rebateLabel;
+@synthesize leftTimeLabel;
+@synthesize distanceLabel;
+@synthesize boughtLabel;
+
 // just replace PPTableViewCell by the new Cell Class Name
 + (ProductTextCell*)createCell:(id)delegate
 {
-    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProductTextCell" owner:self options:nil];
+    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProductTextCell" 
+                                                             owner:self options:nil];
     // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).  
     if (topLevelObjects == nil || [topLevelObjects count] <= 0){
         NSLog(@"create <ProductTextCell> but cannot find cell object from Nib");
         return nil;
     }
     
-    ((PPTableViewCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    ((ProductTextCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
     
     return (ProductTextCell*)[topLevelObjects objectAtIndex:0];
+}
+
+- (void)setCellStyle
+{
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 + (NSString*)getCellIdentifier
@@ -33,13 +48,28 @@
 
 + (CGFloat)getCellHeight
 {
-    return 44.0f;
+    return 114.0f;
 }
 
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath
 {
-    self.textLabel.text = [product title];
-    self.detailTextLabel.text = [[product price] description];
+    self.productDescLabel.text = [product title];
+    self.valueLabel.text = [NSString stringWithFormat:@"原价:%.2f元", [[product value] doubleValue]];
+    self.priceLabel.text = [NSString stringWithFormat:@"团购价:%.2f元", [[product price] doubleValue]];
+    self.leftTimeLabel.text = @"时间:还有2天";
+    self.distanceLabel.text = @"距离:100米";
+    self.boughtLabel.text = [NSString stringWithFormat:@"已购买:%d", [[product bought] intValue] ];    
+    self.rebateLabel.text = [NSString stringWithFormat:@"折扣:%.1f折", [[product rebate] doubleValue] ]; //[[product.rebate] doubleValue]];
 }
 
+- (void)dealloc {
+    [productDescLabel release];
+    [valueLabel release];
+    [priceLabel release];
+    [rebateLabel release];
+    [leftTimeLabel release];
+    [distanceLabel release];
+    [boughtLabel release];
+    [super dealloc];
+}
 @end

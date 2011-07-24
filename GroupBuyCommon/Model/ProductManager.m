@@ -36,6 +36,9 @@
 //    product.productId = [productDict objectForKey:@"_id"];
     product.title = [productDict objectForKey:@"title"];
     product.price = [productDict objectForKey:@"price"];
+    product.rebate = [productDict objectForKey:@"rebate"];
+    product.bought = [productDict objectForKey:@"bought"];
+    product.value = [productDict objectForKey:@"value"];
 //    product.startDate = 
 //    product.endDate = 
 //    product.longitude = [NSNumber numberWithDouble:longitude];

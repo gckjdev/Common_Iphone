@@ -23,5 +23,14 @@
                                      startOffset:(int)startOffset
                                             city:(NSString*)city;
 
++ (CommonNetworkOutput*)findAllProductsWithBought:(NSString*)baseURL
+                                            appId:(NSString*)appId
+                                      startOffset:(int)startOffset
+                                             city:(NSString*)city;
+
++ (CommonNetworkOutput*)findAllProductsWithRebate:(NSString*)baseURL
+                                            appId:(NSString*)appId
+                                      startOffset:(int)startOffset
+                                             city:(NSString*)city;
 
 @end

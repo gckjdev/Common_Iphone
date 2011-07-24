@@ -25,6 +25,6 @@
 @dynamic image;
 @dynamic deleteFlag;
 @dynamic deleteTimeStamp;
-
+@dynamic bought;
 
 @end

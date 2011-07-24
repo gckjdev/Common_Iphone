@@ -28,3 +28,24 @@
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
 
 @end
+
+@interface ProductDistanceDataLoader : NSObject<ProductDataLoader> {
+    
+    
+}
+
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end
+
+@interface ProductBoughtDataLoader : NSObject<ProductDataLoader> {
+    
+    
+}
+
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end
+

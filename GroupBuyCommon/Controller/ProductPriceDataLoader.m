@@ -35,7 +35,7 @@
 
 - (NSArray*)requestProductListFromDB
 {
-    return [ProductManager getAllProductsByUseFor:USE_FOR_PRICE sortByKey:@"rebate"];
+    return [ProductManager getAllProductsByUseFor:USE_FOR_REBATE sortByKey:@"rebate"];
 }
 
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
@@ -47,6 +47,48 @@
     else{
         int startOffset = [controller.dataList count];
         [productService requestProductData:controller useFor:USE_FOR_REBATE startOffset:startOffset cleanData:NO];
+    }        
+}
+
+@end
+
+@implementation ProductBoughtDataLoader
+
+- (NSArray*)requestProductListFromDB
+{
+    return [ProductManager getAllProductsByUseFor:USE_FOR_BOUGHT sortByKey:@"rebate"];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:USE_FOR_BOUGHT startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:USE_FOR_BOUGHT startOffset:startOffset cleanData:NO];
+    }        
+}
+
+@end
+
+@implementation ProductDistanceDataLoader
+
+- (NSArray*)requestProductListFromDB
+{
+    return [ProductManager getAllProductsByUseFor:USE_FOR_DISTANCE sortByKey:@"rebate"];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:USE_FOR_DISTANCE startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:USE_FOR_DISTANCE startOffset:startOffset cleanData:NO];
     }        
 }
 

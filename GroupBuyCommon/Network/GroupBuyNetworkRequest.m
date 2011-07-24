@@ -95,10 +95,11 @@
     
 }
 
-+ (CommonNetworkOutput*)findAllProductsWithPrice:(NSString*)baseURL
-                                           appId:(NSString*)appId
-                                     startOffset:(int)startOffset
-                                            city:(NSString*)city
++ (CommonNetworkOutput*)findAllProducts:(NSString*)baseURL
+                                  appId:(NSString*)appId
+                            startOffset:(int)startOffset
+                                   city:(NSString*)city
+                                 method:(NSString*)method
 
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
@@ -108,8 +109,9 @@
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         
         // set input parameters
-        NSString* str = [NSString stringWithString:baseURL];        
-        str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDPRODUCTWITHPRICE];
+        NSString* str = [NSString stringWithString:baseURL];       
+                
+        str = [str stringByAddQueryParameter:METHOD value:method];
         str = [str stringByAddQueryParameter:PRAR_START_OFFSET intValue:startOffset];
         str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:MAX_COUNT];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
@@ -130,6 +132,42 @@
                          responseHandler:responseHandler
                                   output:output];
     
+}
+
++ (CommonNetworkOutput*)findAllProductsWithPrice:(NSString*)baseURL
+                                           appId:(NSString*)appId
+                                     startOffset:(int)startOffset
+                                            city:(NSString*)city
+{
+    return [GroupBuyNetworkRequest findAllProducts:baseURL                                               
+                                             appId:appId                                      
+                                       startOffset:startOffset                                                                        
+                                              city:city                                       
+                                            method:METHOD_FINDPRODUCTWITHPRICE];
+}
+
++ (CommonNetworkOutput*)findAllProductsWithBought:(NSString*)baseURL
+                                           appId:(NSString*)appId
+                                     startOffset:(int)startOffset
+                                            city:(NSString*)city
+{
+    return [GroupBuyNetworkRequest findAllProducts:baseURL                                               
+                                             appId:appId                                      
+                                       startOffset:startOffset                                                                        
+                                              city:city                                       
+                                            method:METHOD_FINDPRODUCTWITHBOUGHT];
+}
+
++ (CommonNetworkOutput*)findAllProductsWithRebate:(NSString*)baseURL
+                                           appId:(NSString*)appId
+                                     startOffset:(int)startOffset
+                                            city:(NSString*)city
+{
+    return [GroupBuyNetworkRequest findAllProducts:baseURL                                               
+                                             appId:appId                                      
+                                       startOffset:startOffset                                                                        
+                                              city:city                                       
+                                            method:METHOD_FINDPRODUCTWITHREBATE];
 }
 
 @end

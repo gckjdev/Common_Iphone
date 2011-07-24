@@ -28,5 +28,6 @@
 @property (nonatomic, retain) NSString * image;
 @property (nonatomic, retain) NSNumber * deleteFlag;
 @property (nonatomic, retain) NSNumber * deleteTimeStamp;
+@property (nonatomic, retain) NSNumber * bought;
 
 @end

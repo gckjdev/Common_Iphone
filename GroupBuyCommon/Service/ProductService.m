@@ -44,7 +44,33 @@
     dispatch_async(workingQueue, ^{
         
         // fetch user place data from server
-        CommonNetworkOutput* output = [GroupBuyNetworkRequest findAllProductsWithPrice:SERVER_URL appId:appId startOffset:startOffset city:city];
+        CommonNetworkOutput* output = nil;
+        
+        switch (useFor) {
+            case USE_FOR_BOUGHT:
+                output = [GroupBuyNetworkRequest findAllProductsWithBought:SERVER_URL 
+                                                                    appId:appId 
+                                                              startOffset:startOffset 
+                                                                     city:city];                
+                break;
+                
+            case USE_FOR_REBATE:
+                output = [GroupBuyNetworkRequest findAllProductsWithRebate:SERVER_URL 
+                                                                    appId:appId 
+                                                              startOffset:startOffset 
+                                                                     city:city];
+                break;
+                
+            case USE_FOR_PRICE:
+                output = [GroupBuyNetworkRequest findAllProductsWithPrice:SERVER_URL 
+                                                                    appId:appId 
+                                                              startOffset:startOffset 
+                                                                     city:city];
+                break;
+                
+            default:
+                break;
+        }
                                                
         // if succeed, clean local data and save new data
         dispatch_async(dispatch_get_main_queue(), ^{
