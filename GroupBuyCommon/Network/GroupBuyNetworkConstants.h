@@ -164,3 +164,20 @@ extern NSString* GlobalGetServerURL();
 
 #define PRAR_START_OFFSET @"so"
 
+//response parameters
+#define PARA_LOC @"loc"
+#define PARA_IMAGE @"img"
+#define PARA_TITLE @"tt"
+#define PARA_START_DATE @"sd"
+#define PARA_END_DATE @"ed"
+#define PARA_PRICE @"pr"
+#define PARA_VALUE @"val"
+#define PARA_REBATE @"rb"
+#define PARA_BOUGHT @"bo"
+#define PARA_SITE_ID @"si"
+#define PARA_SITE_NAME @"sn"
+#define PARA_SITE_URL @"su"
+#define PARA_ID @"_id"
+#define PARA_ADDRESS @"add"
+#define PARA_DETAIL @"dt"
+

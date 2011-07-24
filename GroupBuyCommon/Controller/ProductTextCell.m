@@ -51,12 +51,34 @@
     return 114.0f;
 }
 
+- (NSString*)getTimeInfo:(int)seconds
+{
+    if (seconds <=0 ){
+        return @"已结束";
+    }
+    else if (seconds < 60){
+        return [NSString stringWithFormat:@"还有%d秒", seconds];
+    }
+    else if (seconds < 60*60){
+        return [NSString stringWithFormat:@"还有%d分钟", seconds/60];        
+    }
+    else if (seconds < 60*60*24){
+        return [NSString stringWithFormat:@"还有%d小时", seconds/(60*60)];        
+    }
+    else{
+        return [NSString stringWithFormat:@"还有%d天", seconds/(60*60*24)];                
+    }
+}
+
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath
 {
-    self.productDescLabel.text = [product title];
+    int leftSeconds = [[product endDate] timeIntervalSinceNow];
+    NSString* timeInfo = [self getTimeInfo:leftSeconds];
+    
+    self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", [product siteName], [product title]];
     self.valueLabel.text = [NSString stringWithFormat:@"原价:%.2f元", [[product value] doubleValue]];
     self.priceLabel.text = [NSString stringWithFormat:@"团购价:%.2f元", [[product price] doubleValue]];
-    self.leftTimeLabel.text = @"时间:还有2天";
+    self.leftTimeLabel.text = [NSString stringWithFormat:@"时间:%@", timeInfo];
     self.distanceLabel.text = @"距离:100米";
     self.boughtLabel.text = [NSString stringWithFormat:@"已购买:%d", [[product bought] intValue] ];    
     self.rebateLabel.text = [NSString stringWithFormat:@"折扣:%.1f折", [[product rebate] doubleValue] ]; //[[product.rebate] doubleValue]];
@@ -72,4 +94,6 @@
     [boughtLabel release];
     [super dealloc];
 }
+
 @end
+

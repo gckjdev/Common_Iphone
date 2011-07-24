@@ -26,5 +26,7 @@
 @dynamic deleteFlag;
 @dynamic deleteTimeStamp;
 @dynamic bought;
+@dynamic siteName;
+@dynamic siteURL;
 
 @end

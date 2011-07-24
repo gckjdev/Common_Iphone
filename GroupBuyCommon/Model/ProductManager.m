@@ -9,6 +9,8 @@
 #import "ProductManager.h"
 #import "CoreDataUtil.h"
 #import "Product.h"
+#import "GroupBuyNetworkConstants.h"
+#import "TimeUtils.h"
 
 @implementation ProductManager
 
@@ -33,14 +35,19 @@
     
     CoreDataManager* dataManager = GlobalGetCoreDataManager();
     Product* product = [dataManager insert:@"Product"];
-//    product.productId = [productDict objectForKey:@"_id"];
-    product.title = [productDict objectForKey:@"title"];
-    product.price = [productDict objectForKey:@"price"];
-    product.rebate = [productDict objectForKey:@"rebate"];
-    product.bought = [productDict objectForKey:@"bought"];
-    product.value = [productDict objectForKey:@"value"];
-//    product.startDate = 
-//    product.endDate = 
+    product.productId = [productDict objectForKey:PARA_ID];
+    product.title = [productDict objectForKey:PARA_TITLE];
+    product.price = [productDict objectForKey:PARA_PRICE];
+    product.rebate = [productDict objectForKey:PARA_REBATE];
+    product.bought = [productDict objectForKey:PARA_BOUGHT];
+    product.value = [productDict objectForKey:PARA_VALUE];
+    product.startDate = dateFromStringByFormat([productDict objectForKey:PARA_START_DATE], DEFAULT_DATE_FORMAT);
+    product.endDate = dateFromStringByFormat([productDict objectForKey:PARA_END_DATE], DEFAULT_DATE_FORMAT);
+    product.image = [productDict objectForKey:PARA_IMAGE];
+    product.loc = [productDict objectForKey:PARA_LOC];
+    product.siteName = [productDict objectForKey:PARA_SITE_NAME];
+    product.siteURL = [productDict objectForKey:PARA_SITE_URL];
+    
 //    product.longitude = [NSNumber numberWithDouble:longitude];
 //    product.latitude = [NSNumber numberWithDouble:latitude];
     product.useFor = [NSNumber numberWithInt:useFor];
@@ -52,21 +59,21 @@
     return [dataManager save];    
 }
 
-+ (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey
++ (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey sortAsending:(BOOL)sortAsending
 {
     CoreDataManager* dataManager = GlobalGetCoreDataManager();
     return [dataManager execute:@"getAllProductsByUseFor"
                          forKey:@"USE_FOR" 
                           value:[NSNumber numberWithInt:useFor]
                          sortBy:sortByKey
-                      ascending:YES];    
+                      ascending:sortAsending];    
     
 }
 
 + (BOOL)deleteProductsByUseFor:(int)useFor
 {
     NSLog(@"<deleteProductsByUseFor> useFor=%d", useFor);
-    NSArray* ProductArray = [ProductManager getAllProductsByUseFor:useFor sortByKey:@"deleteFlag"];
+    NSArray* ProductArray = [ProductManager getAllProductsByUseFor:useFor sortByKey:@"deleteFlag"  sortAsending:YES];
     for (Product* Product in ProductArray){
         Product.deleteFlag = [NSNumber numberWithBool:YES];
         Product.deleteTimeStamp = [NSNumber numberWithInt:time(0)];

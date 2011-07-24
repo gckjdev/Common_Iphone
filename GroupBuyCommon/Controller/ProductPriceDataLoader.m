@@ -14,7 +14,7 @@
 
 - (NSArray*)requestProductListFromDB
 {
-    return [ProductManager getAllProductsByUseFor:USE_FOR_PRICE sortByKey:@"price"];
+    return [ProductManager getAllProductsByUseFor:USE_FOR_PRICE sortByKey:@"price" sortAsending:YES];
 }
 
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
@@ -35,7 +35,7 @@
 
 - (NSArray*)requestProductListFromDB
 {
-    return [ProductManager getAllProductsByUseFor:USE_FOR_REBATE sortByKey:@"rebate"];
+    return [ProductManager getAllProductsByUseFor:USE_FOR_REBATE sortByKey:@"rebate"  sortAsending:YES];
 }
 
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
@@ -56,7 +56,7 @@
 
 - (NSArray*)requestProductListFromDB
 {
-    return [ProductManager getAllProductsByUseFor:USE_FOR_BOUGHT sortByKey:@"rebate"];
+    return [ProductManager getAllProductsByUseFor:USE_FOR_BOUGHT sortByKey:@"bought" sortAsending:NO];
 }
 
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
@@ -77,7 +77,7 @@
 
 - (NSArray*)requestProductListFromDB
 {
-    return [ProductManager getAllProductsByUseFor:USE_FOR_DISTANCE sortByKey:@"rebate"];
+    return [ProductManager getAllProductsByUseFor:USE_FOR_DISTANCE sortByKey:@"rebate" sortAsending:YES];
 }
 
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller

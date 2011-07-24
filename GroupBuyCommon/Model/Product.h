@@ -29,5 +29,7 @@
 @property (nonatomic, retain) NSNumber * deleteFlag;
 @property (nonatomic, retain) NSNumber * deleteTimeStamp;
 @property (nonatomic, retain) NSNumber * bought;
+@property (nonatomic, retain) NSString * siteName;
+@property (nonatomic, retain) NSString * siteURL;
 
 @end
