@@ -30,3 +30,24 @@
 }
 
 @end
+
+@implementation ProductRebateDataLoader
+
+- (NSArray*)requestProductListFromDB
+{
+    return [ProductManager getAllProductsByUseFor:USE_FOR_PRICE sortByKey:@"rebate"];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:USE_FOR_REBATE startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:USE_FOR_REBATE startOffset:startOffset cleanData:NO];
+    }        
+}
+
+@end

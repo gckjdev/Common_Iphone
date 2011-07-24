@@ -18,3 +18,13 @@
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
 
 @end
+
+@interface ProductRebateDataLoader : NSObject<ProductDataLoader> {
+    
+    
+}
+
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end

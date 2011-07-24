@@ -13,7 +13,8 @@ enum {
     USE_FOR_PRICE,
     USE_FOR_VALUE,
     USE_FOR_DISTANCE,
-    USE_FOR_BOUGHT
+    USE_FOR_BOUGHT,
+    USE_FOR_REBATE,
 };
 
 @interface ProductManager : NSObject {
