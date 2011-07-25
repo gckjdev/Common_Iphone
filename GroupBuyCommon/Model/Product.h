@@ -19,7 +19,7 @@
 @property (nonatomic, retain) NSDate * startDate;
 @property (nonatomic, retain) NSDate * endDate;
 @property (nonatomic, retain) NSNumber * latitude;
-@property (nonatomic, retain) NSDate * longitude;
+@property (nonatomic, retain) NSNumber * longitude;
 @property (nonatomic, retain) NSNumber * price;
 @property (nonatomic, retain) NSNumber * value;
 @property (nonatomic, retain) NSNumber * rebate;

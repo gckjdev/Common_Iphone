@@ -33,4 +33,10 @@
                                       startOffset:(int)startOffset
                                              city:(NSString*)city;
 
++ (CommonNetworkOutput*)findAllProductsWithLocation:(NSString*)baseURL
+                                              appId:(NSString*)appId
+                                           latitude:(double)latitude
+                                          longitude:(double)longitude
+                                        startOffset:(int)startOffset;
+
 @end

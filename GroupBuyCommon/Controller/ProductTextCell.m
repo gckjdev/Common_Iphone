@@ -8,6 +8,7 @@
 
 #import "ProductTextCell.h"
 #import "Product.h"
+#import "LocationService.h"
 
 @implementation ProductTextCell
 
@@ -70,6 +71,31 @@
     }
 }
 
+- (NSString *)calculateDistance:(Product *)product
+{
+    double pLatitude = [[product latitude] doubleValue];
+    double pLongitude = [[product longitude] doubleValue];
+    LocationService *locationService = GlobalGetLocationService();
+    CLLocation *location = [locationService currentLocation];
+    
+    NSLog(@"current:(lat=%f,long=%f)",location.coordinate.latitude,location.coordinate.longitude);
+    pLatitude = location.coordinate.latitude + (rand()%30)/1000.1;
+    pLongitude = location.coordinate.longitude + (rand()%30)/1000.1;
+    
+    CLLocation *pLocation = [[CLLocation alloc]initWithLatitude:pLatitude longitude:pLongitude];
+    CLLocationDistance distance = [location distanceFromLocation:pLocation];
+    [pLocation release];
+    NSString *distanceString = nil;
+    if(distance < 1000){
+        int d = (int) distance;
+        distanceString = [NSString stringWithFormat:@"%d米",d];
+    }else {
+        float d = distance/1000;
+        distanceString = [NSString stringWithFormat:@"%0.1f公里",d];
+    }
+    return distanceString;
+}
+
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath
 {
     int leftSeconds = [[product endDate] timeIntervalSinceNow];
@@ -79,7 +105,11 @@
     self.valueLabel.text = [NSString stringWithFormat:@"原价:%.2f元", [[product value] doubleValue]];
     self.priceLabel.text = [NSString stringWithFormat:@"团购价:%.2f元", [[product price] doubleValue]];
     self.leftTimeLabel.text = [NSString stringWithFormat:@"时间:%@", timeInfo];
-    self.distanceLabel.text = @"距离:100米";
+    
+    NSString *distance = [self calculateDistance:product];
+
+    self.distanceLabel.text = [NSString stringWithFormat:@"距离:%@",distance];
+    
     self.boughtLabel.text = [NSString stringWithFormat:@"已购买:%d", [[product bought] intValue] ];    
     self.rebateLabel.text = [NSString stringWithFormat:@"折扣:%.1f折", [[product rebate] doubleValue] ]; //[[product.rebate] doubleValue]];
 }

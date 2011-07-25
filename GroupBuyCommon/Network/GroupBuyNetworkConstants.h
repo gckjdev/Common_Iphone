@@ -48,7 +48,7 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_FINDPRODUCTWITHPRICE @"fpp"
 #define METHOD_FINDPRODUCTWITHREBATE @"fpd"
 #define METHOD_FINDPRODUCTWITHBOUGHT @"fpb"
-
+#define METHOD_FINDPRODUCTWITHLOCATION @"fpl"
 // request parameters
 
 #define PARA_USERID @"uid"
@@ -93,6 +93,7 @@ extern NSString* GlobalGetServerURL();
 #define PARA_SINA_DOMAIN                @"sd"
 #define PARA_QQ_NICKNAME                @"qn"
 #define PARA_QQ_DOMAIN                  @"qd"
+#define PARA_GPS                        @"gps"
 
 #define PARA_RADIUS @"ra"
 #define PARA_POSTTYPE @"pt"

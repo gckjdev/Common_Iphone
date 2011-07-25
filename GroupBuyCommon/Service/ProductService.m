@@ -13,6 +13,7 @@
 #import "PPNetworkRequest.h"
 #import "GroupBuyNetworkRequest.h"
 #import "GroupBuyNetworkConstants.h"
+#import "LocationService.h"
 
 @implementation ProductService
 
@@ -66,6 +67,21 @@
                                                                     appId:appId 
                                                               startOffset:startOffset 
                                                                      city:city];
+                break;
+            
+            case USE_FOR_DISTANCE:
+            {
+                //LocationService *service =  GlobalGetLocationService();
+                LocationService *locationService =GlobalGetLocationService();
+                CLLocation *location = [locationService currentLocation];
+                double latitude = location.coordinate.latitude;
+                double longitude = location.coordinate.longitude;
+                output = [GroupBuyNetworkRequest findAllProductsWithLocation:SERVER_URL 
+                                                                    appId:appId
+                                                                    latitude:latitude
+                                                                   longitude:longitude 
+                                                              startOffset:startOffset];
+            }
                 break;
                 
             default:
