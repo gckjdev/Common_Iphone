@@ -17,6 +17,8 @@
 - (NSArray*)requestProductListFromDB;
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
 
+- (BOOL)supportRemote;
+
 @end
 
 @interface CommonProductListController : PPTableViewController <ProductServiceDelegate> {

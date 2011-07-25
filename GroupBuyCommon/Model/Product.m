@@ -28,5 +28,6 @@
 @dynamic bought;
 @dynamic siteName;
 @dynamic siteURL;
+@dynamic browseDate;
 
 @end

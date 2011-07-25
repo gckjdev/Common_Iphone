@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class Product;
+
 enum {
     USE_FOR_CATEGORY,
     USE_FOR_PRICE,
@@ -15,6 +17,7 @@ enum {
     USE_FOR_DISTANCE,
     USE_FOR_BOUGHT,
     USE_FOR_REBATE,
+    USE_FOR_HISTORY = 6
 };
 
 @interface ProductManager : NSObject {
@@ -22,9 +25,12 @@ enum {
 }
 
 + (BOOL)createProduct:(NSDictionary*)productDict useFor:(int)useFor;
++ (BOOL)createProductHistory:(Product*)product;
 + (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey sortAsending:(BOOL)sortAsending;
 + (BOOL)deleteProductsByUseFor:(int)useFor;
 
 + (void)cleanUpDeleteDataBefore:(int)timeStamp;
+
++ (Product*)findProductHistoryById:(NSString*)productId;
 
 @end

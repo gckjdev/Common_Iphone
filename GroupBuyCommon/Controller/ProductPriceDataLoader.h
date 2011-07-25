@@ -49,5 +49,14 @@
 
 @end
 
+@interface ProductHistoryDataLoader : NSObject<ProductDataLoader> {
+    
+    
+}
+
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end
 
 

@@ -29,9 +29,21 @@
     }        
 }
 
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
 @end
 
 @implementation ProductRebateDataLoader
+
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
 
 - (NSArray*)requestProductListFromDB
 {
@@ -54,6 +66,12 @@
 
 @implementation ProductBoughtDataLoader
 
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+
 - (NSArray*)requestProductListFromDB
 {
     return [ProductManager getAllProductsByUseFor:USE_FOR_BOUGHT sortByKey:@"bought" sortAsending:NO];
@@ -75,6 +93,12 @@
 
 @implementation ProductDistanceDataLoader
 
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+
 - (NSArray*)requestProductListFromDB
 {
     return [ProductManager getAllProductsByUseFor:USE_FOR_DISTANCE sortByKey:@"distance" sortAsending:YES];
@@ -90,6 +114,25 @@
         int startOffset = [controller.dataList count];
         [productService requestProductData:controller useFor:USE_FOR_DISTANCE startOffset:startOffset cleanData:NO];
     }        
+}
+
+@end
+
+@implementation ProductHistoryDataLoader
+
+- (BOOL)supportRemote
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    return [ProductManager getAllProductsByUseFor:USE_FOR_HISTORY sortByKey:@"browseDate" sortAsending:NO];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    [controller productDataRefresh:0];       
 }
 
 @end

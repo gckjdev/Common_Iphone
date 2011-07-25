@@ -59,6 +59,44 @@
     return [dataManager save];    
 }
 
++ (BOOL)createProductHistory:(Product*)product
+{
+    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+    
+    Product* productHistory = [ProductManager findProductHistoryById:product.productId];
+    if (productHistory != nil){
+        productHistory.browseDate = [NSDate date];
+        productHistory.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
+        [dataManager save];
+        return YES;
+    }
+        
+    productHistory = [dataManager insert:@"Product"];
+    productHistory.productId = product.productId;
+    productHistory.title = product.title;
+    productHistory.price = product.price;
+    productHistory.rebate = product.rebate;
+    productHistory.bought = product.bought;
+    productHistory.value = product.value;
+    productHistory.startDate = product.startDate;
+    productHistory.endDate = product.endDate;
+    productHistory.image = product.image;
+    productHistory.loc = product.loc;
+    productHistory.siteName = product.siteName;
+    productHistory.siteURL = product.siteURL;
+    
+    productHistory.longitude = product.longitude;
+    productHistory.latitude = product.latitude;
+    productHistory.useFor = [NSNumber numberWithInt:USE_FOR_HISTORY];
+    productHistory.deleteFlag = [NSNumber numberWithBool:NO];
+    productHistory.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
+    
+    NSLog(@"<createProductHistory> product=%@", [productHistory description]);
+    
+    return [dataManager save];    
+    
+}
+
 + (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey sortAsending:(BOOL)sortAsending
 {
     CoreDataManager* dataManager = GlobalGetCoreDataManager();
@@ -101,5 +139,13 @@
     [dataManager save];     
     
 } 
+
++ (Product*)findProductHistoryById:(NSString*)productId
+{
+    CoreDataManager *dataManager = GlobalGetCoreDataManager();
+    return (Product*)[dataManager execute:@"getProductHistoryById" 
+                                       forKey:@"PRODUCT_ID" 
+                                        value:productId];
+}
 
 @end

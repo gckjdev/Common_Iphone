@@ -31,5 +31,6 @@
 @property (nonatomic, retain) NSNumber * bought;
 @property (nonatomic, retain) NSString * siteName;
 @property (nonatomic, retain) NSString * siteURL;
+@property (nonatomic, retain) NSDate * browseDate;
 
 @end

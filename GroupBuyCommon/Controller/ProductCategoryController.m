@@ -1,12 +1,12 @@
 //
-//  CommonProductListController.m
+//  ProductCategoryController.m
 //  groupbuy
 //
-//  Created by qqn_pipi on 11-7-23.
+//  Created by qqn_pipi on 11-7-25.
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#import "CommonProductListController.h"
+#import "ProductCategoryController.h"
 #import "PPTableViewController.h"
 #import "GroupBuyNetworkRequest.h"
 #import "GroupBuyNetworkConstants.h"
@@ -20,10 +20,10 @@
 #import "ProductPriceDataLoader.h"
 #import "ProductDetailController.h"
 
-@implementation CommonProductListController
+
+@implementation ProductCategoryController
 
 @synthesize superController;
-@synthesize dataLoader;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,7 +37,6 @@
 - (void)dealloc
 {
     [superController release];
-    [dataLoader release];
     [super dealloc];
 }
 
@@ -54,14 +53,14 @@
 // to be override
 - (NSArray*)requestProductListFromDB
 {
-    return [dataLoader requestProductListFromDB];
+    return nil;
 }
 
 // to be override
 - (void)requestProductListFromServer:(BOOL)isRequestLastest
 {    
-
-    return [dataLoader requestProductListFromServer:isRequestLastest controller:self];
+    
+    return;
 }
 
 - (void)productDataRefresh:(int)result
@@ -91,8 +90,7 @@
 
 - (void)viewDidLoad
 {    
-    if ([dataLoader supportRemote])
-        supportRefreshHeader = YES;
+    supportRefreshHeader = YES;
     
     [self initDataList];
     
@@ -196,23 +194,12 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([dataLoader supportRemote])
-        return [self dataListCountWithMore];
-    else   
-        return [dataList count];
+    return [dataList count];
 }
 
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ([self isMoreRow:indexPath.row]){
-        // check if it's last row - to load more
-        MoreTableViewCell* moreCell = [MoreTableViewCell createCell:theTableView];
-        self.moreLoadingView = moreCell.loadingView;
-        return moreCell;
-    }
-    
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
     
     NSString *CellIdentifier = [ProductTextCell getCellIdentifier];
 	ProductTextCell *cell = (ProductTextCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -238,7 +225,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	    
+    
     if ([self isMoreRow:indexPath.row]){
         [self.moreLoadingView startAnimating];
         [self requestProductListFromServer:NO];
@@ -250,9 +237,7 @@
 	
     // write to browse history
     Product* product = [dataList objectAtIndex:indexPath.row];    
-    if ([dataLoader isKindOfClass:[ProductHistoryDataLoader class]] == NO){
-        [ProductManager createProductHistory:product];
-    }
+    [ProductManager createProductHistory:product];
     
     ProductDetailController* vc = [[ProductDetailController alloc] init];
     vc.product = product;
@@ -263,47 +248,5 @@
     [vc release];
     
 }
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if (editingStyle == UITableViewCellEditingStyleDelete) {
-		
-		if (indexPath.row > [dataList count] - 1)
-			return;
-		
-		// take delete action below, update data list
-		// NSObject* dataObject = [dataList objectAtIndex:indexPath.row];		
-		
-		// update table view
-		
-	}
-	
-}
-
-- (void)clickPlaceNameButton:(id)sender atIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row >= [dataList count])
-        return;
-    
-//    Post* post = [dataList objectAtIndex:indexPath.row];
-//    [PostControllerUtils askFollowPlace:post.placeId placeName:post.placeName  viewController:self];
-    
-    
-    
-}
-
-- (void)clickUserAvatarButton:(id)sender atIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row >= [dataList count])
-        return;
-    
-//    Post* post = [dataList objectAtIndex:indexPath.row];    
-//    [PrivateMessageControllerUtils showPrivateMessageController:post.userId 
-//                                                   userNickName:post.userNickName
-//                                                     userAvatar:post.userAvatar
-//                                                 viewController:self.superController];      
-}
-
-
 
 @end
