@@ -26,6 +26,7 @@
 + (CGFloat)getCellHeight;
 
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath;
+- (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath;
 
 @property (nonatomic, retain) IBOutlet UILabel *productDescLabel;
 @property (nonatomic, retain) IBOutlet UILabel *valueLabel;

@@ -105,7 +105,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     self.dataList = [self requestProductListFromDB]; 
-    if (self.dataList == nil){
+    if (self.dataList == nil || [dataList count] == 0){
         [self requestProductListFromServer:YES];
     }
     

@@ -49,6 +49,7 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_FINDPRODUCTWITHREBATE @"fpd"
 #define METHOD_FINDPRODUCTWITHBOUGHT @"fpb"
 #define METHOD_FINDPRODUCTWITHLOCATION @"fpl"
+#define METHOD_FINDPRODUCTSGROUPBYCATEGORY @"fgc"
 // request parameters
 
 #define PARA_USERID @"uid"
@@ -182,3 +183,5 @@ extern NSString* GlobalGetServerURL();
 #define PARA_ADDRESS @"add"
 #define PARA_DETAIL @"dt"
 
+#define PARA_PRODUCT @"p"
+#define PARA_CATEGORY_NAME @"na"

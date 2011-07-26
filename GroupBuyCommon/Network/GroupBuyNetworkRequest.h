@@ -39,4 +39,7 @@
                                           longitude:(double)longitude
                                         startOffset:(int)startOffset;
 
++ (CommonNetworkOutput*)findAllProductsGroupByCategory:(NSString*)baseURL
+                                                 appId:(NSString*)appId
+                                                  city:(NSString*)city;
 @end

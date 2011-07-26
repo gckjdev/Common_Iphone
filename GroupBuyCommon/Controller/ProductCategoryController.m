@@ -51,22 +51,17 @@
 #pragma mark - View lifecycle
 
 // to be override
-- (NSArray*)requestProductListFromDB
-{
-    return nil;
-}
-
-// to be override
 - (void)requestProductListFromServer:(BOOL)isRequestLastest
 {    
-    
+    ProductService* productService = GlobalGetProductService();
+    [productService requestProductDataByCategory:self];
     return;
 }
 
-- (void)productDataRefresh:(int)result
+- (void)productDataRefresh:(int)result jsonArray:(NSArray *)jsonArray
 {    
-    if (result == ERROR_SUCCESS){
-        self.dataList = [self requestProductListFromDB];        
+    if (result == ERROR_SUCCESS){        
+        self.dataList = jsonArray;
         [self.dataTableView reloadData];
     }
     
@@ -77,7 +72,6 @@
 
 - (void)initDataList
 {
-    self.dataList = [self requestProductListFromDB];
     [self requestProductListFromServer:YES];            
 }
 
@@ -102,8 +96,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    self.dataList = [self requestProductListFromDB]; 
-    if (self.dataList == nil){
+    if (self.dataList == nil || [self.dataList count] == 0){
         [self requestProductListFromServer:YES];
     }
     
@@ -177,24 +170,36 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// return [self getRowHeight:indexPath.row totalRow:[dataList count]];
-	// return cellImageHeight;
-    if ([self isMoreRow:indexPath.row]){
-        return [MoreTableViewCell getRowHeight];
-    }
-    
 	return [ProductTextCell getCellHeight];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;		// default implementation
-	
-	// return [groupData totalSectionCount];
+    return [dataList count];		
+}
+
+- (NSDictionary*)getProductData:(int)section row:(int)row
+{
+    if (section < [dataList count]){
+        NSDictionary* dict = [dataList objectAtIndex:section];
+        NSArray* dataArray = [dict objectForKey:PARA_PRODUCT];
+        if (row >=0  && row < [dataArray count])
+            return [dataArray objectAtIndex:row];
+    }
+    
+    return nil;    
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [dataList count];
+    
+    if (section < [dataList count]){
+        NSDictionary* dict = [dataList objectAtIndex:section];
+        NSArray* dataArray = [dict objectForKey:PARA_PRODUCT];
+        return [dataArray count];
+    }
+    else{
+        return 0;
+    }
 }
 
 
@@ -207,36 +212,20 @@
         cell = [ProductTextCell createCell:self];
 	}
 	
-	// set text label
-	int row = [indexPath row];	
-	int count = [dataList count];
-	if (row >= count){
-		NSLog(@"[WARN] cellForRowAtIndexPath, row(%d) > data list total number(%d)", row, count);
-		return cell;
-	}
-	
-    //	[self setCellBackground:cell row:row count:count];        
-	
-	Product* product = [dataList objectAtIndex:row];
-    [cell setCellInfoWithProduct:product indexPath:indexPath];    
+	NSDictionary* product = [self getProductData:indexPath.section row:indexPath.row];
+    [cell setCellInfoWithProductDictionary:product indexPath:indexPath];    
 	
 	return cell;
 	
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ([self isMoreRow:indexPath.row]){
-        [self.moreLoadingView startAnimating];
-        [self requestProductListFromServer:NO];
-        return;
-    }
-    
-	if (indexPath.row > [dataList count] - 1)
-		return;
 	
+    NSDictionary* product = [self getProductData:indexPath.section row:indexPath.row];
+    if (product == nil)
+        return;
+    
     // write to browse history
-    Product* product = [dataList objectAtIndex:indexPath.row];    
     [ProductManager createProductHistory:product];
     
     ProductDetailController* vc = [[ProductDetailController alloc] init];

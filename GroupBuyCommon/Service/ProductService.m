@@ -106,7 +106,10 @@
             // notify UI to refresh data
             NSLog(@"<requestProductData> result code=%d, get total %d product", 
                   output.resultCode, [output.jsonDataArray count]);
+            
             [self notifyDelegate:delegateObject selector:@selector(productDataRefresh:) resultCode:output.resultCode];
+
+            
         });
         
         
@@ -114,5 +117,32 @@
     
 }
 
+- (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject
+{
+    NSString* appId = [AppManager getPlaceAppId];
+    NSString* city = @"北京"; // need to get from LocationService    
+    
+    dispatch_async(workingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;
+        
+        output = [GroupBuyNetworkRequest findAllProductsGroupByCategory:SERVER_URL appId:appId city:city];
+        
+        // if succeed, clean local data and save new data
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            // notify UI to refresh data
+            NSLog(@"<requestProductData> result code=%d, get total %d product", 
+                  output.resultCode, [output.jsonDataArray count]);
+            
+            if ([delegateObject respondsToSelector:@selector(productDataRefresh:jsonArray:)]){
+                [delegateObject productDataRefresh:output.resultCode jsonArray:output.jsonDataArray];
+            }
+        });
+        
+        
+    });    
+}
 
 @end

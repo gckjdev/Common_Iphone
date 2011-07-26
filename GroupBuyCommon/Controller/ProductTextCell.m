@@ -9,6 +9,8 @@
 #import "ProductTextCell.h"
 #import "Product.h"
 #import "LocationService.h"
+#import "TimeUtils.h"
+#import "GroupBuyNetworkConstants.h"
 
 @implementation ProductTextCell
 
@@ -71,10 +73,8 @@
     }
 }
 
-- (NSString *)calculateDistance:(Product *)product
+- (NSString *)calculateDistance:(double)pLatitude longitude:(double)pLongitude
 {
-    double pLatitude = [[product latitude] doubleValue];
-    double pLongitude = [[product longitude] doubleValue];
     LocationService *locationService = GlobalGetLocationService();
     CLLocation *location = [locationService currentLocation];
     
@@ -96,22 +96,56 @@
     return distanceString;
 }
 
-- (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath
+- (void)setCellInfoWithProductInfo:(NSDate*)endDate
+                          siteName:(NSString*)siteName
+                             title:(NSString*)title
+                             value:(NSNumber*)value
+                             price:(NSNumber*)price
+                            bought:(NSNumber*)bought
+                            rebate:(NSNumber*)rebate
+                         longitude:(NSNumber*)longitude
+                          latitude:(NSNumber*)latitude
 {
-    int leftSeconds = [[product endDate] timeIntervalSinceNow];
+    int leftSeconds = [endDate timeIntervalSinceNow];
     NSString* timeInfo = [self getTimeInfo:leftSeconds];
     
-    self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", [product siteName], [product title]];
-    self.valueLabel.text = [NSString stringWithFormat:@"原价:%.2f元", [[product value] doubleValue]];
-    self.priceLabel.text = [NSString stringWithFormat:@"团购价:%.2f元", [[product price] doubleValue]];
+    self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];
+    self.valueLabel.text = [NSString stringWithFormat:@"原价:%@元", [value description]];
+    self.priceLabel.text = [NSString stringWithFormat:@"团购价:%@元", [price description]];
     self.leftTimeLabel.text = [NSString stringWithFormat:@"时间:%@", timeInfo];
     
-    NSString *distance = [self calculateDistance:product];
-
-    self.distanceLabel.text = [NSString stringWithFormat:@"距离:%@",distance];
+    if (longitude && latitude){
+        NSString *distance = [self calculateDistance:[latitude doubleValue] longitude:[longitude doubleValue]];    
+        self.distanceLabel.text = [NSString stringWithFormat:@"距离:%@",distance];
+    }
+    else{
+        self.distanceLabel.text = @"";        
+    }
     
-    self.boughtLabel.text = [NSString stringWithFormat:@"已购买:%d", [[product bought] intValue] ];    
-    self.rebateLabel.text = [NSString stringWithFormat:@"折扣:%.1f折", [[product rebate] doubleValue] ]; //[[product.rebate] doubleValue]];
+    self.boughtLabel.text = [NSString stringWithFormat:@"已购买:%@", [bought description]];    
+    self.rebateLabel.text = [NSString stringWithFormat:@"折扣:%@折", [rebate description]]; 
+
+}
+
+- (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath
+{
+    NSDate* endDate = dateFromStringByFormat([product objectForKey:PARA_END_DATE], DEFAULT_DATE_FORMAT);
+    NSString* siteName = [product objectForKey:PARA_SITE_NAME];
+    NSString* title = [product objectForKey:PARA_TITLE];
+    NSNumber* value = [product objectForKey:PARA_VALUE];
+    NSNumber* price = [product objectForKey:PARA_PRICE];
+    NSNumber* bought = [product objectForKey:PARA_BOUGHT];
+    NSNumber* rebate = [product objectForKey:PARA_REBATE];    
+    NSNumber* longitude = [product objectForKey:PARA_LONGTITUDE];    
+    NSNumber* latitude = [product objectForKey:PARA_LATITUDE];    
+    
+    [self setCellInfoWithProductInfo:endDate siteName:siteName title:title value:value price:price bought:bought rebate:rebate longitude:longitude latitude:latitude];
+}
+
+
+- (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath
+{
+    [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate longitude:product.longitude latitude:product.latitude];
 }
 
 - (void)dealloc {

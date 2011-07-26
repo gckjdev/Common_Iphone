@@ -15,6 +15,7 @@
 
 // common method now!!! we can refactor all to this method 
 - (void)productDataRefresh:(int)result;
+- (void)productDataRefresh:(int)result jsonArray:(NSArray*)jsonArray;
 
 @end
 
@@ -27,6 +28,7 @@
                startOffset:(int)startOffset
                  cleanData:(BOOL)cleanData;
 
+- (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject;
 @end
 
 extern ProductService* GlobalGetProductService();
