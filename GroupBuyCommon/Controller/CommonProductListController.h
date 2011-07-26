@@ -18,6 +18,7 @@
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
 
 - (BOOL)supportRemote;
+- (BOOL)canDelete;
 
 @end
 

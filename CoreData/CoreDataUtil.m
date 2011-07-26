@@ -246,7 +246,6 @@ CoreDataManager* GlobalGetCoreDataManager()
 {
 	NSLog(@"<del> delete object (%@)", [object description]);
 	[self.managedObjectContext deleteObject:object];
-	
 	return YES;	
 }
 

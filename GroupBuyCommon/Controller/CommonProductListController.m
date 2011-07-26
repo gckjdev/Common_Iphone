@@ -19,7 +19,7 @@
 #import "ProductService.h"
 #import "ProductPriceDataLoader.h"
 #import "ProductDetailController.h"
-
+#import "CoreDataUtil.h"
 @implementation CommonProductListController
 
 @synthesize superController;
@@ -93,6 +93,11 @@
 {    
     if ([dataLoader supportRemote])
         supportRefreshHeader = YES;
+    
+    if ([dataLoader canDelete]){
+        [self setNavigationRightButton:@"全部删除" action:@selector(clickDeleteAll:)];
+    }
+    
     
     [self initDataList];
     
@@ -271,39 +276,36 @@
 		if (indexPath.row > [dataList count] - 1)
 			return;
 		
-		// take delete action below, update data list
-		// NSObject* dataObject = [dataList objectAtIndex:indexPath.row];		
-		
-		// update table view
-		
+        if ([dataLoader canDelete] == NO)
+            return;
+        
+        Product* product = [dataList objectAtIndex:indexPath.row];    
+        CoreDataManager* dataManager = GlobalGetCoreDataManager();
+        [dataManager del:product];
+        [self reloadTableViewDataSource];
 	}
 	
 }
 
-- (void)clickPlaceNameButton:(id)sender atIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row >= [dataList count])
-        return;
-    
-//    Post* post = [dataList objectAtIndex:indexPath.row];
-//    [PostControllerUtils askFollowPlace:post.placeId placeName:post.placeName  viewController:self];
-    
-    
-    
+
+- (void)clickDeleteAll:(id)sender{
+
+   UIAlertView *deleteAlertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"删除所有历史数据？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [deleteAlertView show];
+    [deleteAlertView release];
+
 }
 
-- (void)clickUserAvatarButton:(id)sender atIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row >= [dataList count])
-        return;
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-//    Post* post = [dataList objectAtIndex:indexPath.row];    
-//    [PrivateMessageControllerUtils showPrivateMessageController:post.userId 
-//                                                   userNickName:post.userNickName
-//                                                     userAvatar:post.userAvatar
-//                                                 viewController:self.superController];      
+    if (buttonIndex == 0) {
+        return;
+    }
+    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+    for (int i=0; i < [dataList count] ; ++i) {
+        [dataManager del:[dataList objectAtIndex:i]];
+    }
+    
+    [self reloadTableViewDataSource];
 }
-
-
-
 @end

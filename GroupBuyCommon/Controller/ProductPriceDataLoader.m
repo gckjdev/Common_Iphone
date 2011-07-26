@@ -34,9 +34,15 @@
     return YES;
 }
 
+- (BOOL)canDelete
+{
+    return NO;
+}
+
 @end
 
 @implementation ProductRebateDataLoader
+
 
 
 - (BOOL)supportRemote
@@ -44,6 +50,10 @@
     return YES;
 }
 
+- (BOOL)canDelete
+{
+    return NO;
+}
 
 - (NSArray*)requestProductListFromDB
 {
@@ -71,6 +81,10 @@
     return YES;
 }
 
+- (BOOL)canDelete
+{
+    return NO;
+}
 
 - (NSArray*)requestProductListFromDB
 {
@@ -97,7 +111,10 @@
 {
     return YES;
 }
-
+- (BOOL)canDelete
+{
+    return NO;
+}
 
 - (NSArray*)requestProductListFromDB
 {
@@ -123,6 +140,11 @@
 - (BOOL)supportRemote
 {
     return NO;
+}
+
+- (BOOL)canDelete
+{
+    return YES;
 }
 
 - (NSArray*)requestProductListFromDB

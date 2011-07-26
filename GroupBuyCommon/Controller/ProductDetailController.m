@@ -194,9 +194,12 @@ enum {
 
 - (IBAction)clickBuy:(id)sender
 {
-    TTWebController* webController = GlobalGetWebController();
+//    TTWebController* webController = GlobalGetWebController();
+//    [self.navigationController pushViewController:webController animated:YES];
+//    [webController openURL:[NSURL URLWithString:product.loc]];
+    PPWebViewController *webController = GlobalGetPPWebViewController();
     [self.navigationController pushViewController:webController animated:YES];
-    [webController openURL:[NSURL URLWithString:product.loc]];
+    [webController openURL:product.loc];
 }
 
 @end
