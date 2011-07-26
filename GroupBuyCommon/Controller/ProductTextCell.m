@@ -78,10 +78,6 @@
     LocationService *locationService = GlobalGetLocationService();
     CLLocation *location = [locationService currentLocation];
     
-    NSLog(@"current:(lat=%f,long=%f)",location.coordinate.latitude,location.coordinate.longitude);
-    pLatitude = location.coordinate.latitude + (rand()%30)/1000.1;
-    pLongitude = location.coordinate.longitude + (rand()%30)/1000.1;
-    
     CLLocation *pLocation = [[CLLocation alloc]initWithLatitude:pLatitude longitude:pLongitude];
     CLLocationDistance distance = [location distanceFromLocation:pLocation];
     [pLocation release];
