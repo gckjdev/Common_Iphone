@@ -24,8 +24,9 @@ enum {
     
 }
 
-+ (BOOL)createProduct:(NSDictionary*)productDict useFor:(int)useFor;
++ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor;
 + (BOOL)createProductHistory:(Product*)product;
+
 + (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey sortAsending:(BOOL)sortAsending;
 + (BOOL)deleteProductsByUseFor:(int)useFor;
 

@@ -115,6 +115,41 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+- (NSDictionary*)getProductData:(int)section row:(int)row
+{
+    if (section < [dataList count]){
+        NSDictionary* dict = [dataList objectAtIndex:section];
+        NSArray* dataArray = [dict objectForKey:PARA_PRODUCT];
+        if (row >=0  && row < [dataArray count])
+            return [dataArray objectAtIndex:row];
+    }
+    
+    return nil;    
+}
+
+- (NSString*)getCategoryName:(int)section
+{
+    if (section < [dataList count]){
+        NSDictionary* dict = [dataList objectAtIndex:section];
+        return [dict objectForKey:PARA_CATEGORY_NAME];
+    }
+    
+    return nil;        
+}
+
+- (BOOL)isMoreRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    NSDictionary* dict = [dataList objectAtIndex:indexPath.section];
+    NSArray* dataArray = [dict objectForKey:PARA_PRODUCT];
+    if (indexPath.row == [dataArray count]){
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
+
 #pragma mark Table View Delegate
 
 //- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
@@ -135,17 +170,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
-	NSString *sectionHeader = [groupData titleForSection:section];	
-	
-	//	switch (section) {
-	//		case <#constant#>:
-	//			<#statements#>
-	//			break;
-	//		default:
-	//			break;
-	//	}
-	
-	return sectionHeader;
+	return [self getCategoryName:section];
 }
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -170,24 +195,17 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return [ProductTextCell getCellHeight];
+    if ([self isMoreRowAtIndexPath:indexPath])
+        return 44;
+    else
+        return [ProductTextCell getCellHeight];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [dataList count];		
 }
 
-- (NSDictionary*)getProductData:(int)section row:(int)row
-{
-    if (section < [dataList count]){
-        NSDictionary* dict = [dataList objectAtIndex:section];
-        NSArray* dataArray = [dict objectForKey:PARA_PRODUCT];
-        if (row >=0  && row < [dataArray count])
-            return [dataArray objectAtIndex:row];
-    }
-    
-    return nil;    
-}
+
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -195,7 +213,12 @@
     if (section < [dataList count]){
         NSDictionary* dict = [dataList objectAtIndex:section];
         NSArray* dataArray = [dict objectForKey:PARA_PRODUCT];
-        return [dataArray count];
+        if ([dataArray count] > 0){
+            return [dataArray count] + 1;
+        }
+        else{
+            return 0;
+        }
     }
     else{
         return 0;
@@ -206,12 +229,19 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
     
+
+    if ([self isMoreRowAtIndexPath:indexPath]){
+        MoreTableViewCell* moreCell = [MoreTableViewCell createCell:theTableView];
+        self.moreLoadingView = moreCell.loadingView;
+        return moreCell;
+    }    
+    
     NSString *CellIdentifier = [ProductTextCell getCellIdentifier];
 	ProductTextCell *cell = (ProductTextCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
         cell = [ProductTextCell createCell:self];
 	}
-	
+	    
 	NSDictionary* product = [self getProductData:indexPath.section row:indexPath.row];
     [cell setCellInfoWithProductDictionary:product indexPath:indexPath];    
 	
@@ -220,13 +250,19 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-    NSDictionary* product = [self getProductData:indexPath.section row:indexPath.row];
-    if (product == nil)
+	   
+    if ([self isMoreRowAtIndexPath:indexPath]){
+        // last row, it's more row
+        // TODO : goto to view category product list
+        return;
+    }
+
+    NSDictionary* productDict = [self getProductData:indexPath.section row:indexPath.row];
+    if (productDict == nil)
         return;
     
     // write to browse history
-    [ProductManager createProductHistory:product];
+    Product* product = [ProductManager createProduct:productDict useFor:USE_FOR_HISTORY];
     
     ProductDetailController* vc = [[ProductDetailController alloc] init];
     vc.product = product;
@@ -239,3 +275,5 @@
 }
 
 @end
+
+

@@ -14,7 +14,7 @@
 
 @implementation ProductManager
 
-+ (BOOL)createProduct:(NSDictionary*)productDict useFor:(int)useFor
++ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor
 {
     
 //    @property (nonatomic, retain) NSString * data;
@@ -34,15 +34,27 @@
 //    @property (nonatomic, retain) NSNumber * deleteTimeStamp;    
     
     CoreDataManager* dataManager = GlobalGetCoreDataManager();
+    NSString* productId = [productDict objectForKey:PARA_ID];
+    
+    if (useFor == USE_FOR_HISTORY){
+        Product* productHistory = [ProductManager findProductHistoryById:productId];
+        if (productHistory != nil){
+            productHistory.browseDate = [NSDate date];
+            productHistory.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
+            [dataManager save];
+            return productHistory;
+        }
+    }
+    
     Product* product = [dataManager insert:@"Product"];
-    product.productId = [productDict objectForKey:PARA_ID];
+    product.productId = productId;
     product.title = [productDict objectForKey:PARA_TITLE];
     product.price = [productDict objectForKey:PARA_PRICE];
     product.rebate = [productDict objectForKey:PARA_REBATE];
     product.bought = [productDict objectForKey:PARA_BOUGHT];
     product.value = [productDict objectForKey:PARA_VALUE];
-    product.startDate = dateFromStringByFormat([productDict objectForKey:PARA_START_DATE], DEFAULT_DATE_FORMAT);
-    product.endDate = dateFromStringByFormat([productDict objectForKey:PARA_END_DATE], DEFAULT_DATE_FORMAT);
+    product.startDate = dateFromUTCStringByFormat([productDict objectForKey:PARA_START_DATE], DEFAULT_DATE_FORMAT);
+    product.endDate = dateFromUTCStringByFormat([productDict objectForKey:PARA_END_DATE], DEFAULT_DATE_FORMAT);
     product.image = [productDict objectForKey:PARA_IMAGE];
     product.loc = [productDict objectForKey:PARA_LOC];
     product.siteName = [productDict objectForKey:PARA_SITE_NAME];
@@ -56,7 +68,10 @@
     
     NSLog(@"<createProduct> product=%@", [product description]);
     
-    return [dataManager save];    
+    if ([dataManager save] == NO)
+        return nil;
+    else
+        return product;
 }
 
 + (BOOL)createProductHistory:(Product*)product
