@@ -40,7 +40,7 @@
 {    
 //    NSString* userId = [UserManager getUserId];
     NSString* appId = [AppManager getPlaceAppId];
-    NSString* city = @"北京"; // need to get from LocationService    
+    NSString* city = @"广州"; // need to get from LocationService    
     
     dispatch_async(workingQueue, ^{
         
@@ -78,6 +78,7 @@
                 double longitude = location.coordinate.longitude;
                 output = [GroupBuyNetworkRequest findAllProductsWithLocation:SERVER_URL 
                                                                     appId:appId
+                                                                        city:city
                                                                     latitude:latitude
                                                                    longitude:longitude 
                                                               startOffset:startOffset];
@@ -117,7 +118,7 @@
     
 }
 
-- (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject
+- (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly
 {
     NSString* appId = [AppManager getPlaceAppId];
     NSString* city = @"北京"; // need to get from LocationService    
@@ -127,7 +128,7 @@
         // fetch user place data from server
         CommonNetworkOutput* output = nil;
         
-        output = [GroupBuyNetworkRequest findAllProductsGroupByCategory:SERVER_URL appId:appId city:city];
+        output = [GroupBuyNetworkRequest findAllProductsGroupByCategory:SERVER_URL appId:appId city:city todayOnly:todayOnly];
         
         // if succeed, clean local data and save new data
         dispatch_async(dispatch_get_main_queue(), ^{

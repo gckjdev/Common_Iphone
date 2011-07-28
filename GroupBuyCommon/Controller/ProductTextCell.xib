@@ -61,7 +61,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">产品描述</string>
 								<object class="NSFont" key="IBUIFont">
-									<string key="NSName">STHeitiSC-Light</string>
+									<string key="NSName">CourierNewPS-BoldMT</string>
 									<double key="NSSize">15</double>
 									<int key="NSfFlags">16</int>
 								</object>
@@ -100,7 +100,7 @@
 							<object class="IBUILabel" id="593242857">
 								<reference key="NSNextResponder" ref="212723496"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{12, 85}, {85, 21}}</string>
+								<string key="NSFrame">{{107, 87}, {85, 21}}</string>
 								<reference key="NSSuperview" ref="212723496"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="439902099"/>
@@ -138,7 +138,7 @@
 							<object class="IBUILabel" id="319297713">
 								<reference key="NSNextResponder" ref="212723496"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{107, 85}, {81, 21}}</string>
+								<string key="NSFrame">{{203, 87}, {81, 21}}</string>
 								<reference key="NSSuperview" ref="212723496"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="789276684"/>
@@ -176,7 +176,7 @@
 							<object class="IBUILabel" id="222430352">
 								<reference key="NSNextResponder" ref="212723496"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{203, 85}, {68, 21}}</string>
+								<string key="NSFrame">{{12, 87}, {68, 21}}</string>
 								<reference key="NSSuperview" ref="212723496"/>
 								<reference key="NSWindow"/>
 								<bool key="IBUIOpaque">NO</bool>

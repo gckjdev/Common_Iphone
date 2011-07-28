@@ -24,6 +24,7 @@
 @implementation ProductCategoryController
 
 @synthesize superController;
+@synthesize todayOnly;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,7 +55,7 @@
 - (void)requestProductListFromServer:(BOOL)isRequestLastest
 {    
     ProductService* productService = GlobalGetProductService();
-    [productService requestProductDataByCategory:self];
+    [productService requestProductDataByCategory:self todayOnly:todayOnly];
     return;
 }
 
@@ -91,7 +92,8 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view from its nib.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    self.dataTableView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated

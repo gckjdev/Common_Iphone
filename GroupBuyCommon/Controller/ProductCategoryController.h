@@ -12,6 +12,10 @@
 
 @interface ProductCategoryController : PPTableViewController<ProductServiceDelegate> {
         UIViewController                *superController;
+    
+    BOOL todayOnly;
 }
 @property (nonatomic, retain) UIViewController                *superController;
+@property (nonatomic, assign) BOOL todayOnly;
+
 @end

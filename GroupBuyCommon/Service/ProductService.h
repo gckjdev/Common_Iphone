@@ -28,7 +28,7 @@
                startOffset:(int)startOffset
                  cleanData:(BOOL)cleanData;
 
-- (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject;
+- (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly;
 @end
 
 extern ProductService* GlobalGetProductService();
