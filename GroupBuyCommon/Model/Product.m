@@ -7,7 +7,7 @@
 //
 
 #import "Product.h"
-
+#import "JSON.h"
 
 @implementation Product
 @dynamic data;
@@ -29,5 +29,28 @@
 @dynamic siteName;
 @dynamic siteURL;
 @dynamic browseDate;
+@dynamic wapURL;
+@dynamic desc;
+@dynamic detail;
+@dynamic gps;
+@dynamic address;
+@dynamic tel;
+@dynamic shop;
+
+- (NSArray*)addressArray
+{
+    return [self.address JSONValue];
+}
+
+- (NSArray*)telArray
+{
+    return [self.tel JSONValue];
+}
+
+- (NSArray*)shopArray
+{
+    return [self.shop JSONValue];
+}
+
 
 @end

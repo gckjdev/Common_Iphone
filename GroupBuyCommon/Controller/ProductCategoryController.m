@@ -25,6 +25,7 @@
 
 @synthesize superController;
 @synthesize todayOnly;
+@synthesize categoryControllerList;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,6 +39,7 @@
 - (void)dealloc
 {
     [superController release];
+    [categoryControllerList release];
     [super dealloc];
 }
 
@@ -85,15 +87,20 @@
 
 - (void)viewDidLoad
 {    
+    
+    self.categoryControllerList = [[NSDictionary alloc] init];
+        
+    [self setBackgroundImageName:@"background.png"];
+//    // Do any additional setup after loading the view from its nib.
+//    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//    self.dataTableView.backgroundColor = [UIColor whiteColor];
+    
     supportRefreshHeader = YES;
     
     [self initDataList];
     
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view from its nib.
-    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.dataTableView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -135,6 +142,16 @@
     if (section < [dataList count]){
         NSDictionary* dict = [dataList objectAtIndex:section];
         return [dict objectForKey:PARA_CATEGORY_NAME];
+    }
+    
+    return nil;        
+}
+
+- (NSString*)getCategoryId:(int)section
+{
+    if (section < [dataList count]){
+        NSDictionary* dict = [dataList objectAtIndex:section];
+        return [dict objectForKey:PARA_CATEGORY_ID];
     }
     
     return nil;        
@@ -251,11 +268,29 @@
 	
 }
 
+- (void)showProductByCategory:(int)section
+{
+    NSString* categoryId = [self getCategoryId:section];
+    NSString* categoryName = [self getCategoryName:section];
+    
+    CommonProductListController* controller = [categoryControllerList objectForKey:categoryId];
+    if (controller == nil){    
+        controller = [[CommonProductListController alloc] init];        
+        controller.categoryId = categoryId;
+        controller.navigationItem.title = categoryName;
+        controller.dataLoader = [[ProductCategoryDataLoader alloc] initWithCategoryId:categoryId];
+    }
+    
+    [self.superController.navigationController pushViewController:controller animated:YES];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	   
     if ([self isMoreRowAtIndexPath:indexPath]){
         // last row, it's more row
-        // TODO : goto to view category product list
+        [self showProductByCategory:indexPath.section];
+        [[self moreLoadingView] stopAnimating];
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
         return;
     }
 

@@ -184,9 +184,13 @@ extern NSString* GlobalGetServerURL();
 #define PARA_ID @"_id"
 #define PARA_ADDRESS @"add"
 #define PARA_DETAIL @"dt"
+#define PARA_WAP_URL @"wu"
+#define PARA_TEL @"te"
+#define PARA_SHOP @"sh"
 
 #define PARA_PRODUCT @"p"
 #define PARA_CATEGORY_NAME @"na"
+#define PARA_CATEGORY_ID @"ci"
 #define PARA_CATEGORIES @"ctg"
 #define PARA_START_OFFSET @"so"
 #define PARA_MAX_DISTANCE @"md"

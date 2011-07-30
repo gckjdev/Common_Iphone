@@ -32,5 +32,16 @@
 @property (nonatomic, retain) NSString * siteName;
 @property (nonatomic, retain) NSString * siteURL;
 @property (nonatomic, retain) NSDate * browseDate;
+@property (nonatomic, retain) NSString * wapURL;
+@property (nonatomic, retain) NSString * desc;
+@property (nonatomic, retain) NSString * detail;
+@property (nonatomic, retain) NSString * gps;
+@property (nonatomic, retain) NSString * address;
+@property (nonatomic, retain) NSString * tel;
+@property (nonatomic, retain) NSString * shop;
+
+- (NSArray*)addressArray;
+- (NSArray*)telArray;
+- (NSArray*)shopArray;
 
 @end

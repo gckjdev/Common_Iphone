@@ -60,3 +60,15 @@
 @end
 
 
+@interface ProductCategoryDataLoader : NSObject<ProductDataLoader> {
+    
+    NSString    *categoryId;
+    
+}
+@property (nonatomic, retain)     NSString    *categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryId;
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end
