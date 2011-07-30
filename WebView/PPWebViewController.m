@@ -141,7 +141,7 @@ TTWebController* GlobalGetWebController()
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"通知" message:@"网络连接错误" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重试", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"???" message:@"�??�?????" delegate:self cancelButtonTitle:@"???" otherButtonTitles:@"???", nil];
     [alertView release];
 }
 
