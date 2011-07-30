@@ -94,6 +94,8 @@
 }
 - (void)productDataRefresh:(int)result jsonArray:(NSArray *)jsonArray
 {    
+    [self hideActivity];
+    
     if (result == ERROR_SUCCESS){        
         self.dataList = jsonArray;
         
@@ -140,6 +142,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     if (self.dataList == nil || [self.dataList count] == 0){
+        [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];
     }
     

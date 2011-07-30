@@ -68,6 +68,8 @@
 
 - (void)productDataRefresh:(int)result
 {    
+    [self hideActivity];
+    
     if (result == ERROR_SUCCESS){
         self.dataList = [self requestProductListFromDB];        
         [self.dataTableView reloadData];
@@ -119,6 +121,7 @@
 {
     self.dataList = [self requestProductListFromDB]; 
     if (self.dataList == nil || [dataList count] == 0){
+        [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];
     }
     
