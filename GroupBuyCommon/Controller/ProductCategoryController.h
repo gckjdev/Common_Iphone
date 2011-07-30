@@ -14,8 +14,11 @@
         UIViewController                *superController;
     
     BOOL todayOnly;
+    NSMutableArray *indexNameArray;
 }
 @property (nonatomic, retain) UIViewController                *superController;
 @property (nonatomic, assign) BOOL todayOnly;
+@property (nonatomic, retain) NSMutableArray  *indexNameArray;
+
 
 @end

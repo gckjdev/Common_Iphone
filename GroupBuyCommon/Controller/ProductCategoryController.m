@@ -25,6 +25,7 @@
 
 @synthesize superController;
 @synthesize todayOnly;
+@synthesize indexNameArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,6 +39,7 @@
 - (void)dealloc
 {
     [superController release];
+    [indexNameArray release];
     [super dealloc];
 }
 
@@ -59,10 +61,30 @@
     return;
 }
 
+- (void)initIndexNameArray
+{
+    if (self.indexNameArray == nil) {
+        self.indexNameArray = [[NSMutableArray alloc] init];
+    }
+    
+    [self.indexNameArray removeAllObjects];
+    
+    if (dataList == nil || [dataList count] == 0) {
+        return;
+    }
+    for(int i = 0; i < [dataList count]; ++i){
+        NSDictionary* dict = [dataList objectAtIndex:i];
+        NSString* name = [dict objectForKey:PARA_CATEGORY_NAME];
+        [indexNameArray addObject:name];
+    }
+}
 - (void)productDataRefresh:(int)result jsonArray:(NSArray *)jsonArray
 {    
     if (result == ERROR_SUCCESS){        
         self.dataList = jsonArray;
+        
+        [self initIndexNameArray];
+        
         [self.dataTableView reloadData];
     }
     
@@ -140,6 +162,8 @@
     return nil;        
 }
 
+
+
 - (BOOL)isMoreRowAtIndexPath:(NSIndexPath*)indexPath
 {
     NSDictionary* dict = [dataList objectAtIndex:indexPath.section];
@@ -154,21 +178,50 @@
 
 #pragma mark Table View Delegate
 
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
-//{
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
+{
 //	NSMutableArray* array = [NSMutableArray arrayWithArray:[ArrayOfCharacters getArray]];
 //	[array addObject:kSectionNull];
 //	return array;
 //	
-////		NSMutableArray *indices = [NSMutableArray arrayWithObject:UITableViewIndexSearch];
-////		return nil;
-//}
-//
-//
-//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-//{
+//		NSMutableArray *indices = [NSMutableArray arrayWithObject:UITableViewIndexSearch];
+//		return nil;
+//    return [self getIndexNameArray];
+    
+//    NSMutableArray *toBeReturned = [[NSMutableArray alloc]init];
+//    for(char c = 'A';c<='E';c++)
+//        [toBeReturned addObject:[NSString stringWithFormat:@"购物%c%c",c,c]];
+//    return toBeReturned;
+    return self.indexNameArray;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+//    NSArray *indexArray = [self getIndexNameArray];
+//    if (indexArray == nil) {
+//        return 0;
+//    }
+//    if ([indexArray containsObject:title]) {
+//        return [indexArray indexOfObject:title];
+//    }
+//    return 0;
 //	return [groupData sectionForLetter:title];
-//}
+//    NSMutableArray *arrayOfCharacters =[[NSMutableArray alloc] init];
+//    for(char c = 'A';c<='E';c++)
+//            [arrayOfCharacters addObject:[NSString stringWithFormat:@"购物%c%c",c,c]];
+    NSInteger count = 0;
+    for(NSString *character in self.indexNameArray)
+    {
+        if([character isEqualToString:title])
+        {
+            return count;
+        }
+        count ++;
+    }
+    return 0;
+    
+}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
