@@ -86,6 +86,12 @@
                 break;
                 
             default:
+            {
+                if (useFor >= USE_FOR_PER_CATEGORY){
+                    NSString* categoryId = [NSString stringWithFormat:@"%d", (useFor - USE_FOR_PER_CATEGORY)];
+                    output = [GroupBuyNetworkRequest findProducts:SERVER_URL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 todayOnly:NO category:categoryId sortBy:SORT_BY_START_DATE startOffset:startOffset];
+                }
+            }
                 break;
         }
                                                
@@ -121,7 +127,7 @@
 - (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly
 {
     NSString* appId = [AppManager getPlaceAppId];
-    NSString* city = @"北京"; // need to get from LocationService    
+    NSString* city = @"广州"; // need to get from LocationService    
     
     dispatch_async(workingQueue, ^{
         

@@ -17,7 +17,10 @@ enum {
     USE_FOR_DISTANCE,
     USE_FOR_BOUGHT,
     USE_FOR_REBATE,
-    USE_FOR_HISTORY = 6
+    USE_FOR_HISTORY = 6,
+    
+    
+    USE_FOR_PER_CATEGORY = 100
 };
 
 @interface ProductManager : NSObject {

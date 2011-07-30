@@ -11,6 +11,7 @@
 #import "Product.h"
 #import "GroupBuyNetworkConstants.h"
 #import "TimeUtils.h"
+#import "SBJsonWriter.h"
 
 @implementation ProductManager
 
@@ -59,6 +60,21 @@
     product.loc = [productDict objectForKey:PARA_LOC];
     product.siteName = [productDict objectForKey:PARA_SITE_NAME];
     product.siteURL = [productDict objectForKey:PARA_SITE_URL];
+    product.wapURL = [productDict objectForKey:PARA_WAP_URL];
+    product.desc = [productDict objectForKey:PARA_DESC];
+
+    SBJsonWriter *writer1 = [[SBJsonWriter alloc] init];            
+    product.gps = [writer1 stringWithObject:[productDict objectForKey:PARA_GPS]];    
+    [writer1 release];
+    
+    SBJsonWriter *writer2 = [[SBJsonWriter alloc] init];                
+    product.address = [writer2 stringWithObject:[productDict objectForKey:PARA_ADDRESS]];    
+    [writer2 release];
+
+    SBJsonWriter *writer3 = [[SBJsonWriter alloc] init];                
+    product.tel = [writer3 stringWithObject:[productDict objectForKey:PARA_TEL]];    
+    [writer3 release];
+    
     
 //    product.longitude = [NSNumber numberWithDouble:longitude];
 //    product.latitude = [NSNumber numberWithDouble:latitude];
@@ -99,6 +115,13 @@
     productHistory.loc = product.loc;
     productHistory.siteName = product.siteName;
     productHistory.siteURL = product.siteURL;
+    productHistory.wapURL = product.wapURL;
+    productHistory.desc = product.desc;
+    productHistory.detail = product.detail;
+    productHistory.gps = product.gps;
+    productHistory.address = product.address;
+    productHistory.tel = product.tel;
+    productHistory.shop = product.shop;
     
     productHistory.longitude = product.longitude;
     productHistory.latitude = product.latitude;

@@ -135,6 +135,57 @@
 
 @end
 
+@implementation ProductCategoryDataLoader
+
+@synthesize categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryIdVal
+{
+    self = [super init];
+    self.categoryId = categoryIdVal;
+    return self;
+}
+
+- (void)dealloc
+{
+    [categoryId release];
+    [super dealloc];
+}
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    int useFor = [categoryId intValue] + USE_FOR_PER_CATEGORY;
+    
+    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"startDate" sortAsending:NO];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    int useFor = [categoryId intValue] + USE_FOR_PER_CATEGORY;
+    
+    ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:useFor startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:useFor startOffset:startOffset cleanData:NO];
+    }        
+}
+
+@end
+
+
 @implementation ProductHistoryDataLoader
 
 - (BOOL)supportRemote

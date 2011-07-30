@@ -10,15 +10,18 @@
 #import "PPTableViewController.h"
 #import "ProductService.h"
 
+@class CommonProductListController;
+
 @interface ProductCategoryController : PPTableViewController<ProductServiceDelegate> {
-        UIViewController                *superController;
     
+    UIViewController   *superController;    
     BOOL todayOnly;
     NSMutableArray *indexNameArray;
+    NSDictionary       *categoryControllerList;
 }
-@property (nonatomic, retain) UIViewController                *superController;
+@property (nonatomic, retain) UIViewController   *superController;
 @property (nonatomic, assign) BOOL todayOnly;
 @property (nonatomic, retain) NSMutableArray  *indexNameArray;
-
+@property (nonatomic, assign) NSDictionary            *categoryControllerList;
 
 @end

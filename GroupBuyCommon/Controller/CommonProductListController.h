@@ -26,9 +26,10 @@
     
     UIViewController                *superController;
     NSObject<ProductDataLoader>     *dataLoader;
+    NSString                        *categoryId;
 }
 
 @property (nonatomic, retain) UIViewController                *superController;
 @property (nonatomic, retain) NSObject<ProductDataLoader>     *dataLoader;
-
+@property (nonatomic, retain) NSString                        *categoryId;
 @end

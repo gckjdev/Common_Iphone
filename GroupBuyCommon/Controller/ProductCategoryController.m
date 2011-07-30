@@ -26,6 +26,7 @@
 @synthesize superController;
 @synthesize todayOnly;
 @synthesize indexNameArray;
+@synthesize categoryControllerList;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,6 +41,7 @@
 {
     [superController release];
     [indexNameArray release];
+    [categoryControllerList release];
     [super dealloc];
 }
 
@@ -107,15 +109,20 @@
 
 - (void)viewDidLoad
 {    
+    
+    self.categoryControllerList = [[NSDictionary alloc] init];
+        
+    [self setBackgroundImageName:@"background.png"];
+//    // Do any additional setup after loading the view from its nib.
+//    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//    self.dataTableView.backgroundColor = [UIColor whiteColor];
+    
     supportRefreshHeader = YES;
     
     [self initDataList];
     
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view from its nib.
-    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.dataTableView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -162,7 +169,15 @@
     return nil;        
 }
 
-
+- (NSString*)getCategoryId:(int)section
+{
+    if (section < [dataList count]){
+        NSDictionary* dict = [dataList objectAtIndex:section];
+        return [dict objectForKey:PARA_CATEGORY_ID];
+    }
+    
+    return nil;        
+}
 
 - (BOOL)isMoreRowAtIndexPath:(NSIndexPath*)indexPath
 {
@@ -180,36 +195,14 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
 {
-//	NSMutableArray* array = [NSMutableArray arrayWithArray:[ArrayOfCharacters getArray]];
-//	[array addObject:kSectionNull];
-//	return array;
-//	
-//		NSMutableArray *indices = [NSMutableArray arrayWithObject:UITableViewIndexSearch];
-//		return nil;
-//    return [self getIndexNameArray];
-    
-//    NSMutableArray *toBeReturned = [[NSMutableArray alloc]init];
-//    for(char c = 'A';c<='E';c++)
-//        [toBeReturned addObject:[NSString stringWithFormat:@"购物%c%c",c,c]];
-//    return toBeReturned;
+
     return self.indexNameArray;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
-//    NSArray *indexArray = [self getIndexNameArray];
-//    if (indexArray == nil) {
-//        return 0;
-//    }
-//    if ([indexArray containsObject:title]) {
-//        return [indexArray indexOfObject:title];
-//    }
-//    return 0;
-//	return [groupData sectionForLetter:title];
-//    NSMutableArray *arrayOfCharacters =[[NSMutableArray alloc] init];
-//    for(char c = 'A';c<='E';c++)
-//            [arrayOfCharacters addObject:[NSString stringWithFormat:@"购物%c%c",c,c]];
+
     NSInteger count = 0;
     for(NSString *character in self.indexNameArray)
     {
@@ -304,11 +297,29 @@
 	
 }
 
+- (void)showProductByCategory:(int)section
+{
+    NSString* categoryId = [self getCategoryId:section];
+    NSString* categoryName = [self getCategoryName:section];
+    
+    CommonProductListController* controller = [categoryControllerList objectForKey:categoryId];
+    if (controller == nil){    
+        controller = [[CommonProductListController alloc] init];        
+        controller.categoryId = categoryId;
+        controller.navigationItem.title = categoryName;
+        controller.dataLoader = [[ProductCategoryDataLoader alloc] initWithCategoryId:categoryId];
+    }
+    
+    [self.superController.navigationController pushViewController:controller animated:YES];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	   
     if ([self isMoreRowAtIndexPath:indexPath]){
         // last row, it's more row
-        // TODO : goto to view category product list
+        [self showProductByCategory:indexPath.section];
+        [[self moreLoadingView] stopAnimating];
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
         return;
     }
 

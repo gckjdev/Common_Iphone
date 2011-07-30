@@ -24,6 +24,7 @@
 
 @synthesize superController;
 @synthesize dataLoader;
+@synthesize categoryId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,6 +39,7 @@
 {
     [superController release];
     [dataLoader release];
+    [categoryId release];
     [super dealloc];
 }
 
@@ -91,6 +93,13 @@
 
 - (void)viewDidLoad
 {    
+    
+    [self setBackgroundImageName:@"background.png"];
+    // Do any additional setup after loading the view from its nib.
+//    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//    self.dataTableView.backgroundColor = [UIColor whiteColor];
+
+    
     if ([dataLoader supportRemote])
         supportRefreshHeader = YES;
     
@@ -103,9 +112,6 @@
     
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view from its nib.
-    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.dataTableView.backgroundColor = [UIColor whiteColor];
     
 }
 
