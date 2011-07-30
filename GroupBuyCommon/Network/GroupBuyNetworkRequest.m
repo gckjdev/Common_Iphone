@@ -264,6 +264,7 @@
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
     const int MAX_COUNT = 10;
+    const int MAX_DISTANCE = 3;
     
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         
@@ -278,6 +279,7 @@
         if (hasLocation){
             str = [str stringByAddQueryParameter:PARA_LATITUDE doubleValue:latitude];
             str = [str stringByAddQueryParameter:PARA_LONGTITUDE doubleValue:longitude];
+            str = [str stringByAddQueryParameter:PARA_MAX_DISTANCE intValue:MAX_DISTANCE];
         }
         
         if (todayOnly){

@@ -9,6 +9,8 @@
 #import "ProductTextCell.h"
 #import "Product.h"
 #import "LocationService.h"
+#import "Product.h"
+#import "ProductManager.h"
 #import "TimeUtils.h"
 #import "GroupBuyNetworkConstants.h"
 
@@ -87,14 +89,8 @@
 //    }
 }
 
-- (NSString *)calculateDistance:(double)pLatitude longitude:(double)pLongitude
+- (NSString *)getDistance:(double)distance
 {
-    LocationService *locationService = GlobalGetLocationService();
-    CLLocation *location = [locationService currentLocation];
-    
-    CLLocation *pLocation = [[CLLocation alloc]initWithLatitude:pLatitude longitude:pLongitude];
-    CLLocationDistance distance = [location distanceFromLocation:pLocation];
-    [pLocation release];
     NSString *distanceString = nil;
     if(distance < 1000){
         int d = (int) distance;
@@ -117,8 +113,7 @@
                              price:(NSNumber*)price
                             bought:(NSNumber*)bought
                             rebate:(NSNumber*)rebate
-                         longitude:(NSNumber*)longitude
-                          latitude:(NSNumber*)latitude
+                          distance:(double)distance
 {
     int leftSeconds = [endDate timeIntervalSinceNow];
     NSString* timeInfo = [self getTimeInfo:leftSeconds];
@@ -128,12 +123,12 @@
     self.priceLabel.text = [NSString stringWithFormat:@"团购价: %@元", [price description]];
     self.leftTimeLabel.text = [NSString stringWithFormat:@"时间: %@", timeInfo];
     
-    if (longitude && latitude){
-        NSString *distance = [self calculateDistance:[latitude doubleValue] longitude:[longitude doubleValue]];    
-        self.distanceLabel.text = [NSString stringWithFormat:@"距离: %@",distance];
+    if (distance < MAXFLOAT){
+        NSString *distanceStr = [self getDistance:distance];    
+        self.distanceLabel.text = [NSString stringWithFormat:@"距离: %@",distanceStr];
     }
     else{
-        self.distanceLabel.text = @"";        
+        self.distanceLabel.text = @"";         
     }
     
     self.boughtLabel.text = [NSString stringWithFormat:@"已购买: %@", [self getBoughtInfo:bought]];    
@@ -150,16 +145,25 @@
     NSNumber* price = [product objectForKey:PARA_PRICE];
     NSNumber* bought = [product objectForKey:PARA_BOUGHT];
     NSNumber* rebate = [product objectForKey:PARA_REBATE];    
-    NSNumber* longitude = [product objectForKey:PARA_LONGTITUDE];    
-    NSNumber* latitude = [product objectForKey:PARA_LATITUDE];    
     
-    [self setCellInfoWithProductInfo:endDate siteName:siteName title:title value:value price:price bought:bought rebate:rebate longitude:longitude latitude:latitude];
+    LocationService *locationService = GlobalGetLocationService();
+    CLLocation *location = [locationService currentLocation];
+    
+    double distance = [ProductManager calcShortestDistance:[product objectForKey:PARA_GPS]
+                                           currentLocation:location];
+    
+    [self setCellInfoWithProductInfo:endDate siteName:siteName title:title value:value price:price bought:bought rebate:rebate distance:distance];
 }
 
 
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath
 {
-    [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate longitude:product.longitude latitude:product.latitude];
+    LocationService *locationService = GlobalGetLocationService();
+    CLLocation *location = [locationService currentLocation];
+
+    double distance = [ProductManager calcShortestDistance:[product gpsArray] currentLocation:location];
+    
+    [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate distance:distance];
 }
 
 - (void)dealloc {

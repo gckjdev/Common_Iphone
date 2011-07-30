@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class Product;
 
@@ -27,7 +28,7 @@ enum {
     
 }
 
-+ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor;
++ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor offset:(int)offset;
 + (BOOL)createProductHistory:(Product*)product;
 
 + (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey sortAsending:(BOOL)sortAsending;
@@ -36,5 +37,8 @@ enum {
 + (void)cleanUpDeleteDataBefore:(int)timeStamp;
 
 + (Product*)findProductHistoryById:(NSString*)productId;
+
++ (NSString*)gpsFromDictionary:(NSDictionary*)dict;
++ (double)calcShortestDistance:(NSArray*)gpsArray currentLocation:(CLLocation*)currentLocation;
 
 @end

@@ -105,8 +105,10 @@
                 
                 // insert new data
                 NSArray* productArray = output.jsonDataArray;
+                int offset = startOffset;
                 for (NSDictionary* productDict in productArray){
-                    [ProductManager createProduct:productDict useFor:useFor];
+                    [ProductManager createProduct:productDict useFor:useFor offset:offset];
+                    offset ++;
                 }                    
             }
             

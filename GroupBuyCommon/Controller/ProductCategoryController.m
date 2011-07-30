@@ -343,7 +343,7 @@
         return;
     
     // write to browse history
-    Product* product = [ProductManager createProduct:productDict useFor:USE_FOR_HISTORY];
+    Product* product = [ProductManager createProduct:productDict useFor:USE_FOR_HISTORY offset:0];
     
     ProductDetailController* vc = [[ProductDetailController alloc] init];
     vc.product = product;

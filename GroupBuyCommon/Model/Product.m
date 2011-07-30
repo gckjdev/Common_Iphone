@@ -9,6 +9,7 @@
 #import "Product.h"
 #import "JSON.h"
 
+
 @implementation Product
 @dynamic data;
 @dynamic useFor;
@@ -36,6 +37,8 @@
 @dynamic address;
 @dynamic tel;
 @dynamic shop;
+@dynamic distance;
+@dynamic offset;
 
 - (NSArray*)addressArray
 {
@@ -52,5 +55,43 @@
     return [self.shop JSONValue];
 }
 
+- (NSArray*)gpsArray
+{
+    NSArray* array = [self.gps JSONValue];
+    NSMutableArray* gpsArray = [[[NSMutableArray alloc] init] autorelease];
+    for (NSArray* valuePair in array){
+        if (valuePair && [valuePair count] == 2){
+            double latitude = [[valuePair objectAtIndex:0] doubleValue];
+            double longitude = [[valuePair objectAtIndex:1] doubleValue];
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];            
+            [gpsArray addObject:location];
+            [location release];
+        }
+    }
+    
+    if ([gpsArray count] > 0)
+        return gpsArray;
+    else
+        return nil;
+}
+
+- (double)calcShortestDistance:(CLLocation*)currentLocation
+{
+    NSArray* gpsArray = [self gpsArray];
+    if (gpsArray){
+        double distance = MAXFLOAT;
+        for (CLLocation* location in gpsArray){
+            double calc = [currentLocation distanceFromLocation:location];
+            if (calc < distance){
+                distance = calc; 
+            }
+        }
+
+        return distance;
+    }
+    else{
+        return MAXFLOAT;
+    }
+}
 
 @end

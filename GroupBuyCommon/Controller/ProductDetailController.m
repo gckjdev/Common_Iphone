@@ -28,7 +28,7 @@ enum {
 #define INFO_FONT       ([UIFont systemFontOfSize:14])
 #define INFO_WIDTH      305
 #define INFO_MAX_SIZE   (CGSizeMake(INFO_WIDTH, 3000))
-#define EXTRA_HEIGHT    30
+#define EXTRA_HEIGHT    40
 
 @implementation ProductDetailController
 

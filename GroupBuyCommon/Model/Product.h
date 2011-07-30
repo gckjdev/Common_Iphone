@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-
+#import <CoreLocation/CoreLocation.h>
 
 @interface Product : NSManagedObject {
 @private
@@ -39,9 +39,15 @@
 @property (nonatomic, retain) NSString * address;
 @property (nonatomic, retain) NSString * tel;
 @property (nonatomic, retain) NSString * shop;
+@property (nonatomic, retain) NSNumber * distance;
+@property (nonatomic, retain) NSNumber * offset;
 
 - (NSArray*)addressArray;
 - (NSArray*)telArray;
 - (NSArray*)shopArray;
+- (NSArray*)gpsArray;
+- (double)calcShortestDistance:(CLLocation*)currentLocation;
+
+
 
 @end

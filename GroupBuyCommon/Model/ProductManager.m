@@ -15,7 +15,33 @@
 
 @implementation ProductManager
 
-+ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor
++ (NSString*)gpsFromDictionary:(NSDictionary*)dict
+{
+    SBJsonWriter *writer1 = [[SBJsonWriter alloc] init];            
+    NSString* json = [writer1 stringWithObject:[dict objectForKey:PARA_GPS]]; 
+    [writer1 release];
+    return json;
+}
+
++ (double)calcShortestDistance:(NSArray*)gpsArray currentLocation:(CLLocation*)currentLocation
+{
+    if (gpsArray){
+        double distance = MAXFLOAT;
+        for (CLLocation* location in gpsArray){
+            double calc = [currentLocation distanceFromLocation:location];
+            if (calc < distance){
+                distance = calc; 
+            }
+        }
+        
+        return distance;
+    }
+    else{
+        return MAXFLOAT;
+    }
+}
+
++ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor offset:(int)offset
 {
     
 //    @property (nonatomic, retain) NSString * data;
@@ -62,10 +88,9 @@
     product.siteURL = [productDict objectForKey:PARA_SITE_URL];
     product.wapURL = [productDict objectForKey:PARA_WAP_URL];
     product.desc = [productDict objectForKey:PARA_DESC];
+    product.offset = [NSNumber numberWithInt:offset];
 
-    SBJsonWriter *writer1 = [[SBJsonWriter alloc] init];            
-    product.gps = [writer1 stringWithObject:[productDict objectForKey:PARA_GPS]];    
-    [writer1 release];
+    product.gps = [ProductManager gpsFromDictionary:productDict];
     
     SBJsonWriter *writer2 = [[SBJsonWriter alloc] init];                
     product.address = [writer2 stringWithObject:[productDict objectForKey:PARA_ADDRESS]];    
