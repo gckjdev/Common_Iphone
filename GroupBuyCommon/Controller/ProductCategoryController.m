@@ -77,6 +77,18 @@
     for(int i = 0; i < [dataList count]; ++i){
         NSDictionary* dict = [dataList objectAtIndex:i];
         NSString* name = [dict objectForKey:PARA_CATEGORY_NAME];
+//        NSString* extName = @"";
+//        int len = [name length];
+//        for (int i=0; i<len; i++){
+//            unichar chars[1]; 
+//            chars[0] = [name characterAtIndex:i];
+//            extName = [extName stringByAppendingString:[NSString stringWithCharacters:chars length:1]];
+//            
+//            if (i != len-1){
+//                extName = [extName stringByAppendingString:@"\r\n"];
+//            }
+//        }
+
         [indexNameArray addObject:name];
     }
 }

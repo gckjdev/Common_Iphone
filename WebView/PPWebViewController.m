@@ -141,8 +141,8 @@ TTWebController* GlobalGetWebController()
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"???" message:@"ç½??è¿?????" delegate:self cancelButtonTitle:@"???" otherButtonTitles:@"???", nil];
-    [alertView release];
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"ç½??è¿?????" delegate:self cancelButtonTitle:@"???" otherButtonTitles:@"???", nil];
+//    [alertView release];
 }
 
 @end

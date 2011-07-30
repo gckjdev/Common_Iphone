@@ -40,8 +40,8 @@
 
 - (void)setCellStyle
 {
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    self.selectionStyle = UITableViewCellSelectionStyleBlue;
+//    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 + (NSString*)getCellIdentifier
@@ -73,6 +73,20 @@
     }
 }
 
+- (NSString*)getBoughtInfo:(NSNumber*)bought
+{
+    return [bought description];
+//    if (bought < 1000){
+//        return [NSString stringWithFormat:@"%@", bought];
+//    }
+//    else if (bought < 10000){
+//        return [NSString stringWithFormat:@"%@千", bought];        
+//    }
+//    else{
+//        return [NSString stringWithFormat:@"%@万", bought];
+//    }
+}
+
 - (NSString *)calculateDistance:(double)pLatitude longitude:(double)pLongitude
 {
     LocationService *locationService = GlobalGetLocationService();
@@ -85,9 +99,13 @@
     if(distance < 1000){
         int d = (int) distance;
         distanceString = [NSString stringWithFormat:@"%d米",d];
-    }else {
+    }else if (distance < 1000*1000){
         float d = distance/1000;
         distanceString = [NSString stringWithFormat:@"%0.1f公里",d];
+    }
+    else{
+        float d = distance/(1000*1000);
+        distanceString = [NSString stringWithFormat:@"%0.1f千公里",d];        
     }
     return distanceString;
 }
@@ -106,20 +124,20 @@
     NSString* timeInfo = [self getTimeInfo:leftSeconds];
     
     self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];
-    self.valueLabel.text = [NSString stringWithFormat:@"原价:%@元", [value description]];
-    self.priceLabel.text = [NSString stringWithFormat:@"团购价:%@元", [price description]];
-    self.leftTimeLabel.text = [NSString stringWithFormat:@"时间:%@", timeInfo];
+    self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [value description]];
+    self.priceLabel.text = [NSString stringWithFormat:@"团购价: %@元", [price description]];
+    self.leftTimeLabel.text = [NSString stringWithFormat:@"时间: %@", timeInfo];
     
     if (longitude && latitude){
         NSString *distance = [self calculateDistance:[latitude doubleValue] longitude:[longitude doubleValue]];    
-        self.distanceLabel.text = [NSString stringWithFormat:@"距离:%@",distance];
+        self.distanceLabel.text = [NSString stringWithFormat:@"距离: %@",distance];
     }
     else{
         self.distanceLabel.text = @"";        
     }
     
-    self.boughtLabel.text = [NSString stringWithFormat:@"已购买:%@", [bought description]];    
-    self.rebateLabel.text = [NSString stringWithFormat:@"折扣:%@折", [rebate description]]; 
+    self.boughtLabel.text = [NSString stringWithFormat:@"已购买: %@", [self getBoughtInfo:bought]];    
+    self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [rebate description]]; 
 
 }
 
