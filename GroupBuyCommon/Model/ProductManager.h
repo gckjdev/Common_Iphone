@@ -28,7 +28,7 @@ enum {
     
 }
 
-+ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor offset:(int)offset;
++ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor offset:(int)offset currentLocation:(CLLocation*)currentLocation;
 + (BOOL)createProductHistory:(Product*)product;
 
 + (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey sortAsending:(BOOL)sortAsending;
@@ -39,6 +39,7 @@ enum {
 + (Product*)findProductHistoryById:(NSString*)productId;
 
 + (NSString*)gpsFromDictionary:(NSDictionary*)dict;
++ (NSArray*)gpsArray:(NSArray*)origArray;
 + (double)calcShortestDistance:(NSArray*)gpsArray currentLocation:(CLLocation*)currentLocation;
 
 @end

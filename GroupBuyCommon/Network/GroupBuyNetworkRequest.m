@@ -11,6 +11,9 @@
 #import "PPNetworkRequest.h"
 #import "StringUtil.h"
 #import "JSON.h"
+
+
+
 @implementation CommonNetworkOutput
 
 @synthesize resultMessage, resultCode, jsonDataArray, jsonDataDict;
@@ -140,7 +143,11 @@
                                             city:(NSString*)city
 {
     
-    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 todayOnly:NO category:nil sortBy:SORT_BY_PRICE startOffset:startOffset];
+    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city 
+                                    hasLocation:NO longitude:0.0 latitude:0.0 
+                                    maxDistance:DEFAULT_MAX_DISTANCE
+                                      todayOnly:NO category:nil sortBy:SORT_BY_PRICE 
+                                    startOffset:startOffset maxCount:DEFAULT_MAX_COUNT];
     
 //    return [GroupBuyNetworkRequest findAllProducts:baseURL                                               
 //                                             appId:appId                                      
@@ -154,7 +161,10 @@
                                      startOffset:(int)startOffset
                                             city:(NSString*)city
 {
-    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 todayOnly:NO category:nil sortBy:SORT_BY_BOUGHT startOffset:startOffset];
+    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0
+                                    maxDistance:DEFAULT_MAX_DISTANCE
+                                      todayOnly:NO category:nil sortBy:SORT_BY_BOUGHT startOffset:startOffset
+                                       maxCount:DEFAULT_MAX_COUNT];
 }
 
 + (CommonNetworkOutput*)findAllProductsWithRebate:(NSString*)baseURL
@@ -162,7 +172,10 @@
                                      startOffset:(int)startOffset
                                             city:(NSString*)city
 {
-    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 todayOnly:NO category:nil sortBy:SORT_BY_REBATE startOffset:startOffset];
+    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0
+                                    maxDistance:DEFAULT_MAX_DISTANCE
+                                      todayOnly:NO category:nil sortBy:SORT_BY_REBATE startOffset:startOffset
+            maxCount:DEFAULT_MAX_COUNT];
 }
 
 
@@ -205,7 +218,11 @@
 //                         responseHandler:responseHandler
 //                                  output:output];
     
-    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:YES longitude:longitude   latitude:latitude todayOnly:NO category:nil sortBy:SORT_BY_START_DATE startOffset:startOffset];
+    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:YES 
+                                      longitude:longitude  latitude:latitude  
+                                    maxDistance:DEFAULT_MAX_DISTANCE todayOnly:NO category:nil 
+                                         sortBy:SORT_BY_START_DATE startOffset:startOffset
+                                       maxCount:DEFAULT_MAX_COUNT];
 
 }
 
@@ -256,15 +273,14 @@
                          hasLocation:(BOOL)hasLocation
                            longitude:(double)longitude
                             latitude:(double)latitude
+                         maxDistance:(double)maxDistance
                            todayOnly:(BOOL)todayOnly
                             category:(NSString*)category
                               sortBy:(int)sortBy
                          startOffset:(int)startOffset
+                            maxCount:(int)maxCount
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
-    
-    const int MAX_COUNT = 10;
-    const int MAX_DISTANCE = 3;
     
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         
@@ -272,14 +288,14 @@
         NSString* str = [NSString stringWithString:baseURL];       
         
         str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDPRODUCTS];
-        str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:MAX_COUNT];
+        str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:maxCount];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_CITY value:city];
         
         if (hasLocation){
             str = [str stringByAddQueryParameter:PARA_LATITUDE doubleValue:latitude];
             str = [str stringByAddQueryParameter:PARA_LONGTITUDE doubleValue:longitude];
-            str = [str stringByAddQueryParameter:PARA_MAX_DISTANCE intValue:MAX_DISTANCE];
+            str = [str stringByAddQueryParameter:PARA_MAX_DISTANCE intValue:maxDistance];
         }
         
         if (todayOnly){

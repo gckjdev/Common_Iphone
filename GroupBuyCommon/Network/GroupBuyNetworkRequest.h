@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#define DEFAULT_MAX_COUNT       20          // 20 RECORDS
+#define DEFAULT_MAX_DISTANCE    3           // 3 km
+
 @class CommonNetworkOutput;
 
 @interface GroupBuyNetworkRequest : NSObject {
@@ -25,10 +28,12 @@
                          hasLocation:(BOOL)hasLocation
                            longitude:(double)longitude
                             latitude:(double)latitude
+                         maxDistance:(double)maxDistance
                            todayOnly:(BOOL)todayOnly
                             category:(NSString*)category
                               sortBy:(int)sortBy
-                         startOffset:(int)startOffset;
+                         startOffset:(int)startOffset
+                            maxCount:(int)maxCount;
 
 
 + (CommonNetworkOutput*)findAllProductsWithPrice:(NSString*)baseURL

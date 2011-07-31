@@ -118,7 +118,7 @@
 
 - (NSArray*)requestProductListFromDB
 {
-    return [ProductManager getAllProductsByUseFor:USE_FOR_DISTANCE sortByKey:@"offset" sortAsending:NO];
+    return [ProductManager getAllProductsByUseFor:USE_FOR_DISTANCE sortByKey:@"distance" sortAsending:YES];
 }
 
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller

@@ -25,7 +25,7 @@
 
 + (double)calcShortestDistance:(NSArray*)gpsArray currentLocation:(CLLocation*)currentLocation
 {
-    if (gpsArray){
+    if (gpsArray && currentLocation){
         double distance = MAXFLOAT;
         for (CLLocation* location in gpsArray){
             double calc = [currentLocation distanceFromLocation:location];
@@ -41,7 +41,28 @@
     }
 }
 
-+ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor offset:(int)offset
++ (NSArray*)gpsArray:(NSArray*)origArray
+{
+    NSArray* array = origArray;
+    NSMutableArray* gpsArray = [[[NSMutableArray alloc] init] autorelease];
+    for (NSArray* valuePair in array){
+        if (valuePair && [valuePair count] == 2){
+            double latitude = [[valuePair objectAtIndex:0] doubleValue];
+            double longitude = [[valuePair objectAtIndex:1] doubleValue];
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];            
+            [gpsArray addObject:location];
+            [location release];
+        }
+    }
+    
+    if ([gpsArray count] > 0)
+        return gpsArray;
+    else
+        return nil;
+}
+
++ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor 
+                   offset:(int)offset currentLocation:(CLLocation*)currentLocation
 {
     
 //    @property (nonatomic, retain) NSString * data;
@@ -100,6 +121,10 @@
     product.tel = [writer3 stringWithObject:[productDict objectForKey:PARA_TEL]];    
     [writer3 release];
     
+    NSArray* gpsArray = [ProductManager gpsArray:[productDict objectForKey:PARA_GPS]];
+    product.distance = [NSNumber numberWithDouble:
+                        [ProductManager calcShortestDistance:gpsArray
+                                            currentLocation:currentLocation]];
     
 //    product.longitude = [NSNumber numberWithDouble:longitude];
 //    product.latitude = [NSNumber numberWithDouble:latitude];
