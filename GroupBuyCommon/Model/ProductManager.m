@@ -236,4 +236,9 @@
                                         value:productId];
 }
 
++ (void)cleanData:(int)timeStamp
+{
+    
+}
+
 @end

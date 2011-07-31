@@ -106,6 +106,16 @@
     return distanceString;
 }
 
+- (NSString*)getValue:(NSNumber*)value
+{
+    if ([value doubleValue] == -1){
+        return @"0";
+    }
+    else{
+        return [value description];
+    }
+}
+
 - (void)setCellInfoWithProductInfo:(NSDate*)endDate
                           siteName:(NSString*)siteName
                              title:(NSString*)title
@@ -119,7 +129,7 @@
     NSString* timeInfo = [self getTimeInfo:leftSeconds];
     
     self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];
-    self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [value description]];
+    self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [self getValue:value]];
     self.priceLabel.text = [NSString stringWithFormat:@"团购价: %@元", [price description]];
     self.leftTimeLabel.text = [NSString stringWithFormat:@"时间: %@", timeInfo];
     
@@ -149,7 +159,7 @@
     LocationService *locationService = GlobalGetLocationService();
     CLLocation *location = [locationService currentLocation];
     
-    double distance = [ProductManager calcShortestDistance:[product objectForKey:PARA_GPS]
+    double distance = [ProductManager calcShortestDistance:[ProductManager gpsArray:[product objectForKey:PARA_GPS]]
                                            currentLocation:location];
     
     [self setCellInfoWithProductInfo:endDate siteName:siteName title:title value:value price:price bought:bought rebate:rebate distance:distance];

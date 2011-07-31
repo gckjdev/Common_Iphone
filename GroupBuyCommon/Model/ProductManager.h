@@ -42,4 +42,6 @@ enum {
 + (NSArray*)gpsArray:(NSArray*)origArray;
 + (double)calcShortestDistance:(NSArray*)gpsArray currentLocation:(CLLocation*)currentLocation;
 
++ (void)cleanData:(int)timeStamp;
+
 @end
