@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import "CityPickerViewController.h"
 
-@interface LocationService : NSObject <CLLocationManagerDelegate, MKReverseGeocoderDelegate> {
+@interface LocationService : NSObject <CLLocationManagerDelegate, MKReverseGeocoderDelegate, CityPickerDelegate> {
     
 	CLLocationManager		*locationManager;
 	CLLocation				*currentLocation;
@@ -44,6 +45,8 @@
 + (NSString*)getAddressString:(MKPlacemark*)currentPlacemark;
 + (NSString*)getMapURL:(CLLocation*)location;
 + (NSString*)getCity:(MKPlacemark*)placemark;
+- (NSString*)getDefaultCity;
+- (void)setDefaultCity:(NSString *)city;
 
 @end
 

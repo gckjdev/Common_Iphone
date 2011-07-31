@@ -12,6 +12,7 @@
 @synthesize cityTableView;
 @synthesize cityPickerManager;
 @synthesize leftButton;
+@synthesize rightButton;
 @synthesize selectedCity;
 @synthesize defaultCity;
 @synthesize delegate;
@@ -23,15 +24,27 @@
     [cityTableView release];
     [cityPickerManager release];
     [leftButton release];
+    [rightButton release];
     [delegate release];
     [super dealloc];
 }
 
-- (id)initWithCityName:(NSString *)cityName{
+- (id)initWithCityName:(NSString *)cityName hasLeftButton:(BOOL) hasLeftButton{
     self = [super init];
     if (self) {
         self.defaultCity = cityName;
+        self.navigationItem.title = @"请选择城市";
+        if (hasLeftButton) {
+            self.leftButton = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
+            self.navigationItem.leftBarButtonItem = self.leftButton;
+        }else {
+            self.navigationItem.leftBarButtonItem = nil;
+            self.navigationItem.hidesBackButton = YES;
+        }
         
+        self.rightButton = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(onclickConfirm:)];
+        [self.rightButton setEnabled:NO];
+        self.navigationItem.rightBarButtonItem = self.rightButton;
     }
     return self;
 }
@@ -50,14 +63,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectedCity = [self.cityPickerManager getCityWithProvinceIndex:indexPath.section cityIndex:indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(dealWithPickedCity:)]){
-        [self onclickBack:nil];
-		[delegate dealWithPickedCity:selectedCity];
-    }
-	else{
-		NSLog(@"[ERROR] Cannot find cityPicker delegate in CityPickerController");
-		return;
-	}
+    [self.rightButton setEnabled:YES];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -120,14 +126,8 @@
 {
     [super viewDidLoad];
     
-    self.leftButton = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
-    
-    self.navigationItem.leftBarButtonItem = self.leftButton;
-    self.navigationItem.hidesBackButton = NO;
-    
     self.cityPickerManager = GlobalCityPickerManager();
-    
-    
+
     self.cityTableView.delegate = self;
     self.cityTableView.dataSource = self;
     
@@ -161,4 +161,20 @@
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (void)onclickConfirm:(id)sender
+{
+    
+    if ([self.delegate respondsToSelector:@selector(dealWithPickedCity:)]){
+        [self onclickBack:nil];
+		[delegate dealWithPickedCity:selectedCity];
+    }
+	else{
+		NSLog(@"[ERROR] Cannot find cityPicker delegate in CityPickerController");
+		return;
+	}
+}
+
+
+
 @end

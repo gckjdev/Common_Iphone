@@ -211,4 +211,21 @@
     
 }
 
+- (NSString*)getDefaultCity
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults valueForKey:@"defaultCity"];
+}
+
+-(void) dealWithPickedCity:(NSString *)city{
+    [self setDefaultCity:city];
+}
+
+- (void)setDefaultCity:(NSString *)city
+{
+    NSUserDefaults *userdefaults = [NSUserDefaults standardUserDefaults];
+    [userdefaults setValue:city forKey:@"defaultCity"];
+}
+
+
 @end
