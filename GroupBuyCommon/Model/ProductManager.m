@@ -107,7 +107,8 @@
     product.loc = [productDict objectForKey:PARA_LOC];
     product.siteName = [productDict objectForKey:PARA_SITE_NAME];
     product.siteURL = [productDict objectForKey:PARA_SITE_URL];
-    product.wapURL = [productDict objectForKey:PARA_WAP_URL];
+    NSString* wapURL = [productDict objectForKey:PARA_WAP_URL];
+    product.wapURL = wapURL;
     product.desc = [productDict objectForKey:PARA_DESC];
     product.offset = [NSNumber numberWithInt:offset];
 

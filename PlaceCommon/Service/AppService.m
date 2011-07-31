@@ -82,17 +82,14 @@
     NSString* userId = [[userService user] userId];
     NSString* appId = [AppManager getPlaceAppId];
     
-    if ([userId length] == 0){
-        NSLog(@"startAppUpdate but user id is null, maybe user is not registered yet");
-        return;
+    if ([appId length] == 0){
+        NSLog(@"startAppUpdate but app id is null.");
     }
     
     dispatch_async(workingQueue, ^{
-        
         GetAppUpdateOutput* output = [GetAppUpdateRequest send:SERVER_URL 
                                                         userId:userId 
-                                                         appId:appId];        
-        
+                                                         appId:appId];    
         dispatch_async(dispatch_get_main_queue(), ^{
             if (output.resultCode == ERROR_SUCCESS){               
                 
