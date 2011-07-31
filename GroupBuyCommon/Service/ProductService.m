@@ -39,6 +39,11 @@
 
 {    
 //    NSString* userId = [UserManager getUserId];
+    
+    //LocationService *service =  GlobalGetLocationService();
+    LocationService *locationService =GlobalGetLocationService();
+    CLLocation *location = [locationService currentLocation];
+
     NSString* appId = [AppManager getPlaceAppId];
     NSString* city = @"广州"; // need to get from LocationService    
     
@@ -71,9 +76,6 @@
             
             case USE_FOR_DISTANCE:
             {
-                //LocationService *service =  GlobalGetLocationService();
-                LocationService *locationService =GlobalGetLocationService();
-                CLLocation *location = [locationService currentLocation];
                 double latitude = location.coordinate.latitude;
                 double longitude = location.coordinate.longitude;
                 output = [GroupBuyNetworkRequest findAllProductsWithLocation:SERVER_URL 
@@ -89,7 +91,7 @@
             {
                 if (useFor >= USE_FOR_PER_CATEGORY){
                     NSString* categoryId = [NSString stringWithFormat:@"%d", (useFor - USE_FOR_PER_CATEGORY)];
-                    output = [GroupBuyNetworkRequest findProducts:SERVER_URL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 todayOnly:NO category:categoryId sortBy:SORT_BY_START_DATE startOffset:startOffset];
+                    output = [GroupBuyNetworkRequest findProducts:SERVER_URL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 maxDistance:DEFAULT_MAX_DISTANCE todayOnly:NO category:categoryId sortBy:SORT_BY_START_DATE startOffset:startOffset maxCount:DEFAULT_MAX_COUNT];
                 }
             }
                 break;
@@ -107,7 +109,8 @@
                 NSArray* productArray = output.jsonDataArray;
                 int offset = startOffset;
                 for (NSDictionary* productDict in productArray){
-                    [ProductManager createProduct:productDict useFor:useFor offset:offset];
+                    [ProductManager createProduct:productDict useFor:useFor 
+                                           offset:offset currentLocation:location];
                     offset ++;
                 }                    
             }

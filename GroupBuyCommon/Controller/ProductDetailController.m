@@ -13,6 +13,7 @@
 #import "HJObjManager.h"
 #import "PPApplication.h"
 #import "JSON.h"
+#import "GroupBuyReport.h"
 
 enum {
     SECTION_TITLE,
@@ -71,6 +72,8 @@ enum {
 
 - (void)viewDidLoad
 {
+    [GroupBuyReport reportEnterProductDetail:product];
+    
     self.navigationItem.title = @"团购商品详情";
     [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
     
@@ -390,21 +393,8 @@ enum {
 	
 }
 
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-    if (indexPath.section == SECTION_MORE){
-        [self clickBuy:nil];
-    }
-    
-}
-
-- (IBAction)clickBuy:(id)sender
+- (void)gotoBuy
 {
-//    TTWebController* webController = GlobalGetWebController();
-//    [self.navigationController pushViewController:webController animated:YES];
-//    [webController openURL:[NSURL URLWithString:product.loc]];
     PPWebViewController *webController = GlobalGetPPWebViewController();
     [self.navigationController pushViewController:webController animated:YES];
     
@@ -412,6 +402,28 @@ enum {
         [webController openURL:product.wapURL];
     else
         [webController openURL:product.loc];
+
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+    if (indexPath.section == SECTION_MORE){
+        [GroupBuyReport reportClickShowProductMore:product];
+        [self gotoBuy];
+    }
+    
+}
+
+
+
+- (IBAction)clickBuy:(id)sender
+{
+//    TTWebController* webController = GlobalGetWebController();
+//    [self.navigationController pushViewController:webController animated:YES];
+//    [webController openURL:[NSURL URLWithString:product.loc]];
+    
+    [GroupBuyReport reportClickBuyProduct:product];
+    [self gotoBuy];
 }
 
 -(void) managedImageSet:(HJManagedImageV*)mi

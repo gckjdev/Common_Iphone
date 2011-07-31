@@ -20,6 +20,8 @@
 #import "ProductPriceDataLoader.h"
 #import "ProductDetailController.h"
 #import "CoreDataUtil.h"
+#import "GroupBuyReport.h"
+
 @implementation CommonProductListController
 
 @synthesize superController;
@@ -70,7 +72,9 @@
 {    
     [self hideActivity];
     
-    if (result == ERROR_SUCCESS){
+    [GroupBuyReport reportDataRefreshResult:result];
+
+    if (result == ERROR_SUCCESS){                
         self.dataList = [self requestProductListFromDB];        
         [self.dataTableView reloadData];
     }
@@ -89,6 +93,7 @@
 #pragma Pull Refresh Delegate
 - (void) reloadTableViewDataSource
 {
+    [GroupBuyReport reportPullRefresh];
     [self requestProductListFromServer:YES];
 }
 
@@ -258,6 +263,7 @@
     if ([self isMoreRow:indexPath.row]){
         [self.moreLoadingView startAnimating];
         [self requestProductListFromServer:NO];
+        [GroupBuyReport reportClickMore];
         return;
     }
     
