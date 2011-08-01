@@ -52,10 +52,19 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
     
-    self.navigationItem.title = @"地点";
     
-    if (locationArray && [locationArray count] > 0) {
-        [self.tableView setHidden:YES];
+    
+    BOOL locationFlag = (locationArray && [locationArray count] > 0) ? YES : NO;
+    BOOL addressFlag = (addressList && [addressList count] > 0) ? YES : NO;
+    
+    
+    if (!locationFlag && !addressFlag) {
+        return;
+    }
+
+    
+    if (locationFlag) {
+        //[self.tableView setHidden:YES];
         self.mapView.delegate = self;
         [mapView setShowsUserLocation:YES];
         MKCoordinateRegion theRegion = { {0.0, 0.0 }, { 0.0, 0.0 } }; 
@@ -64,7 +73,6 @@
         [self.mapView setScrollEnabled:YES]; 
         theRegion.span.longitudeDelta = LONGITUDEDELTA; 
         theRegion.span.latitudeDelta = LATITUDEDELTA; 
-        CLLocation *location;
     
         [self.mapView setRegion:theRegion animated:YES];   
         
@@ -78,13 +86,39 @@
             [self.mapView addAnnotation:pin];
             [pin release];
         }
-    }else{
-        [self.mapView setHidden:YES];
+    }
+    if (addressFlag) {
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
     }
+    
+    if (locationFlag) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"列表" style:UIBarButtonItemStylePlain target:self action:@selector(clickRightButton:)];
+        self.navigationItem.title = @"地图";
+        [self.mapView setHidden:NO];
+        [self.tableView setHidden:YES];
+    }else{
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"地图" style:UIBarButtonItemStylePlain target:self action:@selector(clickRightButton:)];
+        self.navigationItem.title = @"地址列表";
+        [self.mapView setHidden:YES];
+        [self.tableView setHidden:NO];
+    }
 }
 
+- (void) clickRightButton:(id)sender
+{
+    if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"列表"]) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"地图" style:UIBarButtonItemStylePlain target:self action:@selector(clickRightButton:)];
+        self.navigationItem.title = @"地址列表";
+        [tableView setHidden:NO];
+        [mapView setHidden:YES];
+    }else if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"地图"]) {
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"列表" style:UIBarButtonItemStylePlain target:self action:@selector(clickRightButton:)];
+            self.navigationItem.title = @"地图";
+            [tableView setHidden:YES];
+            [mapView setHidden:NO];
+    }
+}
 
 - (void)viewDidUnload
 {
