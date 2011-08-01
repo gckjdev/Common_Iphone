@@ -103,6 +103,10 @@
 
 #pragma -mark table view delegate;
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 55;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -120,6 +124,8 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];	
     }    
     cell.textLabel.text = [self.addressList objectAtIndex:indexPath.row];
+    cell.textLabel.numberOfLines = 3;
+    cell.textLabel.font = [UIFont systemFontOfSize:13];
     return cell;
 }
 

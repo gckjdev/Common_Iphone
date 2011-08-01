@@ -7,6 +7,7 @@
 //
 
 #import "TelPickerViewController.h"
+#import "UIUtils.h"
 
 @implementation TelPickerViewController
 
@@ -89,8 +90,8 @@
 - (void)callTelNumber:(NSString *)number
 {
     self.selectedTelNumber = [[NSString alloc] initWithFormat:@"tel://%@",number]; 
-    NSString *message = [NSString stringWithFormat:@"拨打 %@",number];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"通知" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    NSString *message = [NSString stringWithFormat:@"拨打电话%@吗？",number];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alert show];
     [alert release];
 }
@@ -99,8 +100,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-        NSURL *telUrl = [NSURL URLWithString:selectedTelNumber];
-        [[UIApplication sharedApplication] openURL:telUrl];
+        [UIUtils makeCall:selectedTelNumber];
     }
 }
 
@@ -131,6 +131,7 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];	
     }    
     cell.textLabel.text = [self.telArray objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
     return cell;
 }
 
