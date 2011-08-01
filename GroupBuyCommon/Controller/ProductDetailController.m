@@ -14,7 +14,8 @@
 #import "PPApplication.h"
 #import "JSON.h"
 #import "GroupBuyReport.h"
-
+#import "TelPickerViewController.h"
+#import "ShowAddressViewController.h"
 enum {
     SECTION_TITLE,
     SECTION_IMAGE,
@@ -410,6 +411,27 @@ enum {
     if (indexPath.section == SECTION_MORE){
         [GroupBuyReport reportClickShowProductMore:product];
         [self gotoBuy];
+    }else if(indexPath.section == SECTION_TEL){
+        NSArray *telArr = [product telArray];
+        if(telArr == nil || [telArr count] == 0)
+        {
+            [GroupBuyReport reportClickShowProductMore:product];
+            [self gotoBuy];
+        }else{
+            TelPickerViewController *tvc = [[TelPickerViewController alloc] initWithTelArray:telArr];
+            [self.navigationController pushViewController:tvc animated:YES];
+            [tvc release];
+        }
+    }else if(indexPath.section == SECTION_SHOP_ADDRESS)
+    {
+        NSArray *locationArray = [product gpsArray];
+        NSArray *addressArray = [product addressArray];
+        ShowAddressViewController *savc = [[ShowAddressViewController alloc]initWithLocationArray:locationArray addressList:addressArray];
+        [self.navigationController pushViewController:savc animated:YES];
+        [savc release];
+////        AddressListViewController *avc = [[AddressListViewController alloc]initWithLocationArray:locationArray aAddressList:addressArray];
+//        [self.navigationController pushViewController:avc animated:YES];
+//        [avc release];
     }
     
 }
