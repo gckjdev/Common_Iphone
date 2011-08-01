@@ -239,6 +239,18 @@
 
 + (void)cleanData:(int)timeStamp
 {
+    CoreDataManager *dataManager = GlobalGetCoreDataManager();
+    NSArray* dataArray = [dataManager execute:@"getAllProductsForDelete" 
+                                       forKey:@"beforeTimeStamp" 
+                                        value:[NSNumber numberWithInt:timeStamp]
+                                       sortBy:@"startDate"
+                                    ascending:NO];
+    
+    for (Product* product in dataArray){
+        [dataManager del:product];
+    }
+    
+    [dataManager save];     
     
 }
 

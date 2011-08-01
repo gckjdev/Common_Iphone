@@ -33,6 +33,7 @@
     self = [super init];
     if (self) {
         self.defaultCity = cityName;
+        self.selectedCity = cityName;
         self.navigationItem.title = @"请选择城市";
         if (hasLeftButton) {
             self.leftButton = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
@@ -64,6 +65,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectedCity = [self.cityPickerManager getCityWithProvinceIndex:indexPath.section cityIndex:indexPath.row];
     [self.rightButton setEnabled:YES];
+    
+    [tableView reloadData];
+    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -91,7 +95,7 @@
    
     cell.textLabel.text = city;
     
-    if ([city isEqualToString:defaultCity]){
+    if ([city isEqualToString:selectedCity]){
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     else{
@@ -133,8 +137,9 @@
     
     NSIndexPath *ip=[self indexPathForCity:self.defaultCity];
     
-    [self.cityTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+//    [self.cityTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     
+    [self.cityTableView selectRowAtIndexPath:ip animated:YES scrollPosition:UITableViewScrollPositionMiddle];
 }
 
 - (void)viewDidUnload
