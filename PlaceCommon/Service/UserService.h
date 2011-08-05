@@ -61,6 +61,8 @@ typedef void (^SaveUserSuccessHandler)(PPViewController*);
 
 - (NSString*)userId;
 
+- (void)updateUserCache;
+
 - (void)checkDevice;
 - (void)loginUserWithLoginId:(NSString*)loginId gender:(NSString*)gender viewController:(PPViewController*)viewController;
 - (void)loginUserWithLoginId:(NSString*)loginId viewController:(PPViewController*)viewController;

@@ -62,4 +62,10 @@
                                                  appId:(NSString*)appId
                                                   city:(NSString*)city
                                              todayOnly:(BOOL)todayOnly;
+
+
++ (CommonNetworkOutput*)registerUserDevice:(NSString*)baseURL
+                                                 appId:(NSString*)appId
+                               deviceToken:(NSString*)deviceToken;
+
 @end

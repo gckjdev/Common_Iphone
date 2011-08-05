@@ -11,7 +11,7 @@
 #import "PPNetworkRequest.h"
 #import "StringUtil.h"
 #import "JSON.h"
-
+#import "LocaleUtils.h"
 
 
 @implementation CommonNetworkOutput
@@ -84,8 +84,8 @@
     PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
         
         // parse response data and set into output object
-        NSDictionary* data = [dict objectForKey:RET_DATA];
-        NSLog(@"<deviceLogin> data=%@", [data description]);
+        output.jsonDataDict = [dict objectForKey:RET_DATA];
+        NSLog(@"<deviceLogin> data=%@", [output.jsonDataDict description]);
         return;
     }; 
     
@@ -326,6 +326,44 @@
     
 }
 
++ (CommonNetworkOutput*)registerUserDevice:(NSString*)baseURL
+                                     appId:(NSString*)appId
+                               deviceToken:(NSString*)deviceToken
+{
+    static const int OS_IOS = 1;
+    
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_REGISTERDEVICE];
+        str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueIdentifier]];
+        str = [str stringByAddQueryParameter:PARA_DEVICEMODEL value:[[UIDevice currentDevice] model]];
+        str = [str stringByAddQueryParameter:PARA_DEVICEOS intValue:OS_IOS];
+        str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:[LocaleUtils getCountryCode]];
+        str = [str stringByAddQueryParameter:PARA_LANGUAGE value:[LocaleUtils getLanguageCode]];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];        
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataDict = [dict objectForKey:RET_DATA];
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
 
 
 @end

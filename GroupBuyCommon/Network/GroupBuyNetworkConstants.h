@@ -45,6 +45,7 @@ extern NSString* GlobalGetServerURL();
 
 #define METHOD_GETAPPUPDATE @"gau"
 
+#define METHOD_REGISTERDEVICE @"rd"
 #define METHOD_FINDPRODUCTWITHPRICE @"fpp"
 #define METHOD_FINDPRODUCTWITHREBATE @"fpd"
 #define METHOD_FINDPRODUCTWITHBOUGHT @"fpb"
@@ -201,4 +202,7 @@ extern NSString* GlobalGetServerURL();
 #define SORT_BY_PRICE 1
 #define SORT_BY_REBATE 2
 #define SORT_BY_BOUGHT 3
+
+#define ERROR_DEVICE_NOT_BIND   20003
+
 
