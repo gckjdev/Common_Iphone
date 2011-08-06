@@ -45,7 +45,7 @@
     CLLocation *location = [locationService currentLocation];
 
     NSString* appId = [AppManager getPlaceAppId];
-    NSString* city = @"广州"; // need to get from LocationService    
+    NSString* city = [GlobalGetLocationService() getDefaultCity]; // need to get from LocationService    
     
     dispatch_async(workingQueue, ^{
         
@@ -132,7 +132,7 @@
 - (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly
 {
     NSString* appId = [AppManager getPlaceAppId];
-    NSString* city = @"广州"; // need to get from LocationService    
+    NSString* city = [GlobalGetLocationService() getDefaultCity]; // need to get from LocationService    
     
     dispatch_async(workingQueue, ^{
         
