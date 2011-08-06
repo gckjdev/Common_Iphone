@@ -16,5 +16,5 @@
 
 + (BOOL)createSearchHistory:(NSString*)keyword;
 + (SearchHistory*)findSearchHistoryByKeyword:(NSString*)keyword;
-
++ (NSArray*)getLatestSearchHistories;
 @end

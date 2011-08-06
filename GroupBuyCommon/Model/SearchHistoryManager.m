@@ -24,6 +24,7 @@
     }
 
     history.lastModified = [NSDate date];    
+	NSLog(@"<createSearchHistory> history=%@", [history description]);
     return [dataManager save];
 }
 
@@ -31,6 +32,16 @@
 {
     CoreDataManager* dataManager = GlobalGetCoreDataManager();
     return (SearchHistory*)[dataManager execute:@"findSearchHistoryByKeyword" forKey:@"KEYWORDS" value:keyword];
+}
+
+
++ (NSArray*)getLatestSearchHistories
+{
+    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+	return [dataManager execute:@"getLatestSearchHistories"
+                         sortBy:@"lastModified"
+                      ascending:NO];    
+    
 }
 
 @end

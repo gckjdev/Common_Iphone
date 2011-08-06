@@ -9,8 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "PPViewController.h"
 
-@interface SearchProductController : PPViewController {
-    
+@interface SearchProductController : UIViewController<UISearchBarDelegate> {
+    UIButton *latestSearchButton1;
+	UIButton *latestSearchButton2;
+	UIButton *latestSearchButton3;
+	
 }
 
+@property (nonatomic, retain) IBOutlet UIButton *latestSearchButton1;
+@property (nonatomic, retain) IBOutlet UIButton *latestSearchButton2;
+@property (nonatomic, retain) IBOutlet UIButton *latestSearchButton3;
 @end
