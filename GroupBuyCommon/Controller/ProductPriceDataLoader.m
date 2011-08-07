@@ -209,3 +209,53 @@
 }
 
 @end
+
+
+@implementation ProductKeywordDataLoader
+
+@synthesize keyword;
+
+- (id)initWithKeyword:(NSString*)keywordVal
+{
+	self = [super init];
+    self.keyword = keywordVal;
+    return self;
+		
+}
+
+
+- (void)dealloc
+{
+    [keyword release];
+    [super dealloc];
+}
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    return [ProductManager getAllProductsByUseFor:USE_FOR_KEYWORD sortByKey:@"offset" sortAsending:NO];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+	ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:USE_FOR_KEYWORD startOffset:0 cleanData:YES keyword:keyword];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:USE_FOR_KEYWORD startOffset:startOffset cleanData:NO keyword:keyword];
+    }       
+}
+
+@end
+

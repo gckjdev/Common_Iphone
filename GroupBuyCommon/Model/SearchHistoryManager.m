@@ -23,8 +23,7 @@
         history.keywords = keyword;
     }
 
-    history.lastModified = [NSDate date];    
-	NSLog(@"<createSearchHistory> history=%@", [history description]);
+    history.lastModified = [NSDate date]; 
     return [dataManager save];
 }
 

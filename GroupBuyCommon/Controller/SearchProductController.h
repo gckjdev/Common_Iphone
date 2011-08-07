@@ -19,4 +19,9 @@
 @property (nonatomic, retain) IBOutlet UIButton *latestSearchButton1;
 @property (nonatomic, retain) IBOutlet UIButton *latestSearchButton2;
 @property (nonatomic, retain) IBOutlet UIButton *latestSearchButton3;
+
+
+- (IBAction) doSearch:(id)sender;
+- (IBAction) speechSearch:(id)sender;
+
 @end

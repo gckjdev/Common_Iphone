@@ -36,6 +36,16 @@
                     useFor:(int)useFor
                startOffset:(int)startOffset
                  cleanData:(BOOL)cleanData
+{
+	[self requestProductData:delegateObject useFor:useFor startOffset:startOffset cleanData:cleanData keyword:nil];
+}
+	
+
+- (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
+                    useFor:(int)useFor
+               startOffset:(int)startOffset
+                 cleanData:(BOOL)cleanData
+				   keyword:(NSString*)keyword
 
 {    
 //    NSString* userId = [UserManager getUserId];
@@ -73,7 +83,14 @@
                                                               startOffset:startOffset 
                                                                      city:city];
                 break;
-            
+				
+			case USE_FOR_KEYWORD:
+                output = [GroupBuyNetworkRequest findAllProductsByKeyword:SERVER_URL
+                                                                    appId:appId
+																  keyword:keyword
+                                                              startOffset:startOffset];
+                break;
+				
             case USE_FOR_DISTANCE:
             {
                 double latitude = location.coordinate.latitude;

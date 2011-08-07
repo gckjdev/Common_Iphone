@@ -72,3 +72,15 @@
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
 
 @end
+
+@interface ProductKeywordDataLoader : NSObject<ProductDataLoader> {
+    NSString    *keyword;
+}
+
+@property (nonatomic, retain)     NSString    *keyword;
+
+- (id)initWithKeyword:(NSString*)keyword;
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end

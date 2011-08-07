@@ -68,4 +68,9 @@
                                                  appId:(NSString*)appId
                                deviceToken:(NSString*)deviceToken;
 
++ (CommonNetworkOutput*)findAllProductsByKeyword:(NSString*)baseURL
+										   appId:(NSString*)appId
+										 keyword:(NSString*)keyword
+									 startOffset:(int)startOffset;
+
 @end

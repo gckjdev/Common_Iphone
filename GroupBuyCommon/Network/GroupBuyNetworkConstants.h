@@ -52,6 +52,7 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_FINDPRODUCTWITHLOCATION @"fpl"
 #define METHOD_FINDPRODUCTSGROUPBYCATEGORY @"fgc"
 #define METHOD_FINDPRODUCTS @"fp"
+#define METHOD_FINDPRODUCTSBYKEYWORD @"fpk"
 
 // request parameters
 
@@ -143,6 +144,8 @@ extern NSString* GlobalGetServerURL();
 #define PARA_MESSAGETEXT @"t"
 
 #define PARA_VERSION @"v"
+
+#define PARA_KEYWORD @"kw"
 
 // response parameters
 

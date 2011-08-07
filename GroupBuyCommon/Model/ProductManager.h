@@ -19,7 +19,7 @@ enum {
     USE_FOR_BOUGHT,
     USE_FOR_REBATE,
     USE_FOR_HISTORY = 6,
-    
+    USE_FOR_KEYWORD,
     
     USE_FOR_PER_CATEGORY = 100
 };

@@ -9,6 +9,16 @@
 #import "SearchProductController.h"
 #import "SearchHistoryManager.h"
 #import "SearchHistory.h"
+#import "qisr.h"
+#import "CommonProductListController.h"
+#import "ProductPriceDataLoader.h"
+
+//private methods
+@interface SearchProductController()
+
+-(void) refreshLatestSearchHistory;
+
+@end
 
 @implementation SearchProductController
 
@@ -53,6 +63,9 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	latestSearchButton1 = nil;
+	latestSearchButton2 = nil;	
+	latestSearchButton3 = nil;
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -92,8 +105,13 @@
 	[SearchHistoryManager createSearchHistory:searchBar.text];
 	
 	[self refreshLatestSearchHistory];
-	for ( SearchHistory* ss in [SearchHistoryManager getLatestSearchHistories] )
-		NSLog(@"history value: %@",  ss.keywords);
+	
+	CommonProductListController *searchResultController = [[CommonProductListController alloc] init];
+	searchResultController.superController = self;
+	searchResultController.dataLoader = [[ProductKeywordDataLoader alloc] initWithKeyword:searchBar.text];
+	[self.navigationController pushViewController:searchResultController animated:NO];
+	[searchResultController release];
+	
 }  
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -102,6 +120,24 @@
 
 }
 
+#pragma mark -
+#pragma mark do Search
 
+
+- (IBAction) doSearch:(id)sender
+{
+	UIButton *button = (UIButton *)sender;
+	//TODO
+	NSLog(@"Submitting search : %@",  button.currentTitle);
+
+}
+
+
+- (IBAction) speechSearch:(id)sender
+{
+	//CGPoint origin = CGPointMake(20.0,20.0);	
+	//[IFlyRecognizeControl initWithOrigin:origin theInitParam:@"appid=4e3dff54"];
+	//[IFlyRecognize initWithOrigin:origin theInitParam:@"appid=4e3dff54"];
+}
 
 @end

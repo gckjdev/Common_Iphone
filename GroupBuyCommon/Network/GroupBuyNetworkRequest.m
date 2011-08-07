@@ -365,5 +365,41 @@
     
 }
 
++ (CommonNetworkOutput*)findAllProductsByKeyword:(NSString*)baseURL
+										   appId:(NSString*)appId
+										 keyword:(NSString*)keyword
+									 startOffset:(int)startOffset
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    const int MAX_COUNT = 10;
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDPRODUCTSBYKEYWORD];
+        str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:MAX_COUNT];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_KEYWORD value:keyword];
+        str = [str stringByAddQueryParameter:PARA_START_OFFSET intValue:startOffset];
+		
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
 
 @end
