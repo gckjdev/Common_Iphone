@@ -81,7 +81,12 @@ enum {
     self.boughtLabel.text = [product.bought description];
     self.rebateLabel.text = [product.rebate description];
     self.priceLabel.text = [product.price description];
-    self.saveLabel.text = [[NSNumber numberWithDouble:([product.value doubleValue] - [product.price doubleValue])] description];
+    
+    int saveValue = [product.value doubleValue] - [product.price doubleValue];
+    if (saveValue < 0.0f)
+        saveValue = 0.0f;
+    
+    self.saveLabel.text = [[NSNumber numberWithDouble:saveValue] description];
     
     [self setBackgroundImageName:@"background.png"];
     
@@ -124,7 +129,7 @@ enum {
     }
     
     if ([str length] == 0){
-        str = @"详细介绍信息：请点击更多商品详情";
+        str = @"介绍信息：请点击更多商品详情";
     }
     
     return str;
