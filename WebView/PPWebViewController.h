@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Three20/Three20.h"
+#import "PPViewController.h"
 
 extern TTWebController* GlobalGetWebController();
 
 
 
-@interface PPWebViewController : UIViewController <UIWebViewDelegate> {
+@interface PPWebViewController : PPViewController <UIWebViewDelegate> {
     
     UIWebView *webView;
     UIToolbar *toolbar;

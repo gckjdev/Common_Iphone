@@ -26,7 +26,7 @@ TTWebController* GlobalGetWebController()
 {
     self = [super init];
     if (self) {
-        loadActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        loadActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         
         self.hidesBottomBarWhenPushed = YES;
     }
@@ -76,6 +76,7 @@ TTWebController* GlobalGetWebController()
     
     NSURL *url = [NSURL URLWithString:URLString];
     request = [NSURLRequest requestWithURL:url];
+    [self.webView stopLoading];
     [self.webView loadRequest:request];
 }
 
@@ -123,10 +124,19 @@ TTWebController* GlobalGetWebController()
 
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
-    [loadActivityIndicator setCenter:CGPointMake(toolbar.bounds.size.width - 30, toolbar.bounds.size.height/2)];
-    [toolbar addSubview:loadActivityIndicator];
+    
+    int width = 320;
+    int height = 480;
+//    [loadActivityIndicator
+    
+    [loadActivityIndicator setCenter:CGPointMake(width/2 - 5, height/2-30)];//toolbar.bounds.size.width - 30, toolbar.bounds.size.height/2)];
+//    [toolbar addSubview:loadActivityIndicator];
+    
+    [self.view addSubview:loadActivityIndicator];
+    
     [loadActivityIndicator startAnimating];
 }
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
 
     [loadActivityIndicator removeFromSuperview];
