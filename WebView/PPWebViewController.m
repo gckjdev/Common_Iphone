@@ -1,5 +1,6 @@
 
 #import "PPWebViewController.h"
+#import "StringUtil.h"
 
 TTWebController* gWebController;
 
@@ -74,7 +75,7 @@ TTWebController* GlobalGetWebController()
 {
     NSLog(@"url = %@",URLString);
     
-    NSURL *url = [NSURL URLWithString:URLString];
+    NSURL *url = [NSURL URLWithString:[URLString stringByURLEncode]];
     request = [NSURLRequest requestWithURL:url];
     [self.webView stopLoading];
     [self.webView loadRequest:request];
