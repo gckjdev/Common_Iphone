@@ -137,6 +137,8 @@
     
     [super viewDidLoad];
     
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -144,6 +146,9 @@
     if (self.dataList == nil || [self.dataList count] == 0){
         [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];
+    }
+    else{
+        [self.dataTableView reloadData];
     }
     
     [super viewDidAppear:YES];

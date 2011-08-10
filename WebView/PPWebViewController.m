@@ -27,7 +27,7 @@ TTWebController* GlobalGetWebController()
 {
     self = [super init];
     if (self) {
-        loadActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        loadActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         
         self.hidesBottomBarWhenPushed = YES;
     }
@@ -71,13 +71,22 @@ TTWebController* GlobalGetWebController()
     [super viewDidAppear:animated];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.webView stopLoading];
+    [loadActivityIndicator stopAnimating];
+    if (loadActivityIndicator.superview)
+        [loadActivityIndicator removeFromSuperview];
+
+    [super viewDidDisappear:animated];
+}
+
 - (void)openURL:(NSString *)URLString
 {
     NSLog(@"url = %@",URLString);
     
     NSURL *url = [NSURL URLWithString:[URLString stringByURLEncode]];
     request = [NSURLRequest requestWithURL:url];
-    [self.webView stopLoading];
     [self.webView loadRequest:request];
 }
 
@@ -126,21 +135,25 @@ TTWebController* GlobalGetWebController()
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     
-    int width = 320;
-    int height = 480;
+//    int width = 320;
+//    int height = 480;
 //    [loadActivityIndicator
     
-    [loadActivityIndicator setCenter:CGPointMake(width/2 - 5, height/2-30)];//toolbar.bounds.size.width - 30, toolbar.bounds.size.height/2)];
-//    [toolbar addSubview:loadActivityIndicator];
+    [loadActivityIndicator setCenter:CGPointMake(toolbar.bounds.size.width - 30, toolbar.bounds.size.height/2)];
+
+    if (loadActivityIndicator.superview)
+        [loadActivityIndicator removeFromSuperview];
+    [toolbar addSubview:loadActivityIndicator];
     
-    [self.view addSubview:loadActivityIndicator];
+//    [self.view addSubview:loadActivityIndicator];
     
     [loadActivityIndicator startAnimating];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
 
-    [loadActivityIndicator removeFromSuperview];
+    if (loadActivityIndicator.superview)
+        [loadActivityIndicator removeFromSuperview];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -152,8 +165,8 @@ TTWebController* GlobalGetWebController()
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"ç½??è¿?????" delegate:self cancelButtonTitle:@"???" otherButtonTitles:@"???", nil];
-//    [alertView release];
+    if (loadActivityIndicator.superview)
+        [loadActivityIndicator removeFromSuperview];
 }
 
 @end

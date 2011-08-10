@@ -129,6 +129,9 @@
         [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];
     }
+    else{
+        [self.dataTableView reloadData];
+    }
     
     [super viewDidAppear:YES];
 }
