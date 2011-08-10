@@ -16,7 +16,7 @@
 @synthesize slideBg;
 
 - (void)viewDidAppear:(BOOL)animated{
-	self.slideBg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"slide"]];
+	slideBg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"slide"]];
 	[self hideRealTabBar];
 	[self customTabBar];
 }

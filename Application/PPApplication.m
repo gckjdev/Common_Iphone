@@ -86,8 +86,8 @@ BOOL isFree()
 
 - (void)initLocationManager
 {
-	if (self.locationManager == nil){
-		self.locationManager = [[CLLocationManager alloc] init];
+	if (locationManager == nil){
+		locationManager = [[CLLocationManager alloc] init];
 	}
 }
 
@@ -157,7 +157,7 @@ BOOL isFree()
 
 - (void)reverseGeocodeCurrentLocation:(CLLocation *)location
 {
-    self.reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:location.coordinate];
+    self.reverseGeocoder = [[[MKReverseGeocoder alloc] initWithCoordinate:location.coordinate] autorelease];
     reverseGeocoder.delegate = self;
     [reverseGeocoder start];
 }
@@ -304,7 +304,7 @@ if (nil != payload) {
 - (void)initAudioPlayer:(NSString*)soundFile
 {
 	NSError* error = nil;
-	self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:soundFile withExtension:@"caf"] error:&error];
+	self.player = [[[AVAudioPlayer alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:soundFile withExtension:@"caf"] error:&error] autorelease];
 	if (!error){
 		NSLog(@"Init audio player successfully, sound file %@", soundFile);
 		[player setNumberOfLoops:0];
@@ -320,7 +320,7 @@ if (nil != payload) {
 - (void)initImageCacheManager
 {
     // Create the object manager
-	self.imageCacheManager = [[HJObjManager alloc] initWithLoadingBufferSize:6 memCacheSize:5];
+	self.imageCacheManager = [[[HJObjManager alloc] initWithLoadingBufferSize:6 memCacheSize:5] autorelease];
 	
 	//if you are using for full screen images, you'll need a smaller memory cache than the defaults,
 	//otherwise the cached images will get you out of memory quickly
