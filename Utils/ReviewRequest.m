@@ -27,7 +27,8 @@
 		review.promptInterval = 0;
 	}
 	
-	if ([review shouldAskForReviewAtLaunch]){
+    BOOL randomAsk = ((time(0) % 2) == 0);    
+	if ([review shouldAskForReviewAtLaunch] && randomAsk){
 		[review askForReview];
 	}	
     

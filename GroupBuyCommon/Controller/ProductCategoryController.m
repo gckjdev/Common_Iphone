@@ -97,15 +97,19 @@
     [self hideActivity];
     
     if (result == ERROR_SUCCESS){        
-        self.dataList = jsonArray;
         
-        [self initIndexNameArray];
-        
+        self.dataList = jsonArray;        
+        [self initIndexNameArray];        
         [self.dataTableView reloadData];
-    }
+        
+    } 
     
     if ([self isReloading]){
         [self dataSourceDidFinishLoadingNewData];
+    }
+    
+    if (result == ERROR_NETWORK){
+        [self popupUnhappyMessage:@"无法连接到互联网，请检查网络是否可用？" title:@"网络错误"];
     }
 }
 
@@ -133,12 +137,7 @@
     
     supportRefreshHeader = YES;
     
-    [self initDataList];
-    
-    [super viewDidLoad];
-    
-    
-    
+    [super viewDidLoad];            
 }
 
 - (void)viewDidAppear:(BOOL)animated

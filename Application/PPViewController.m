@@ -39,7 +39,7 @@
 		self.alertView = [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:nil] autorelease];			
 	}
 	else {
-		[self.alertView dismissWithClickedButtonIndex:0 animated:YES];		
+		[self.alertView dismissWithClickedButtonIndex:0 animated:NO];		
 		[alertView setMessage:msg];
 		[alertView setTitle:title];		
 	}
@@ -63,8 +63,7 @@
 
 - (void)dismissAlertView:(id)sender
 {
-	[self.alertView dismissWithClickedButtonIndex:0 animated:YES];
-	self.alertView = nil;
+	[self.alertView dismissWithClickedButtonIndex:0 animated:NO];
 }
 
 - (void)showBackgroundImage
@@ -266,6 +265,8 @@
 
 - (void)viewDidUnload
 {
+    self.alertView = nil;   // release alert view
+    
 	[self deregsiterKeyboardNotification];
 	[super viewDidUnload];
 }

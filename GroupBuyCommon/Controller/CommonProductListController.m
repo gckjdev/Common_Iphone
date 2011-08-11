@@ -80,6 +80,9 @@
         self.dataList = [self requestProductListFromDB];        
         [self.dataTableView reloadData];
     }
+    else if (result == ERROR_NETWORK){
+        [self popupUnhappyMessage:@"无法连接到互联网，请检查网络是否可用？" title:@"网络错误"];
+    }
     
     if ([self isReloading]){
         [self dataSourceDidFinishLoadingNewData];
@@ -117,7 +120,7 @@
     }
     
     
-    [self initDataList];
+//    [self initDataList];
     
     [super viewDidLoad];
     
