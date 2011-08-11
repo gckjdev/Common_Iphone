@@ -27,6 +27,7 @@
 @synthesize superController;
 @synthesize dataLoader;
 @synthesize categoryId;
+@synthesize type;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,6 +43,7 @@
     [superController release];
     [dataLoader release];
     [categoryId release];
+    [type release];
     [super dealloc];
 }
 
@@ -93,7 +95,7 @@
 #pragma Pull Refresh Delegate
 - (void) reloadTableViewDataSource
 {
-    [GroupBuyReport reportPullRefresh];
+    [GroupBuyReport reportPullRefresh:categoryId type:type];
     [self requestProductListFromServer:YES];
 }
 
@@ -266,10 +268,10 @@
     if ([self isMoreRow:indexPath.row]){
         [self.moreLoadingView startAnimating];
         [self requestProductListFromServer:NO];
-        [GroupBuyReport reportClickMore];
+        [GroupBuyReport reportClickMore:categoryId type:type];
         return;
     }
-    
+     
 	if (indexPath.row > [dataList count] - 1)
 		return;
 	

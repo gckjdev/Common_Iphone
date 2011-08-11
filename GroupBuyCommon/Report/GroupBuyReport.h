@@ -18,8 +18,8 @@
 + (void)reportSegControlClick:(UISegmentedControl*)segControl;
 + (void)reportDataRefreshResult:(int)result;
 
-+ (void)reportClickMore;
-+ (void)reportPullRefresh;
++ (void)reportClickMore:(NSString*)categoryName type:(NSString*)type;
++ (void)reportPullRefresh:(NSString*)categoryName type:(NSString*)type;
 + (void)reportEnterProductDetail:(Product*)product;
 + (void)reportClickShowProductMore:(Product*)product;
 + (void)reportClickBuyProduct:(Product*)product;
