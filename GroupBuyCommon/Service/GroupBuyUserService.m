@@ -12,6 +12,7 @@
 #import "GroupBuyNetworkConstants.h"
 #import "AppManager.h"
 #import "CommonManager.h"
+
 //#import "DeviceLoginRequest.h"
 
 @implementation UserService (GroupBuyUserService)

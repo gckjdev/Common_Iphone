@@ -350,13 +350,16 @@
     Product* product = [ProductManager createProduct:productDict useFor:USE_FOR_HISTORY 
                                               offset:0 currentLocation:nil];
     
-    ProductDetailController* vc = [[ProductDetailController alloc] init];
-    vc.product = product;
+    BOOL isCreateHistory = NO;
+    UINavigationController* navigationController;
     if (self.superController)
-        [self.superController.navigationController pushViewController:vc animated:YES];
+        navigationController = self.superController.navigationController;
     else   
-        [self.navigationController pushViewController:vc animated:YES];
-    [vc release];
+        navigationController = self.navigationController;
+    
+    [ProductDetailController showProductDetail:product 
+                          navigationController:navigationController
+                               isCreateHistory:isCreateHistory];
     
 }
 

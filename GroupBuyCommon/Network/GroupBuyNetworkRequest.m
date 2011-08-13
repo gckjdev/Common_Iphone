@@ -434,4 +434,47 @@
                                   output:output];    
 }
 
++ (CommonNetworkOutput*)actionOnProduct:(NSString*)baseURL
+                                  appId:(NSString*)appId
+                                 userId:(NSString*)userId
+                              productId:(NSString*)productId
+                             actionName:(NSString*)actionName
+                            actionValue:(int)value
+                            hasLocation:(BOOL)hasLocation
+                               latitude:(double)latitude
+                              longitude:(double)longitude
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_ACTIONONPRODUCT];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        str = [str stringByAddQueryParameter:PARA_ACTION_NAME value:actionName];
+        str = [str stringByAddQueryParameter:PARA_ACTION_VALUE intValue:value];
+        str = [str stringByAddQueryParameter:PARA_ID value:productId];
+        
+        if (hasLocation){
+            str = [str stringByAddQueryParameter:PARA_LATITUDE doubleValue:latitude];
+            str = [str stringByAddQueryParameter:PARA_LONGTITUDE doubleValue:longitude];
+        }
+                
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
+
 @end

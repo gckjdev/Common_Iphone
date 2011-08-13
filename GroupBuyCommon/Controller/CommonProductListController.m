@@ -266,6 +266,8 @@
 	
 }
 
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	    
     if ([self isMoreRow:indexPath.row]){
@@ -277,20 +279,20 @@
      
 	if (indexPath.row > [dataList count] - 1)
 		return;
-	
-    // write to browse history
-    Product* product = [dataList objectAtIndex:indexPath.row];    
-    if ([dataLoader isKindOfClass:[ProductHistoryDataLoader class]] == NO){
-        [ProductManager createProductHistory:product];
-    }
     
-    ProductDetailController* vc = [[ProductDetailController alloc] init];
-    vc.product = product;
+    BOOL isCreateHistory = ([dataLoader isKindOfClass:[ProductHistoryDataLoader class]] == NO);
+    Product* product = [dataList objectAtIndex:indexPath.row];  
+    UINavigationController* navigationController;
     if (self.superController)
-        [self.superController.navigationController pushViewController:vc animated:YES];
+        navigationController = self.superController.navigationController;
     else   
-        [self.navigationController pushViewController:vc animated:YES];
-    [vc release];
+        navigationController = self.navigationController;
+        
+    [ProductDetailController showProductDetail:product 
+                          navigationController:navigationController
+                               isCreateHistory:isCreateHistory];
+	
+
     
 }
 

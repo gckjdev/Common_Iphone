@@ -77,4 +77,15 @@
 + (CommonNetworkOutput*)updateKeywords:(NSString*)baseURL
                            appId:(NSString*)appId;
 
+
++ (CommonNetworkOutput*)actionOnProduct:(NSString*)baseURL
+                                 appId:(NSString*)appId
+                                 userId:(NSString*)userId
+                              productId:(NSString*)productId
+                             actionName:(NSString*)actionName
+                            actionValue:(int)value
+                            hasLocation:(BOOL)hasLocation
+                               latitude:(double)latitude
+                              longitude:(double)longitude;
+
 @end

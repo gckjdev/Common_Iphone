@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "CommonService.h"
 
+#define PRODUCT_ACTION_CLICK    @"Click"
+#define PRODUCT_ACTION_BUY      @"Buy"
+
 @protocol ProductServiceDelegate <NSObject>
 
 @optional
@@ -21,6 +24,7 @@
 
 @interface ProductService : CommonService {
     
+    dispatch_queue_t    actionWorkingQueue;
 }
 
 - (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
@@ -37,6 +41,8 @@
 - (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly;
 
 - (void)updateKeywords;
+
+- (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue;
 
 @end
 

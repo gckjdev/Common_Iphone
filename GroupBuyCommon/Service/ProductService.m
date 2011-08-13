@@ -15,6 +15,7 @@
 #import "GroupBuyNetworkConstants.h"
 #import "LocationService.h"
 #import "HotKeywordManager.h"
+#import "GroupBuyUserService.h"
 
 @implementation ProductService
 
@@ -200,6 +201,31 @@
         });
         
         
+    });      
+}
+
+- (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue
+{
+    if (actionWorkingQueue == NULL){
+        actionWorkingQueue = dispatch_queue_create("action queue", NULL);
+    }
+    
+    NSString* userId = [GlobalGetUserService() userId];
+    NSString* appId = [AppManager getPlaceAppId];
+    LocationService *locationService =GlobalGetLocationService();
+    CLLocation *location = [locationService currentLocation];
+    BOOL hasLocation = NO;
+    if (location != nil)
+        hasLocation = YES;
+    
+    // TODO, cache request in 3G network    
+    
+    dispatch_async(actionWorkingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;
+        
+        output = [GroupBuyNetworkRequest actionOnProduct:SERVER_URL appId:appId userId:userId productId:productId actionName:actionName actionValue:actionValue hasLocation:hasLocation latitude:location.coordinate.latitude longitude:location.coordinate.longitude];        
     });      
 }
 

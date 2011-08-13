@@ -30,5 +30,6 @@
 @property (nonatomic, retain) HJManagedImageV *imageView;
 
 - (IBAction)clickBuy:(id)sender;
++ (void)showProductDetail:(Product*)product navigationController:(UINavigationController*)navigationController isCreateHistory:(BOOL)isCreateHistory;
 
 @end

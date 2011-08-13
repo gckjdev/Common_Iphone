@@ -16,6 +16,9 @@
 #import "GroupBuyReport.h"
 #import "TelPickerViewController.h"
 #import "ShowAddressViewController.h"
+#import "ProductService.h"
+#import "ProductManager.h"
+
 enum {
     SECTION_TITLE,
     SECTION_IMAGE,
@@ -40,6 +43,22 @@ enum {
 @synthesize saveLabel;
 @synthesize boughtLabel;
 @synthesize imageView;
+
++ (void)showProductDetail:(Product*)product navigationController:(UINavigationController*)navigationController isCreateHistory:(BOOL)isCreateHistory
+{
+    // write to browse history      
+    if (isCreateHistory == YES){
+        [ProductManager createProductHistory:product];
+    }
+    
+    // report click action
+    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_CLICK actionValue:1];
+    
+    ProductDetailController* vc = [[ProductDetailController alloc] init];
+    vc.product = product;
+    [navigationController pushViewController:vc animated:YES];
+    [vc release];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -449,6 +468,7 @@ enum {
 //    [self.navigationController pushViewController:webController animated:YES];
 //    [webController openURL:[NSURL URLWithString:product.loc]];
     
+    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_BUY actionValue:1];
     [GroupBuyReport reportClickBuyProduct:product];
     [self gotoBuy];
 }

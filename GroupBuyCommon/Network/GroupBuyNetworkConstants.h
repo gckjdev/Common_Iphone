@@ -45,6 +45,7 @@ extern NSString* GlobalGetServerURL();
 
 #define METHOD_GETAPPUPDATE @"gau"
 #define METHOD_UPDATEKEYWORD @"uk"
+#define METHOD_ACTIONONPRODUCT @"ap"
 
 #define METHOD_REGISTERDEVICE @"rd"
 #define METHOD_FINDPRODUCTWITHPRICE @"fpp"
@@ -201,6 +202,9 @@ extern NSString* GlobalGetServerURL();
 #define PARA_MAX_DISTANCE @"md"
 #define PARA_TODAY_ONLY @"to"
 #define PARA_SORT_BY @"sb"
+
+#define PARA_ACTION_NAME @"an"
+#define PARA_ACTION_VALUE @"av"
 
 #define SORT_BY_START_DATE 0
 #define SORT_BY_PRICE 1
