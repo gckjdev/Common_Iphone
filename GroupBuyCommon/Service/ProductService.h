@@ -11,6 +11,8 @@
 
 #define PRODUCT_ACTION_CLICK    @"Click"
 #define PRODUCT_ACTION_BUY      @"Buy"
+#define PRODUCT_ACTION_ADD_FAVORITE @"Favor"
+#define PRODUCT_ACTION_FORWARD  @"Send"
 
 @protocol ProductServiceDelegate <NSObject>
 

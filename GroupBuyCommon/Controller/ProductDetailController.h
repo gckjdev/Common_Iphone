@@ -12,7 +12,7 @@
 
 @class Product;
 
-@interface ProductDetailController : PPTableViewController <HJManagedImageVDelegate> {
+@interface ProductDetailController : PPTableViewController <HJManagedImageVDelegate, UIActionSheetDelegate> {
     Product *product;
     UILabel *priceLabel;
     UILabel *rebateLabel;
@@ -30,6 +30,9 @@
 @property (nonatomic, retain) HJManagedImageV *imageView;
 
 - (IBAction)clickBuy:(id)sender;
+- (IBAction)clickSave:(id)sender;
+- (IBAction)clickForward:(id)sender;
+
 + (void)showProductDetail:(Product*)product navigationController:(UINavigationController*)navigationController isCreateHistory:(BOOL)isCreateHistory;
 
 @end

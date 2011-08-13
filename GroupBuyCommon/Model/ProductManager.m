@@ -141,6 +141,27 @@
         return product;
 }
 
++ (BOOL)createProductForFavorite:(Product*)product
+{
+    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+    
+    NSArray* array = [ProductManager getProductByIdUseFor:product.productId useFor:USE_FOR_FAVORITE];
+    if (array != nil && [array count] > 0){
+        Product* existProduct = [array objectAtIndex:0];
+        existProduct.browseDate = [NSDate date];
+        existProduct.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
+        [dataManager save];
+        return YES;
+    }
+    
+    Product* favorProduct = [dataManager insert:@"Product"];
+    [favorProduct copyFrom:product useFor:USE_FOR_FAVORITE];
+    [dataManager save];
+    
+     NSLog(@"<createProductForFavorite> product=%@", [favorProduct description]);    
+    return YES;
+}
+
 + (BOOL)createProductHistory:(Product*)product
 {
     CoreDataManager* dataManager = GlobalGetCoreDataManager();
@@ -154,35 +175,27 @@
     }
         
     productHistory = [dataManager insert:@"Product"];
-    productHistory.productId = product.productId;
-    productHistory.title = product.title;
-    productHistory.price = product.price;
-    productHistory.rebate = product.rebate;
-    productHistory.bought = product.bought;
-    productHistory.value = product.value;
-    productHistory.startDate = product.startDate;
-    productHistory.endDate = product.endDate;
-    productHistory.image = product.image;
-    productHistory.loc = product.loc;
-    productHistory.siteName = product.siteName;
-    productHistory.siteURL = product.siteURL;
-    productHistory.wapURL = product.wapURL;
-    productHistory.desc = product.desc;
-    productHistory.detail = product.detail;
-    productHistory.gps = product.gps;
-    productHistory.address = product.address;
-    productHistory.tel = product.tel;
-    productHistory.shop = product.shop;
-    
-    productHistory.longitude = product.longitude;
-    productHistory.latitude = product.latitude;
-    productHistory.useFor = [NSNumber numberWithInt:USE_FOR_HISTORY];
-    productHistory.deleteFlag = [NSNumber numberWithBool:NO];
-    productHistory.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
-    
+    [productHistory copyFrom:product useFor:USE_FOR_HISTORY];    
     NSLog(@"<createProductHistory> product=%@", [productHistory description]);
     
     return [dataManager save];    
+    
+}
+
++ (NSArray*)getProductByIdUseFor:(NSString*)productId useFor:(int)useFor
+{
+    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+    
+    NSArray* values = [NSArray arrayWithObjects:productId, [NSNumber numberWithInt:useFor], nil];
+    NSArray* keys = [NSArray arrayWithObjects:@"PRODUCT_ID", @"USE_FOR", nil];
+    NSDictionary* keyValues = [NSDictionary dictionaryWithObjects:values                                
+                                                          forKeys:keys];
+    
+    return [dataManager execute:@"getProductByIdUseFor"
+                      keyValues:keyValues
+                         sortBy:@"useFor"
+                      ascending:YES];    
+        
     
 }
 

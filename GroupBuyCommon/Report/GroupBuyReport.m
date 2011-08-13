@@ -77,5 +77,4 @@
     [MobClick event:@"Buy Product" label:productInfo];        
 }
 
-
 @end
