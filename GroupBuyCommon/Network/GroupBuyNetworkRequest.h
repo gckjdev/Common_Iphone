@@ -70,7 +70,11 @@
 
 + (CommonNetworkOutput*)findAllProductsByKeyword:(NSString*)baseURL
 										   appId:(NSString*)appId
+                                            city:(NSString*)city
 										 keyword:(NSString*)keyword
 									 startOffset:(int)startOffset;
+
++ (CommonNetworkOutput*)updateKeywords:(NSString*)baseURL
+                           appId:(NSString*)appId;
 
 @end

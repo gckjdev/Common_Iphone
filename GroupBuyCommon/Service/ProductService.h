@@ -35,6 +35,9 @@
 				   keyword:(NSString*)keyword;
 
 - (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly;
+
+- (void)updateKeywords;
+
 @end
 
 extern ProductService* GlobalGetProductService();

@@ -14,7 +14,7 @@
 }
 
 + (void)createHotKeywords:(NSArray*)keywords;
-+ (BOOL)createHotKeyword:(HotKeyword*)hotKeywordVal;
++ (BOOL)createHotKeyword:(NSString*)keyword priority:(int)priority;
 + (NSArray*)getAllHotKeywords;
 + (BOOL) deleteAllHotKeywords;
 @end

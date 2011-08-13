@@ -21,21 +21,19 @@
 	for (NSString* keyword in keywords) {
 		int i = 1;
 		if (keyword!=nil) {
-			HotKeyword *hotKeyword = [[HotKeyword alloc] initWithKeyword:keyword AndPriority:[NSNumber numberWithInt: i]];
-			[HotKeywordManager createHotKeyword:hotKeyword];
+			[HotKeywordManager createHotKeyword:keyword priority:i];
 			i++;
-			[hotKeyword release];
 		}
 	}
 }
 
-+ (BOOL)createHotKeyword:(HotKeyword*)hotKeywordVal
++ (BOOL)createHotKeyword:(NSString*)keyword priority:(int)priority
 {
     CoreDataManager* dataManager = GlobalGetCoreDataManager();
     
     HotKeyword *hotKeyword = [dataManager insert:@"HotKeyword"];
-	hotKeyword.keyword = hotKeywordVal.keyword;
-	hotKeyword.priority = hotKeywordVal.priority;
+	hotKeyword.keyword = keyword;
+	hotKeyword.priority = [NSNumber numberWithInt:priority];
     return [dataManager save];
 }
 

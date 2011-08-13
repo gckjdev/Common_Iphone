@@ -14,6 +14,7 @@
 #import "GroupBuyNetworkRequest.h"
 #import "GroupBuyNetworkConstants.h"
 #import "LocationService.h"
+#import "HotKeywordManager.h"
 
 @implementation ProductService
 
@@ -87,6 +88,7 @@
 			case USE_FOR_KEYWORD:
                 output = [GroupBuyNetworkRequest findAllProductsByKeyword:SERVER_URL
                                                                     appId:appId
+                                                                     city:city
 																  keyword:keyword
                                                               startOffset:startOffset];
                 break;
@@ -172,6 +174,33 @@
         
         
     });    
+}
+
+- (void)updateKeywords
+{
+    NSString* appId = [AppManager getPlaceAppId];
+
+    dispatch_async(workingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;
+        
+        output = [GroupBuyNetworkRequest updateKeywords:SERVER_URL appId:appId];
+        
+        // if succeed, clean local data and save new data
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSLog(@"<appUpdate> result code=%d, get total %d keywords", 
+                  output.resultCode, [output.jsonDataArray count]);
+            
+            // save data
+            [HotKeywordManager createHotKeywords:output.jsonDataArray];
+            
+            // Update UI here?
+        });
+        
+        
+    });      
 }
 
 @end

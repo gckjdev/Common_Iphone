@@ -35,8 +35,10 @@
 
 - (void)popupMessage:(NSString*)msg title:(NSString*)title
 {
+    
 	if (self.alertView == nil){	
-		self.alertView = [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:nil] autorelease];			
+        // TODO why cannot autorelease AlertView, crash if using autorelease here
+		self.alertView = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];			
 	}
 	else {
 		[self.alertView dismissWithClickedButtonIndex:0 animated:NO];		
@@ -44,6 +46,8 @@
 		[alertView setTitle:title];		
 	}
 
+    NSLog(@"alert view retain count=%d", [alertView retainCount]);
+    
 	[alertView show];	
 	[NSTimer scheduledTimerWithTimeInterval:kAlertViewShowTimerInterval target:self selector:@selector(dismissAlertView:) userInfo:nil repeats:NO];
 }
@@ -63,6 +67,7 @@
 
 - (void)dismissAlertView:(id)sender
 {
+    NSLog(@"alert view retain count=%d", [alertView retainCount]);
 	[self.alertView dismissWithClickedButtonIndex:0 animated:NO];
 }
 

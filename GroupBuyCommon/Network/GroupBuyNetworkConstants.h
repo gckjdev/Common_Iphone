@@ -44,6 +44,7 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_ACTIONONPOST @"aop"	
 
 #define METHOD_GETAPPUPDATE @"gau"
+#define METHOD_UPDATEKEYWORD @"uk"
 
 #define METHOD_REGISTERDEVICE @"rd"
 #define METHOD_FINDPRODUCTWITHPRICE @"fpp"
