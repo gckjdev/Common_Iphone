@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define DEFAULT_MAX_COUNT       20          // 20 RECORDS
+#define DEFAULT_MAX_COUNT       12          // 20 RECORDS
 #define DEFAULT_MAX_DISTANCE    3           // 3 km
 
 @class CommonNetworkOutput;
@@ -62,4 +62,30 @@
                                                  appId:(NSString*)appId
                                                   city:(NSString*)city
                                              todayOnly:(BOOL)todayOnly;
+
+
++ (CommonNetworkOutput*)registerUserDevice:(NSString*)baseURL
+                                                 appId:(NSString*)appId
+                               deviceToken:(NSString*)deviceToken;
+
++ (CommonNetworkOutput*)findAllProductsByKeyword:(NSString*)baseURL
+										   appId:(NSString*)appId
+                                            city:(NSString*)city
+										 keyword:(NSString*)keyword
+									 startOffset:(int)startOffset;
+
++ (CommonNetworkOutput*)updateKeywords:(NSString*)baseURL
+                           appId:(NSString*)appId;
+
+
++ (CommonNetworkOutput*)actionOnProduct:(NSString*)baseURL
+                                 appId:(NSString*)appId
+                                 userId:(NSString*)userId
+                              productId:(NSString*)productId
+                             actionName:(NSString*)actionName
+                            actionValue:(int)value
+                            hasLocation:(BOOL)hasLocation
+                               latitude:(double)latitude
+                              longitude:(double)longitude;
+
 @end

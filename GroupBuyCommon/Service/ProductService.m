@@ -14,6 +14,8 @@
 #import "GroupBuyNetworkRequest.h"
 #import "GroupBuyNetworkConstants.h"
 #import "LocationService.h"
+#import "HotKeywordManager.h"
+#import "GroupBuyUserService.h"
 
 @implementation ProductService
 
@@ -36,6 +38,16 @@
                     useFor:(int)useFor
                startOffset:(int)startOffset
                  cleanData:(BOOL)cleanData
+{
+	[self requestProductData:delegateObject useFor:useFor startOffset:startOffset cleanData:cleanData keyword:nil];
+}
+	
+
+- (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
+                    useFor:(int)useFor
+               startOffset:(int)startOffset
+                 cleanData:(BOOL)cleanData
+				   keyword:(NSString*)keyword
 
 {    
 //    NSString* userId = [UserManager getUserId];
@@ -45,7 +57,7 @@
     CLLocation *location = [locationService currentLocation];
 
     NSString* appId = [AppManager getPlaceAppId];
-    NSString* city = @"广州"; // need to get from LocationService    
+    NSString* city = [GlobalGetLocationService() getDefaultCity]; // need to get from LocationService    
     
     dispatch_async(workingQueue, ^{
         
@@ -73,7 +85,15 @@
                                                               startOffset:startOffset 
                                                                      city:city];
                 break;
-            
+				
+			case USE_FOR_KEYWORD:
+                output = [GroupBuyNetworkRequest findAllProductsByKeyword:SERVER_URL
+                                                                    appId:appId
+                                                                     city:city
+																  keyword:keyword
+                                                              startOffset:startOffset];
+                break;
+				
             case USE_FOR_DISTANCE:
             {
                 double latitude = location.coordinate.latitude;
@@ -132,7 +152,7 @@
 - (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly
 {
     NSString* appId = [AppManager getPlaceAppId];
-    NSString* city = @"广州"; // need to get from LocationService    
+    NSString* city = [GlobalGetLocationService() getDefaultCity]; // need to get from LocationService    
     
     dispatch_async(workingQueue, ^{
         
@@ -155,6 +175,58 @@
         
         
     });    
+}
+
+- (void)updateKeywords
+{
+    NSString* appId = [AppManager getPlaceAppId];
+
+    dispatch_async(workingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;
+        
+        output = [GroupBuyNetworkRequest updateKeywords:SERVER_URL appId:appId];
+        
+        // if succeed, clean local data and save new data
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSLog(@"<appUpdate> result code=%d, get total %d keywords", 
+                  output.resultCode, [output.jsonDataArray count]);
+            
+            // save data
+            [HotKeywordManager createHotKeywords:output.jsonDataArray];
+            
+            // Update UI here?
+        });
+        
+        
+    });      
+}
+
+- (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue
+{
+    if (actionWorkingQueue == NULL){
+        actionWorkingQueue = dispatch_queue_create("action queue", NULL);
+    }
+    
+    NSString* userId = [GlobalGetUserService() userId];
+    NSString* appId = [AppManager getPlaceAppId];
+    LocationService *locationService =GlobalGetLocationService();
+    CLLocation *location = [locationService currentLocation];
+    BOOL hasLocation = NO;
+    if (location != nil)
+        hasLocation = YES;
+    
+    // TODO, cache request in 3G network    
+    
+    dispatch_async(actionWorkingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;
+        
+        output = [GroupBuyNetworkRequest actionOnProduct:SERVER_URL appId:appId userId:userId productId:productId actionName:actionName actionValue:actionValue hasLocation:hasLocation latitude:location.coordinate.latitude longitude:location.coordinate.longitude];        
+    });      
 }
 
 @end

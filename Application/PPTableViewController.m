@@ -251,42 +251,42 @@
 - (void)setSingleCellImageByName:(NSString*)imageName
 {
 	UIImage* image = [UIImage imageNamed:imageName];
-	self.singleCellImage = [[UIImageView alloc] initWithImage:image];
+	self.singleCellImage = [[[UIImageView alloc] initWithImage:image] autorelease];
 	singleImageHeight = image.size.height;
 }
 
 - (void)setFirstCellImageByName:(NSString*)imageName
 {
 	UIImage* image = [UIImage imageNamed:imageName];
-	self.firstCellImage = [[UIImageView alloc] initWithImage:image];
+	self.firstCellImage = [[[UIImageView alloc] initWithImage:image] autorelease];
 	firstImageHeight = image.size.height;
 }
 
 - (void)setMiddleCellImageByName:(NSString*)imageName;
 {
 	UIImage* image = [UIImage imageNamed:imageName];
-	self.middleCellImage = [[UIImageView alloc] initWithImage:image];
+	self.middleCellImage = [[[UIImageView alloc] initWithImage:image] autorelease];
 	middleImageHeight = image.size.height;
 }
 
 - (void)setLastCellImageByName:(NSString*)imageName;
 {
 	UIImage* image = [UIImage imageNamed:imageName];
-	self.lastCellImage = [[UIImageView alloc] initWithImage:image];
+	self.lastCellImage = [[[UIImageView alloc] initWithImage:image] autorelease];
 	lastImageHeight = image.size.height;
 }
 
 - (void)setCellImageByName:(NSString*)imageName
 {
 	UIImage* image = [UIImage imageNamed:imageName];
-	self.cellImage = [[UIImageView alloc] initWithImage:image];
+	self.cellImage = [[[UIImageView alloc] initWithImage:image] autorelease];
 	cellImageHeight = image.size.height;
 }
 
 - (void)setSectionImageByName:(NSString*)imageName
 {
 	UIImage* image = [UIImage imageNamed:imageName];
-	self.sectionImage = [[UIImageView alloc] initWithImage:image];
+	self.sectionImage = [[[UIImageView alloc] initWithImage:image] autorelease];
 	sectionImageHeight = image.size.height;
 	
 }
@@ -294,7 +294,7 @@
 - (void)setFooterImageByName:(NSString*)imageName;
 {
 	UIImage* image = [UIImage imageNamed:imageName];
-	self.footerImage = [[UIImageView alloc] initWithImage:image];
+	self.footerImage = [[[UIImageView alloc] initWithImage:image] autorelease];
 	footerImageHeight = image.size.height;	
 }
 
@@ -361,10 +361,13 @@
     if (!supportRefreshHeader)
         return;
     
-	if (scrollView.isDragging) {
-		if (refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !_reloading) {
+	if (scrollView.isDragging) {        
+#ifdef DEBUG        
+        NSLog(@"point=%@", NSStringFromCGPoint(scrollView.contentOffset));
+#endif        
+		if (!_reloading && refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f) {
 			[refreshHeaderView setState:EGOOPullRefreshNormal];
-		} else if (refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f && !_reloading) {
+		} else if (!_reloading && refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f) {
 			[refreshHeaderView setState:EGOOPullRefreshPulling];
 		}
 	}

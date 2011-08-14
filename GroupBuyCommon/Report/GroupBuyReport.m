@@ -16,31 +16,47 @@
 
     int selectedIndex = [tabBarController selectedIndex];
     UIViewController* controller = [tabBarController.viewControllers objectAtIndex:selectedIndex];
-    NSString* eventName = [NSString stringWithFormat:@"Click Tab %@", controller.tabBarItem.title];        
-    [MobClick event:eventName];
+    NSString* eventName = @"Click Tab";        
+    [MobClick event:eventName label:controller.tabBarItem.title];
 }
 
 + (void)reportSegControlClick:(UISegmentedControl*)segControl
 {
     int selectedIndex = segControl.selectedSegmentIndex;
     NSString* title = [segControl titleForSegmentAtIndex:selectedIndex];
-    NSString* eventName = [@"Click Seg " stringByAppendingString:title];
-    [MobClick event:eventName];
+    NSString* eventName = @"Click Seg";
+    [MobClick event:eventName label:title];
 }
 
 + (void)reportDataRefreshResult:(int)result
 {
-    [MobClick event:@"Pull Data" label:[NSString stringWithFormat:@"Result:%d", result]];
+    [MobClick event:@"Pull Result" label:[NSString stringWithFormat:@"%d", result]];
 }
 
-+ (void)reportClickMore
++ (void)reportClickMore:(NSString*)categoryName type:(NSString*)type
 {
-    [MobClick event:@"Pull"];
+    NSString* label;
+    if (categoryName){
+        label = [categoryName stringByAppendingFormat:@"-%@", type];
+    }
+    else{
+        label = [NSString stringWithFormat:@"%@", type];        
+    }
+    
+    [MobClick event:@"Click More" label:label];
 }
 
-+ (void)reportPullRefresh
++ (void)reportPullRefresh:(NSString*)categoryName type:(NSString*)type
 {
-    [MobClick event:@"Click More"];    
+    NSString* label;
+    if (categoryName){
+        label = [categoryName stringByAppendingFormat:@"-%@", type];
+    }
+    else{
+        label = [NSString stringWithFormat:@"%@", type];        
+    }
+
+    [MobClick event:@"Pull Refresh" label:label];    
 }
 
 + (void)reportEnterProductDetail:(Product*)product
@@ -60,6 +76,5 @@
     NSString* productInfo = [NSString stringWithFormat:@"%@", product.siteName];
     [MobClick event:@"Buy Product" label:productInfo];        
 }
-
 
 @end

@@ -97,15 +97,19 @@
     [self hideActivity];
     
     if (result == ERROR_SUCCESS){        
-        self.dataList = jsonArray;
         
-        [self initIndexNameArray];
-        
+        self.dataList = jsonArray;        
+        [self initIndexNameArray];        
         [self.dataTableView reloadData];
-    }
+        
+    } 
     
     if ([self isReloading]){
         [self dataSourceDidFinishLoadingNewData];
+    }
+    
+    if (result == ERROR_NETWORK){
+        [self popupUnhappyMessage:@"无法连接到互联网，请检查网络是否可用？" title:@"网络错误"];
     }
 }
 
@@ -133,10 +137,7 @@
     
     supportRefreshHeader = YES;
     
-    [self initDataList];
-    
-    [super viewDidLoad];
-    
+    [super viewDidLoad];            
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -144,6 +145,9 @@
     if (self.dataList == nil || [self.dataList count] == 0){
         [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];
+    }
+    else{
+        [self.dataTableView reloadData];
     }
     
     [super viewDidAppear:YES];
@@ -346,13 +350,16 @@
     Product* product = [ProductManager createProduct:productDict useFor:USE_FOR_HISTORY 
                                               offset:0 currentLocation:nil];
     
-    ProductDetailController* vc = [[ProductDetailController alloc] init];
-    vc.product = product;
+    BOOL isCreateHistory = NO;
+    UINavigationController* navigationController;
     if (self.superController)
-        [self.superController.navigationController pushViewController:vc animated:YES];
+        navigationController = self.superController.navigationController;
     else   
-        [self.navigationController pushViewController:vc animated:YES];
-    [vc release];
+        navigationController = self.navigationController;
+    
+    [ProductDetailController showProductDetail:product 
+                          navigationController:navigationController
+                               isCreateHistory:isCreateHistory];
     
 }
 

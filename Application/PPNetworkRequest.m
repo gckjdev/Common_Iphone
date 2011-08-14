@@ -50,7 +50,10 @@
     else{
         if (data != nil){
             NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+#ifdef DEBUG
             NSLog(@"[RECV] data : %@", text);
+#endif            
             
             NSDictionary* dataDict = [text JSONValue];
             [text release];            

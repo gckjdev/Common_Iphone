@@ -27,6 +27,7 @@
 @synthesize superController;
 @synthesize dataLoader;
 @synthesize categoryId;
+@synthesize type;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,6 +43,7 @@
     [superController release];
     [dataLoader release];
     [categoryId release];
+    [type release];
     [super dealloc];
 }
 
@@ -78,6 +80,9 @@
         self.dataList = [self requestProductListFromDB];        
         [self.dataTableView reloadData];
     }
+    else if (result == ERROR_NETWORK){
+        [self popupUnhappyMessage:@"无法连接到互联网，请检查网络是否可用？" title:@"网络错误"];
+    }
     
     if ([self isReloading]){
         [self dataSourceDidFinishLoadingNewData];
@@ -93,7 +98,7 @@
 #pragma Pull Refresh Delegate
 - (void) reloadTableViewDataSource
 {
-    [GroupBuyReport reportPullRefresh];
+    [GroupBuyReport reportPullRefresh:categoryId type:type];
     [self requestProductListFromServer:YES];
 }
 
@@ -115,7 +120,7 @@
     }
     
     
-    [self initDataList];
+//    [self initDataList];
     
     [super viewDidLoad];
     
@@ -128,6 +133,9 @@
     if (self.dataList == nil || [dataList count] == 0){
         [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];
+    }
+    else{
+        [self.dataTableView reloadData];
     }
     
     [super viewDidAppear:YES];
@@ -258,31 +266,33 @@
 	
 }
 
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	    
     if ([self isMoreRow:indexPath.row]){
         [self.moreLoadingView startAnimating];
         [self requestProductListFromServer:NO];
-        [GroupBuyReport reportClickMore];
+        [GroupBuyReport reportClickMore:categoryId type:type];
         return;
     }
-    
+     
 	if (indexPath.row > [dataList count] - 1)
 		return;
-	
-    // write to browse history
-    Product* product = [dataList objectAtIndex:indexPath.row];    
-    if ([dataLoader isKindOfClass:[ProductHistoryDataLoader class]] == NO){
-        [ProductManager createProductHistory:product];
-    }
     
-    ProductDetailController* vc = [[ProductDetailController alloc] init];
-    vc.product = product;
+    BOOL isCreateHistory = ([dataLoader isKindOfClass:[ProductHistoryDataLoader class]] == NO);
+    Product* product = [dataList objectAtIndex:indexPath.row];  
+    UINavigationController* navigationController;
     if (self.superController)
-        [self.superController.navigationController pushViewController:vc animated:YES];
+        navigationController = self.superController.navigationController;
     else   
-        [self.navigationController pushViewController:vc animated:YES];
-    [vc release];
+        navigationController = self.navigationController;
+        
+    [ProductDetailController showProductDetail:product 
+                          navigationController:navigationController
+                               isCreateHistory:isCreateHistory];
+	
+
     
 }
 

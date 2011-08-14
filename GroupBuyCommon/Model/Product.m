@@ -94,4 +94,33 @@
     }
 }
 
+- (void)copyFrom:(Product*)product useFor:(int)userFor
+{
+    self.productId = product.productId;
+    self.title = product.title;
+    self.price = product.price;
+    self.rebate = product.rebate;
+    self.bought = product.bought;
+    self.value = product.value;
+    self.startDate = product.startDate;
+    self.endDate = product.endDate;
+    self.image = product.image;
+    self.loc = product.loc;
+    self.siteName = product.siteName;
+    self.siteURL = product.siteURL;
+    self.wapURL = product.wapURL;
+    self.desc = product.desc;
+    self.detail = product.detail;
+    self.gps = product.gps;
+    self.address = product.address;
+    self.tel = product.tel;
+    self.shop = product.shop;
+    
+    self.longitude = product.longitude;
+    self.latitude = product.latitude;
+    self.useFor = [NSNumber numberWithInt:userFor];
+    self.deleteFlag = [NSNumber numberWithBool:NO];
+    self.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
+}
+
 @end

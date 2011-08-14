@@ -205,6 +205,42 @@ CoreDataManager* GlobalGetCoreDataManager()
 		return nil;
 }
 
+- (NSArray*)execute:(NSString*)fetchRequestName keyValues:(NSDictionary*)keyValues sortBy:(NSString*)sortKey ascending:(BOOL)ascending
+{
+	if (keyValues == nil || fetchRequestName == nil)
+		return nil;
+	
+	NSFetchRequest* fq = [self.managedObjectModel fetchRequestFromTemplateWithName:fetchRequestName
+															 substitutionVariables:keyValues];
+	
+    if (fq == nil){
+        NSLog(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
+        return nil;
+    }
+    
+	// set sorted rules
+	NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:ascending];
+	NSArray* sortDescriptors = [[NSArray alloc] initWithObjects: sortDescriptor, nil];
+	[fq setSortDescriptors:sortDescriptors];
+	[sortDescriptors release];
+	[sortDescriptor release];
+	
+	NSError* error = nil;
+	NSArray* objects = [self.managedObjectContext executeFetchRequest:fq error:&error];
+	if (error == nil){
+		NSLog(@"<execute> execute fetch request (%@) successfully, total %d record found", [fq description], [objects count]);
+		//		for (NSObject* item in objects){
+		//			NSLog(@"[Debug] result object (%@)", [item description]);
+		//		}
+	}
+	else {
+		NSLog(@"<execute> execute fetch request (%@), error=%@", [fq description], [error localizedDescription]);
+	}		
+	
+	return objects;
+}
+
+
 - (NSArray*)execute:(NSString*)fetchRequestName forKey:(NSString*)key value:(NSObject*)value sortBy:(NSString*)sortKey ascending:(BOOL)ascending
 {
 	if (key == nil || value == nil || fetchRequestName == nil)

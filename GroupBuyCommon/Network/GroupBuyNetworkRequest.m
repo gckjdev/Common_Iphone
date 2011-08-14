@@ -11,7 +11,7 @@
 #import "PPNetworkRequest.h"
 #import "StringUtil.h"
 #import "JSON.h"
-
+#import "LocaleUtils.h"
 
 
 @implementation CommonNetworkOutput
@@ -84,8 +84,8 @@
     PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
         
         // parse response data and set into output object
-        NSDictionary* data = [dict objectForKey:RET_DATA];
-        NSLog(@"<deviceLogin> data=%@", [data description]);
+        output.jsonDataDict = [dict objectForKey:RET_DATA];
+        NSLog(@"<deviceLogin> data=%@", [output.jsonDataDict description]);
         return;
     }; 
     
@@ -233,7 +233,7 @@
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
-    const int MAX_COUNT = 10;
+    const int MAX_COUNT = 8;
     
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         
@@ -326,6 +326,155 @@
     
 }
 
++ (CommonNetworkOutput*)registerUserDevice:(NSString*)baseURL
+                                     appId:(NSString*)appId
+                               deviceToken:(NSString*)deviceToken
+{
+    static const int OS_IOS = 1;
+    
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_REGISTERDEVICE];
+        str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueIdentifier]];
+        str = [str stringByAddQueryParameter:PARA_DEVICEMODEL value:[[UIDevice currentDevice] model]];
+        str = [str stringByAddQueryParameter:PARA_DEVICEOS intValue:OS_IOS];
+        str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:[LocaleUtils getCountryCode]];
+        str = [str stringByAddQueryParameter:PARA_LANGUAGE value:[LocaleUtils getLanguageCode]];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];        
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataDict = [dict objectForKey:RET_DATA];
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
 
++ (CommonNetworkOutput*)findAllProductsByKeyword:(NSString*)baseURL
+										   appId:(NSString*)appId
+                                            city:(NSString*)city
+										 keyword:(NSString*)keyword
+									 startOffset:(int)startOffset
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    const int MAX_COUNT = 10;
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDPRODUCTSBYKEYWORD];
+        str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:MAX_COUNT];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_CITY value:city];
+        str = [str stringByAddQueryParameter:PARA_KEYWORD value:keyword];
+        str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueIdentifier]];        
+        str = [str stringByAddQueryParameter:PARA_START_OFFSET intValue:startOffset];
+		
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
+
++ (CommonNetworkOutput*)updateKeywords:(NSString*)baseURL
+                           appId:(NSString*)appId
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_UPDATEKEYWORD];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+		
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];    
+}
+
++ (CommonNetworkOutput*)actionOnProduct:(NSString*)baseURL
+                                  appId:(NSString*)appId
+                                 userId:(NSString*)userId
+                              productId:(NSString*)productId
+                             actionName:(NSString*)actionName
+                            actionValue:(int)value
+                            hasLocation:(BOOL)hasLocation
+                               latitude:(double)latitude
+                              longitude:(double)longitude
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_ACTIONONPRODUCT];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        str = [str stringByAddQueryParameter:PARA_ACTION_NAME value:actionName];
+        str = [str stringByAddQueryParameter:PARA_ACTION_VALUE intValue:value];
+        str = [str stringByAddQueryParameter:PARA_ID value:productId];
+        
+        if (hasLocation){
+            str = [str stringByAddQueryParameter:PARA_LATITUDE doubleValue:latitude];
+            str = [str stringByAddQueryParameter:PARA_LONGTITUDE doubleValue:longitude];
+        }
+                
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
 
 @end

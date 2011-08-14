@@ -16,9 +16,13 @@
 #import "GroupBuyReport.h"
 #import "TelPickerViewController.h"
 #import "ShowAddressViewController.h"
+#import "ProductService.h"
+#import "ProductManager.h"
+
 enum {
-    SECTION_TITLE,
     SECTION_IMAGE,
+    SECTION_TITLE,
+
     SECTION_DESC,
     SECTION_DATE,
     SECTION_SHOP_ADDRESS,
@@ -40,6 +44,22 @@ enum {
 @synthesize saveLabel;
 @synthesize boughtLabel;
 @synthesize imageView;
+
++ (void)showProductDetail:(Product*)product navigationController:(UINavigationController*)navigationController isCreateHistory:(BOOL)isCreateHistory
+{
+    // write to browse history      
+    if (isCreateHistory == YES){
+        [ProductManager createProductHistory:product];
+    }
+    
+    // report click action
+    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_CLICK actionValue:1];
+    
+    ProductDetailController* vc = [[ProductDetailController alloc] init];
+    vc.product = product;
+    [navigationController pushViewController:vc animated:YES];
+    [vc release];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -81,7 +101,12 @@ enum {
     self.boughtLabel.text = [product.bought description];
     self.rebateLabel.text = [product.rebate description];
     self.priceLabel.text = [product.price description];
-    self.saveLabel.text = [[NSNumber numberWithDouble:([product.value doubleValue] - [product.price doubleValue])] description];
+    
+    int saveValue = [product.value doubleValue] - [product.price doubleValue];
+    if (saveValue < 0.0f)
+        saveValue = 0.0f;
+    
+    self.saveLabel.text = [[NSNumber numberWithDouble:saveValue] description];
     
     [self setBackgroundImageName:@"background.png"];
     
@@ -124,7 +149,7 @@ enum {
     }
     
     if ([str length] == 0){
-        str = @"详细介绍信息：请点击更多商品详情";
+        str = @"介绍信息：请点击更多商品详情";
     }
     
     return str;
@@ -444,9 +469,31 @@ enum {
 //    [self.navigationController pushViewController:webController animated:YES];
 //    [webController openURL:[NSURL URLWithString:product.loc]];
     
+    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_BUY actionValue:1];
     [GroupBuyReport reportClickBuyProduct:product];
     [self gotoBuy];
 }
+
+- (IBAction)clickSave:(id)sender
+{
+    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
+//    [GroupBuyReport reportClickSaveProduct:product];
+    [ProductManager createProductForFavorite:product];
+}
+ 
+- (IBAction)clickForward:(id)sender
+{
+    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_FORWARD actionValue:1];
+//    [GroupBuyReport reportClickForwardProduct:product];
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLS(@"取消") destructiveButtonTitle:nil otherButtonTitles:NSLS(@"短信转发"), NSLS(@"邮件转发"), nil];
+    
+    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+    [actionSheet release];
+
+    
+}
+
 
 -(void) managedImageSet:(HJManagedImageV*)mi
 {
@@ -457,5 +504,51 @@ enum {
 {
     
 }
+
+- (void)handleForwardProduct:(NSInteger)buttonIndex
+{    
+    int index = 0;
+    if ([product.title length] > 30){
+        index = 30;
+    }
+    else{
+        index = [product.title length];
+    }
+    
+    NSString* shortDesc = [product.title substringToIndex:index];    
+    NSString* subject = [NSString stringWithFormat:@"［咕噜Buy］转发团购产品:%@", shortDesc];    
+    
+    NSString* smsBody = [NSString stringWithFormat:@"%@ %@ - %@", product.loc, 
+                      product.siteName, product.title];
+
+    NSString* htmlBody = [NSString stringWithFormat:@"%@ - %@\n\n%@\n\n来自［咕噜Buy]", 
+                         product.siteName, product.title, product.loc];
+    
+    enum{
+        BUTTON_SEND_BY_SMS,
+        BUTTON_SEND_BY_EMAIL,
+        BUTTON_CANCEL
+    };
+    
+    switch (buttonIndex) {
+        case BUTTON_SEND_BY_SMS:
+            [self sendSms:@"" body:smsBody];
+            break;
+            
+        case BUTTON_SEND_BY_EMAIL:
+            [self sendEmailTo:nil ccRecipients:nil bccRecipients:nil subject:subject body:htmlBody isHTML:NO delegate:self];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self handleForwardProduct:buttonIndex];
+}
+
+
 
 @end

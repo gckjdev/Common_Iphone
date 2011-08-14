@@ -44,13 +44,17 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_ACTIONONPOST @"aop"	
 
 #define METHOD_GETAPPUPDATE @"gau"
+#define METHOD_UPDATEKEYWORD @"uk"
+#define METHOD_ACTIONONPRODUCT @"ap"
 
+#define METHOD_REGISTERDEVICE @"rd"
 #define METHOD_FINDPRODUCTWITHPRICE @"fpp"
 #define METHOD_FINDPRODUCTWITHREBATE @"fpd"
 #define METHOD_FINDPRODUCTWITHBOUGHT @"fpb"
 #define METHOD_FINDPRODUCTWITHLOCATION @"fpl"
 #define METHOD_FINDPRODUCTSGROUPBYCATEGORY @"fgc"
 #define METHOD_FINDPRODUCTS @"fp"
+#define METHOD_FINDPRODUCTSBYKEYWORD @"fpk"
 
 // request parameters
 
@@ -143,6 +147,8 @@ extern NSString* GlobalGetServerURL();
 
 #define PARA_VERSION @"v"
 
+#define PARA_KEYWORD @"kw"
+
 // response parameters
 
 #define RET_MESSAGE @"msg"
@@ -197,8 +203,14 @@ extern NSString* GlobalGetServerURL();
 #define PARA_TODAY_ONLY @"to"
 #define PARA_SORT_BY @"sb"
 
+#define PARA_ACTION_NAME @"an"
+#define PARA_ACTION_VALUE @"av"
+
 #define SORT_BY_START_DATE 0
 #define SORT_BY_PRICE 1
 #define SORT_BY_REBATE 2
 #define SORT_BY_BOUGHT 3
+
+#define ERROR_DEVICE_NOT_BIND   20003
+
 

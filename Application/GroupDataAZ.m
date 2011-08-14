@@ -87,9 +87,9 @@
 		return groupData;
 	}
 
-	groupData.sectionLetterDict = [[NSMutableDictionary alloc] init];
-	groupData.dataSectionArray = [[NSMutableArray alloc] init];
-	groupData.sectionTitleArray = [[NSMutableArray alloc] init];
+	groupData.sectionLetterDict = [[[NSMutableDictionary alloc] init] autorelease];
+	groupData.dataSectionArray = [[[NSMutableArray alloc] init] autorelease];
+	groupData.sectionTitleArray = [[[NSMutableArray alloc] init] autorelease];
 	
 	for (NSObject* obj in originDataList){
 		

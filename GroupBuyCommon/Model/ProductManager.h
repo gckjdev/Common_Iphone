@@ -18,8 +18,9 @@ enum {
     USE_FOR_DISTANCE,
     USE_FOR_BOUGHT,
     USE_FOR_REBATE,
-    USE_FOR_HISTORY = 6,
-    
+    USE_FOR_HISTORY,
+    USE_FOR_KEYWORD,
+    USE_FOR_FAVORITE,
     
     USE_FOR_PER_CATEGORY = 100
 };
@@ -30,8 +31,10 @@ enum {
 
 + (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor offset:(int)offset currentLocation:(CLLocation*)currentLocation;
 + (BOOL)createProductHistory:(Product*)product;
++ (BOOL)createProductForFavorite:(Product*)product;
 
 + (NSArray*)getAllProductsByUseFor:(int)useFor sortByKey:(NSString*)sortByKey sortAsending:(BOOL)sortAsending;
++ (NSArray*)getProductByIdUseFor:(NSString*)productId useFor:(int)useFor;
 + (BOOL)deleteProductsByUseFor:(int)useFor;
 
 + (void)cleanUpDeleteDataBefore:(int)timeStamp;

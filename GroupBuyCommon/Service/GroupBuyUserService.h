@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UserService.h"
 
+@interface UserService (GroupBuyUserService) 
 
-@interface GroupBuyUserService : NSObject {
-    
-}
+- (void)groupBuyCheckDevice;
 
 @end

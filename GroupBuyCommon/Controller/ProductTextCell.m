@@ -148,7 +148,7 @@
 
 - (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath
 {
-    NSDate* endDate = dateFromStringByFormat([product objectForKey:PARA_END_DATE], DEFAULT_DATE_FORMAT);
+    NSDate* endDate = dateFromUTCStringByFormat([product objectForKey:PARA_END_DATE], DEFAULT_DATE_FORMAT);
     NSString* siteName = [product objectForKey:PARA_SITE_NAME];
     NSString* title = [product objectForKey:PARA_TITLE];
     NSNumber* value = [product objectForKey:PARA_VALUE];

@@ -47,7 +47,7 @@
 - (NSArray*)shopArray;
 - (NSArray*)gpsArray;
 - (double)calcShortestDistance:(CLLocation*)currentLocation;
-
+- (void)copyFrom:(Product*)product useFor:(int)useFor;
 
 
 @end

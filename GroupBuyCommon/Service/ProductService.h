@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "CommonService.h"
 
+#define PRODUCT_ACTION_CLICK    @"Click"
+#define PRODUCT_ACTION_BUY      @"Buy"
+#define PRODUCT_ACTION_ADD_FAVORITE @"Favor"
+#define PRODUCT_ACTION_FORWARD  @"Send"
+
 @protocol ProductServiceDelegate <NSObject>
 
 @optional
@@ -21,6 +26,7 @@
 
 @interface ProductService : CommonService {
     
+    dispatch_queue_t    actionWorkingQueue;
 }
 
 - (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
@@ -28,7 +34,18 @@
                startOffset:(int)startOffset
                  cleanData:(BOOL)cleanData;
 
+- (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
+                    useFor:(int)useFor
+               startOffset:(int)startOffset
+                 cleanData:(BOOL)cleanData
+				   keyword:(NSString*)keyword;
+
 - (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly;
+
+- (void)updateKeywords;
+
+- (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue;
+
 @end
 
 extern ProductService* GlobalGetProductService();

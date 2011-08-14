@@ -298,6 +298,7 @@
     return ([user.renrenLoginId length] > 0);    
 }
 
+
 - (void)checkDevice {
 
     int result = userCurrentStatus;
@@ -350,18 +351,20 @@
             dispatch_async(workingQueue, ^{
                 DeviceLoginOutput* output = [DeviceLoginRequest send:SERVER_URL
                                                                appId:[AppManager getPlaceAppId]
-                                                      needReturnUser:NO];
+                                                      needReturnUser:YES];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (output.resultCode == ERROR_SUCCESS) {
-                        NSLog(@"<checkDevice> user status verified successful");
+                        // save return User ID locally
+                    }
+                    else if (output.resultCode == ERROR_DEVICE_NOT_BIND){
+                        // send registration request
                     }
                     else{
                         // TODO, need to handle different error code
                     }
                 });
-                
-            });                        
+            });
         }
             break;
             

@@ -35,15 +35,19 @@
 
 - (void)popupMessage:(NSString*)msg title:(NSString*)title
 {
+    
 	if (self.alertView == nil){	
+        // TODO why cannot autorelease AlertView, crash if using autorelease here
 		self.alertView = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];			
 	}
 	else {
-		[self.alertView dismissWithClickedButtonIndex:0 animated:YES];		
+		[self.alertView dismissWithClickedButtonIndex:0 animated:NO];		
 		[alertView setMessage:msg];
 		[alertView setTitle:title];		
 	}
 
+    NSLog(@"alert view retain count=%d", [alertView retainCount]);
+    
 	[alertView show];	
 	[NSTimer scheduledTimerWithTimeInterval:kAlertViewShowTimerInterval target:self selector:@selector(dismissAlertView:) userInfo:nil repeats:NO];
 }
@@ -63,8 +67,8 @@
 
 - (void)dismissAlertView:(id)sender
 {
-	[self.alertView dismissWithClickedButtonIndex:0 animated:YES];
-	self.alertView = nil;
+    NSLog(@"alert view retain count=%d", [alertView retainCount]);
+	[self.alertView dismissWithClickedButtonIndex:0 animated:NO];
 }
 
 - (void)showBackgroundImage
@@ -133,7 +137,7 @@
     if (titleArray == nil)
         return;
     
-    self.titleSegControl = [[UISegmentedControl alloc] initWithItems:titleArray];
+    self.titleSegControl = [[[UISegmentedControl alloc] initWithItems:titleArray] autorelease];
     
     titleSegControl.segmentedControlStyle = UISegmentedControlStyleBar;    
     if (defaultSelectIndex >= 0 && defaultSelectIndex < [titleArray count])        titleSegControl.selectedSegmentIndex = defaultSelectIndex;
@@ -152,9 +156,9 @@
 {
 	if (activityLabel == nil){
 //		self.activityLabel = [[TTActivityLabel alloc] initWithFrame:self.view.frame style:TTActivityLabelStyleBlackBezel text:loadingText];
-		self.activityLabel = [[TTActivityLabel alloc] initWithFrame:CGRectMake(0, 460/2 - 100, 320, 100)
+		self.activityLabel = [[[TTActivityLabel alloc] initWithFrame:CGRectMake(0, 460/2 - 100, 320, 100)
 															  style:TTActivityLabelStyleBlackBezel 
-															   text:loadingText];
+															   text:loadingText] autorelease];
 		[self.view addSubview:activityLabel];
 	}
 	
@@ -266,6 +270,8 @@
 
 - (void)viewDidUnload
 {
+    self.alertView = nil;   // release alert view
+    
 	[self deregsiterKeyboardNotification];
 	[super viewDidUnload];
 }
@@ -525,7 +531,7 @@
 - (void)initLocationManager
 {
 	if (self.locationManager == nil){
-		self.locationManager = [[CLLocationManager alloc] init];
+		self.locationManager = [[[CLLocationManager alloc] init] autorelease];
 	}
 }
 
@@ -597,14 +603,14 @@
 
 - (void)reverseGeocode:(CLLocationCoordinate2D)coordinate
 {
-    self.reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:coordinate];
+    self.reverseGeocoder = [[[MKReverseGeocoder alloc] initWithCoordinate:coordinate] autorelease];
     reverseGeocoder.delegate = self;
     [reverseGeocoder start];
 }
 
 - (void)reverseGeocodeCurrentLocation:(CLLocation *)location
 {
-    self.reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:location.coordinate];
+    self.reverseGeocoder = [[[MKReverseGeocoder alloc] initWithCoordinate:location.coordinate] autorelease];
     reverseGeocoder.delegate = self;
     [reverseGeocoder start];
 }
