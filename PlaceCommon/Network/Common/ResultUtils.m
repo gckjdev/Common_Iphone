@@ -153,5 +153,10 @@
     return [msg objectForKey:PARA_USERID];
 }
 
++ (int)like:(NSDictionary*)post
+{
+    return [[post objectForKey:@"Like"] intValue];
+}
+
 
 @end

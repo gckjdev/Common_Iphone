@@ -28,6 +28,8 @@
 + (int)totalQuote:(NSDictionary*)post;
 + (int)totalReply:(NSDictionary*)post;
 + (int)totalRelated:(NSDictionary*)post;
++ (int)like:(NSDictionary*)post;
+
 + (NSString*)placeId:(NSDictionary*)post;
 + (NSString*)nickName:(NSDictionary*)post;
 + (NSString*)srcPostId:(NSDictionary*)post;

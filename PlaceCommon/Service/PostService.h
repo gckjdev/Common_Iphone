@@ -16,7 +16,7 @@
 
 @optional
 - (void)createPostFinish:(int)result;
-- (void)actionOnPostFinish:(int)result;
+- (void)actionOnPostFinish:(int)result count:(long)count;
 
 @end
 
