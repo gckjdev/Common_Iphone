@@ -12,6 +12,8 @@
 #import "qisr.h"
 #import "CommonProductListController.h"
 #import "ProductPriceDataLoader.h"
+#import "HotKeyword.h"
+#import "HotKeywordManager.h"
 
 //private methods
 @interface SearchProductController()
@@ -63,9 +65,9 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-	latestSearchButton1 = nil;
-	latestSearchButton2 = nil;	
-	latestSearchButton3 = nil;
+	self.latestSearchButton1 = nil;
+	self.latestSearchButton2 = nil;	
+	self.latestSearchButton3 = nil;
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -85,6 +87,13 @@
 		[latestSearchButton2 setTitle:((SearchHistory*)[latestSearchHistories objectAtIndex:1]).keywords forState:UIControlStateNormal];
 	if([latestSearchHistories count] >=3 )
 		[latestSearchButton3 setTitle:((SearchHistory*)[latestSearchHistories objectAtIndex:2]).keywords forState:UIControlStateNormal];
+	
+	NSArray* hotKeyWords = [HotKeywordManager getAllHotKeywords];
+	 
+	for (int i = 0; i < [hotKeyWords count]; i++) {
+		[(UIButton*)[self.view viewWithTag:i] setTitle:((HotKeyword *)[hotKeyWords objectAtIndex:i]).keyword forState:UIControlStateNormal];
+	}
+	
 	
 }
 
@@ -109,6 +118,8 @@
 	CommonProductListController *searchResultController = [[CommonProductListController alloc] init];
 	searchResultController.superController = self;
 	searchResultController.dataLoader = [[ProductKeywordDataLoader alloc] initWithKeyword:searchBar.text];
+
+	searchResultController.navigationItem.title = @"搜索结果"; 
 	[self.navigationController pushViewController:searchResultController animated:NO];
 	[searchResultController release];
 	
@@ -129,6 +140,15 @@
 	UIButton *button = (UIButton *)sender;
 	//TODO
 	NSLog(@"Submitting search : %@",  button.currentTitle);
+	
+	CommonProductListController *searchResultController = [[CommonProductListController alloc] init];
+	searchResultController.superController = self;
+	searchResultController.dataLoader = [[ProductKeywordDataLoader alloc] initWithKeyword: button.currentTitle];
+	
+	searchResultController.navigationItem.title = @"搜索结果"; 
+	[self.navigationController pushViewController:searchResultController animated:NO];
+	[searchResultController release];
+	
 
 }
 
