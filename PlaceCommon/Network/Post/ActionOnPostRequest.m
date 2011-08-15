@@ -106,7 +106,8 @@
 		ActionOnPostOutput* obj = (ActionOnPostOutput*)output;
 		
 		// get result code and message
-		[obj resultFromJSON:textData];										
+		[obj resultFromJSON:textData];
+        obj.jsonDataDict = [obj dictionaryDataFromJSON:textData];
 		if (obj.resultCode == 0){			
             
 			NSLog(@"ActionOnPostRequest result=%d, data=%@", obj.resultCode, [obj description]);						

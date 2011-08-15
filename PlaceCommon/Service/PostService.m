@@ -175,8 +175,9 @@
                 [viewController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
             }
             
-            if ([viewController respondsToSelector:@selector(actionOnPostFinish:)]){
-                [viewController actionOnPostFinish:output.resultCode];
+            if ([viewController respondsToSelector:@selector(actionOnPostFinish:count:)]){
+                long count = [[output.jsonDataDict objectForKey:POST_ACTION_LIKE] longValue];
+                [viewController actionOnPostFinish:output.resultCode count:count];
             }
         });        
     });    

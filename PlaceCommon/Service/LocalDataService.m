@@ -78,7 +78,7 @@
                totalForward:[ResultUtils totalForward:post]
                  totalQuote:[ResultUtils totalQuote:post]
                  totalReply:[ResultUtils totalReply:post]
-               totalRelated:[ResultUtils totalRelated:post]
+               totalRelated:[ResultUtils like:post]//[ResultUtils totalRelated:post]
                userNickName:[ResultUtils nickName:post]
                   placeName:[ResultUtils placeName:post]
                   srcPostId:[ResultUtils srcPostId:post]

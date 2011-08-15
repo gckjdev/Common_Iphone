@@ -10,7 +10,7 @@
 #import "PPViewController.h"
 #import "UserService.h"
 #import "VariableConstants.h"
-/*
+
 #define SINA_APP_KEY                    @"1528146353"
 #define SINA_APP_SECRET                 @"4815b7938e960380395e6ac1fe645a5c"
 #define SINA_CALLBACK_URL               @"dipan://sina"
@@ -18,9 +18,7 @@
 #define QQ_APP_KEY                      @"7c78d5b42d514af8bb66f0200bc7c0fc"
 #define QQ_APP_SECRET                   @"6340ae28094e66d5388b4eb127a2af43"
 #define QQ_CALLBACK_URL                 @"dipan://qq"
-*/
-#define SINA_CALLBACK_URL               @"dipan://sina"
-#define QQ_CALLBACK_URL                 @"dipan://qq"
+
 @implementation PlaceSNSService
 
 @synthesize sinaRequest;
@@ -32,12 +30,12 @@
 @synthesize renrenAppKey;
 @synthesize renrenAppSecret;
 
--(void) initAppKeyValue{
+- (void)initAppKeyValue{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    self.sinaAppkey = [userDefaults stringForKey:USER_DEFAULT_SINA_KEY];
-    self.sinaAppSecret = [userDefaults stringForKey:USER_DEFAULT_SINA_SECRET];
-    self.qqAppKey = [userDefaults stringForKey:USER_DEFAULT_QQ_KEY];
-    self.qqAppSecret = [userDefaults stringForKey:USER_DEFAULT_QQ_SECRET];
+    self.sinaAppkey = SINA_APP_KEY;//[userDefaults stringForKey:USER_DEFAULT_SINA_KEY];
+    self.sinaAppSecret = SINA_APP_SECRET;//[userDefaults stringForKey:USER_DEFAULT_SINA_SECRET];
+    self.qqAppKey = QQ_APP_KEY;//[userDefaults stringForKey:USER_DEFAULT_QQ_KEY];
+    self.qqAppSecret = QQ_APP_SECRET;//[userDefaults stringForKey:USER_DEFAULT_QQ_SECRET];
     self.renrenAppKey = [userDefaults stringForKey:USER_DEFAULT_RENREN_KEY];
     self.renrenAppSecret = [userDefaults stringForKey:USER_DEFAULT_RENREN_SECRET];
 }
@@ -56,8 +54,8 @@
                                                      oauthToken:nil
                                                oauthTokenSecret:nil];
     
-    self.qqRequest = [[QQWeiboRequest alloc] initWithAppKey:self.sinaAppkey
-                                                      appSecret:self.sinaAppSecret
+    self.qqRequest = [[QQWeiboRequest alloc] initWithAppKey:self.qqAppKey
+                                                      appSecret:self.qqAppSecret
                                                     callbackURL:QQ_CALLBACK_URL
                                                      oauthToken:nil
                                                oauthTokenSecret:nil];
@@ -182,8 +180,8 @@
     [viewController showActivityWithText:NSLS(@"kInitiateAuthorization")];
     dispatch_async(workingQueue, ^{        
         BOOL result = [self loginForAuthorization:snsRequest];
-        dispatch_async(dispatch_get_main_queue(), ^{                
-            [viewController hideActivity];  
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [viewController hideActivity];
             if (result == NO){
                 [UIUtils alert:NSLS(@"kFailInitAuthorization")];                
             }

@@ -231,7 +231,7 @@
 {
 	// get array data from data object (if it's an array)
 	NSDictionary* dict = [jsonString JSONValue];
-	NSArray* retArray = [dict objectForKey:@"dat"];
+	NSArray* retArray = [dict objectForKey:PARA_DATA];
 	
 	return retArray;
 }
