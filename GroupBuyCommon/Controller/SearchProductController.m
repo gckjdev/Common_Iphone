@@ -155,11 +155,7 @@
 - (IBAction) doSearch:(id)sender
 {
 	UIButton *button = (UIButton *)sender;    
-    if (keywordSearchBar.text == nil)
-        keywordSearchBar.text = button.currentTitle;
-    else
-        keywordSearchBar.text = [keywordSearchBar.text stringByAppendingString:button.currentTitle];
-    
+    keywordSearchBar.text = button.currentTitle;    
     [self search:button.currentTitle];	
 }
 
