@@ -114,6 +114,7 @@
                 NSString* versionToCompare = nil;                
                 if (self.newVersion == nil){
                     NSString* currentVersion = [PPApplication getAppVersion];  
+                    NSLog(@"current version=%@", currentVersion);
                     versionToCompare = currentVersion;
                 }
                 else{

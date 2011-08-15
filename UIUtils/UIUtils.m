@@ -142,6 +142,8 @@
 	NSString* iTunesLink = [NSString stringWithFormat:
 							@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@&mt=8", appId];
 	
+    NSLog(@"iTunesLink=%@", iTunesLink);
+    
 	return iTunesLink;
 }
 

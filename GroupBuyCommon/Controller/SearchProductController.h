@@ -13,6 +13,7 @@
     UIButton *latestSearchButton1;
 	UIButton *latestSearchButton2;
 	UIButton *latestSearchButton3;
+    IBOutlet UISearchBar *keywordSearchBar;
 	
 }
 
