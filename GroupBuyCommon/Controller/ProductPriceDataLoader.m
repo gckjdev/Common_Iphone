@@ -242,7 +242,7 @@
 
 - (NSArray*)requestProductListFromDB
 {
-    return [ProductManager getAllProductsByUseFor:USE_FOR_KEYWORD sortByKey:@"offset" sortAsending:NO];
+    return [ProductManager getAllProductsByUseFor:USE_FOR_KEYWORD sortByKey:@"offset" sortAsending:YES];
 }
 
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller

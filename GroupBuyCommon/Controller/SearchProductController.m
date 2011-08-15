@@ -108,7 +108,8 @@
 	
 	CommonProductListController *searchResultController = [[CommonProductListController alloc] init];
 	searchResultController.superController = self;
-	searchResultController.dataLoader = [[ProductKeywordDataLoader alloc] initWithKeyword:searchBar.text];
+	searchResultController.dataLoader = [[[ProductKeywordDataLoader alloc] 
+                                          initWithKeyword:searchBar.text] autorelease];
 	[self.navigationController pushViewController:searchResultController animated:NO];
 	[searchResultController release];
 	
