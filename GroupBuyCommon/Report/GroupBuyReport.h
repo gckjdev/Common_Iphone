@@ -23,5 +23,6 @@
 + (void)reportEnterProductDetail:(Product*)product;
 + (void)reportClickShowProductMore:(Product*)product;
 + (void)reportClickBuyProduct:(Product*)product;
++ (void)reportClickSaveProduct:(Product*)product;
 
 @end

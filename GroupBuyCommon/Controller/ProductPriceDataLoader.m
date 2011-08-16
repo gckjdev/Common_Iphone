@@ -210,6 +210,29 @@
 
 @end
 
+@implementation ProductFavoriteDataLoader
+
+- (BOOL)supportRemote
+{
+    return NO;
+}
+
+- (BOOL)canDelete
+{
+    return YES;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    return [ProductManager getAllProductsByUseFor:USE_FOR_FAVORITE sortByKey:@"browseDate" sortAsending:NO];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    [controller productDataRefresh:0];       
+}
+
+@end
 
 @implementation ProductKeywordDataLoader
 

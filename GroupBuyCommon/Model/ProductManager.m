@@ -156,6 +156,8 @@
     
     Product* favorProduct = [dataManager insert:@"Product"];
     [favorProduct copyFrom:product useFor:USE_FOR_FAVORITE];
+    favorProduct.browseDate = [NSDate date];
+    
     [dataManager save];
     
      NSLog(@"<createProductForFavorite> product=%@", [favorProduct description]);    
@@ -176,6 +178,8 @@
         
     productHistory = [dataManager insert:@"Product"];
     [productHistory copyFrom:product useFor:USE_FOR_HISTORY];    
+    productHistory.browseDate = [NSDate date];
+
     NSLog(@"<createProductHistory> product=%@", [productHistory description]);
     
     return [dataManager save];    

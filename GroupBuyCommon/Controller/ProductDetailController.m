@@ -477,7 +477,7 @@ enum {
 - (IBAction)clickSave:(id)sender
 {
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
-//    [GroupBuyReport reportClickSaveProduct:product];
+    [GroupBuyReport reportClickSaveProduct:product];
     [ProductManager createProductForFavorite:product];
 }
  

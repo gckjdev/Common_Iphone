@@ -60,6 +60,16 @@
 @end
 
 
+@interface ProductFavoriteDataLoader : NSObject<ProductDataLoader> {
+    
+    
+}
+
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end
+
 @interface ProductCategoryDataLoader : NSObject<ProductDataLoader> {
     
     NSString    *categoryId;

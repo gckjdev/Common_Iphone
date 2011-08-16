@@ -77,4 +77,11 @@
     [MobClick event:@"Buy Product" label:productInfo];        
 }
 
++ (void)reportClickSaveProduct:(Product*)product
+{
+    NSString* productInfo = [NSString stringWithFormat:@"%@", product.siteName];
+    [MobClick event:@"Save Product" label:productInfo];        
+}
+
+
 @end
