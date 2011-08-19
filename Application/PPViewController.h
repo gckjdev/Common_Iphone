@@ -13,18 +13,12 @@
 #import <MessageUI/MessageUI.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import "TKLoadingView.h"
 
 #define kDefaultBarButton			@"barbutton.png"
 
 #define kLocationUpdateTimeOut		60.0
 #define kTimeOutObjectString		@"Time out"
-
-
-#define _THREE20_ 1
-
-#ifdef _THREE20_
-#import <Three20/Three20.h>
-#endif
 
 @interface PPViewController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate, MKReverseGeocoderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 
@@ -33,9 +27,7 @@
 	dispatch_queue_t		workingQueue;
 	ABAddressBookRef		addressBook;
 	
-#ifdef _THREE20_	
-	TTActivityLabel*	label;
-#endif	
+	TKLoadingView*          loadingView;
 	
 	UIAlertView				*alertView;
 	int						alertAction;	
@@ -53,10 +45,7 @@
     NSString                *selectedImageSaveFileName;
 }
 
-#ifdef _THREE20_
-@property (nonatomic, retain) TTActivityLabel*	activityLabel;
-#endif
-
+@property (nonatomic, retain) TKLoadingView*        loadingView;
 @property (nonatomic, retain) NSTimer				*timer;
 @property (nonatomic, retain) NSString*				backgroundImageName;
 @property (nonatomic, retain) UIAlertView			*alertView;

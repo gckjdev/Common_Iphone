@@ -13,14 +13,11 @@
 #import "UINavigationItemExt.h"
 #import <MessageUI/MessageUI.h>
 #import "StringUtil.h"
-
+#import "TKAlertCenter.h"
 
 @implementation PPViewController
 
-#ifdef _THREE20_
-@synthesize activityLabel;
-#endif
-
+@synthesize loadingView;
 @synthesize backgroundImageName;
 @synthesize alertView;
 @synthesize timer;
@@ -36,20 +33,31 @@
 - (void)popupMessage:(NSString*)msg title:(NSString*)title
 {
     
-	if (self.alertView == nil){	
-        // TODO why cannot autorelease AlertView, crash if using autorelease here
-		self.alertView = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];			
-	}
-	else {
-		[self.alertView dismissWithClickedButtonIndex:0 animated:NO];		
-		[alertView setMessage:msg];
-		[alertView setTitle:title];		
-	}
-
-    NSLog(@"alert view retain count=%d", [alertView retainCount]);
+//	if (self.alertView == nil){	
+//        // TODO why cannot autorelease AlertView, crash if using autorelease here
+//		self.alertView = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];			
+//	}
+//	else {
+//		[self.alertView dismissWithClickedButtonIndex:0 animated:NO];		
+//		[alertView setMessage:msg];
+//		[alertView setTitle:title];		
+//	}
+//
+//    NSLog(@"alert view retain count=%d", [alertView retainCount]);
+//    
+//	[alertView show];	
+//	[NSTimer scheduledTimerWithTimeInterval:kAlertViewShowTimerInterval target:self selector:@selector(dismissAlertView:) userInfo:nil repeats:NO];
     
-	[alertView show];	
-	[NSTimer scheduledTimerWithTimeInterval:kAlertViewShowTimerInterval target:self selector:@selector(dismissAlertView:) userInfo:nil repeats:NO];
+    if (title == nil){
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:msg];
+    }
+    else if (msg == nil){        
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:title];        
+    }
+    else{
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:
+         [NSString stringWithFormat:@"%@", msg]];                
+    }
 }
 
 - (void)popupHappyMessage:(NSString*)msg title:(NSString*)title
@@ -150,27 +158,23 @@
 
 #pragma mark activity loading view
 
-#ifdef _THREE20_
-
-- (TTActivityLabel*)getActivityViewWithText:(NSString*)loadingText
+- (TKLoadingView*)getActivityViewWithText:(NSString*)loadingText
 {
-	if (activityLabel == nil){
-//		self.activityLabel = [[TTActivityLabel alloc] initWithFrame:self.view.frame style:TTActivityLabelStyleBlackBezel text:loadingText];
-		self.activityLabel = [[[TTActivityLabel alloc] initWithFrame:CGRectMake(0, 460/2 - 100, 320, 100)
-															  style:TTActivityLabelStyleBlackBezel 
-															   text:loadingText] autorelease];
-		[self.view addSubview:activityLabel];
+	if (loadingView == nil){
+		self.loadingView = [[[TKLoadingView alloc] initWithTitle:nil message:loadingText] autorelease];
+        loadingView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);
+		[self.view addSubview:loadingView];
 	}
 	
-	return activityLabel;
+	return loadingView;
 }
 
 - (void)showActivityWithText:(NSString*)loadingText
 {
-	activityLabel = [self getActivityViewWithText:loadingText];
-	[activityLabel setText:loadingText];
-	[activityLabel setIsAnimating:YES];
-	activityLabel.hidden = NO;
+	loadingView = [self getActivityViewWithText:loadingText];
+	[loadingView setMessage:loadingText];
+	[loadingView startAnimating];
+	loadingView.hidden = NO;
 }
 
 - (void)showActivity
@@ -180,11 +184,9 @@
 
 - (void)hideActivity
 {
-	[activityLabel setIsAnimating:NO];
-	activityLabel.hidden = YES;
+	[loadingView stopAnimating];
+	loadingView.hidden = YES;
 }
-
-#endif
 
 #pragma mark background selector execution
 
@@ -301,7 +303,7 @@
     [selectedImage release];
 
 #ifdef _THREE20_	
-	[activityLabel release];
+	[loadingView release];
 #endif
 	
 	[alertView release];
