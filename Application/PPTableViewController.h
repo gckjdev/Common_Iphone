@@ -113,7 +113,7 @@
 
 // for pull refresh
 @property(assign,getter=isReloading) BOOL reloading;
-@property(nonatomic,readonly) EGORefreshTableHeaderView *refreshHeaderView;
+@property(nonatomic,retain) EGORefreshTableHeaderView *refreshHeaderView;
 @property(nonatomic,assign) BOOL supportRefreshHeader;
 - (void)reloadTableViewDataSource;
 - (void)dataSourceDidFinishLoadingNewData;
