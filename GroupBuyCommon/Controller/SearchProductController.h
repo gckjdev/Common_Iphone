@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "PPViewController.h"
 
-@interface SearchProductController : UIViewController<UISearchBarDelegate> {
+@interface SearchProductController : PPViewController <UISearchBarDelegate> {
     UIButton *latestSearchButton1;
 	UIButton *latestSearchButton2;
 	UIButton *latestSearchButton3;
+    IBOutlet UISearchBar *keywordSearchBar;
 	
 }
 

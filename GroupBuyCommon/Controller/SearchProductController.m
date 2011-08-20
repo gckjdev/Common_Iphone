@@ -14,6 +14,7 @@
 #import "ProductPriceDataLoader.h"
 #import "HotKeyword.h"
 #import "HotKeywordManager.h"
+#import "ProductManager.h"
 
 //private methods
 @interface SearchProductController()
@@ -42,6 +43,7 @@
 	[latestSearchButton1 release];
 	[latestSearchButton2 release];
 	[latestSearchButton3 release];
+    [keywordSearchBar release];
     [super dealloc];
 }
 
@@ -57,11 +59,14 @@
 
 - (void)viewDidLoad
 {
+    [self setBackgroundImageName:@"background.png"];
     [super viewDidLoad];
 }
 
 - (void)viewDidUnload
 {
+    [keywordSearchBar release];
+    keywordSearchBar = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -90,10 +95,14 @@
 	
 	NSArray* hotKeyWords = [HotKeywordManager getAllHotKeywords];
 	 
+    int START_TAG = 10;
+    int BUTTON_COUNT = 9;
 	for (int i = 0; i < [hotKeyWords count]; i++) {
-		[(UIButton*)[self.view viewWithTag:i] setTitle:((HotKeyword *)[hotKeyWords objectAtIndex:i]).keyword forState:UIControlStateNormal];
+		[(UIButton*)[self.view viewWithTag:i+START_TAG] setTitle:((HotKeyword *)[hotKeyWords objectAtIndex:i]).keyword forState:UIControlStateNormal];
 	}
-	
+	for (int j=[hotKeyWords count]; j<BUTTON_COUNT; j++){
+        ((UIButton*)[self.view viewWithTag:j+START_TAG]).hidden = YES;
+    }
 	
 }
 
@@ -107,28 +116,37 @@
 #pragma mark -  
 #pragma mark UISearchBarDelegate Methods  
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {  
-    
-	
-	[searchBar resignFirstResponder];
-	[SearchHistoryManager createSearchHistory:searchBar.text];
-	
-	[self refreshLatestSearchHistory];
+- (void)search:(NSString*)keyword
+{
+    [ProductManager deleteProductsByUseFor:USE_FOR_KEYWORD];
 	
 	CommonProductListController *searchResultController = [[CommonProductListController alloc] init];
 	searchResultController.superController = self;
-	searchResultController.dataLoader = [[ProductKeywordDataLoader alloc] initWithKeyword:searchBar.text];
-
+	searchResultController.dataLoader = [[ProductKeywordDataLoader alloc] initWithKeyword:keyword];
+    
 	searchResultController.navigationItem.title = @"搜索结果"; 
 	[self.navigationController pushViewController:searchResultController animated:NO];
 	[searchResultController release];
-	
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {  
+    	
+    if ([searchBar.text length] == 0){
+        [UIUtils alert:@"搜索关键字不能为空"];
+        return;
+    }
+    
+	[searchBar resignFirstResponder];
+
+	[SearchHistoryManager createSearchHistory:searchBar.text];	
+	[self refreshLatestSearchHistory];
+    
+	[self search:searchBar.text];
 }  
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
 	[searchBar resignFirstResponder];
-
 }
 
 #pragma mark -
@@ -137,19 +155,9 @@
 
 - (IBAction) doSearch:(id)sender
 {
-	UIButton *button = (UIButton *)sender;
-	//TODO
-	NSLog(@"Submitting search : %@",  button.currentTitle);
-	
-	CommonProductListController *searchResultController = [[CommonProductListController alloc] init];
-	searchResultController.superController = self;
-	searchResultController.dataLoader = [[ProductKeywordDataLoader alloc] initWithKeyword: button.currentTitle];
-	
-	searchResultController.navigationItem.title = @"搜索结果"; 
-	[self.navigationController pushViewController:searchResultController animated:NO];
-	[searchResultController release];
-	
-
+	UIButton *button = (UIButton *)sender;    
+    keywordSearchBar.text = button.currentTitle;    
+    [self search:button.currentTitle];	
 }
 
 

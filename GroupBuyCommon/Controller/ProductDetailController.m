@@ -477,8 +477,10 @@ enum {
 - (IBAction)clickSave:(id)sender
 {
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
-//    [GroupBuyReport reportClickSaveProduct:product];
-    [ProductManager createProductForFavorite:product];
+    [GroupBuyReport reportClickSaveProduct:product];
+    if ([ProductManager createProductForFavorite:product]){
+        [self popupHappyMessage:@"团购商品收藏成功" title:@"收藏结果"];
+    }
 }
  
 - (IBAction)clickForward:(id)sender

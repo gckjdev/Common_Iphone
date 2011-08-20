@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "CommonService.h"
 
-#define PRODUCT_ACTION_CLICK    @"Click"
-#define PRODUCT_ACTION_BUY      @"Buy"
-#define PRODUCT_ACTION_ADD_FAVORITE @"Favor"
-#define PRODUCT_ACTION_FORWARD  @"Send"
+#define PRODUCT_ACTION_CLICK            @"click"
+#define PRODUCT_ACTION_BUY              @"buy"
+#define PRODUCT_ACTION_ADD_FAVORITE     @"save"
+#define PRODUCT_ACTION_FORWARD          @"send"
 
 @protocol ProductServiceDelegate <NSObject>
 

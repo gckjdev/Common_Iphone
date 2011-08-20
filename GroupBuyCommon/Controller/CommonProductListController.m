@@ -280,7 +280,7 @@
 	if (indexPath.row > [dataList count] - 1)
 		return;
     
-    BOOL isCreateHistory = ([dataLoader isKindOfClass:[ProductHistoryDataLoader class]] == NO);
+    BOOL isCreateHistory = NO; //([dataLoader isKindOfClass:[ProductHistoryDataLoader class]] == NO);
     Product* product = [dataList objectAtIndex:indexPath.row];  
     UINavigationController* navigationController;
     if (self.superController)
@@ -319,7 +319,7 @@
 
 - (void)clickDeleteAll:(id)sender{
 
-   UIAlertView *deleteAlertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"删除所有历史数据？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+   UIAlertView *deleteAlertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确认删除所有数据吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [deleteAlertView show];
     [deleteAlertView release];
 

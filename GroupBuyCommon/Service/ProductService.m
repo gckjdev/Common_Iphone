@@ -189,16 +189,16 @@
         output = [GroupBuyNetworkRequest updateKeywords:SERVER_URL appId:appId];
         
         // if succeed, clean local data and save new data
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            NSLog(@"<appUpdate> result code=%d, get total %d keywords", 
-                  output.resultCode, [output.jsonDataArray count]);
-            
-            // save data
-            [HotKeywordManager createHotKeywords:output.jsonDataArray];
-            
-            // Update UI here?
-        });
+        if (output.resultCode == ERROR_SUCCESS){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSLog(@"<appUpdate> result code=%d, get total %d keywords", 
+                      output.resultCode, [output.jsonDataArray count]);
+                
+                // save data
+                [HotKeywordManager createHotKeywords:output.jsonDataArray];                
+            });
+        }
         
         
     });      
