@@ -13,4 +13,7 @@
 
 }
 
++ (ShoppingKeywordCell*)createCell:(id)delegate;
++ (NSString*)getCellIdentifier;
+
 @end

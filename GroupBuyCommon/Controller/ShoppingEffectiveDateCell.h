@@ -13,4 +13,8 @@
 
 }
 
++ (ShoppingEffectiveDateCell*)createCell:(id)delegate;
++ (NSString*)getCellIdentifier;
++ (CGFloat)getCellHeight;
+
 @end

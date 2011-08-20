@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface AddShoppingItemController : UIViewController {
+@interface AddShoppingItemController : PPTableViewController {
 
 }
 

@@ -55,4 +55,33 @@
 }
 
 
+
+// just replace PPTableViewCell by the new Cell Class Name
++ (ShoppingCategoryCell*)createCell:(id)delegate
+{
+    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ShoppingCategoryCell" 
+                                                             owner:self options:nil];
+    // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).  
+    if (topLevelObjects == nil || [topLevelObjects count] <= 0){
+        NSLog(@"create <ShoppingCategoryCell> but cannot find cell object from Nib");
+        return nil;
+    }
+    
+    ((ShoppingCategoryCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    
+    return (ShoppingCategoryCell*)[topLevelObjects objectAtIndex:0];
+}
+
+
++ (NSString*)getCellIdentifier
+{
+    return @"ShoppingCategoryCell";
+}
+
++ (CGFloat)getCellHeight
+{
+    return 60.0f;
+}
+
+
 @end
