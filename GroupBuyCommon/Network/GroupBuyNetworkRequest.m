@@ -477,4 +477,148 @@
     
 }
 
++ (CommonNetworkOutput*)addUserShoppingItem:(NSString*)baseURL
+                                      appId:(NSString*)appId
+                                     userId:(NSString*)userId
+                                     itemId:(NSString*)itemId
+                               categoryName:(NSString*)categoryName
+                            subCategoryName:(NSString*)subCategoryName
+                                   keywords:(NSString*)keywords
+                                   maxPrice:(NSNumber*)maxPrice
+                                  minRebate:(NSNumber*)minRebate
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_ADDSHOPPINGITEM];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        str = [str stringByAddQueryParameter:PARA_ITEMID value:itemId];
+        
+        if (categoryName){
+            str = [str stringByAddQueryParameter:PARA_CATEGORY_NAME value:categoryName];            
+        }
+        
+        if (subCategoryName){
+            str = [str stringByAddQueryParameter:PARA_SUB_CATEGORY_NAME value:subCategoryName];                        
+        }
+        
+        if (keywords){
+            str = [str stringByAddQueryParameter:PARA_KEYWORD value:keywords];                        
+        }
+        
+        if (maxPrice){
+            str = [str stringByAddQueryParameter:PARA_PRICE doubleValue:[maxPrice doubleValue]];
+        }
+
+        if (minRebate){
+            str = [str stringByAddQueryParameter:PARA_REBATE doubleValue:[minRebate doubleValue]];
+        }
+
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+    
+}
+
++ (CommonNetworkOutput*)updateUserShoppingItem:(NSString*)baseURL
+                                         appId:(NSString*)appId
+                                        userId:(NSString*)userId
+                                        itemId:(NSString*)itemId
+                                  categoryName:(NSString*)categoryName
+                               subCategoryName:(NSString*)subCategoryName
+                                      keywords:(NSString*)keywords
+                                      maxPrice:(NSNumber*)maxPrice
+                                     minRebate:(NSNumber*)minRebate
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_UPDATESHOPPINGITEM];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        str = [str stringByAddQueryParameter:PARA_ITEMID value:itemId];
+        
+        if (categoryName){
+            str = [str stringByAddQueryParameter:PARA_CATEGORY_NAME value:categoryName];            
+        }
+        
+        if (subCategoryName){
+            str = [str stringByAddQueryParameter:PARA_SUB_CATEGORY_NAME value:subCategoryName];                        
+        }
+        
+        if (keywords){
+            str = [str stringByAddQueryParameter:PARA_KEYWORD value:keywords];                        
+        }
+        
+        if (maxPrice){
+            str = [str stringByAddQueryParameter:PARA_PRICE doubleValue:[maxPrice doubleValue]];
+        }
+        
+        if (minRebate){
+            str = [str stringByAddQueryParameter:PARA_REBATE doubleValue:[minRebate doubleValue]];
+        }
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
+
++ (CommonNetworkOutput*)deleteUserShoppingItem:(NSString*)baseURL
+                                         appId:(NSString*)appId
+                                        userId:(NSString*)userId
+                                        itemId:(NSString*)itemId
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_DELETESHOPPINGITEM];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        str = [str stringByAddQueryParameter:PARA_ITEMID value:itemId];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
+
 @end

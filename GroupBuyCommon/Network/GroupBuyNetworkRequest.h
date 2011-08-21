@@ -88,4 +88,29 @@
                                latitude:(double)latitude
                               longitude:(double)longitude;
 
++ (CommonNetworkOutput*)addUserShoppingItem:(NSString*)baseURL
+                                      appId:(NSString*)appId
+                                     userId:(NSString*)userId
+                                     itemId:(NSString*)itemId
+                               categoryName:(NSString*)categoryName
+                            subCategoryName:(NSString*)subCategoryName
+                                   keywords:(NSString*)keywords
+                                   maxPrice:(NSNumber*)maxPrice
+                                  minRebate:(NSNumber*)minRebate;
+
++ (CommonNetworkOutput*)updateUserShoppingItem:(NSString*)baseURL
+                                      appId:(NSString*)appId
+                                     userId:(NSString*)userId
+                                     itemId:(NSString*)itemId
+                               categoryName:(NSString*)categoryName
+                            subCategoryName:(NSString*)subCategoryName
+                                   keywords:(NSString*)keywords
+                                   maxPrice:(NSNumber*)maxPrice
+                                  minRebate:(NSNumber*)minRebate;
+
++ (CommonNetworkOutput*)deleteUserShoppingItem:(NSString*)baseURL
+                                         appId:(NSString*)appId
+                                        userId:(NSString*)userId
+                                        itemId:(NSString*)itemId;
+
 @end
