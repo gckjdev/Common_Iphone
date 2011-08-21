@@ -25,12 +25,11 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
-*/
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -108,7 +107,6 @@
 		return catCell;
     }
 	
-	/*
     else if (indexPath.row == 2) {
 		NSString *CellIdentifier = [ShoppingKeywordCell getCellIdentifier];
 		ShoppingKeywordCell *cell2 = (ShoppingKeywordCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -135,7 +133,6 @@
 		}
 		return cell4;
 	}
-	 */
 }
 
 
