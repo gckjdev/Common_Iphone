@@ -14,8 +14,7 @@
 
 + (void)reportTabBarControllerClick:(UITabBarController *)tabBarController{
 
-    int selectedIndex = [tabBarController selectedIndex];
-    UIViewController* controller = [tabBarController.viewControllers objectAtIndex:selectedIndex];
+    UIViewController* controller = tabBarController.selectedViewController;
     NSString* eventName = @"Click Tab";        
     [MobClick event:eventName label:controller.tabBarItem.title];
 }
