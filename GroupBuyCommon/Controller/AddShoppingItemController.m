@@ -19,7 +19,9 @@
 
 @property (nonatomic, retain) NSArray* subCategories;
 
+@property (nonatomic,assign) BOOL shouldShowSubCategoryCell;
 
+-(IBAction) selectCategory:(id) sender;
 
 @end
 
@@ -28,6 +30,7 @@
 
 @synthesize categories;
 @synthesize subCategories;
+@synthesize shouldShowSubCategoryCell;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -43,6 +46,11 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	NSArray* foods = [[NSArray alloc] initWithObjects:@"Good",@"VeryGood",@"Food",@"Fish",@"KFC",@"RealKongfu",@"Lamian",@"DimSum",nil];
+	self.subCategories = [[NSArray alloc] initWithObjects:foods,nil];
+	[foods release];
+	self.shouldShowSubCategoryCell = NO;
+	
 }
 
 /*
@@ -103,13 +111,21 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 6;
+	if(self.shouldShowSubCategoryCell){
+		return 6;
+	}
+	else {
+		return 5;
+	}
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PPTableViewCell* cell = nil;
-	
+	int additionalCellCount = 0;
+	if(self.shouldShowSubCategoryCell){
+		additionalCellCount = 1;
+	}
 	if (indexPath.row == 0 || indexPath.row == 1){
 		
 		NSString *CellIdentifier = [ShoppingCategoryCell getCellIdentifier];
@@ -117,23 +133,41 @@
 		if (cell == nil) {
 			cell = [ShoppingCategoryCell createCell:self];
 		}
+		
+		int START_TAG = 10;
+		int CATEGORY_COUNT = 8;
+		for (int i = 0; i < CATEGORY_COUNT; i++) {
+			[(UIButton*)[cell viewWithTag:i+START_TAG] addTarget:self action:@selector(selectCategory:) forControlEvents:UIControlEventTouchUpInside];
+		}
     }
 	
-    else if (indexPath.row == 2) {
+	else if (indexPath.row == 1&&self.shouldShowSubCategoryCell==YES){
+		
+			NSString *CellIdentifier = [ShoppingCategoryCell getCellIdentifier];
+			cell = (ShoppingCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [ShoppingCategoryCell createCell:self];
+			}
+		}
+	
+    else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 2) ||
+		(self.shouldShowSubCategoryCell==NO && indexPath.row == 1)) {
 		NSString *CellIdentifier = [ShoppingKeywordCell getCellIdentifier];
 		cell = (ShoppingKeywordCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [ShoppingKeywordCell createCell:self];
 		}
 		
-	} else if(indexPath.row == 3) {
+	}  else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 3) ||
+				(self.shouldShowSubCategoryCell==NO && indexPath.row == 2)) {
 		NSString *CellIdentifier = [ShoppingValidPeriodCell getCellIdentifier];
 		cell = (ShoppingValidPeriodCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [ShoppingValidPeriodCell createCell:self];
 		}
 		
-	} else if(indexPath.row == 4 || indexPath.row == 5) {
+	}  else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 4) ||
+				(self.shouldShowSubCategoryCell==NO && indexPath.row == 3))  {
 		NSString *CellIdentifier = [SliderCell getCellIdentifier];
 		cell = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
@@ -141,7 +175,15 @@
 		}
 		
 	}
-	
+	else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 5) ||
+			 (self.shouldShowSubCategoryCell==NO && indexPath.row == 4))  {
+		NSString *CellIdentifier = [SliderCell getCellIdentifier];
+		cell = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [SliderCell createCell:self];
+		}
+		
+	}
 	return cell;
 }
 
@@ -170,5 +212,17 @@
 	return NO;
 }
 
+
+-(IBAction) selectCategory:(id) sender {
+	UIButton *button = (UIButton *)sender;    
+    //button.currentTitle;    
+	if([button.currentTitle isEqualToString:@"不限"]{
+		shouldShowSubCategoryCell = NO;
+	}else{
+		shouldShowSubCategoryCell = YES;
+	}
+	//TODO? refresh cell
+	[self.tableView setNeedsDisplay];
+}
 
 @end
