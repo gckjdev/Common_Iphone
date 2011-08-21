@@ -56,6 +56,12 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_FINDPRODUCTS @"fp"
 #define METHOD_FINDPRODUCTSBYKEYWORD @"fpk"
 
+#define METHOD_ADDSHOPPINGITEM @"asi"
+#define METHOD_UPDATESHOPPINGITEM @"usi"
+#define METHOD_DELETESHOPPINGITEM @"dsi"
+#define METHOD_GETSHOPPINGITEM @"gsi"
+
+
 // request parameters
 
 #define PARA_USERID @"uid"
@@ -206,10 +212,18 @@ extern NSString* GlobalGetServerURL();
 #define PARA_ACTION_NAME @"an"
 #define PARA_ACTION_VALUE @"av"
 
+#define PARA_ITEMID @"ii"
+#define PARA_CATEGORY_NAME @"na"
+#define PARA_SUB_CATEGORY_NAME @"scn"
+#define PARA_CATEGORY_ID @"ci"
+
+
 #define SORT_BY_START_DATE 0
 #define SORT_BY_PRICE 1
 #define SORT_BY_REBATE 2
 #define SORT_BY_BOUGHT 3
+
+
 
 #define ERROR_DEVICE_NOT_BIND   20003
 
