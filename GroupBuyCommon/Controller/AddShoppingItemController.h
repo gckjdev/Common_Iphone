@@ -15,6 +15,7 @@
 }
 
 @property (nonatomic, retain) NSString* itemName;
-
+-(IBAction) selectCategory:(id) sender;
+-(IBAction) selectSubCategory:(id) sender;
 
 @end

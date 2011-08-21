@@ -45,5 +45,39 @@
     return 60.0f;
 }
 
+- (void) updateAllButtonLabelsWithArray:(NSArray*)labels
+{
+	int START_TAG = 10;
+    int BUTTON_COUNT = 8;
+	int validCount = [labels count] > BUTTON_COUNT?BUTTON_COUNT:[labels count];
+	for (int i = 0; i < validCount ; i++) {
+		[(UIButton*)[self viewWithTag:i+START_TAG] setTitle:[labels objectAtIndex:i] forState:UIControlStateNormal];
+	}
+	for (int j=validCount; j<BUTTON_COUNT; j++){
+        ((UIButton*)[self viewWithTag:j+START_TAG]).hidden = YES;
+    }
+	
+}	
+
+- (void) addAction:(SEL) selector AndSetColorBySelectedLabel:(NSString*)selectedLabel
+{
+	/*
+	int START_TAG = 10;
+	int CATEGORY_COUNT = 8;
+	for (int i = 0; i < CATEGORY_COUNT; i++) {
+		UIButton* button = (UIButton*)[cell viewWithTag:i+START_TAG];
+		if([button.currentTitle isEqualToString:self.selectedCategory])
+		{
+			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
+		}else
+		{
+			[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
+			
+		}
+		
+		[button addTarget:self action:@selector(selectCategory:) forControlEvents:UIControlEventTouchUpInside];
+	}*/
+}
+
 
 @end

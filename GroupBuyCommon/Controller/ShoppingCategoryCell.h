@@ -15,4 +15,6 @@
 + (ShoppingCategoryCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
+- (void) updateAllButtonLabelsWithArray:(NSArray*)labels;
+- (void) addAction:(SEL) selector AndSetColorBySelectedLabel:(NSString*)selectedLabel;
 @end
