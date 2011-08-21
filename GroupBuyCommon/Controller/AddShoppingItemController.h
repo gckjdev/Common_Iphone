@@ -10,7 +10,11 @@
 #import "PPTableViewController.h"
 
 @interface AddShoppingItemController : PPTableViewController {
+	
 
 }
+
+@property (nonatomic, retain) NSString* itemName;
+
 
 @end

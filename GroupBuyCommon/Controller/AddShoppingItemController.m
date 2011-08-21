@@ -9,11 +9,25 @@
 #import "AddShoppingItemController.h"
 #import "ShoppingKeywordCell.h"
 #import "ShoppingCategoryCell.h"
-#import "ShoppingEffectiveDateCell.h"
+#import "ShoppingValidPeriodCell.h"
 #import "SliderCell.h"
 
+#pragma mark Private
+@interface AddShoppingItemController()
+
+@property (nonatomic, retain) NSArray* categories;
+
+@property (nonatomic, retain) NSArray* subCategories;
+
+
+
+@end
 
 @implementation AddShoppingItemController
+
+
+@synthesize categories;
+@synthesize subCategories;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -77,7 +91,7 @@
     else if (indexPath.row == 2) {
 		return [ShoppingKeywordCell getCellHeight];
 	} else if(indexPath.row == 3) {
-		return [ShoppingEffectiveDateCell getCellHeight];	
+		return [ShoppingValidPeriodCell getCellHeight];	
 	} else if(indexPath.row == 4 || indexPath.row == 5) {
 		return [SliderCell getCellHeight];
 	}
@@ -93,47 +107,44 @@
 }
 
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
- 
+    PPTableViewCell* cell = nil;
+	
 	if (indexPath.row == 0 || indexPath.row == 1){
 		
 		NSString *CellIdentifier = [ShoppingCategoryCell getCellIdentifier];
-		ShoppingCategoryCell *catCell = (ShoppingCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (catCell == nil) {
-			catCell = [ShoppingCategoryCell createCell:self];
+		cell = (ShoppingCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [ShoppingCategoryCell createCell:self];
 		}
-		return catCell;
     }
 	
     else if (indexPath.row == 2) {
 		NSString *CellIdentifier = [ShoppingKeywordCell getCellIdentifier];
-		ShoppingKeywordCell *cell2 = (ShoppingKeywordCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell2 == nil) {
-			cell2 = [ShoppingKeywordCell createCell:self];
+		cell = (ShoppingKeywordCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [ShoppingKeywordCell createCell:self];
 		}
-		return cell2;
 		
 	} else if(indexPath.row == 3) {
-		NSString *CellIdentifier = [ShoppingEffectiveDateCell getCellIdentifier];
-		ShoppingEffectiveDateCell *cell3 = (ShoppingEffectiveDateCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell3 == nil) {
-			cell3 = [ShoppingEffectiveDateCell createCell:self];
+		NSString *CellIdentifier = [ShoppingValidPeriodCell getCellIdentifier];
+		cell = (ShoppingValidPeriodCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [ShoppingValidPeriodCell createCell:self];
 		}
-		return cell3;
-		
-		
 		
 	} else if(indexPath.row == 4 || indexPath.row == 5) {
 		NSString *CellIdentifier = [SliderCell getCellIdentifier];
-		SliderCell *cell4 = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell4 == nil) {
-			cell4 = [SliderCell createCell:self];
+		cell = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [SliderCell createCell:self];
 		}
-		return cell4;
+		
 	}
+	
+	return cell;
 }
+
 
 
 
@@ -143,10 +154,21 @@
 
 
 
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
+/*- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
 		
-//}
+}*/
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return UITableViewCellEditingStyleNone;
+	
+}
+
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+	return NO;
+}
 
 
 @end
