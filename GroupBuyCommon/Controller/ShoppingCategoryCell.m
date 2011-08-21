@@ -59,14 +59,14 @@
 	
 }	
 
-- (void) addAction:(SEL) selector AndSetColorBySelectedLabel:(NSString*)selectedLabel
+- (void) addButtonsAction:(SEL) selector AndHighlightTheSelectedLabel:(NSString*)selectedLabel
 {
-	/*
+	
 	int START_TAG = 10;
 	int CATEGORY_COUNT = 8;
 	for (int i = 0; i < CATEGORY_COUNT; i++) {
-		UIButton* button = (UIButton*)[cell viewWithTag:i+START_TAG];
-		if([button.currentTitle isEqualToString:self.selectedCategory])
+		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
+		if([button.currentTitle isEqualToString:selectedLabel])
 		{
 			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
 		}else
@@ -75,8 +75,8 @@
 			
 		}
 		
-		[button addTarget:self action:@selector(selectCategory:) forControlEvents:UIControlEventTouchUpInside];
-	}*/
+		[button addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
+	}
 }
 
 

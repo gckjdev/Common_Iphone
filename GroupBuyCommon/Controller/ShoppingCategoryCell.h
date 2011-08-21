@@ -16,5 +16,5 @@
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
 - (void) updateAllButtonLabelsWithArray:(NSArray*)labels;
-- (void) addAction:(SEL) selector AndSetColorBySelectedLabel:(NSString*)selectedLabel;
+- (void) addButtonsAction:(SEL) selector AndHighlightTheSelectedLabel:(NSString*)selectedLabel;
 @end
