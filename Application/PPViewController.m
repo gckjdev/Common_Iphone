@@ -162,7 +162,7 @@
 {
 	if (loadingView == nil){
 		self.loadingView = [[[TKLoadingView alloc] initWithTitle:nil message:loadingText] autorelease];
-        loadingView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);
+        loadingView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 10);
 		[self.view addSubview:loadingView];
 	}
 	
