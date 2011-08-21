@@ -90,7 +90,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 1;
+	return 6;
 }
 
 
@@ -101,35 +101,41 @@
 	if (indexPath.row == 0 || indexPath.row == 1){
 		
 		NSString *CellIdentifier = [ShoppingCategoryCell getCellIdentifier];
-		ShoppingCategoryCell *cell = (ShoppingCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [ShoppingCategoryCell createCell:self];
+		ShoppingCategoryCell *catCell = (ShoppingCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (catCell == nil) {
+			catCell = [ShoppingCategoryCell createCell:self];
 		}
+		return catCell;
     }
+	
+	/*
     else if (indexPath.row == 2) {
 		NSString *CellIdentifier = [ShoppingKeywordCell getCellIdentifier];
-		ShoppingKeywordCell *cell = (ShoppingKeywordCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [ShoppingKeywordCell createCell:self];
+		ShoppingKeywordCell *cell2 = (ShoppingKeywordCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell2 == nil) {
+			cell2 = [ShoppingKeywordCell createCell:self];
 		}
+		return cell2;
 		
 	} else if(indexPath.row == 3) {
 		NSString *CellIdentifier = [ShoppingEffectiveDateCell getCellIdentifier];
-		ShoppingEffectiveDateCell *cell = (ShoppingEffectiveDateCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [ShoppingEffectiveDateCell createCell:self];
+		ShoppingEffectiveDateCell *cell3 = (ShoppingEffectiveDateCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell3 == nil) {
+			cell3 = [ShoppingEffectiveDateCell createCell:self];
 		}
+		return cell3;
+		
 		
 		
 	} else if(indexPath.row == 4 || indexPath.row == 5) {
 		NSString *CellIdentifier = [SliderCell getCellIdentifier];
-		SliderCell *cell = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [SliderCell createCell:self];
+		SliderCell *cell4 = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell4 == nil) {
+			cell4 = [SliderCell createCell:self];
 		}
+		return cell4;
 	}
-	
-	return cell;
+	 */
 }
 
 
