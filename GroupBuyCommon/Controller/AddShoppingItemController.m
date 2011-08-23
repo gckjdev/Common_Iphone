@@ -174,22 +174,8 @@
 		if (cell == nil) {
 			cell = [ShoppingCategoryCell createCell:self];
 		}
+		[((ShoppingCategoryCell*)cell) addButtonsAction:@selector(selectCategory:) AndHighlightTheSelectedLabel:self.selectedCategory];
 		
-		int START_TAG = 10;
-		int CATEGORY_COUNT = 8;
-		for (int i = 0; i < CATEGORY_COUNT; i++) {
-			UIButton* button = (UIButton*)[cell viewWithTag:i+START_TAG];
-			if([button.currentTitle isEqualToString:self.selectedCategory])
-			{
-				[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
-			}else
-			{
-				[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
-
-			}
-				   
-			[button addTarget:self action:@selector(selectCategory:) forControlEvents:UIControlEventTouchUpInside];
-		}
     }
 	
 	else if (indexPath.row == 1&&self.shouldShowSubCategoryCell==YES){
@@ -203,6 +189,7 @@
 		   
 			[((ShoppingCategoryCell*)cell) updateAllButtonLabelsWithArray:[self.subCateogriesDict objectForKey:self.selectedCategory ]];
 		   
+		    [((ShoppingCategoryCell*)cell) addButtonsAction:@selector(selectSubCategory:) AndHighlightTheSelectedLabel:self.selectedSubCategory];
 		
 		}
 	
@@ -275,6 +262,7 @@
 		shouldShowSubCategoryCell = NO;
 	}else{
 		shouldShowSubCategoryCell = YES;
+		self.selectedSubCategory = @"不限";
 	}
 	self.selectedCategory = button.currentTitle;
 	[self.dataTableView reloadData];
