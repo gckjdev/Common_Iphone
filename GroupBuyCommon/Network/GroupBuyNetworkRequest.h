@@ -19,7 +19,8 @@
 
 + (CommonNetworkOutput*)deviceLogin:(NSString*)baseURL
                               appId:(NSString*)appId
-                     needReturnUser:(BOOL)needReturnUser;
+                     needReturnUser:(BOOL)needReturnUser
+                        deviceToken:(NSString*)deviceToken;
 
 
 + (CommonNetworkOutput*)findProducts:(NSString*)baseURL
@@ -112,5 +113,11 @@
                                          appId:(NSString*)appId
                                         userId:(NSString*)userId
                                         itemId:(NSString*)itemId;
+
++ (CommonNetworkOutput*)updateUser:(NSString*)baseURL
+                             appId:(NSString*)appId
+                            userId:(NSString*)userId
+                       deviceToken:(NSString*)deviceToken;
+
 
 @end

@@ -12,6 +12,8 @@
 #import "GroupBuyNetworkConstants.h"
 #import "AppManager.h"
 #import "CommonManager.h"
+#import "PPApplication.h"
+#import "UIUtils.h"
 
 //#import "DeviceLoginRequest.h"
 
@@ -19,8 +21,10 @@
 
 - (void)registerUserByDevice
 {
+    NSString* deviceToken = [[NSUserDefaults standardUserDefaults] objectForKey:kKeyDeviceToken];
+    
     dispatch_async(workingQueue, ^{
-        CommonNetworkOutput* output = [GroupBuyNetworkRequest registerUserDevice:SERVER_URL appId:GlobalGetPlaceAppId() deviceToken:nil];
+        CommonNetworkOutput* output = [GroupBuyNetworkRequest registerUserDevice:SERVER_URL appId:GlobalGetPlaceAppId() deviceToken:deviceToken];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (output.resultCode == ERROR_SUCCESS) {
@@ -40,10 +44,11 @@
 - (void)groupBuyCheckDevice
 {
     NSLog(@"current user Id is %@", user.userId);
+    NSString* deviceToken = [[NSUserDefaults standardUserDefaults] objectForKey:kKeyDeviceToken];
     
     if (userCurrentStatus != USER_EXIST_LOCAL_STATUS_LOGIN){
         dispatch_async(workingQueue, ^{
-            CommonNetworkOutput* output = [GroupBuyNetworkRequest deviceLogin:SERVER_URL appId:GlobalGetPlaceAppId() needReturnUser:YES];
+            CommonNetworkOutput* output = [GroupBuyNetworkRequest deviceLogin:SERVER_URL appId:GlobalGetPlaceAppId() needReturnUser:YES deviceToken:deviceToken];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (output.resultCode == ERROR_SUCCESS) {
@@ -64,11 +69,33 @@
             
         });
     }
+    else{
+        dispatch_async(workingQueue, ^{
+            [GroupBuyNetworkRequest deviceLogin:SERVER_URL appId:GlobalGetPlaceAppId() needReturnUser:NO deviceToken:deviceToken];        
+        });
+    }
     
     
     if (delegate && [delegate respondsToSelector:@selector(checkDeviceResult:)]){
         [delegate checkDeviceResult:userCurrentStatus];        
     }    
+}
+
+- (void)updateGroupBuyUserDeviceToken:(NSString*)deviceToken
+{
+    dispatch_async(workingQueue, ^{
+        CommonNetworkOutput* output = [GroupBuyNetworkRequest updateUser:SERVER_URL appId:GlobalGetPlaceAppId() userId:user.userId deviceToken:deviceToken];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (output.resultCode == ERROR_SUCCESS) {
+            }
+            else{
+                [UIUtils alert:@"推送通知注册失败"];
+            }
+        });
+        
+    });
+    
 }
 
 @end

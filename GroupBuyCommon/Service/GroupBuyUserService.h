@@ -12,5 +12,6 @@
 @interface UserService (GroupBuyUserService) 
 
 - (void)groupBuyCheckDevice;
+- (void)updateGroupBuyUserDeviceToken:(NSString*)deviceToken;
 
 @end

@@ -147,6 +147,9 @@
 			 (self.shouldShowSubCategoryCell==NO && indexPath.row == 4))  {
 		return [SliderCell getCellHeight];
 	}
+    else{
+        return 0.0f;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

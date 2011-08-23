@@ -61,6 +61,7 @@
 + (CommonNetworkOutput*)deviceLogin:(NSString*)baseURL
                               appId:(NSString*)appId
                      needReturnUser:(BOOL)needReturnUser
+                        deviceToken:(NSString*)deviceToken
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     NSString* deviceId = [[UIDevice currentDevice] uniqueIdentifier];
@@ -77,6 +78,10 @@
                                        value:deviceId];
         str = [str stringByAddQueryParameter:PARA_NEED_RETURN_USER
                                     intValue:needReturnUser];
+
+        if (deviceToken != nil)
+            str = [str stringByAddQueryParameter:PARA_DEVICETOKEN
+                                           value:deviceToken];
         
         return str;
     };
@@ -620,5 +625,37 @@
                                   output:output];
     
 }
+
++ (CommonNetworkOutput*)updateUser:(NSString*)baseURL
+                                         appId:(NSString*)appId
+                                        userId:(NSString*)userId
+                                        deviceToken:(NSString*)deviceToken
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_UPDATEUSER];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
+
 
 @end
