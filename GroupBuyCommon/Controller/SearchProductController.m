@@ -39,6 +39,7 @@
 
 - (void)dealloc
 {
+    [asrEngine release];
 	[latestSearchButton1 release];
 	[latestSearchButton2 release];
 	[latestSearchButton3 release];
@@ -164,76 +165,15 @@
 
 - (IBAction) speechSearch:(id)sender
 {
-    if (iFlyRecognizeControl == nil){
-        NSString *initParam = [[NSString alloc] initWithFormat:
-						   @"server_url=%@,appid=%@",ENGINE_URL,APPID];
-        
-        // 识别控件
-        iFlyRecognizeControl = [[IFlyRecognizeControl alloc] initWithOrigin:H_CONTROL_ORIGIN 
-                                                           theInitParam:initParam];
-    
-        [iFlyRecognizeControl setEngine:@"sms" theEngineParam:nil theGrammarID:nil];
-        [iFlyRecognizeControl setSampleRate:16000];
-        [initParam release];
-        iFlyRecognizeControl.delegate = self;
+    if ([keywordSearchBar isFirstResponder]){
+        [keywordSearchBar resignFirstResponder];
     }
     
-    [self.view addSubview:iFlyRecognizeControl];
-    [self.view bringSubviewToFront:iFlyRecognizeControl];
-    [iFlyRecognizeControl start];
-    
-    //	_recoginzeSetupController = [[UIRecognizeSetupController alloc] initWithRecognize:_iFlyRecognizeControl];
-
-    
-}
-
-#pragma mark 
-#pragma mark 接口回调
-
-//	识别结束回调
-- (void)onRecognizeEnd:(IFlyRecognizeControl *)iFlyRecognizeControl theError:(SpeechError) error
-{
-	NSLog(@"识别结束回调finish.....");
-//	[self enableButton];
-	
-	NSLog(@"getUpflow:%d,getDownflow:%d",[iFlyRecognizeControl getUpflow],[iFlyRecognizeControl getDownflow]);
-    
-}
-
-- (void)onUpdateTextView:(NSString *)sentence
-{
-    sentence = [sentence stringByReplacingOccurrencesOfString:@"。" withString:@""];
-    sentence = [sentence stringByReplacingOccurrencesOfString:@"？" withString:@""];
-    
-    if ([sentence length] <= 0)
-        return;
-    
-    if ([keywordSearchBar.text length] > 0){
-        NSString *str = [[NSString alloc] initWithFormat:@"%@ %@", keywordSearchBar.text, sentence];
-        keywordSearchBar.text = str;
-        [str release];
+    if (asrEngine == nil){
+        asrEngine = [[ASREngine alloc] init];
     }
-    else{
-        keywordSearchBar.text = sentence;
-    }
+    
+    [asrEngine showControl:self.view displayTextView:keywordSearchBar];    
 }
-
-- (void)onRecognizeResult:(NSArray *)array
-{
-	[self performSelectorOnMainThread:@selector(onUpdateTextView:) withObject:
-	 [[array objectAtIndex:0] objectForKey:@"NAME"] waitUntilDone:YES];
-}
-
-- (void)onUpdateText:(NSString *)sentence
-{
-	keywordSearchBar.text = sentence;
-}
-
-
-- (void)onResult:(IFlyRecognizeControl *)iFlyRecognizeControl theResult:(NSArray *)resultArray
-{
-	[self onRecognizeResult:resultArray];	
-}
-
 
 @end

@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "iFlyISR/IFlyRecognizeControl.h"
 
-@interface ASREngine : NSObject {
+@interface ASREngine : NSObject <IFlyRecognizeControlDelegate> {
     IFlyRecognizeControl    *iFlyRecognizeControl;
+    UIView                  *textView;
 }
 
-- (BOOL)initEngine;
+@property (nonatomic, retain)     UIView                  *textView;
+
+- (BOOL)showControl:(UIView*)superView displayTextView:(UIView*)displayTextView;
 
 @end
