@@ -11,10 +11,14 @@
 
 @interface AddShoppingItemController : PPTableViewController {
 	
-
+    NSString*   keywords;
+    NSString*   itemId;
 }
 
 @property (nonatomic, retain) NSString* itemName;
+@property (nonatomic, retain) NSString* keywords;
+@property (nonatomic, retain) NSString* itemId;
+
 -(IBAction) selectCategory:(id) sender;
 -(IBAction) selectSubCategory:(id) sender;
 

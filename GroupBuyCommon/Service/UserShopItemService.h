@@ -7,10 +7,30 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CommonService.h"
+#import "GroupBuyNetworkRequest.h"
 
+@protocol UserShopItemServiceDelegate <NSObject>
 
-@interface UserShopItemService : NSObject {
-    
-}
+- (void)itemActionDone:(int)result;
 
 @end
+
+@interface UserShopItemService : CommonService {
+    
+    NSObject<UserShopItemServiceDelegate>   *delegate;
+}
+
+- (void)addUserShoppingItem:(NSString*)itemId
+                                       city:(NSString*)city
+                               categoryName:(NSString*)categoryName
+                            subCategoryName:(NSString*)subCategoryName
+                                   keywords:(NSString*)keywords
+                                   maxPrice:(NSNumber*)maxPrice
+                                  minRebate:(NSNumber*)minRebate;
+
+@property (nonatomic, assign) NSObject<UserShopItemServiceDelegate>   *delegate;
+
+@end
+
+extern UserShopItemService* GlobalGetUserShopItemService();

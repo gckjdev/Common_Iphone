@@ -50,7 +50,7 @@
 							<object class="IBUIButton" id="41876748">
 								<reference key="NSNextResponder" ref="724129984"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{161, 67}, {67, 22}}</string>
+								<string key="NSFrame">{{161, 65}, {67, 22}}</string>
 								<reference key="NSSuperview" ref="724129984"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="241760966"/>
@@ -59,7 +59,7 @@
 								<int key="IBUITag">10</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<object class="NSFont" key="IBUIFont" id="345953761">
+								<object class="NSFont" key="IBUIFont" id="280885090">
 									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">14</double>
 									<int key="NSfFlags">16</int>
@@ -91,7 +91,7 @@
 								<int key="IBUITag">11</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="345953761"/>
+								<reference key="IBUIFont" ref="280885090"/>
 								<int key="IBUILineBreakMode">4</int>
 								<string key="IBUINormalTitle">购物</string>
 								<reference key="IBUIHighlightedTitleColor" ref="106402946"/>
@@ -113,7 +113,7 @@
 								<int key="IBUITag">12</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="345953761"/>
+								<reference key="IBUIFont" ref="280885090"/>
 								<int key="IBUILineBreakMode">4</int>
 								<string key="IBUINormalTitle">休闲娱乐</string>
 								<reference key="IBUIHighlightedTitleColor" ref="106402946"/>
@@ -135,7 +135,7 @@
 								<int key="IBUITag">16</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">2</int>
-								<reference key="IBUIFont" ref="345953761"/>
+								<reference key="IBUIFont" ref="280885090"/>
 								<int key="IBUILineBreakMode">4</int>
 								<string key="IBUINormalTitle">运动健身</string>
 								<reference key="IBUIHighlightedTitleColor" ref="106402946"/>
@@ -157,7 +157,7 @@
 								<int key="IBUITag">14</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">2</int>
-								<reference key="IBUIFont" ref="345953761"/>
+								<reference key="IBUIFont" ref="280885090"/>
 								<int key="IBUILineBreakMode">4</int>
 								<string key="IBUINormalTitle">酒店</string>
 								<reference key="IBUIHighlightedTitleColor" ref="106402946"/>
@@ -176,7 +176,7 @@
 								<int key="IBUITag">13</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="345953761"/>
+								<reference key="IBUIFont" ref="280885090"/>
 								<int key="IBUILineBreakMode">4</int>
 								<string key="IBUINormalTitle">旅游</string>
 								<reference key="IBUIHighlightedTitleColor" ref="106402946"/>
@@ -198,7 +198,7 @@
 								<int key="IBUITag">15</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">2</int>
-								<reference key="IBUIFont" ref="345953761"/>
+								<reference key="IBUIFont" ref="280885090"/>
 								<int key="IBUILineBreakMode">4</int>
 								<string key="IBUINormalTitle">抽奖</string>
 								<reference key="IBUIHighlightedTitleColor" ref="106402946"/>
@@ -220,7 +220,7 @@
 								<int key="IBUITag">17</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="345953761"/>
+								<reference key="IBUIFont" ref="280885090"/>
 								<int key="IBUILineBreakMode">4</int>
 								<string key="IBUINormalTitle">不限</string>
 								<reference key="IBUIHighlightedTitleColor" ref="106402946"/>
@@ -230,7 +230,7 @@
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="220869869"/>
 							</object>
-							<object class="IBUIButton" id="116524936">
+							<object class="IBUIButton" id="961587614">
 								<reference key="NSNextResponder" ref="724129984"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{17, 8}, {113, 22}}</string>
@@ -260,7 +260,7 @@
 						<string key="NSFrameSize">{320, 95}</string>
 						<reference key="NSSuperview" ref="418281638"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="116524936"/>
+						<reference key="NSNextKeyView" ref="961587614"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
@@ -294,7 +294,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">selectCategoryLabel</string>
 						<reference key="source" ref="418281638"/>
-						<reference key="destination" ref="116524936"/>
+						<reference key="destination" ref="961587614"/>
 					</object>
 					<int key="connectionID">15</int>
 				</object>
@@ -331,7 +331,7 @@
 							<reference ref="82399152"/>
 							<reference ref="890330754"/>
 							<reference ref="706971213"/>
-							<reference ref="116524936"/>
+							<reference ref="961587614"/>
 							<reference ref="440052194"/>
 						</object>
 						<reference key="parent" ref="0"/>
@@ -378,7 +378,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">13</int>
-						<reference key="object" ref="116524936"/>
+						<reference key="object" ref="961587614"/>
 						<reference key="parent" ref="418281638"/>
 					</object>
 				</object>

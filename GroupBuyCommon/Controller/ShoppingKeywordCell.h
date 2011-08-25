@@ -11,7 +11,9 @@
 
 @interface ShoppingKeywordCell : PPTableViewCell {
 
+    UITextField *keywordTextField;
 }
+@property (nonatomic, retain) IBOutlet UITextField *keywordTextField;
 
 + (ShoppingKeywordCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;

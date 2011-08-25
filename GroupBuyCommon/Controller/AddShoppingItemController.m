@@ -11,6 +11,7 @@
 #import "ShoppingCategoryCell.h"
 #import "ShoppingValidPeriodCell.h"
 #import "SliderCell.h"
+#import "UserShopItemService.h"
 
 #pragma mark Private
 @interface AddShoppingItemController()
@@ -28,6 +29,7 @@
 
 @property (nonatomic,retain) NSDictionary* subCateogriesDict;
 
+@property (nonatomic,retain) UITextField* keywordTextField;
 
 @end
 
@@ -41,6 +43,10 @@
 @synthesize selectedCategory;
 @synthesize selectedSubCategory;
 @synthesize subCateogriesDict;
+@synthesize keywordTextField;
+
+@synthesize itemId;
+@synthesize keywords;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -56,18 +62,20 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
 	
 	self.shouldShowSubCategoryCell = NO;
 	self.selectedCategory = @"不限";
 	self.selectedSubCategory = @"不限";
 	
-	NSArray* food = [NSArray arrayWithObjects:@"粤菜",@"川菜",@"湘菜",@"火锅",@"自助餐",@"日韩料理",@"西餐",@"不限",nil];
+	NSArray* food = [NSArray arrayWithObjects:@"粤菜",@"川菜",@"湘菜",@"火锅",@"自助餐",@"寿司",@"西餐",@"不限",nil];
 	NSArray* shopping = [NSArray arrayWithObjects:@"数码家电",@"母婴儿童",@"家具家居",@"眼镜",@"珠宝饰品",@"化妆品",@"食品",@"不限",nil];
-	NSArray* fun = [NSArray arrayWithObjects:@"KTV",@"电影票",@"画展",@"足疗按摩",@"咖啡厅",@"酒吧",@"桌游棋牌",@"不限",nil];
-	NSArray* travel = [NSArray arrayWithObjects:@"北京",@"云南",@"九寨沟",@"日本游",@"澳洲游",@"马尔代夫",@"海南",@"不限",nil];
-	NSArray* hotel = [NSArray arrayWithObjects:@"经济型",@"公寓式",@"度假村",@"三星级",@"四星级",@"五星级",@"七天",@"不限",nil];
-	NSArray* luckyDraw = [NSArray arrayWithObjects:@"iphone",@"ipad",@"小米手机",@"HTC",@"摩托罗拉",@"macbook",@"美女",@"不限",nil];
-	NSArray* sport = [NSArray arrayWithObjects:@"健身中心",@"游泳馆",@"羽毛球馆",@"乒乓球馆",@"瑜伽",@"网球场",@"篮球场",@"不限",nil];
+	NSArray* fun = [NSArray arrayWithObjects:@"KTV",@"电影票",@"游戏币",@"足疗按摩",@"咖啡厅",@"酒吧",@"桌游棋牌",@"不限",nil];
+	NSArray* travel = [NSArray arrayWithObjects:@"北京游",@"云南游",@"九寨沟",@"日本游",@"澳洲游",@"马尔代夫",@"海南游",@"不限",nil];
+	NSArray* hotel = [NSArray arrayWithObjects:@"经济型",@"公寓",@"度假村",@"三星级",@"四星级",@"五星级",@"七天",@"不限",nil];
+	NSArray* luckyDraw = [NSArray arrayWithObjects:@"iPhone",@"iPad",@"小米手机",@"HTC",@"摩托罗拉",@"MacBook",@"美女",@"不限",nil];
+	NSArray* sport = [NSArray arrayWithObjects:@"健身",@"游泳",@"羽毛球",@"乒乓球",@"瑜伽",@"网球",@"篮球",@"不限",nil];
 	
 	//self.subCategories = [[NSArray alloc] initWithObjects:foods,nil];
 	//[NSDictionary alloc] initWithObjects:
@@ -102,6 +110,10 @@
 
 
 - (void)dealloc {
+    
+    [itemId release];
+    [keywords release];
+    [keywordTextField release];
 	[categories release];
 	[subCategories release];
 	[itemName release];
@@ -205,6 +217,7 @@
 		cell = (ShoppingKeywordCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [ShoppingKeywordCell createCell:self];
+            self.keywordTextField = ((ShoppingKeywordCell*)cell).keywordTextField;
 		}
 		
 	}  else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 3) ||
@@ -282,4 +295,19 @@
 	[self.dataTableView reloadData];
 	
 }
+
+- (void)clickSave:(id)sender
+{
+    if (keywordTextField != nil){
+        if ([keywordTextField isFirstResponder])
+            [keywordTextField resignFirstResponder];
+        
+        self.keywords = keywordTextField.text;
+        NSLog(@"<save> keywords=%@", keywords);
+    }
+    
+    UserShopItemService* shopService = GlobalGetUserShopItemService();
+    [shopService addUserShoppingItem:itemId city:nil categoryName:nil subCategoryName:nil keywords:keywords maxPrice:nil minRebate:nil];
+}
+
 @end

@@ -10,11 +10,13 @@
 
 
 @implementation ShoppingKeywordCell
+@synthesize keywordTextField;
 
 
 
 
 - (void)dealloc {
+    [keywordTextField release];
     [super dealloc];
 }
 
