@@ -42,6 +42,9 @@
     return @"ShoppingKeywordCell";
 }
 
-
++ (CGFloat)getCellHeight
+{
+    return 70.0f;
+}
 
 @end

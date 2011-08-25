@@ -11,7 +11,9 @@
 
 @interface ShoppingCategoryCell : PPTableViewCell {
 
+    UIButton *selectCategoryLabel;
 }
+@property (nonatomic, retain) IBOutlet UIButton *selectCategoryLabel;
 + (ShoppingCategoryCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;

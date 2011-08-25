@@ -179,6 +179,7 @@
 		}
 		[((ShoppingCategoryCell*)cell) addButtonsAction:@selector(selectCategory:) AndHighlightTheSelectedLabel:self.selectedCategory];
 		
+        [((ShoppingCategoryCell*)cell).selectCategoryLabel setTitle:@"请选择主分类" forState:UIControlStateNormal];
     }
 	
 	else if (indexPath.row == 1&&self.shouldShowSubCategoryCell==YES){
@@ -194,6 +195,8 @@
 		   
 		    [((ShoppingCategoryCell*)cell) addButtonsAction:@selector(selectSubCategory:) AndHighlightTheSelectedLabel:self.selectedSubCategory];
 		
+        [((ShoppingCategoryCell*)cell).selectCategoryLabel setTitle:@"请选择子分类" forState:UIControlStateNormal];
+        
 		}
 	
     else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 2) ||

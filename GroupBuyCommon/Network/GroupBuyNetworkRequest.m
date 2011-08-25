@@ -486,6 +486,7 @@
                                       appId:(NSString*)appId
                                      userId:(NSString*)userId
                                      itemId:(NSString*)itemId
+                                       city:(NSString*)city
                                categoryName:(NSString*)categoryName
                             subCategoryName:(NSString*)subCategoryName
                                    keywords:(NSString*)keywords
@@ -503,7 +504,11 @@
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_USERID value:userId];
         str = [str stringByAddQueryParameter:PARA_ITEMID value:itemId];
-        
+
+        if (city){
+            str = [str stringByAddQueryParameter:PARA_CITY value:city];
+        }
+
         if (categoryName){
             str = [str stringByAddQueryParameter:PARA_CATEGORY_NAME value:categoryName];            
         }
@@ -543,6 +548,7 @@
                                          appId:(NSString*)appId
                                         userId:(NSString*)userId
                                         itemId:(NSString*)itemId
+                                          city:(NSString*)city
                                   categoryName:(NSString*)categoryName
                                subCategoryName:(NSString*)subCategoryName
                                       keywords:(NSString*)keywords
@@ -580,6 +586,11 @@
         if (minRebate){
             str = [str stringByAddQueryParameter:PARA_REBATE doubleValue:[minRebate doubleValue]];
         }
+
+        if (city){
+            str = [str stringByAddQueryParameter:PARA_CITY value:city];
+        }
+
         
         return str;
     };

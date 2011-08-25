@@ -93,6 +93,7 @@
                                       appId:(NSString*)appId
                                      userId:(NSString*)userId
                                      itemId:(NSString*)itemId
+                                       city:(NSString*)city
                                categoryName:(NSString*)categoryName
                             subCategoryName:(NSString*)subCategoryName
                                    keywords:(NSString*)keywords
@@ -103,6 +104,7 @@
                                       appId:(NSString*)appId
                                      userId:(NSString*)userId
                                      itemId:(NSString*)itemId
+                                       city:(NSString*)city
                                categoryName:(NSString*)categoryName
                             subCategoryName:(NSString*)subCategoryName
                                    keywords:(NSString*)keywords

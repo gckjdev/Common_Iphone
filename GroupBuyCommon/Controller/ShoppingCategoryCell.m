@@ -11,8 +11,11 @@
 
 @implementation ShoppingCategoryCell
 
+@synthesize selectCategoryLabel;
+
 
 - (void)dealloc {
+    [selectCategoryLabel release];
     [super dealloc];
 }
 
@@ -42,7 +45,7 @@
 
 + (CGFloat)getCellHeight
 {
-    return 60.0f;
+    return 95.0f;
 }
 
 - (void) updateAllButtonLabelsWithArray:(NSArray*)labels
