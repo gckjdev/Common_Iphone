@@ -39,7 +39,7 @@
 
 - (void)dealloc
 {
-    [asrEngine release];
+//    [asrEngine release];
 	[latestSearchButton1 release];
 	[latestSearchButton2 release];
 	[latestSearchButton3 release];
@@ -62,7 +62,7 @@
     [self setBackgroundImageName:@"background.png"];
     [super viewDidLoad];
     
-    [self setNavigationRightButton:@"语音搜索" action:@selector(speechSearch:)];
+//    [self setNavigationRightButton:@"语音搜索" action:@selector(speechSearch:)];
 }
 
 - (void)viewDidUnload
@@ -169,11 +169,11 @@
         [keywordSearchBar resignFirstResponder];
     }
     
-    if (asrEngine == nil){
-        asrEngine = [[ASREngine alloc] init];
-    }
-    
-    [asrEngine showControl:self.view displayTextView:keywordSearchBar];    
+//    if (asrEngine == nil){
+//        asrEngine = [[ASREngine alloc] init];
+//    }
+//    
+//    [asrEngine showControl:self.view displayTextView:keywordSearchBar];    
 }
 
 @end
