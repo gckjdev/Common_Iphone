@@ -9,7 +9,6 @@
 #import "SearchProductController.h"
 #import "SearchHistoryManager.h"
 #import "SearchHistory.h"
-#import "qisr.h"
 #import "CommonProductListController.h"
 #import "ProductPriceDataLoader.h"
 #import "HotKeyword.h"
@@ -61,6 +60,8 @@
 {
     [self setBackgroundImageName:@"background.png"];
     [super viewDidLoad];
+    
+    [self setNavigationRightButton:@"语音搜索" action:@selector(speechSearch:)];
 }
 
 - (void)viewDidUnload
@@ -163,9 +164,76 @@
 
 - (IBAction) speechSearch:(id)sender
 {
-	//CGPoint origin = CGPointMake(20.0,20.0);	
-	//[IFlyRecognizeControl initWithOrigin:origin theInitParam:@"appid=4e3dff54"];
-	//[IFlyRecognize initWithOrigin:origin theInitParam:@"appid=4e3dff54"];
+    if (iFlyRecognizeControl == nil){
+        NSString *initParam = [[NSString alloc] initWithFormat:
+						   @"server_url=%@,appid=%@",ENGINE_URL,APPID];
+        
+        // 识别控件
+        iFlyRecognizeControl = [[IFlyRecognizeControl alloc] initWithOrigin:H_CONTROL_ORIGIN 
+                                                           theInitParam:initParam];
+    
+        [iFlyRecognizeControl setEngine:@"sms" theEngineParam:nil theGrammarID:nil];
+        [iFlyRecognizeControl setSampleRate:16000];
+        [initParam release];
+        iFlyRecognizeControl.delegate = self;
+    }
+    
+    [self.view addSubview:iFlyRecognizeControl];
+    [self.view bringSubviewToFront:iFlyRecognizeControl];
+    [iFlyRecognizeControl start];
+    
+    //	_recoginzeSetupController = [[UIRecognizeSetupController alloc] initWithRecognize:_iFlyRecognizeControl];
+
+    
 }
+
+#pragma mark 
+#pragma mark 接口回调
+
+//	识别结束回调
+- (void)onRecognizeEnd:(IFlyRecognizeControl *)iFlyRecognizeControl theError:(SpeechError) error
+{
+	NSLog(@"识别结束回调finish.....");
+//	[self enableButton];
+	
+	NSLog(@"getUpflow:%d,getDownflow:%d",[iFlyRecognizeControl getUpflow],[iFlyRecognizeControl getDownflow]);
+    
+}
+
+- (void)onUpdateTextView:(NSString *)sentence
+{
+    sentence = [sentence stringByReplacingOccurrencesOfString:@"。" withString:@""];
+    sentence = [sentence stringByReplacingOccurrencesOfString:@"？" withString:@""];
+    
+    if ([sentence length] <= 0)
+        return;
+    
+    if ([keywordSearchBar.text length] > 0){
+        NSString *str = [[NSString alloc] initWithFormat:@"%@ %@", keywordSearchBar.text, sentence];
+        keywordSearchBar.text = str;
+        [str release];
+    }
+    else{
+        keywordSearchBar.text = sentence;
+    }
+}
+
+- (void)onRecognizeResult:(NSArray *)array
+{
+	[self performSelectorOnMainThread:@selector(onUpdateTextView:) withObject:
+	 [[array objectAtIndex:0] objectForKey:@"NAME"] waitUntilDone:YES];
+}
+
+- (void)onUpdateText:(NSString *)sentence
+{
+	keywordSearchBar.text = sentence;
+}
+
+
+- (void)onResult:(IFlyRecognizeControl *)iFlyRecognizeControl theResult:(NSArray *)resultArray
+{
+	[self onRecognizeResult:resultArray];	
+}
+
 
 @end
