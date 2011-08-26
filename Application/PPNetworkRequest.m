@@ -34,12 +34,18 @@
         output.resultCode = ERROR_CLIENT_REQUEST_NULL;
         return output;
     }
-    
+
+#ifdef DEBUG    
     NSLog(@"[SEND] URL=%@", [request description]);    
+#endif
+    
     NSHTTPURLResponse *response = nil;
     NSError *error = nil;
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+#ifdef DEBUG    
     NSLog(@"[RECV] : status=%d, error=%@", [response statusCode], [error description]);
+#endif    
     
     if (response == nil){
         output.resultCode = ERROR_NETWORK;

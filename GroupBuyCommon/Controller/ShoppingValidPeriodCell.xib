@@ -15,6 +15,7 @@
 			<string>IBUITableViewCell</string>
 			<string>IBUISegmentedControl</string>
 			<string>IBUILabel</string>
+			<string>IBUIButton</string>
 			<string>IBProxyObject</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -51,7 +52,7 @@
 							<object class="IBUISegmentedControl" id="1040936565">
 								<reference key="NSNextResponder" ref="884675902"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{74, 11}, {234, 30}}</string>
+								<string key="NSFrame">{{17, 33}, {283, 30}}</string>
 								<reference key="NSSuperview" ref="884675902"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -65,7 +66,7 @@
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<string>一周内</string>
 									<string> 一月内</string>
-									<string>两月内</string>
+									<string>三月内</string>
 									<string>半年内</string>
 								</object>
 								<object class="NSMutableArray" key="IBSegmentWidths">
@@ -100,15 +101,15 @@
 							<object class="IBUILabel" id="243202919">
 								<reference key="NSNextResponder" ref="884675902"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{17, 16}, {51, 21}}</string>
+								<string key="NSFrame">{{17, 9}, {61, 21}}</string>
 								<reference key="NSSuperview" ref="884675902"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="1040936565"/>
+								<reference key="NSNextKeyView" ref="1004928114"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">有效期</string>
+								<string key="IBUIText">有效期至</string>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">STHeitiSC-Medium</string>
 									<double key="NSSize">15</double>
@@ -122,8 +123,37 @@
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
 							</object>
+							<object class="IBUIButton" id="1004928114">
+								<reference key="NSNextResponder" ref="884675902"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{92, 9}, {175, 21}}</string>
+								<reference key="NSSuperview" ref="884675902"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="1040936565"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">Helvetica-Bold</string>
+									<double key="NSSize">15</double>
+									<int key="NSfFlags">16</int>
+								</object>
+								<string key="IBUINormalTitle">2011年9月20日</string>
+								<object class="NSColor" key="IBUIHighlightedTitleColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+								</object>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+								</object>
+								<object class="NSColor" key="IBUINormalTitleShadowColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC41AA</bytes>
+								</object>
+							</object>
 						</object>
-						<string key="NSFrameSize">{320, 50}</string>
+						<string key="NSFrameSize">{320, 70}</string>
 						<reference key="NSSuperview" ref="43699742"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="243202919"/>
@@ -138,7 +168,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 50}</string>
+				<string key="NSFrameSize">{320, 70}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="884675902"/>
@@ -184,6 +214,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="243202919"/>
 							<reference ref="1040936565"/>
+							<reference ref="1004928114"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -195,6 +226,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
 						<reference key="object" ref="243202919"/>
+						<reference key="parent" ref="43699742"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">8</int>
+						<reference key="object" ref="1004928114"/>
 						<reference key="parent" ref="43699742"/>
 					</object>
 				</object>
@@ -209,7 +245,9 @@
 					<string>4.IBEditorWindowLastContentRect</string>
 					<string>4.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
+					<string>5.IUISegmentedControlInspectorSelectedSegmentMetadataKey</string>
 					<string>6.IBPluginDependency</string>
+					<string>8.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -218,6 +256,8 @@
 					<string>ShoppingValidPeriodCell</string>
 					<string>{{329, 608}, {320, 80}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<integer value="2"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
@@ -234,7 +274,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">6</int>
+			<int key="maxID">8</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

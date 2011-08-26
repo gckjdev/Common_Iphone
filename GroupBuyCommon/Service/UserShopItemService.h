@@ -21,6 +21,7 @@
     NSObject<UserShopItemServiceDelegate>   *delegate;
 }
 
++ (NSString*)generateItemId;
 - (void)addUserShoppingItem:(NSString*)itemId
                                        city:(NSString*)city
                                categoryName:(NSString*)categoryName

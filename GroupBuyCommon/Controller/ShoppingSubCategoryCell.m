@@ -2,8 +2,8 @@
 //  ShoppingSubCategoryCell.m
 //  groupbuy
 //
-//  Created by qqn_pipi on 11-8-26.
-//  Copyright 2011年 __MyCompanyName__. All rights reserved.
+//  Created by LouisLee on 11-8-20.
+//  Copyright 2011 ET. All rights reserved.
 //
 
 #import "ShoppingSubCategoryCell.h"
@@ -11,47 +11,76 @@
 
 @implementation ShoppingSubCategoryCell
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize selectCategoryLabel;
 
-- (void)dealloc
-{
+
+- (void)dealloc {
+    [selectCategoryLabel release];
     [super dealloc];
 }
 
-- (void)didReceiveMemoryWarning
+
+
+// just replace PPTableViewCell by the new Cell Class Name
++ (ShoppingSubCategoryCell*)createCell:(id)delegate
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ShoppingSubCategoryCell" 
+                                                             owner:self options:nil];
+    // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).  
+    if (topLevelObjects == nil || [topLevelObjects count] <= 0){
+        NSLog(@"create <ShoppingSubCategoryCell> but cannot find cell object from Nib");
+        return nil;
+    }
     
-    // Release any cached data, images, etc that aren't in use.
+    ((ShoppingSubCategoryCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    
+    return (ShoppingSubCategoryCell*)[topLevelObjects objectAtIndex:0];
 }
 
-#pragma mark - View lifecycle
 
-- (void)viewDidLoad
++ (NSString*)getCellIdentifier
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    return @"ShoppingSubCategoryCell";
 }
 
-- (void)viewDidUnload
++ (CGFloat)getCellHeight
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    return 90.0f;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void) updateAllButtonLabelsWithArray:(NSArray*)labels
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	int START_TAG = 10;
+    int BUTTON_COUNT = 10;
+	int validCount = [labels count] > BUTTON_COUNT?BUTTON_COUNT:[labels count];
+	for (int i = 0; i < validCount ; i++) {
+		[(UIButton*)[self viewWithTag:i+START_TAG] setTitle:[labels objectAtIndex:i] forState:UIControlStateNormal];
+	}
+	for (int j=validCount; j<BUTTON_COUNT; j++){
+        ((UIButton*)[self viewWithTag:j+START_TAG]).hidden = YES;
+    }
+	
+}	
+
+- (void) addButtonsAction:(SEL) selector AndHighlightTheSelectedLabel:(NSString*)selectedLabel
+{
+	
+	int START_TAG = 10;
+	int CATEGORY_COUNT = 10;
+	for (int i = 0; i < CATEGORY_COUNT; i++) {
+		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
+		if([button.currentTitle isEqualToString:selectedLabel])
+		{
+			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
+		}else
+		{
+			[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
+			
+		}
+		
+		[button addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
+	}
 }
+
 
 @end

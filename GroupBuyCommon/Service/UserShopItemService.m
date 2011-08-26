@@ -12,10 +12,16 @@
 #import "UserShopItemService.h"
 #import "UserService.h"
 #import "AppManager.h"
+#import "StringUtil.h"
 
 @implementation UserShopItemService
 
 @synthesize delegate;
+
++ (NSString*)generateItemId
+{
+    return [NSString GetUUID];
+}
 
 - (void)dealloc
 {
@@ -33,6 +39,10 @@
     NSString* userId = [GlobalGetUserService() userId];
     NSString* appId = [AppManager getPlaceAppId];
     
+    if (itemId == nil){
+        itemId = [UserShopItemService generateItemId];
+    }
+    
     dispatch_async(workingQueue, ^{
         
         // fetch user place data from server
@@ -42,11 +52,16 @@
         
         // if succeed, clean local data and save new data
         dispatch_async(dispatch_get_main_queue(), ^{
+
+            if (output.resultCode == ERROR_SUCCESS){
+                // save data locally
+//                [UserShopItemManager createShoppingItem:itemId city:city categoryName:categoryName
+//                                        subCategoryName:subCategoryName keywords:keywords
+//                                               maxPrice:maxPrice minRebate:minRebate
+//                                             expireDate:expireDate];
+            }
             
             // notify UI to refresh data
-//            NSLog(@"<requestProductData> result code=%d, get total %d product", 
-//                  output.resultCode, [output.jsonDataArray count]);
-            
             if ([delegate respondsToSelector:@selector(itemActionDone:)]){
                 [delegate itemActionDone:output.resultCode];
             }

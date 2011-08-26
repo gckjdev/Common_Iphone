@@ -45,13 +45,13 @@
 
 + (CGFloat)getCellHeight
 {
-    return 95.0f;
+    return 91.0f;
 }
 
 - (void) updateAllButtonLabelsWithArray:(NSArray*)labels
 {
 	int START_TAG = 10;
-    int BUTTON_COUNT = 8;
+    int BUTTON_COUNT = 10;
 	int validCount = [labels count] > BUTTON_COUNT?BUTTON_COUNT:[labels count];
 	for (int i = 0; i < validCount ; i++) {
 		[(UIButton*)[self viewWithTag:i+START_TAG] setTitle:[labels objectAtIndex:i] forState:UIControlStateNormal];
@@ -66,7 +66,7 @@
 {
 	
 	int START_TAG = 10;
-	int CATEGORY_COUNT = 8;
+	int CATEGORY_COUNT = 10;
 	for (int i = 0; i < CATEGORY_COUNT; i++) {
 		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
 		if([button.currentTitle isEqualToString:selectedLabel])

@@ -58,6 +58,17 @@
 }
 */
 
+#define LIFE        @"生活服务"
+#define TRAVEL      @"旅游"
+#define SHOPPING    @"购物"
+#define FUN         @"休闲娱乐"
+#define HOTEL       @"酒店"
+#define FOOD        @"美食"
+#define SPORTS      @"运动健身"
+#define FACE        @"丽人"
+#define BUY2        @"服装鞋袜"
+
+#define NOT_LIMIT   @"不限"
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
@@ -66,24 +77,97 @@
     [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
 	
 	self.shouldShowSubCategoryCell = NO;
-	self.selectedCategory = @"不限";
-	self.selectedSubCategory = @"不限";
+	self.selectedCategory = NOT_LIMIT;
+	self.selectedSubCategory = NOT_LIMIT;	    
+    
+	NSArray* food = [NSArray arrayWithObjects:
+                     NOT_LIMIT,
+                     @"粤菜", @"川菜", @"东北菜",
+                     @"湘菜", @"寿司", @"韩国料理",
+                     @"火锅", @"西餐", @"自助餐", nil];
+    
+	NSArray* shopping = [NSArray arrayWithObjects:
+                         NOT_LIMIT,
+                         @"鞋子",@"衣服",@"食品",
+                         @"化妆品",@"酒",@"茶",
+                         @"相机",@"家电",@"电脑",
+                         nil];
+    
+	NSArray* fun = [NSArray arrayWithObjects:
+                    NOT_LIMIT,
+                    @"KTV",@"电影票",@"游戏币",
+                    @"咖啡厅",@"酒吧",@"桌游",
+                    @"棋牌", @"足疗按摩", @"桑拿水疗",
+                    nil];
+    
+	NSArray* travel = [NSArray arrayWithObjects:
+                       NOT_LIMIT,
+                       @"北京游",@"云南游",@"九寨沟",
+                       @"海南游",@"香港游",@"欧洲游",
+                       @"日本游",@"澳大利亚",@"马尔代夫",
+                       nil];
+    
+	NSArray* hotel = [NSArray arrayWithObjects:
+                      NOT_LIMIT,
+                      @"经济型",@"公寓",@"度假村",
+                      @"三星级",@"四星级",@"五星级",
+                      @"七天",nil];
+    
+	NSArray* luckyDraw = [NSArray arrayWithObjects:
+                          NOT_LIMIT,
+                          @"iPhone",@"iPad",@"小米手机",
+                          @"HTC",@"摩托罗拉",@"MacBook",
+                          @"美女",
+                          nil];
+    
+	NSArray* sport = [NSArray arrayWithObjects:
+                      NOT_LIMIT,
+                      @"健身",@"游泳",@"瑜伽",
+                      @"羽毛球",@"乒乓球",@"网球",
+                      @"桌球",@"保龄球", @"篮球",
+                      nil];
 	
-	NSArray* food = [NSArray arrayWithObjects:@"粤菜",@"川菜",@"湘菜",@"火锅",@"自助餐",@"寿司",@"西餐",@"不限",nil];
-	NSArray* shopping = [NSArray arrayWithObjects:@"数码家电",@"母婴儿童",@"家具家居",@"眼镜",@"珠宝饰品",@"化妆品",@"食品",@"不限",nil];
-	NSArray* fun = [NSArray arrayWithObjects:@"KTV",@"电影票",@"游戏币",@"足疗按摩",@"咖啡厅",@"酒吧",@"桌游棋牌",@"不限",nil];
-	NSArray* travel = [NSArray arrayWithObjects:@"北京游",@"云南游",@"九寨沟",@"日本游",@"澳洲游",@"马尔代夫",@"海南游",@"不限",nil];
-	NSArray* hotel = [NSArray arrayWithObjects:@"经济型",@"公寓",@"度假村",@"三星级",@"四星级",@"五星级",@"七天",@"不限",nil];
-	NSArray* luckyDraw = [NSArray arrayWithObjects:@"iPhone",@"iPad",@"小米手机",@"HTC",@"摩托罗拉",@"MacBook",@"美女",@"不限",nil];
-	NSArray* sport = [NSArray arrayWithObjects:@"健身",@"游泳",@"羽毛球",@"乒乓球",@"瑜伽",@"网球",@"篮球",@"不限",nil];
-	
+	NSArray* life = [NSArray arrayWithObjects:
+                      NOT_LIMIT,
+                      @"美发", @"照片冲印", @"洗车",
+                      @"摄影写真", @"儿童写真", @"口腔护理",
+                      @"体检", @"培训", @"报刊杂志",
+                      nil];
+    
+    NSArray* face = [NSArray arrayWithObjects:
+                     NOT_LIMIT,
+                     @"化妆品", @"美发", @"美容SPA", 
+                     @"瘦身纤体", @"美甲", @"艺术写真",
+                     @"瑜伽", @"舞蹈",
+                     nil];
+    
+    NSArray* buy2 = [NSArray arrayWithObjects:
+                     NOT_LIMIT,
+                     @"T恤", @"衬衫", @"裤子",
+                     @"内裤", @"文胸", @"裙子", 
+                     @"连衣裙", @"鞋", @"袜子", 
+                     nil];
+    
 	//self.subCategories = [[NSArray alloc] initWithObjects:foods,nil];
 	//[NSDictionary alloc] initWithObjects:
-	self.categories = [[NSArray alloc] initWithObjects:@"美食",@"购物",@"休闲娱乐",@"旅游",@"酒店",@"抽奖",@"运动健身",nil ];
+	self.categories = [[NSArray alloc] initWithObjects:
+                       NOT_LIMIT,
+                       FOOD, BUY2, FUN,
+                       TRAVEL, HOTEL, SPORTS,
+                       FACE, LIFE, SHOPPING, 
+                       nil ];
 	
-	self.subCateogriesDict = [[NSDictionary alloc] initWithObjectsAndKeys:food,@"美食",shopping,@"购物",
-							  fun,@"休闲娱乐",travel, @"旅游",hotel, @"酒店",
-							  luckyDraw, @"抽奖",sport,@"运动健身",nil];
+	self.subCateogriesDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              food, FOOD,
+                              shopping, SHOPPING,
+							  fun, FUN,
+                              travel, TRAVEL,
+                              hotel, HOTEL,
+                              sport, SPORTS,
+                              life, LIFE,
+                              face, FACE,
+                              buy2, BUY2,                              
+                              nil];
 	
 }
 
@@ -277,11 +361,11 @@
 
 -(IBAction) selectCategory:(id) sender {
 	UIButton *button = (UIButton *)sender;    
-	if([button.currentTitle isEqualToString:@"不限"]){
+	if([button.currentTitle isEqualToString:NOT_LIMIT]){
 		shouldShowSubCategoryCell = NO;
 	}else{
 		shouldShowSubCategoryCell = YES;
-		self.selectedSubCategory = @"不限";
+		self.selectedSubCategory = NOT_LIMIT;
 	}
 	self.selectedCategory = button.currentTitle;
 	[self.dataTableView reloadData];
