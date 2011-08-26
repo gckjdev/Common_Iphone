@@ -59,7 +59,7 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText"> 商品关键词（如品牌名，商家名等）</string>
+								<string key="IBUIText"> 关键词（如品牌名，商家名等）</string>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">STHeitiSC-Medium</string>
 									<double key="NSSize">15</double>
@@ -85,7 +85,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<string key="IBUIText"/>
-								<string key="IBUIPlaceholder">关键词，如耐克，多个关键词之间用空格分隔</string>
+								<string key="IBUIPlaceholder">示例：运动鞋 耐克，多个关键词之间用空格分隔</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MAA</bytes>

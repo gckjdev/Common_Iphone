@@ -12,9 +12,10 @@
 @implementation ShoppingCategoryCell
 
 @synthesize selectCategoryLabel;
-
+@synthesize labelsArray;
 
 - (void)dealloc {
+    [labelsArray release];
     [selectCategoryLabel release];
     [super dealloc];
 }
@@ -50,7 +51,9 @@
 
 - (void) updateAllButtonLabelsWithArray:(NSArray*)labels
 {
-	int START_TAG = 10;
+    self.labelsArray = labels;
+    
+	int START_TAG = 10;     // make sure tag is set correctly in buttons of cell in Interface Builder
     int BUTTON_COUNT = 10;
 	int validCount = [labels count] > BUTTON_COUNT?BUTTON_COUNT:[labels count];
 	for (int i = 0; i < validCount ; i++) {
@@ -62,7 +65,35 @@
 	
 }	
 
-- (void) addButtonsAction:(SEL) selector AndHighlightTheSelectedLabel:(NSString*)selectedLabel
+- (void) addButtonsAction:(SEL) selector
+{
+	int START_TAG = 10;
+	int CATEGORY_COUNT = 10;
+	for (int i = 0; i < CATEGORY_COUNT; i++) {
+		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
+		[button addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
+	}
+}
+
+- (void) highlightTheSelectedLabel:(NSString*)selectedLabel
+{
+	int START_TAG = 10;
+	int CATEGORY_COUNT = 10;
+	for (int i = 0; i < CATEGORY_COUNT; i++) {
+		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
+		if([button.currentTitle isEqualToString:selectedLabel])
+		{
+			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
+		}
+        else{
+			[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
+			
+		}
+	}    
+}
+
+
+- (void) addButtonsAction:(SEL)selector AndHighlightTheSelectedLabel:(NSString*)selectedLabel
 {
 	
 	int START_TAG = 10;
@@ -72,8 +103,8 @@
 		if([button.currentTitle isEqualToString:selectedLabel])
 		{
 			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
-		}else
-		{
+		}
+        else{
 			[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
 			
 		}

@@ -13,6 +13,16 @@
 	
     NSString*   keywords;
     NSString*   itemId;
+    
+    BOOL        isShowSubCategory;
+    
+    int         rowOfCategory;
+    int         rowOfSubCategory;
+    int         rowOfKeyword;
+    int         rowOfValidPeriod;
+    int         rowOfPrice;
+    int         rowOfRebate;
+    int         rowNumber;
 }
 
 @property (nonatomic, retain) NSString* itemName;

@@ -55,12 +55,40 @@
 	int validCount = [labels count] > BUTTON_COUNT?BUTTON_COUNT:[labels count];
 	for (int i = 0; i < validCount ; i++) {
 		[(UIButton*)[self viewWithTag:i+START_TAG] setTitle:[labels objectAtIndex:i] forState:UIControlStateNormal];
+        ((UIButton*)[self viewWithTag:i+START_TAG]).hidden = NO;
 	}
 	for (int j=validCount; j<BUTTON_COUNT; j++){
         ((UIButton*)[self viewWithTag:j+START_TAG]).hidden = YES;
     }
 	
 }	
+
+- (void) addButtonsAction:(SEL) selector
+{
+	int START_TAG = 10;
+	int CATEGORY_COUNT = 10;
+	for (int i = 0; i < CATEGORY_COUNT; i++) {
+		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
+		[button addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
+	}
+}
+
+- (void) highlightTheSelectedLabel:(NSString*)selectedLabel
+{
+	int START_TAG = 10;
+	int CATEGORY_COUNT = 10;
+	for (int i = 0; i < CATEGORY_COUNT; i++) {
+		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
+		if([button.currentTitle isEqualToString:selectedLabel])
+		{
+			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
+		}
+        else{
+			[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
+			
+		}
+	}    
+}
 
 - (void) addButtonsAction:(SEL) selector AndHighlightTheSelectedLabel:(NSString*)selectedLabel
 {

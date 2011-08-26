@@ -9,6 +9,7 @@
 #import "AddShoppingItemController.h"
 #import "ShoppingKeywordCell.h"
 #import "ShoppingCategoryCell.h"
+#import "ShoppingSubCategoryCell.h"
 #import "ShoppingValidPeriodCell.h"
 #import "SliderCell.h"
 #import "UserShopItemService.h"
@@ -69,6 +70,37 @@
 #define BUY2        @"服装鞋袜"
 
 #define NOT_LIMIT   @"不限"
+
+- (void)updateRowIndex
+{
+    if ([selectedCategory isEqualToString:NOT_LIMIT] == NO){
+        isShowSubCategory = YES;
+    }
+    else{
+        isShowSubCategory = NO;
+    }
+    
+    if (isShowSubCategory){
+        rowOfCategory = 0;
+        rowOfSubCategory = 1;
+        rowOfKeyword = 2;
+        rowOfValidPeriod = 3;
+        rowOfPrice = 4;
+        rowOfRebate = 5;
+        rowNumber = 6;
+    }
+    else{
+        rowOfCategory = 0;
+        rowOfSubCategory = -1;  // don't show
+        rowOfKeyword = 1;
+        rowOfValidPeriod = 2;
+        rowOfPrice = 3;
+        rowOfRebate = 4;        
+        rowNumber = 5;
+    }
+    
+    [dataTableView reloadData];
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
@@ -154,7 +186,7 @@
                        NOT_LIMIT,
                        FOOD, BUY2, FUN,
                        TRAVEL, HOTEL, SPORTS,
-                       FACE, LIFE, SHOPPING, 
+                       FACE, SHOPPING, LIFE,
                        nil ];
 	
 	self.subCateogriesDict = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -168,7 +200,13 @@
                               face, FACE,
                               buy2, BUY2,                              
                               nil];
-	
+
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self updateRowIndex];
+    [super viewDidAppear:animated];
 }
 
 /*
@@ -220,29 +258,24 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// return [self getRowHeight:indexPath.row totalRow:[dataList count]];
-	// return cellImageHeight;
-    if (indexPath.row == 0 ){
-        return [ShoppingCategoryCell getCellHeight];
+    if (indexPath.row == rowOfCategory){
+        return [ShoppingCategoryCell getCellHeight];            
     }
-	else if (indexPath.row == 1&&self.shouldShowSubCategoryCell==YES){
-		return [ShoppingCategoryCell getCellHeight];
-	}
-	
-    else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 2) ||
-			 (self.shouldShowSubCategoryCell==NO && indexPath.row == 1)) {
-		return [ShoppingKeywordCell getCellHeight];
-	}  else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 3) ||
-				(self.shouldShowSubCategoryCell==NO && indexPath.row == 2)) {
-		return [ShoppingValidPeriodCell getCellHeight];	
-	}  else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 4) ||
-				(self.shouldShowSubCategoryCell==NO && indexPath.row == 3))  {
+    else if (indexPath.row == rowOfSubCategory){
+        return [ShoppingSubCategoryCell getCellHeight];
+    }
+    else if (indexPath.row == rowOfKeyword){
+        return [ShoppingKeywordCell getCellHeight];
+    }
+    else if (indexPath.row == rowOfValidPeriod){
+        return [ShoppingValidPeriodCell getCellHeight];
+    }
+    else if (indexPath.row == rowOfPrice){
 		return [SliderCell getCellHeight];
-	}
-	else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 5) ||
-			 (self.shouldShowSubCategoryCell==NO && indexPath.row == 4))  {
+    }
+    else if (indexPath.row == rowOfRebate){
 		return [SliderCell getCellHeight];
-	}
+    }
     else{
         return 0.0f;
     }
@@ -252,85 +285,98 @@
     return 1;		// default implementation
 }
 
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if(self.shouldShowSubCategoryCell){
-		return 6;
-	}
-	else {
-		return 5;
-	}
+    return rowNumber;
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    PPTableViewCell* cell = nil;
-	
-	if (indexPath.row == 0){
-		
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{	
+	if (indexPath.row == rowOfCategory){
+        
+        ShoppingCategoryCell* cell = nil;		
 		NSString *CellIdentifier = [ShoppingCategoryCell getCellIdentifier];
 		cell = (ShoppingCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [ShoppingCategoryCell createCell:self];
+            [cell updateAllButtonLabelsWithArray:self.categories];
+            [cell addButtonsAction:@selector(selectCategory:)];
 		}
-		[((ShoppingCategoryCell*)cell) addButtonsAction:@selector(selectCategory:) AndHighlightTheSelectedLabel:self.selectedCategory];
-		
-        [((ShoppingCategoryCell*)cell).selectCategoryLabel setTitle:@"请选择主分类" forState:UIControlStateNormal];
-    }
-	
-	else if (indexPath.row == 1&&self.shouldShowSubCategoryCell==YES){
-		
-			NSString *CellIdentifier = [ShoppingCategoryCell getCellIdentifier];
-			cell = (ShoppingCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			
-		    if (cell == nil) {
-				cell = [ShoppingCategoryCell createCell:self];
-			}
-		   
-			[((ShoppingCategoryCell*)cell) updateAllButtonLabelsWithArray:[self.subCateogriesDict objectForKey:self.selectedCategory ]];
-		   
-		    [((ShoppingCategoryCell*)cell) addButtonsAction:@selector(selectSubCategory:) AndHighlightTheSelectedLabel:self.selectedSubCategory];
-		
-        [((ShoppingCategoryCell*)cell).selectCategoryLabel setTitle:@"请选择子分类" forState:UIControlStateNormal];
         
-		}
-	
-    else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 2) ||
-		(self.shouldShowSubCategoryCell==NO && indexPath.row == 1)) {
+		[cell highlightTheSelectedLabel:self.selectedCategory];		
+        
+        return cell;
+    }	
+	else if (indexPath.row == rowOfSubCategory){		
+        
+        ShoppingSubCategoryCell* cell = nil;
+        
+        NSString *CellIdentifier = [ShoppingSubCategoryCell getCellIdentifier];
+        cell = (ShoppingSubCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			
+        if (cell == nil) {
+            cell = [ShoppingSubCategoryCell createCell:self];
+            [cell addButtonsAction:@selector(selectSubCategory:)];
+        }
+		   
+        NSArray* subCategory = [self.subCateogriesDict objectForKey:self.selectedCategory];
+        [cell updateAllButtonLabelsWithArray:subCategory];		   
+        [cell highlightTheSelectedLabel:self.selectedSubCategory];		        
+
+        return cell;
+    }	
+    else if (indexPath.row == rowOfKeyword){
+        
+        ShoppingKeywordCell* cell = nil;
+
 		NSString *CellIdentifier = [ShoppingKeywordCell getCellIdentifier];
 		cell = (ShoppingKeywordCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [ShoppingKeywordCell createCell:self];
-            self.keywordTextField = ((ShoppingKeywordCell*)cell).keywordTextField;
+            self.keywordTextField = cell.keywordTextField;
 		}
+        
+        return cell;
 		
-	}  else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 3) ||
-				(self.shouldShowSubCategoryCell==NO && indexPath.row == 2)) {
+	}else if (indexPath.row == rowOfValidPeriod) {
+        
+        ShoppingValidPeriodCell* cell = nil;
+
 		NSString *CellIdentifier = [ShoppingValidPeriodCell getCellIdentifier];
 		cell = (ShoppingValidPeriodCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [ShoppingValidPeriodCell createCell:self];
 		}
+        
+        return cell;
 		
-	}  else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 4) ||
-				(self.shouldShowSubCategoryCell==NO && indexPath.row == 3))  {
+	}else if (indexPath.row == rowOfPrice)  {
+
+        SliderCell* cell = nil;
+        
 		NSString *CellIdentifier = [SliderCell getCellIdentifier];
 		cell = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [SliderCell createCell:self];
 		}
+        return cell;
 		
-	}
-	else if ((self.shouldShowSubCategoryCell==YES && indexPath.row == 5) ||
-			 (self.shouldShowSubCategoryCell==NO && indexPath.row == 4))  {
+	} else if (indexPath.row == rowOfRebate)  {
+        
+        SliderCell* cell = nil;
+
 		NSString *CellIdentifier = [SliderCell getCellIdentifier];
 		cell = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [SliderCell createCell:self];
 		}
+        return cell;
 		
 	}
-	return cell;
+    else{
+        NSLog(@"ERROR: <cellForRowAtIndexPath> cannot found cell for row at %d", indexPath.row);
+        return nil;
+    }
 }
 
 
@@ -367,17 +413,18 @@
 		shouldShowSubCategoryCell = YES;
 		self.selectedSubCategory = NOT_LIMIT;
 	}
+    NSLog(@"<selectCategory> category=%@", button.currentTitle);
 	self.selectedCategory = button.currentTitle;
-	[self.dataTableView reloadData];
+    [self updateRowIndex];
 }
 
 
--(IBAction) selectSubCategory:(id) sender {
-	UIButton *button = (UIButton *)sender;    
-    
+-(IBAction) selectSubCategory:(id) sender {    
+
+	UIButton *button = (UIButton *)sender;        
+    NSLog(@"<selectSubCategory> sub category=%@", button.currentTitle);
 	self.selectedSubCategory = button.currentTitle;
-	[self.dataTableView reloadData];
-	
+    [self updateRowIndex];
 }
 
 - (void)clickSave:(id)sender
