@@ -14,9 +14,11 @@
     UIButton *selectCategoryLabel;
 }
 @property (nonatomic, retain) IBOutlet UIButton *selectCategoryLabel;
+
 + (ShoppingCategoryCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
 - (void) updateAllButtonLabelsWithArray:(NSArray*)labels;
 - (void) addButtonsAction:(SEL) selector AndHighlightTheSelectedLabel:(NSString*)selectedLabel;
+
 @end
