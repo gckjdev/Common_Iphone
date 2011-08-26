@@ -17,19 +17,17 @@
 #pragma mark Private
 @interface AddShoppingItemController()
 
+// static data
 @property (nonatomic, retain) NSArray* categories;
-
 @property (nonatomic, retain) NSArray* subCategories;
-
-
-@property (nonatomic, retain) NSString* selectedCategory;
-
-@property (nonatomic, retain) NSString* selectedSubCategory;
-
-@property (nonatomic,assign) BOOL shouldShowSubCategoryCell;
-
 @property (nonatomic,retain) NSDictionary* subCateogriesDict;
 
+// data
+@property (nonatomic, retain) NSString* selectedCategory;
+@property (nonatomic, retain) NSString* selectedSubCategory;
+
+// UI elements
+@property (nonatomic,assign) BOOL shouldShowSubCategoryCell;
 @property (nonatomic,retain) UITextField* keywordTextField;
 
 @end
@@ -48,6 +46,9 @@
 
 @synthesize itemId;
 @synthesize keywords;
+@synthesize expireDate;
+@synthesize maxPrice;
+
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -86,8 +87,8 @@
         rowOfKeyword = 2;
         rowOfValidPeriod = 3;
         rowOfPrice = 4;
-        rowOfRebate = 5;
-        rowNumber = 6;
+        rowOfRebate = -1;       // not used
+        rowNumber = 5;
     }
     else{
         rowOfCategory = 0;
@@ -95,8 +96,8 @@
         rowOfKeyword = 1;
         rowOfValidPeriod = 2;
         rowOfPrice = 3;
-        rowOfRebate = 4;        
-        rowNumber = 5;
+        rowOfRebate = -1;       // not used
+        rowNumber = 4;
     }
     
     [dataTableView reloadData];
@@ -233,6 +234,8 @@
 
 - (void)dealloc {
     
+    [maxPrice release];
+    [expireDate release];    
     [itemId release];
     [keywords release];
     [keywordTextField release];
@@ -347,6 +350,8 @@
 		if (cell == nil) {
 			cell = [ShoppingValidPeriodCell createCell:self];
 		}
+        
+        
         
         return cell;
 		

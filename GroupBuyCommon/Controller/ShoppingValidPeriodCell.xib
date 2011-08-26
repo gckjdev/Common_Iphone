@@ -52,7 +52,7 @@
 							<object class="IBUISegmentedControl" id="1040936565">
 								<reference key="NSNextResponder" ref="884675902"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{17, 33}, {283, 30}}</string>
+								<string key="NSFrame">{{17, 37}, {283, 30}}</string>
 								<reference key="NSSuperview" ref="884675902"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -60,7 +60,7 @@
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBSegmentControlStyle">2</int>
-								<int key="IBNumberOfSegments">4</int>
+								<int key="IBNumberOfSegments">5</int>
 								<int key="IBSelectedSegmentIndex">0</int>
 								<object class="NSArray" key="IBSegmentTitles">
 									<bool key="EncodedWithXMLCoder">YES</bool>
@@ -68,9 +68,11 @@
 									<string> 一月内</string>
 									<string>三月内</string>
 									<string>半年内</string>
+									<string>不限</string>
 								</object>
 								<object class="NSMutableArray" key="IBSegmentWidths">
 									<bool key="EncodedWithXMLCoder">YES</bool>
+									<real value="0.0"/>
 									<real value="0.0"/>
 									<real value="0.0"/>
 									<real value="0.0"/>
@@ -82,9 +84,11 @@
 									<boolean value="YES"/>
 									<boolean value="YES"/>
 									<boolean value="YES"/>
+									<boolean value="YES"/>
 								</object>
 								<object class="NSMutableArray" key="IBSegmentContentOffsets">
 									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>{0, 0}</string>
 									<string>{0, 0}</string>
 									<string>{0, 0}</string>
 									<string>{0, 0}</string>
@@ -96,6 +100,11 @@
 									<reference ref="4"/>
 									<reference ref="4"/>
 									<reference ref="4"/>
+									<reference ref="4"/>
+								</object>
+								<object class="NSColor" key="IBTintColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC42IDAuNiAwLjYAA</bytes>
 								</object>
 							</object>
 							<object class="IBUILabel" id="243202919">
@@ -126,7 +135,7 @@
 							<object class="IBUIButton" id="1004928114">
 								<reference key="NSNextResponder" ref="884675902"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{92, 9}, {175, 21}}</string>
+								<string key="NSFrame">{{105, 9}, {175, 21}}</string>
 								<reference key="NSSuperview" ref="884675902"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1040936565"/>
@@ -153,7 +162,7 @@
 								</object>
 							</object>
 						</object>
-						<string key="NSFrameSize">{320, 70}</string>
+						<string key="NSFrameSize">{320, 75}</string>
 						<reference key="NSSuperview" ref="43699742"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="243202919"/>
@@ -168,7 +177,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 70}</string>
+				<string key="NSFrameSize">{320, 75}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="884675902"/>
@@ -257,7 +266,7 @@
 					<string>{{329, 608}, {320, 80}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<integer value="2"/>
+					<integer value="4"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
