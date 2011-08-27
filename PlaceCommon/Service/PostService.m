@@ -176,7 +176,7 @@
             }
             
             if ([viewController respondsToSelector:@selector(actionOnPostFinish:count:)]){
-                long count = [[output.jsonDataDict objectForKey:POST_ACTION_LIKE] longValue];
+                long count = [[output.jsonDataDict objectForKey:actionName] longValue];
                 [viewController actionOnPostFinish:output.resultCode count:count];
             }
         });        

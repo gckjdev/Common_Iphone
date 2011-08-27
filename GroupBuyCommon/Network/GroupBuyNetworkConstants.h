@@ -200,6 +200,9 @@ extern NSString* GlobalGetServerURL();
 #define PARA_TEL @"te"
 #define PARA_SHOP @"sh"
 
+#define PARA_UP @"up"
+#define PARA_DOWN @"down"
+
 #define PARA_PRODUCT @"p"
 #define PARA_CATEGORY_NAME @"na"
 #define PARA_CATEGORY_ID @"ci"

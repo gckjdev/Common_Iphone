@@ -45,6 +45,9 @@ enum {
 @synthesize boughtLabel;
 @synthesize imageView;
 
+@synthesize upLabel;
+@synthesize downLabel;
+
 + (void)showProductDetail:(Product*)product navigationController:(UINavigationController*)navigationController isCreateHistory:(BOOL)isCreateHistory
 {
     // write to browse history      
@@ -101,6 +104,8 @@ enum {
     self.boughtLabel.text = [product.bought description];
     self.rebateLabel.text = [product.rebate description];
     self.priceLabel.text = [product.price description];
+    self.upLabel.text = [product.up description];
+    self.downLabel.text = [product.down description];
     
     int saveValue = [product.value doubleValue] - [product.price doubleValue];
     if (saveValue < 0.0f)
@@ -496,6 +501,29 @@ enum {
     
 }
 
+- (IBAction)clickUp:(id)sender
+{
+    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_UP actionValue:1 viewController:self];
+}
+
+- (IBAction)clickDown:(id)sender
+{
+    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_DOWN actionValue:1 viewController:self];
+}
+
+- (IBAction)clickComment:(id)sender
+{
+    
+}
+
+- (void)actionOnProductFinish:(int)result actionName:(NSString *)actionName count:(long)count
+{
+    if ([PRODUCT_ACTION_UP isEqualToString:actionName]) {
+        self.upLabel.text = [NSString stringWithFormat:@"%i", count];
+    } else if ([PRODUCT_ACTION_DOWN isEqualToString:actionName]) {
+        self.downLabel.text = [NSString stringWithFormat:@"%i", count];
+    }
+}
 
 -(void) managedImageSet:(HJManagedImageV*)mi
 {

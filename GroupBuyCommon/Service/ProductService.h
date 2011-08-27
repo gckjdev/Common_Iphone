@@ -8,11 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "CommonService.h"
+#import "PPViewController.h"
 
 #define PRODUCT_ACTION_CLICK            @"click"
 #define PRODUCT_ACTION_BUY              @"buy"
 #define PRODUCT_ACTION_ADD_FAVORITE     @"save"
 #define PRODUCT_ACTION_FORWARD          @"send"
+#define PRODUCT_ACTION_UP               @"up"
+#define PRODUCT_ACTION_DOWN             @"down"
 
 @protocol ProductServiceDelegate <NSObject>
 
@@ -21,6 +24,7 @@
 // common method now!!! we can refactor all to this method 
 - (void)productDataRefresh:(int)result;
 - (void)productDataRefresh:(int)result jsonArray:(NSArray*)jsonArray;
+- (void)actionOnProductFinish:(int)result actionName:(NSString *)actionName count:(long)count;
 
 @end
 
@@ -45,6 +49,7 @@
 - (void)updateKeywords;
 
 - (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue;
+- (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue viewController:(PPViewController<ProductServiceDelegate>*)viewController;
 
 @end
 

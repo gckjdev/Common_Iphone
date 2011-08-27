@@ -472,6 +472,7 @@
     };
     
     PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        output.jsonDataDict = [dict objectForKey:PARA_DATA];
         return;
     }; 
     

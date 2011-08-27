@@ -111,6 +111,9 @@
     product.wapURL = wapURL;
     product.desc = [productDict objectForKey:PARA_DESC];
     product.offset = [NSNumber numberWithInt:offset];
+    
+    product.up = [productDict objectForKey:PARA_UP];
+    product.down = [productDict objectForKey:PARA_DOWN];
 
     product.gps = [ProductManager gpsFromDictionary:productDict];
     

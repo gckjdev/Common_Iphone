@@ -41,6 +41,8 @@
 @property (nonatomic, retain) NSString * shop;
 @property (nonatomic, retain) NSNumber * distance;
 @property (nonatomic, retain) NSNumber * offset;
+@property (nonatomic, retain) NSNumber *up;
+@property (nonatomic, retain) NSNumber *down;
 
 - (NSArray*)addressArray;
 - (NSArray*)telArray;
