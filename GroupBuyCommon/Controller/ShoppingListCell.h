@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPTableViewCell.h"
 
-
-@interface ShoppingListCell : UIViewController {
+@interface ShoppingListCell : PPTableViewCell {
     
 }
+
++ (ShoppingListCell*)createCell:(id)delegate;
++ (NSString*)getCellIdentifier;
++ (CGFloat)getCellHeight;
 
 @end
