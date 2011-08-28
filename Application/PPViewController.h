@@ -43,6 +43,8 @@
     
     UIImage                 *selectedImage;
     NSString                *selectedImageSaveFileName;
+    
+    UIKeyboardType          currentKeyboardType;
 }
 
 @property (nonatomic, retain) TKLoadingView*        loadingView;

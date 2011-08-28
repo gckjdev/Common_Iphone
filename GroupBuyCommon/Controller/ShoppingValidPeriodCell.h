@@ -20,13 +20,18 @@
     UISegmentedControl *periodSegmented;
     UIButton *validPeriod;
     id<ShoppingValidPeriodDelegate> validPeriodDelegate;
+    NSArray *dayArray;
 }
 @property (nonatomic, retain) IBOutlet UISegmentedControl *periodSegmented;
 @property (nonatomic, retain) IBOutlet UIButton *validPeriod;
-@property (nonatomic, retain) id<ShoppingValidPeriodDelegate> validPeriodDelegate;
+@property (nonatomic, retain) NSArray *dayArray;
+@property (nonatomic, retain) id<ShoppingValidPeriodDelegate> 
+
+validPeriodDelegate;
 + (ShoppingValidPeriodCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
 - (IBAction)didSelectedPeriod:(id)sender;
 - (NSDate *)calculateValidPeriodSinceNow:(NSInteger) day;
+- (NSArray *)getDayArray;
 @end
