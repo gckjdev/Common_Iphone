@@ -25,6 +25,8 @@
 - (void)productDataRefresh:(int)result;
 - (void)productDataRefresh:(int)result jsonArray:(NSArray*)jsonArray;
 - (void)actionOnProductFinish:(int)result actionName:(NSString *)actionName count:(long)count;
+- (void)writeCommentFinish:(int)result;
+- (void)getCommentFinish:(int)result jsonArray:(NSArray *)jsonArray;
 
 @end
 
@@ -50,6 +52,11 @@
 
 - (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue;
 - (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue viewController:(PPViewController<ProductServiceDelegate>*)viewController;
+
+
+- (void)writeCommentWithContent:(NSString *)content nickName:(NSString *)nickName productId:(NSString *)productId viewController:(PPViewController<ProductServiceDelegate> *)viewController;
+
+- (void)getCommentsWithProductId:(NSString *)productId viewController:(PPViewController<ProductServiceDelegate> *)viewController;
 
 @end
 
