@@ -325,9 +325,11 @@
     NSIndexPath* indexPath = nil;
     if (keywordTextField == sender){
         indexPath = [NSIndexPath indexPathForRow:rowOfKeyword inSection:0];    
+        currentKeyboardType = keywordTextField.keyboardType;
     }
-    if (priceTextField == sender) {
+    else if (priceTextField == sender) {
         indexPath = [NSIndexPath indexPathForRow:rowOfPrice inSection:0];   
+        currentKeyboardType = priceTextField.keyboardType;
     }
     
     CGRect frame = dataTableView.frame;
@@ -400,10 +402,9 @@
 
 - (void)clickSave:(id)sender
 {
-    if (keywordTextField != nil){
-        if ([keywordTextField isFirstResponder])
-            [keywordTextField resignFirstResponder];
-        
+    [self.view endEditing:YES];
+    
+    if (keywordTextField != nil){        
         self.keywords = keywordTextField.text;
         NSLog(@"<save> keywords=%@", keywords);
     }

@@ -8,7 +8,6 @@
 
 #import "PPViewController+NumPadReturn.h"
 
-
 @implementation PPViewController (NumPadReturn)
 
 - (void)activateKeyboardNumberPadReturn
@@ -26,7 +25,6 @@
                                                    object:nil];
     }    
 }
-
 
 - (void)addButtonToKeyboard {
     // create custom button
@@ -57,8 +55,12 @@
     }
 }
 
-
 - (void)keyboardWillShowForNumberPadReturn:(NSNotification *)note {
+    
+    if (currentKeyboardType != UIKeyboardTypePhonePad &&
+        currentKeyboardType != UIKeyboardTypeNumberPad)
+        return;
+    
     // if clause is just an additional precaution, you could also dismiss it
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 3.2) {
         [self addButtonToKeyboard];
@@ -66,6 +68,11 @@
 }
 
 - (void)keyboardDidShowForNumberPadReturn:(NSNotification *)note {
+    
+    if (currentKeyboardType != UIKeyboardTypePhonePad &&
+        currentKeyboardType != UIKeyboardTypeNumberPad)
+        return;
+    
     // if clause is just an additional precaution, you could also dismiss it
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 3.2) {
         [self addButtonToKeyboard];
