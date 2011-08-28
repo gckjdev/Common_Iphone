@@ -18,6 +18,7 @@
 #import "ShowAddressViewController.h"
 #import "ProductService.h"
 #import "ProductManager.h"
+#import "ProductCommentsController.h"
 
 enum {
     SECTION_IMAGE,
@@ -513,7 +514,10 @@ enum {
 
 - (IBAction)clickComment:(id)sender
 {
-    
+    ProductCommentsController *controller = [[ProductCommentsController alloc] init];
+    controller.productId = self.product.productId;
+    [self.navigationController pushViewController:controller animated:YES];
+    [controller release];
 }
 
 - (void)actionOnProductFinish:(int)result actionName:(NSString *)actionName count:(long)count

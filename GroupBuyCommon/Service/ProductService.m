@@ -272,4 +272,81 @@
     });
 }
 
+- (void)writeCommentWithContent:(NSString *)content nickName:(NSString *)nickName productId:(NSString *)productId viewController:(PPViewController<ProductServiceDelegate>*)viewController
+{
+    if (actionWorkingQueue == NULL){
+        actionWorkingQueue = dispatch_queue_create("action queue", NULL);
+    }
+    
+    NSString* userId = [GlobalGetUserService() userId];
+    NSString* appId = [AppManager getPlaceAppId];
+    LocationService *locationService =GlobalGetLocationService();
+    CLLocation *location = [locationService currentLocation];
+    BOOL hasLocation = NO;
+    if (location != nil)
+        hasLocation = YES;
+    
+    // TODO, cache request in 3G network    
+    [viewController showActivity];
+    dispatch_async(actionWorkingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;
+        
+        output = [GroupBuyNetworkRequest writeCommentWithContent:content nickName:nickName appId:appId userId:userId productId:productId hasLocation:hasLocation latitude:location.coordinate.latitude longitude:location.coordinate.longitude baseURL:SERVER_URL];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [viewController hideActivity];
+            if (output.resultCode == ERROR_SUCCESS){               
+                // update post action value in DB
+            }
+            else if (output.resultCode == ERROR_NETWORK){
+                [viewController popupUnhappyMessage:NSLS(@"kSystemFailure") title:nil];
+            }
+            else{
+                [viewController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
+            }
+            
+            if ([viewController respondsToSelector:@selector(writeCommentFinish:)]){
+                [viewController writeCommentFinish:output.resultCode];
+            }
+        });
+    });
+}
+
+- (void)getCommentsWithProductId:(NSString *)productId viewController:(PPViewController<ProductServiceDelegate>*)viewController
+{
+    if (actionWorkingQueue == NULL){
+        actionWorkingQueue = dispatch_queue_create("action queue", NULL);
+    }
+    
+    NSString* appId = [AppManager getPlaceAppId];
+    
+    [viewController showActivity];
+    dispatch_async(actionWorkingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;
+        
+        output = [GroupBuyNetworkRequest getCommentsWithProductId:productId appId:appId baseURL:SERVER_URL];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [viewController hideActivity];
+            if (output.resultCode == ERROR_SUCCESS){               
+                // update post action value in DB
+            }
+            else if (output.resultCode == ERROR_NETWORK){
+                [viewController popupUnhappyMessage:NSLS(@"kSystemFailure") title:nil];
+            }
+            else{
+                [viewController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
+            }
+            
+            if ([viewController respondsToSelector:@selector(getCommentFinish:jsonArray:)]){
+                [viewController getCommentFinish:output.resultCode jsonArray:output.jsonDataArray];
+            }
+        });
+    });
+}
+
 @end

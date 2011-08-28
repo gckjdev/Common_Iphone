@@ -89,6 +89,20 @@
                                latitude:(double)latitude
                               longitude:(double)longitude;
 
++ (CommonNetworkOutput *)writeCommentWithContent:(NSString *)content
+                                        nickName:(NSString *)nickName
+                                           appId:(NSString *)appId
+                                          userId:(NSString *)userId
+                                       productId:(NSString *)productId
+                                     hasLocation:(BOOL)hasLocation
+                                        latitude:(double)latitude
+                                       longitude:(double)longitude
+                                         baseURL:(NSString *)baseURL;
+
++ (CommonNetworkOutput *)getCommentsWithProductId:(NSString *)productId
+                                            appId:(NSString*)appId
+                                          baseURL:(NSString *)baseURL;
+
 + (CommonNetworkOutput*)addUserShoppingItem:(NSString*)baseURL
                                       appId:(NSString*)appId
                                      userId:(NSString*)userId

@@ -46,6 +46,8 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_GETAPPUPDATE @"gau"
 #define METHOD_UPDATEKEYWORD @"uk"
 #define METHOD_ACTIONONPRODUCT @"ap"
+#define METHOD_WRITEPRODUCTCOMMENT @"wpc"
+#define METHOD_GETPRODUCTCOMMENTS @"gpc"
 
 #define METHOD_REGISTERDEVICE @"rd"
 #define METHOD_FINDPRODUCTWITHPRICE @"fpp"
@@ -92,6 +94,8 @@ extern NSString* GlobalGetServerURL();
 #define PARA_COUNTRYCODE @"cc"
 #define PARA_LANGUAGE @"lang"
 #define PARA_APPID @"app"
+
+#define PARA_COMMENT_CONTENT @"comc"
 
 #define PARA_NEED_RETURN_USER           @"r"
 #define PARA_AVATAR                     @"av"

@@ -480,7 +480,77 @@
                      constructURLHandler:constructURLHandler
                          responseHandler:responseHandler
                                   output:output];
+}
+
++ (CommonNetworkOutput *)writeCommentWithContent:(NSString *)content
+                                        nickName:(NSString *)nickName
+                                           appId:(NSString *)appId
+                                          userId:(NSString *)userId
+                                       productId:(NSString *)productId
+                                     hasLocation:(BOOL)hasLocation
+                                        latitude:(double)latitude
+                                       longitude:(double)longitude
+                                         baseURL:(NSString *)baseURL
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_WRITEPRODUCTCOMMENT];
+        str = [str stringByAddQueryParameter:PARA_COMMENT_CONTENT value:content];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        str = [str stringByAddQueryParameter:PARA_NICKNAME value:nickName];
+        str = [str stringByAddQueryParameter:PARA_ID value:productId];
+        
+        if (hasLocation){
+            str = [str stringByAddQueryParameter:PARA_LATITUDE doubleValue:latitude];
+            str = [str stringByAddQueryParameter:PARA_LONGTITUDE doubleValue:longitude];
+        }
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+}
+
++ (CommonNetworkOutput *)getCommentsWithProductId:(NSString *)productId
+                                            appId:(NSString*)appId
+                                          baseURL:(NSString *)baseURL
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_GETPRODUCTCOMMENTS];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_ID value:productId];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        output.jsonDataDict = [dict objectForKey:PARA_DATA];
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
 }
 
 + (CommonNetworkOutput*)addUserShoppingItem:(NSString*)baseURL
