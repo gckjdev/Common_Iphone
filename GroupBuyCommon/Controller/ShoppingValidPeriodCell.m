@@ -19,8 +19,10 @@
 @synthesize periodSegmented;
 @synthesize validPeriod;
 @synthesize validPeriodDelegate;
+@synthesize dayArray;
 
 - (void)dealloc {
+    [dayArray release];
     [validPeriodDelegate release];
     [periodSegmented release];
     [validPeriod release];

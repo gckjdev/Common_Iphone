@@ -15,6 +15,7 @@
 #import "UserShopItemService.h"
 #import "UIViewUtils.h"
 #import "CategoryManager.h"
+#import "PPViewController+NumPadReturn.h"
 
 #pragma mark Private
 @interface AddShoppingItemController()
@@ -103,6 +104,8 @@
     [dataTableView reloadData];
 }
 
+
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -114,6 +117,8 @@
 	self.selectedSubCategory = NOT_LIMIT;	    
 
     self.categories = [CategoryManager getAllCategories];
+    
+    [self activateKeyboardNumberPadReturn];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -334,6 +339,7 @@
 
 - (void)segmentedDidValueChanged:(id)sender
 {
+    [self.view endEditing:YES];
     if (sender == self.priceSegment) {
         NSInteger index = self.priceSegment.selectedSegmentIndex;
         NSString *value = [self.priceSegment titleForSegmentAtIndex:index];
