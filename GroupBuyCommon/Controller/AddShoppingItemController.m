@@ -288,7 +288,7 @@
             self.periodSegment = cell.periodSegmented;
             self.periodButton = cell.validPeriod;
             
-            [self.periodButton addTarget:self action:@selector(onClickPeriodButton:) forControlEvents:UIControlEventTouchUpInside];
+//            [self.periodButton addTarget:self action:@selector(onClickPeriodButton:) forControlEvents:UIControlEventTouchUpInside];
             
             [self.periodSegment addTarget:self action:@selector(segmentedDidValueChanged:) forControlEvents:UIControlEventValueChanged];
 		}
@@ -369,25 +369,26 @@
             [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
         }
         else {
-            maxPrice = [NSNumber numberWithInteger:[priceTextField.text integerValue]];
+            self.maxPrice = [NSNumber numberWithInteger:[priceTextField.text integerValue]];
             
         }
         
     }
 }
 
-- (void)onClickPeriodButton:(id)sender 
-{
-    NSIndexPath* indexPath = nil;
-        
-    if (sender == self.periodButton) {
-        indexPath = [NSIndexPath indexPathForRow:rowOfValidPeriod inSection:0];
-        CGRect frame = dataTableView.frame;
-        frame.size.height = 480 - kKeyboadHeight - kNavigationBarHeight - kStatusBarHeight;
-        dataTableView.frame = frame;
-        [dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
-}
+//- (void)onClickPeriodButton:(id)sender 
+//{
+//    NSIndexPath* indexPath = nil;
+//        
+//    if (sender == self.periodButton) {
+//        indexPath = [NSIndexPath indexPathForRow:rowOfValidPeriod inSection:0];
+//        CGRect frame = dataTableView.frame;
+//        frame.size.height = 480 - kKeyboadHeight - kNavigationBarHeight - kStatusBarHeight;
+//        dataTableView.frame = frame;
+//        [dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    }
+//}
+
 - (void)segmentedDidValueChanged:(id)sender
 {
     
@@ -405,7 +406,7 @@
         if ([value compare:NOT_LIMIT] != 0) {
             price = [value integerValue];
         }
-        maxPrice = [NSNumber numberWithInt:price];
+        self.maxPrice = [NSNumber numberWithInt:price];
         
     } else if(self.periodSegment == sender){
         NSInteger index = self.periodSegment.selectedSegmentIndex;
@@ -417,7 +418,7 @@
         NSDate *date = [ShoppingValidPeriodCell calculateValidPeriodWithSegmentIndex:index];
         NSString * period = [ShoppingValidPeriodCell getPeriodTextWithDate:date];
         self.periodButton.titleLabel.text = period;
-        expireDate = date;
+        self.expireDate = date;
     }
     [self.view endEditing:YES];
 }
@@ -490,6 +491,23 @@
     [self updateRowIndex];
 }
 
+- (void)displaySettings
+{
+    NSLog(@"*************************Display**********************");
+    NSLog(@"selected category: %@", self.selectedCategory);
+    NSString *subCategories = @"";
+    for (int i = 0; i < [[self selectedSubCategories] count]; ++i) {
+        subCategories = [NSString stringWithFormat:@"%@, %@",subCategories,[self.selectedSubCategories objectAtIndex:i]];
+    }
+    NSLog(@"selected subcategories: %@", subCategories);
+    NSLog(@"keywords: %@",self.keywords);
+    NSLog(@"max price: %d",[self.maxPrice integerValue]);
+    NSLog(@"period: %@", [ShoppingValidPeriodCell getPeriodTextWithDate:self.expireDate]);
+    
+    
+    
+}
+
 - (void)clickSave:(id)sender
 {
     [self.view endEditing:YES];
@@ -498,6 +516,7 @@
         self.keywords = keywordTextField.text;
         NSLog(@"<save> keywords=%@", keywords);
     }
+    [self displaySettings];
     
     UserShopItemService* shopService = GlobalGetUserShopItemService();
     [shopService addUserShoppingItem:itemId city:nil categoryName:nil subCategoryName:nil keywords:keywords maxPrice:nil minRebate:nil];
