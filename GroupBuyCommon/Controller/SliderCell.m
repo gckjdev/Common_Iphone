@@ -8,16 +8,20 @@
 
 #import "SliderCell.h"
 
+NSArray* priceArray;
 
 @implementation SliderCell
+@synthesize priceSegment;
+@synthesize priceTextField;
 
 
 
 - (void)dealloc {
+
+    [priceTextField release];
+    [priceSegment release];
     [super dealloc];
 }
-
-
 
 // just replace PPTableViewCell by the new Cell Class Name
 + (SliderCell*)createCell:(id)delegate
@@ -45,6 +49,8 @@
 {
     return 75;
 }
+
+
 
 
 @end

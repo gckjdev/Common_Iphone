@@ -13,6 +13,7 @@
 #define kTabBarHeight				50
 #define kStatusBarHeight			20
 #define kSearchBarHeight			50
+#define kKeyboadHeight              216
 
 #define isRetina					([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
 												CGSizeEqualToSize(CGSizeMake(640, 960), \

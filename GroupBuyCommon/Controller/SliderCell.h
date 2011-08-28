@@ -9,11 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
 
-@interface SliderCell : PPTableViewCell {
 
+
+@interface SliderCell : PPTableViewCell {
+    UITextField *priceTextField;
+    UISegmentedControl *priceSegment;
 }
+@property (nonatomic, retain) IBOutlet UISegmentedControl *priceSegment;
+@property (nonatomic, retain) IBOutlet UITextField *priceTextField;
 
 + (SliderCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
+
+
 @end

@@ -13,6 +13,7 @@
 #import "ShoppingValidPeriodCell.h"
 #import "SliderCell.h"
 #import "UserShopItemService.h"
+#import "UIViewUtils.h"
 
 #pragma mark Private
 @interface AddShoppingItemController()
@@ -29,6 +30,10 @@
 // UI elements
 @property (nonatomic,assign) BOOL shouldShowSubCategoryCell;
 @property (nonatomic,retain) UITextField* keywordTextField;
+@property (nonatomic,retain) UITextField* priceTextField;
+@property (nonatomic,retain) UISegmentedControl* priceSegment;
+
+
 
 @end
 
@@ -43,6 +48,9 @@
 @synthesize selectedSubCategory;
 @synthesize subCateogriesDict;
 @synthesize keywordTextField;
+@synthesize priceSegment;
+@synthesize priceTextField;
+
 
 @synthesize itemId;
 @synthesize keywords;
@@ -202,6 +210,8 @@
                               buy2, BUY2,                              
                               nil];
 
+    dataTableView.contentSize = CGSizeMake(320, 2000);
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -238,7 +248,12 @@
     [expireDate release];    
     [itemId release];
     [keywords release];
+    
     [keywordTextField release];
+    [priceSegment release];
+    [priceTextField release];
+    
+    
 	[categories release];
 	[subCategories release];
 	[itemName release];
@@ -337,9 +352,11 @@
 		if (cell == nil) {
 			cell = [ShoppingKeywordCell createCell:self];
             self.keywordTextField = cell.keywordTextField;
+            [cell.keywordTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
 		}
         
         return cell;
+
 		
 	}else if (indexPath.row == rowOfValidPeriod) {
         
@@ -363,6 +380,13 @@
 		cell = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [SliderCell createCell:self];
+            self.priceTextField = cell.priceTextField;
+            self.priceSegment = cell.priceSegment;
+            
+            [self.priceTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
+            
+            [self.priceSegment addTarget:self action:@selector(segmentedDidValueChanged:) forControlEvents:UIControlEventValueChanged];
+            
 		}
         return cell;
 		
@@ -384,8 +408,42 @@
     }
 }
 
+- (void)keyboardDidHide:(NSNotification *)notification
+{
+    dataTableView.frame = self.view.bounds;
+}
 
+- (void) textFieldDidBeginEditing:(id)sender{
+    
+    NSIndexPath* indexPath = nil;
+    if (keywordTextField == sender){
+        indexPath = [NSIndexPath indexPathForRow:rowOfKeyword inSection:0];    
+    }
+    if (priceTextField == sender) {
+        indexPath = [NSIndexPath indexPathForRow:rowOfPrice inSection:0];   
+    }
+    
+    CGRect frame = dataTableView.frame;
+    frame.size.height = 480 - kKeyboadHeight - kNavigationBarHeight - kStatusBarHeight;
+    dataTableView.frame = frame;
+    [dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
+}
+
+- (void)segmentedDidValueChanged:(id)sender
+{
+    if (sender == self.priceSegment) {
+        NSInteger index = self.priceSegment.selectedSegmentIndex;
+        NSString *value = [self.priceSegment titleForSegmentAtIndex:index];
+        priceTextField.text = value;
+        
+        NSInteger price = -1;
+        if ([value compare:NOT_LIMIT] != 0) {
+            price = [value integerValue];
+        }
+        maxPrice = [NSNumber numberWithInt:price];
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   
@@ -445,5 +503,8 @@
     UserShopItemService* shopService = GlobalGetUserShopItemService();
     [shopService addUserShoppingItem:itemId city:nil categoryName:nil subCategoryName:nil keywords:keywords maxPrice:nil minRebate:nil];
 }
+
+
+
 
 @end
