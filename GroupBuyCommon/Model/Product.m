@@ -39,6 +39,8 @@
 @dynamic shop;
 @dynamic distance;
 @dynamic offset;
+@dynamic up;
+@dynamic down;
 
 - (NSArray*)addressArray
 {

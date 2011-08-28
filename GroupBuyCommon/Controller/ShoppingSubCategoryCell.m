@@ -50,7 +50,7 @@
 
 - (void) updateAllButtonLabelsWithArray:(NSArray*)labels
 {
-	int START_TAG = 10;
+	int START_TAG = 11;         // skip not limit tag
     int BUTTON_COUNT = 10;
 	int validCount = [labels count] > BUTTON_COUNT?BUTTON_COUNT:[labels count];
 	for (int i = 0; i < validCount ; i++) {
@@ -66,8 +66,8 @@
 - (void) addButtonsAction:(SEL) selector
 {
 	int START_TAG = 10;
-	int CATEGORY_COUNT = 10;
-	for (int i = 0; i < CATEGORY_COUNT; i++) {
+	int BUTTON_COUNT = 10;
+	for (int i = 0; i < BUTTON_COUNT; i++) {
 		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
 		[button addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
 	}
@@ -76,8 +76,8 @@
 - (void) highlightTheSelectedLabel:(NSString*)selectedLabel
 {
 	int START_TAG = 10;
-	int CATEGORY_COUNT = 10;
-	for (int i = 0; i < CATEGORY_COUNT; i++) {
+	int BUTTON_COUNT = 10;
+	for (int i = 0; i < BUTTON_COUNT; i++) {
 		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
 		if([button.currentTitle isEqualToString:selectedLabel])
 		{

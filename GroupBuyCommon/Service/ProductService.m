@@ -229,4 +229,47 @@
     });      
 }
 
+- (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue viewController:(PPViewController<ProductServiceDelegate>*)viewController
+{
+    if (actionWorkingQueue == NULL){
+        actionWorkingQueue = dispatch_queue_create("action queue", NULL);
+    }
+    
+    NSString* userId = [GlobalGetUserService() userId];
+    NSString* appId = [AppManager getPlaceAppId];
+    LocationService *locationService =GlobalGetLocationService();
+    CLLocation *location = [locationService currentLocation];
+    BOOL hasLocation = NO;
+    if (location != nil)
+        hasLocation = YES;
+    
+    // TODO, cache request in 3G network    
+    [viewController showActivity];
+    dispatch_async(actionWorkingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;
+        
+        output = [GroupBuyNetworkRequest actionOnProduct:SERVER_URL appId:appId userId:userId productId:productId actionName:actionName actionValue:actionValue hasLocation:hasLocation latitude:location.coordinate.latitude longitude:location.coordinate.longitude];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [viewController hideActivity];
+            if (output.resultCode == ERROR_SUCCESS){               
+                // update post action value in DB
+            }
+            else if (output.resultCode == ERROR_NETWORK){
+                [viewController popupUnhappyMessage:NSLS(@"kSystemFailure") title:nil];
+            }
+            else{
+                [viewController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
+            }
+            
+            if ([viewController respondsToSelector:@selector(actionOnProductFinish:actionName:count:)]){
+                long count = [[output.jsonDataDict objectForKey:actionName] longValue];
+                [viewController actionOnProductFinish:output.resultCode actionName:actionName count:count];
+            }
+        });
+    });
+}
+
 @end
