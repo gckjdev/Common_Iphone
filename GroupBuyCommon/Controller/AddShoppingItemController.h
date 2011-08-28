@@ -15,6 +15,7 @@
     NSString*   itemId;
     NSDate*     expireDate;
     NSNumber*   maxPrice;
+    UIDatePicker *datePicker;
     
     BOOL        isShowSubCategory;
     
@@ -24,6 +25,7 @@
     int         rowOfValidPeriod;
     int         rowOfPrice;
     int         rowOfRebate;
+    int         rowOfCity;
     int         rowNumber;
 }
 
@@ -32,7 +34,6 @@
 @property (nonatomic, retain) NSString* itemId;
 @property (nonatomic, retain) NSDate*   expireDate;
 @property (nonatomic, retain) NSNumber* maxPrice;
-
 
 -(IBAction) selectCategory:(id) sender;
 -(IBAction) selectSubCategory:(id) sender;

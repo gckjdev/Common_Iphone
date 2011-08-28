@@ -27,13 +27,15 @@
 
 // data
 @property (nonatomic, retain) NSString* selectedCategory;
-@property (nonatomic, retain) NSString* selectedSubCategory;
+@property (nonatomic, retain) NSMutableArray* selectedSubCategories;
 
 // UI elements
 @property (nonatomic,assign) BOOL shouldShowSubCategoryCell;
 @property (nonatomic,retain) UITextField* keywordTextField;
 @property (nonatomic,retain) UITextField* priceTextField;
 @property (nonatomic,retain) UISegmentedControl* priceSegment;
+@property (nonatomic,retain) UISegmentedControl* periodSegment;
+@property (nonatomic,retain) UIButton* periodButton;
 
 
 
@@ -47,12 +49,14 @@
 @synthesize shouldShowSubCategoryCell;
 @synthesize itemName;
 @synthesize selectedCategory;
-@synthesize selectedSubCategory;
+@synthesize selectedSubCategories;
 @synthesize subCateogriesDict;
+
 @synthesize keywordTextField;
 @synthesize priceSegment;
 @synthesize priceTextField;
-
+@synthesize periodSegment;
+@synthesize periodButton;
 
 @synthesize itemId;
 @synthesize keywords;
@@ -88,7 +92,9 @@
         rowOfKeyword = 2;
         rowOfValidPeriod = 3;
         rowOfPrice = 4;
+        rowOfCity = 5;
         rowOfRebate = -1;       // not used
+        rowOfCity = -1;
         rowNumber = 5;
     }
     else{
@@ -97,6 +103,7 @@
         rowOfKeyword = 1;
         rowOfValidPeriod = 2;
         rowOfPrice = 3;
+        rowOfCity = -1;         // not used 
         rowOfRebate = -1;       // not used
         rowNumber = 4;
     }
@@ -114,11 +121,12 @@
 	
 	self.shouldShowSubCategoryCell = NO;
 	self.selectedCategory = NOT_LIMIT;
-	self.selectedSubCategory = NOT_LIMIT;	    
-
+    self.selectedSubCategories = [NSMutableArray arrayWithObjects:NOT_LIMIT, nil];
+    
     self.categories = [CategoryManager getAllCategories];
     
     [self activateKeyboardNumberPadReturn];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -159,13 +167,16 @@
     [keywordTextField release];
     [priceSegment release];
     [priceTextField release];
-    
+    [periodSegment release];
+    [periodButton release];
     
 	[categories release];
 	[subCategories release];
 	[itemName release];
+    
 	[selectedCategory release];
-	[selectedSubCategory release];
+    [selectedSubCategories release];
+    
 	[subCateogriesDict release];
     [super dealloc];
 }
@@ -245,8 +256,8 @@
         }
 		   
         NSArray* subCategory = [CategoryManager getSubCategoriesByCategory:self.selectedCategory];
-        [cell updateAllButtonLabelsWithArray:subCategory];		   
-        [cell highlightTheSelectedLabel:self.selectedSubCategory];		        
+        [cell updateAllButtonLabelsWithArray:subCategory];		   		        
+        [cell highlightTheSelectedLabels:self.selectedSubCategories];
 
         return cell;
     }	
@@ -260,6 +271,7 @@
 			cell = [ShoppingKeywordCell createCell:self];
             self.keywordTextField = cell.keywordTextField;
             [cell.keywordTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
+
 		}
         
         return cell;
@@ -273,9 +285,13 @@
 		cell = (ShoppingValidPeriodCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [ShoppingValidPeriodCell createCell:self];
+            self.periodSegment = cell.periodSegmented;
+            self.periodButton = cell.validPeriod;
+            
+            [self.periodButton addTarget:self action:@selector(onClickPeriodButton:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.periodSegment addTarget:self action:@selector(segmentedDidValueChanged:) forControlEvents:UIControlEventValueChanged];
 		}
-        
-        
         
         return cell;
 		
@@ -291,6 +307,7 @@
             self.priceSegment = cell.priceSegment;
             
             [self.priceTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
+            [self.priceTextField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
             
             [self.priceSegment addTarget:self action:@selector(segmentedDidValueChanged:) forControlEvents:UIControlEventValueChanged];
             
@@ -328,20 +345,57 @@
     }
     if (priceTextField == sender) {
         indexPath = [NSIndexPath indexPathForRow:rowOfPrice inSection:0];   
+        [self.priceSegment setSelectedSegmentIndex:UISegmentedControlNoSegment];
     }
     
     CGRect frame = dataTableView.frame;
     frame.size.height = 480 - kKeyboadHeight - kNavigationBarHeight - kStatusBarHeight;
     dataTableView.frame = frame;
     [dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    
 
 }
 
+- (void)textFieldDidEndEditing:(id)sender
+{
+    if (self.priceTextField == sender) {
+        NSString *text = priceTextField.text;
+        
+        if (text == nil || [text length] == 0) {
+            maxPrice = [NSNumber numberWithInteger:-1];
+            priceTextField.text = NOT_LIMIT;
+            [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
+        }
+        else {
+            maxPrice = [NSNumber numberWithInteger:[priceTextField.text integerValue]];
+            
+        }
+        
+    }
+}
+
+- (void)onClickPeriodButton:(id)sender 
+{
+    NSIndexPath* indexPath = nil;
+        
+    if (sender == self.periodButton) {
+        indexPath = [NSIndexPath indexPathForRow:rowOfValidPeriod inSection:0];
+        CGRect frame = dataTableView.frame;
+        frame.size.height = 480 - kKeyboadHeight - kNavigationBarHeight - kStatusBarHeight;
+        dataTableView.frame = frame;
+        [dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+}
 - (void)segmentedDidValueChanged:(id)sender
 {
-    [self.view endEditing:YES];
+    
     if (sender == self.priceSegment) {
         NSInteger index = self.priceSegment.selectedSegmentIndex;
+        
+        if (index == UISegmentedControlNoSegment) {
+            return;
+        }
+        
         NSString *value = [self.priceSegment titleForSegmentAtIndex:index];
         priceTextField.text = value;
         
@@ -350,7 +404,20 @@
             price = [value integerValue];
         }
         maxPrice = [NSNumber numberWithInt:price];
+        
+    } else if(self.periodSegment == sender){
+        NSInteger index = self.periodSegment.selectedSegmentIndex;
+        
+        if (index == UISegmentedControlNoSegment) {
+            return;
+        }
+        
+        NSDate *date = [ShoppingValidPeriodCell calculateValidPeriodWithSegmentIndex:index];
+        NSString * period = [ShoppingValidPeriodCell getPeriodTextWithDate:date];
+        self.periodButton.titleLabel.text = period;
+        expireDate = date;
     }
+    [self.view endEditing:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -378,11 +445,18 @@
 
 -(IBAction) selectCategory:(id) sender {
 	UIButton *button = (UIButton *)sender;    
+    
+    if (![button.currentTitle isEqualToString:self.selectedCategory]) {
+        [self.selectedSubCategories removeAllObjects];
+        [self.selectedSubCategories addObject:NOT_LIMIT];
+    }
+    
 	if([button.currentTitle isEqualToString:NOT_LIMIT]){
 		shouldShowSubCategoryCell = NO;
+        [self.selectedSubCategories removeAllObjects];
+        [self.selectedSubCategories addObject:NOT_LIMIT];
 	}else{
 		shouldShowSubCategoryCell = YES;
-		self.selectedSubCategory = NOT_LIMIT;
 	}
     NSLog(@"<selectCategory> category=%@", button.currentTitle);
 	self.selectedCategory = button.currentTitle;
@@ -390,11 +464,27 @@
 }
 
 
+
 -(IBAction) selectSubCategory:(id) sender {    
 
 	UIButton *button = (UIButton *)sender;        
-    NSLog(@"<selectSubCategory> sub category=%@", button.currentTitle);
-	self.selectedSubCategory = button.currentTitle;
+
+    NSString *category = button.currentTitle;
+    if ([category isEqualToString:NOT_LIMIT]) {
+        [self.selectedSubCategories removeAllObjects];
+        [self.selectedSubCategories addObject:category];
+    }
+    else{
+    
+    if ([self.selectedSubCategories containsObject:NOT_LIMIT]) {
+        [self.selectedSubCategories removeObject:NOT_LIMIT];
+    }
+    if ([self.selectedSubCategories containsObject:category]) {
+        [self.selectedSubCategories removeObject:category];
+    }else{
+        [self.selectedSubCategories addObject:category];
+    }
+    }
     [self updateRowIndex];
 }
 

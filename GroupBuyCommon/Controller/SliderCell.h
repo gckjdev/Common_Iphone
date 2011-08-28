@@ -10,6 +10,7 @@
 #import "PPTableViewCell.h"
 
 
+#define PRICE_UNLIMIT_INDEX 6
 
 @interface SliderCell : PPTableViewCell {
     UITextField *priceTextField;

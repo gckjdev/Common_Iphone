@@ -14,7 +14,7 @@ NSArray* priceArray;
 @synthesize priceSegment;
 @synthesize priceTextField;
 
-
+#define NOT_LIMIT @"不限"
 
 - (void)dealloc {
 
@@ -34,9 +34,16 @@ NSArray* priceArray;
         return nil;
     }
     
-    ((SliderCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    SliderCell *cell = [topLevelObjects objectAtIndex:0];
+    cell.delegate = delegate;
     
-    return (SliderCell*)[topLevelObjects objectAtIndex:0];
+    cell.priceTextField.text = NOT_LIMIT;
+    
+    return cell;
+    
+//    ((SliderCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+//    
+//    return (SliderCell*)[topLevelObjects objectAtIndex:0];
 }
 
 

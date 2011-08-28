@@ -8,67 +8,67 @@
 
 #import "ShoppingValidPeriodCell.h"
 
-#define ONE_WEEK 7
-#define ONE_MONTH 30
-#define THREE_MONTH 90
-#define HALF_YEAR 183
-#define UNLIMIT 0
-#define UNLIMIT_INDEX 4
+
 
 @implementation ShoppingValidPeriodCell
 @synthesize periodSegmented;
 @synthesize validPeriod;
-@synthesize validPeriodDelegate;
-@synthesize dayArray;
 
 - (void)dealloc {
-    [dayArray release];
-    [validPeriodDelegate release];
     [periodSegmented release];
     [validPeriod release];
     [super dealloc];
 }
 
-- (NSDate *)calculateValidPeriodSinceNow:(NSInteger) day{
++ (NSDate *)calculateValidPeriodSinceNow:(NSInteger) day{
     NSInteger seconds = day * 24 * 3600;
     NSDate *date = [NSDate dateWithTimeIntervalSinceNow:seconds];
     return date;
 }
 
-- (IBAction)didSelectedPeriod:(id)sender{
-    NSDate *date;
+
++ (NSDate *)calculateValidPeriodWithSegmentIndex:(NSInteger) index
+{
+    NSArray *days = [ShoppingValidPeriodCell getDayArray];
+    NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:TIME_ZONE];
+    [NSTimeZone setDefaultTimeZone:tzGMT];
+    NSDate * date = nil;
+    
+    if (index < PERIOD_UNLIMIT_INDEX) {
+        NSNumber *day = [days objectAtIndex:index];
+        date = [ShoppingValidPeriodCell calculateValidPeriodSinceNow:[day intValue]];
+    }
+    return date;
+}
+
++ (NSString *) getPeriodTextWithDate:(NSDate *)date
+{
+    if (date == nil) {
+        return NOT_LIMIT;
+    }
+    
+    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:TIME_ZONE];
+    [formatter setTimeZone:tzGMT];
+    [formatter setDateFormat:DATE_FORMAT];
+    NSString *period = [formatter stringFromDate:date];
+    return period;
+}
+
+
++ (NSArray *)getDayArray
+{
+    
     NSNumber *oneWeek = [NSNumber numberWithInt:ONE_WEEK];
     NSNumber *oneMonth = [NSNumber numberWithInt:ONE_MONTH];
     NSNumber *threeMonth = [NSNumber numberWithInt:THREE_MONTH];
     NSNumber *halfYear = [NSNumber numberWithInt:HALF_YEAR];
     NSNumber *unlimit = [NSNumber numberWithInt:UNLIMIT];
-    NSArray * days = [NSArray arrayWithObjects:oneWeek,oneMonth,threeMonth,halfYear,unlimit,nil];
+    NSArray *dayArray = [NSArray arrayWithObjects:oneWeek,oneMonth,threeMonth,halfYear,unlimit,nil];
     
-    NSInteger index = periodSegmented.selectedSegmentIndex;
-    
-    NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
-    [NSTimeZone setDefaultTimeZone:tzGMT];
-    
-    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
-    [formatter setTimeZone:tzGMT];
-    [formatter setDateFormat:@"yyyy年MM月dd日"];
-    
-    if (index < UNLIMIT_INDEX) {
-        NSNumber *day = [days objectAtIndex:index];
-        date = [self calculateValidPeriodSinceNow:[day intValue]];
-        NSString* str = [formatter stringFromDate:date];
-        validPeriod.titleLabel.text = str;
-    }else if(index == UNLIMIT_INDEX){
-        date = nil;
-        validPeriod.titleLabel.text = @"不限";
-    }
-    
-    if ([validPeriodDelegate respondsToSelector:@selector(didSelectedValidPeriodIndex:)]) {
-        [validPeriodDelegate didSelectedValidPeriod:date];
-    }    
+    return dayArray;
+
 }
-
-
 
 // just replace PPTableViewCell by the new Cell Class Name
 + (ShoppingValidPeriodCell*)createCell:(id)delegate
@@ -81,9 +81,15 @@
         return nil;
     }
     
-    ((ShoppingValidPeriodCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    ShoppingValidPeriodCell *cell = [topLevelObjects objectAtIndex:0];
+    cell.delegate = delegate;
+    cell.validPeriod.titleLabel.text = NOT_LIMIT;
     
-    return (ShoppingValidPeriodCell*)[topLevelObjects objectAtIndex:0];
+    return cell;
+    
+//    ((ShoppingValidPeriodCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+//    
+//    return (ShoppingValidPeriodCell*)[topLevelObjects objectAtIndex:0];
 }
 
 

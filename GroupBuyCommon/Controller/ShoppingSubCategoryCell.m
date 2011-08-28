@@ -90,6 +90,25 @@
 	}    
 }
 
+- (void)highlightTheSelectedLabels:(NSArray *)selectedLabels
+{
+    
+    int START_TAG = 10;
+	int BUTTON_COUNT = 10;
+	for (int i = 0; i < BUTTON_COUNT; i++) {
+		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
+		if([selectedLabels containsObject:button.currentTitle])
+		{
+			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
+		}
+        else{
+			[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
+			
+		}
+	}    
+
+}
+
 - (void) addButtonsAction:(SEL) selector AndHighlightTheSelectedLabel:(NSString*)selectedLabel
 {
 	

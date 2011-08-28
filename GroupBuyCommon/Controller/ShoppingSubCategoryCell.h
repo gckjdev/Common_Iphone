@@ -22,5 +22,5 @@
 - (void) addButtonsAction:(SEL) selector AndHighlightTheSelectedLabel:(NSString*)selectedLabel;
 - (void) addButtonsAction:(SEL) selector;
 - (void) highlightTheSelectedLabel:(NSString*)selectedLabel;
-
+- (void)highlightTheSelectedLabels:(NSArray *)selectedLabels;
 @end
