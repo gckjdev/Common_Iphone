@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
+#import "HJManagedImageV.h"
 
 @class Product;
 
@@ -20,7 +21,9 @@
     UILabel *leftTimeLabel;
     UILabel *distanceLabel;
     UILabel *boughtLabel;
+    HJManagedImageV *imageView;
 }
+@property (nonatomic, retain) IBOutlet HJManagedImageV *imageView;
 + (ProductTextCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;

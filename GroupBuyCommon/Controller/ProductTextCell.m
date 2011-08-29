@@ -13,8 +13,11 @@
 #import "ProductManager.h"
 #import "TimeUtils.h"
 #import "GroupBuyNetworkConstants.h"
+#import "PPApplication.h"
+#import "Reachability.h"
 
 @implementation ProductTextCell
+@synthesize imageView;
 
 @synthesize productDescLabel;
 @synthesize valueLabel;
@@ -43,6 +46,8 @@
 - (void)setCellStyle
 {
     self.selectionStyle = UITableViewCellSelectionStyleBlue;
+    self.leftTimeLabel.hidden = YES;
+    self.valueLabel.hidden = YES;
 //    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
@@ -53,7 +58,7 @@
 
 + (CGFloat)getCellHeight
 {
-    return 114.0f;
+    return 106.0f;
 }
 
 - (NSString*)getTimeInfo:(int)seconds
@@ -124,13 +129,15 @@
                             bought:(NSNumber*)bought
                             rebate:(NSNumber*)rebate
                           distance:(double)distance
+                               image:(NSString*)image
+
 {
     int leftSeconds = [endDate timeIntervalSinceNow];
     NSString* timeInfo = [self getTimeInfo:leftSeconds];
     
     self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];
     self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [self getValue:value]];
-    self.priceLabel.text = [NSString stringWithFormat:@"团购价: %@元", [price description]];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@元", [price description]];
     self.leftTimeLabel.text = [NSString stringWithFormat:@"时间: %@", timeInfo];
     
     if (distance < MAXFLOAT){
@@ -141,9 +148,22 @@
         self.distanceLabel.text = @"";         
     }
     
-    self.boughtLabel.text = [NSString stringWithFormat:@"已购买: %@", [self getBoughtInfo:bought]];    
+    self.boughtLabel.text = [NSString stringWithFormat:@"售出: %@", [self getBoughtInfo:bought]];    
     self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [rebate description]]; 
-
+    
+    
+    if ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == ReachableViaWiFi){
+        self.imageView.hidden = NO;
+        [self.imageView clear];
+        self.imageView.url = [NSURL URLWithString:image];
+        [GlobalGetImageCache() manage:self.imageView];
+        
+        self.productDescLabel.hidden = YES;        
+    }
+    else{
+        self.imageView.hidden = YES;
+        self.productDescLabel.hidden = NO;        
+    }
 }
 
 - (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath
@@ -155,6 +175,7 @@
     NSNumber* price = [product objectForKey:PARA_PRICE];
     NSNumber* bought = [product objectForKey:PARA_BOUGHT];
     NSNumber* rebate = [product objectForKey:PARA_REBATE];    
+    NSString* image = [product objectForKey:PARA_IMAGE];
     
     LocationService *locationService = GlobalGetLocationService();
     CLLocation *location = [locationService currentLocation];
@@ -162,7 +183,7 @@
     double distance = [ProductManager calcShortestDistance:[ProductManager gpsArray:[product objectForKey:PARA_GPS]]
                                            currentLocation:location];
     
-    [self setCellInfoWithProductInfo:endDate siteName:siteName title:title value:value price:price bought:bought rebate:rebate distance:distance];
+    [self setCellInfoWithProductInfo:endDate siteName:siteName title:title value:value price:price bought:bought rebate:rebate distance:distance image:image];
 }
 
 
@@ -173,7 +194,7 @@
 
     double distance = [ProductManager calcShortestDistance:[product gpsArray] currentLocation:location];
     
-    [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate distance:distance];
+    [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate distance:distance image:product.image];
 }
 
 - (void)dealloc {
@@ -184,6 +205,7 @@
     [leftTimeLabel release];
     [distanceLabel release];
     [boughtLabel release];
+    [imageView release];
     [super dealloc];
 }
 
