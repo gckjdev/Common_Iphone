@@ -21,8 +21,8 @@
 #import "ProductCommentsController.h"
 
 enum {
-    SECTION_IMAGE,
     SECTION_TITLE,
+    SECTION_IMAGE,
 
     SECTION_DESC,
     SECTION_DATE,
