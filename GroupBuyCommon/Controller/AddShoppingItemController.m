@@ -75,7 +75,7 @@
 */
 
 
-#define NOT_LIMIT   @"不限"
+#define NOT_LIMIT   @"�??"
 
 - (void)updateRowIndex
 {
@@ -117,7 +117,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
+    [self setNavigationRightButton:@"�??" action:@selector(clickSave:)];
 	
 	self.shouldShowSubCategoryCell = NO;
 	self.selectedCategory = NOT_LIMIT;
