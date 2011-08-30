@@ -23,12 +23,12 @@
 
 + (NSString*)generateItemId;
 - (void)addUserShoppingItem:(NSString*)itemId
-                                       city:(NSString*)city
-                               categoryName:(NSString*)categoryName
-                            subCategoryName:(NSString*)subCategoryName
-                                   keywords:(NSString*)keywords
-                                   maxPrice:(NSNumber*)maxPrice
-                                  minRebate:(NSNumber*)minRebate;
+                       city:(NSString*)city
+               categoryName:(NSString*)categoryName
+            subCategoryName:(NSString*)subCategoryName
+                   keywords:(NSString*)keywords
+                   maxPrice:(NSNumber*)maxPrice
+                 expireDate:(NSDate*)expireDate;
 
 @property (nonatomic, assign) NSObject<UserShopItemServiceDelegate>   *delegate;
 

@@ -529,7 +529,7 @@
     if (self.selectedSubCategories != nil && [self.selectedSubCategories count] > 0)
         subCategoryName = nil; // TODO    
     
-    [shopService addUserShoppingItem:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice minRebate:nil];
+    [shopService addUserShoppingItem:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice expireDate:expireDate];
 }
 
 

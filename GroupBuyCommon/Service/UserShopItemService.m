@@ -10,6 +10,7 @@
 #import "GroupBuyNetworkRequest.h"
 #import "PPNetworkRequest.h"
 #import "UserShopItemService.h"
+#import "UserShopItemManager.h"
 #import "UserService.h"
 #import "AppManager.h"
 #import "StringUtil.h"
@@ -34,7 +35,7 @@
                             subCategoryName:(NSString*)subCategoryName
                                    keywords:(NSString*)keywords
                                    maxPrice:(NSNumber*)maxPrice
-                                  minRebate:(NSNumber*)minRebate
+                                  expireDate:(NSDate*)expireDate
 {
     NSString* userId = [GlobalGetUserService() userId];
     NSString* appId = [AppManager getPlaceAppId];
@@ -48,17 +49,16 @@
         // fetch user place data from server
         CommonNetworkOutput* output = nil;
         
-        output = [GroupBuyNetworkRequest addUserShoppingItem:SERVER_URL appId:appId userId:userId itemId:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice minRebate:minRebate];
+        output = [GroupBuyNetworkRequest addUserShoppingItem:SERVER_URL appId:appId userId:userId itemId:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice minRebate:nil];
         
         // if succeed, clean local data and save new data
         dispatch_async(dispatch_get_main_queue(), ^{
 
             if (output.resultCode == ERROR_SUCCESS){
                 // save data locally
-//                [UserShopItemManager createShoppingItem:itemId city:city categoryName:categoryName
-//                                        subCategoryName:subCategoryName keywords:keywords
-//                                               maxPrice:maxPrice minRebate:minRebate
-//                                             expireDate:expireDate];
+                [UserShopItemManager createShoppingItem:itemId city:city categoryName:categoryName
+                                        subCategoryName:subCategoryName keywords:keywords
+                                               maxPrice:maxPrice expireDate:expireDate];
             }
             
             // notify UI to refresh data
