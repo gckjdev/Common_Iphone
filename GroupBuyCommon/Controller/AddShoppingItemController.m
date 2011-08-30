@@ -76,7 +76,7 @@
 */
 
 
-#define NOT_LIMIT   @"不限"
+#define NOT_LIMIT   @"‰∏??"
 
 - (void)updateRowIndex
 {
