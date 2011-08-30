@@ -21,8 +21,8 @@
 #import "ProductCommentsController.h"
 
 enum {
-    SECTION_IMAGE,
     SECTION_TITLE,
+    SECTION_IMAGE,
 
     SECTION_DESC,
     SECTION_DATE,
@@ -339,18 +339,20 @@ enum {
             
         }
 
-        self.imageView = [[HJManagedImageV alloc] init];
-        imageView.url = [NSURL URLWithString:product.image];
-        [GlobalGetImageCache() manage:imageView];
+        self.imageView = [[[HJManagedImageV alloc] init] autorelease];
 //        CGRect frame = CGRectMake(10, 10, cell.contentView.frame.size.width - 10, cell.contentView.frame.size.height-10);
-        CGRect frame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height);
+        CGRect frame = CGRectMake(5, 5, cell.contentView.frame.size.width - 10, cell.contentView.frame.size.height - 10);
         imageView.frame = frame;
         imageView.tag = IMAGE_VIEW_TAG;
         imageView.backgroundColor = [UIColor clearColor];
         imageView.callbackOnSetImage = self;
         [cell.contentView addSubview:imageView];
         cell.contentView.backgroundColor = [UIColor clearColor];
-        
+
+        [imageView clear];
+        imageView.url = [NSURL URLWithString:product.image];
+        [GlobalGetImageCache() manage:imageView];
+
     }
     else{
         static NSString *CellIdentifier = @"NormalCell";
@@ -531,12 +533,12 @@ enum {
 
 -(void) managedImageSet:(HJManagedImageV*)mi
 {
-    
+    NSLog(@"image load done");
 }
 
 -(void) managedImageCancelled:(HJManagedImageV*)mi
 {
-    
+    NSLog(@"image load failure");    
 }
 
 - (void)handleForwardProduct:(NSInteger)buttonIndex

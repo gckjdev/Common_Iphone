@@ -308,6 +308,8 @@
 	if (cell == nil) {
         cell = [ProductTextCell createCell:self];
 	}
+    
+    cell.indexPath = indexPath;
 	    
 	NSDictionary* product = [self getProductData:indexPath.section row:indexPath.row];
     [cell setCellInfoWithProductDictionary:product indexPath:indexPath];    

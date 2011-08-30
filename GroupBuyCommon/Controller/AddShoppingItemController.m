@@ -6,6 +6,7 @@
 //  Copyright 2011 ET. All rights reserved.
 //
 
+
 #import "AddShoppingItemController.h"
 #import "ShoppingKeywordCell.h"
 #import "ShoppingCategoryCell.h"
@@ -15,8 +16,8 @@
 #import "UserShopItemService.h"
 #import "UIViewUtils.h"
 #import "CategoryManager.h"
-#import "PPViewController+NumPadReturn.h"
-
+#import "LocationService.h"
+ 
 #pragma mark Private
 @interface AddShoppingItemController()
 
@@ -108,7 +109,7 @@
         rowNumber = 4;
     }
     
-    [dataTableView reloadData];
+    [self.dataTableView reloadData];
 }
 
 
@@ -334,7 +335,7 @@
 
 - (void)keyboardDidHide:(NSNotification *)notification
 {
-    dataTableView.frame = self.view.bounds;
+    self.dataTableView.frame = self.view.bounds;
 }
 
 - (void) textFieldDidBeginEditing:(id)sender{
@@ -342,18 +343,18 @@
     NSIndexPath* indexPath = nil;
     if (keywordTextField == sender){
         indexPath = [NSIndexPath indexPathForRow:rowOfKeyword inSection:0];    
-        currentKeyboardType = keywordTextField.keyboardType;
+        self.currentKeyboardType = keywordTextField.keyboardType;
     }
     else if (priceTextField == sender) {
         indexPath = [NSIndexPath indexPathForRow:rowOfPrice inSection:0];   
         [self.priceSegment setSelectedSegmentIndex:UISegmentedControlNoSegment];
-        currentKeyboardType = priceTextField.keyboardType;
+        self.currentKeyboardType = priceTextField.keyboardType;
     }
     
-    CGRect frame = dataTableView.frame;
+    CGRect frame = self.dataTableView.frame;
     frame.size.height = 480 - kKeyboadHeight - kNavigationBarHeight - kStatusBarHeight;
-    dataTableView.frame = frame;
-    [dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    self.dataTableView.frame = frame;
+    [self.dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
 
 }
@@ -495,11 +496,11 @@
 {
     NSLog(@"*************************Display**********************");
     NSLog(@"selected category: %@", self.selectedCategory);
-    NSString *subCategories = @"";
+    NSString *subCategoriesStr = @"";
     for (int i = 0; i < [[self selectedSubCategories] count]; ++i) {
-        subCategories = [NSString stringWithFormat:@"%@, %@",subCategories,[self.selectedSubCategories objectAtIndex:i]];
+        subCategoriesStr = [NSString stringWithFormat:@"%@, %@",subCategories,[self.selectedSubCategories objectAtIndex:i]];
     }
-    NSLog(@"selected subcategories: %@", subCategories);
+    NSLog(@"selected subcategories: %@", subCategoriesStr);
     NSLog(@"keywords: %@",self.keywords);
     NSLog(@"max price: %d",[self.maxPrice integerValue]);
     NSLog(@"period: %@", [ShoppingValidPeriodCell getPeriodTextWithDate:self.expireDate]);
@@ -519,7 +520,16 @@
     [self displaySettings];
     
     UserShopItemService* shopService = GlobalGetUserShopItemService();
-    [shopService addUserShoppingItem:itemId city:nil categoryName:nil subCategoryName:nil keywords:keywords maxPrice:nil minRebate:nil];
+    NSString* city = [GlobalGetLocationService() getDefaultCity];    
+    NSString* categoryName = nil;
+    NSString* subCategoryName = nil;
+    
+    if (self.selectedCategory != nil)
+        categoryName = self.selectedCategory;
+    if (self.selectedSubCategories != nil && [self.selectedSubCategories count] > 0)
+        subCategoryName = nil; // TODO    
+    
+    [shopService addUserShoppingItem:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice minRebate:nil];
 }
 
 

@@ -248,6 +248,8 @@
 	if (cell == nil) {
         cell = [ProductTextCell createCell:self];
 	}
+
+    cell.indexPath = indexPath;
 	
 	// set text label
 	int row = [indexPath row];	

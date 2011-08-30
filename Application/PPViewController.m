@@ -25,6 +25,7 @@
 @synthesize titleSegControl;
 @synthesize selectedImage;
 @synthesize selectedImageSaveFileName;
+@synthesize currentKeyboardType;
 
 #pragma mark background and navigation bar buttons
 

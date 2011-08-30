@@ -61,6 +61,7 @@
 
 @property (nonatomic, retain) UIImage               *selectedImage;
 @property (nonatomic, retain) NSString              *selectedImageSaveFileName;
+@property (nonatomic, assign) UIKeyboardType        currentKeyboardType;
 
 
 - (void)showBackgroundImage;

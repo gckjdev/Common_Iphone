@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPViewController+NumPadReturn.h"
 #import "PPTableViewController.h"
 
 @interface AddShoppingItemController : PPTableViewController {
