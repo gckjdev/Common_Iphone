@@ -154,16 +154,27 @@
     
     if ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == ReachableViaWiFi){
         self.imageView.hidden = NO;
+        self.imageView.callbackOnSetImage = self;
         [self.imageView clear];
         self.imageView.url = [NSURL URLWithString:image];
         [GlobalGetImageCache() manage:self.imageView];
         
-        self.productDescLabel.hidden = YES;        
+        
+        self.productDescLabel.hidden = NO;        
     }
     else{
         self.imageView.hidden = YES;
         self.productDescLabel.hidden = NO;        
     }
+}
+
+- (void) managedImageSet:(HJManagedImageV*)mi
+{
+    self.productDescLabel.text = @"";
+}
+
+- (void) managedImageCancelled:(HJManagedImageV*)mi
+{
 }
 
 - (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath

@@ -12,7 +12,7 @@
 
 @class Product;
 
-@interface ProductTextCell : PPTableViewCell {
+@interface ProductTextCell : PPTableViewCell <HJManagedImageVDelegate> {
     
     UILabel *productDescLabel;
     UILabel *valueLabel;
