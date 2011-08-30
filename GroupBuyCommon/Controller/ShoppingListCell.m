@@ -10,8 +10,20 @@
 
 
 @implementation ShoppingListCell
+@synthesize keyWordsLabel;
+@synthesize validPeriodLabel;
+@synthesize priceLabel;
+@synthesize editButton;
+@synthesize boughtCountLabel;
+@synthesize loadingIndicator;
 
 - (void)dealloc {
+    [keyWordsLabel release];
+    [validPeriodLabel release];
+    [priceLabel release];
+    [editButton release];
+    [boughtCountLabel release];
+    [loadingIndicator release];
     [super dealloc];
 }
 
@@ -42,6 +54,13 @@
 + (CGFloat)getCellHeight
 {
     return 81.0f;
+}
+
+- (IBAction)clickEdit:(id)sender
+{
+    if ([delegate respondsToSelector:@selector(clickEdit:atIndexPath:)]){
+        [self.delegate clickEdit:sender atIndexPath:indexPath];
+    }
 }
 
 @end

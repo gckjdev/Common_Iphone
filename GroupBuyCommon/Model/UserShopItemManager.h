@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "UserShoppingItem.h"
 
 @interface UserShopItemManager : NSObject {
     
@@ -21,5 +21,14 @@
                   maxPrice:(NSNumber*)maxPrice 
                 expireDate:(NSDate*)expireDate;
 
++ (NSString *)getSubCategoryNameWithArray:(NSArray *)categoryArray;
+
+//+ (NSString *)getStringWithArray:(NSArray *)array split:(NSString *)split;
+
+//+ (NSArray *)getArrayWithString:(NSString *)string split:(NSString *)split;
+
++ (NSArray *)getSubCategoryArrayWithCategoryName:(NSString *)categoryName;
+
++ (NSArray *)getAllLocalShoppingItems;
 
 @end

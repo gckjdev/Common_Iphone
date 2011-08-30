@@ -10,6 +10,8 @@
 #import "CoreDataUtil.h"
 #import "UserShoppingItem.h"
 
+#define SPLIT @";"
+
 @implementation UserShopItemManager
 
 + (BOOL)createShoppingItem:(NSString*)itemId 
@@ -35,6 +37,31 @@
     
     return [dataManager save];
 }
+
+
++ (NSArray *)getAllLocalShoppingItems
+{
+    CoreDataManager *dataManager = GlobalGetCoreDataManager();
+    return [dataManager execute:@"getAllShoppingItems"];
+}
+
+#pragma -mark deal with data method
+
++ (NSArray *)getSubCategoryArrayWithCategoryName:(NSString *)categoryName
+{
+    if(categoryName == nil)
+        return nil;
+    return [categoryName componentsSeparatedByString:SPLIT];
+}
+
++ (NSString *)getSubCategoryNameWithArray:(NSArray *)categoryArray
+{
+    if (categoryArray == nil) {
+        return nil;
+    }
+    return [categoryArray componentsJoinedByString:SPLIT];
+}
+
 
 
 @end

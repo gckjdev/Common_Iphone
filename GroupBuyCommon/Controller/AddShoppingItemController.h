@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PPViewController+NumPadReturn.h"
 #import "PPTableViewController.h"
+#import "UserShoppingItem.h"
 
 @interface AddShoppingItemController : PPTableViewController {
 	
@@ -16,7 +17,8 @@
     NSString*   itemId;
     NSDate*     expireDate;
     NSNumber*   maxPrice;
-    UIDatePicker *datePicker;
+    NSString*   selectedCategory;
+    NSMutableArray* selectedSubCategories;
     
     BOOL        isShowSubCategory;
     
@@ -35,6 +37,12 @@
 @property (nonatomic, retain) NSString* itemId;
 @property (nonatomic, retain) NSDate*   expireDate;
 @property (nonatomic, retain) NSNumber* maxPrice;
+
+@property (nonatomic, retain) NSString* selectedCategory;
+@property (nonatomic, retain) NSMutableArray* selectedSubCategories;
+
+-(id) init;
+-(id) initWithUserShoppingItem:(UserShoppingItem *)item;
 
 -(IBAction) selectCategory:(id) sender;
 -(IBAction) selectSubCategory:(id) sender;

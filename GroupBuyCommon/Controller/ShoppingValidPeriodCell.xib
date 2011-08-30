@@ -55,7 +55,6 @@
 								<string key="NSFrame">{{10, 40}, {300, 30}}</string>
 								<reference key="NSSuperview" ref="884675902"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -135,13 +134,14 @@
 							<object class="IBUIButton" id="1004928114">
 								<reference key="NSNextResponder" ref="884675902"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{105, 9}, {175, 21}}</string>
+								<string key="NSFrame">{{129, 9}, {175, 21}}</string>
 								<reference key="NSSuperview" ref="884675902"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1040936565"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<bool key="IBUIEnabled">NO</bool>
+								<int key="IBUIContentHorizontalAlignment">2</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica-Bold</string>
@@ -239,8 +239,8 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="243202919"/>
-							<reference ref="1004928114"/>
 							<reference ref="1040936565"/>
+							<reference ref="1004928114"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -274,6 +274,7 @@
 					<string>5.IUISegmentedControlInspectorSelectedSegmentMetadataKey</string>
 					<string>6.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
+					<string>8.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
 					<string>8.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
@@ -287,6 +288,7 @@
 					<integer value="4"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<real value="0.0"/>
 					<real value="3"/>
 				</object>
 			</object>

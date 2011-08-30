@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewController.h"
+#import "ShoppingListCell.h"
 
-@interface ShoppingListController : PPTableViewController {
+@interface ShoppingListController : PPTableViewController <ShoppingListCellDelegate> {
 
 }
 

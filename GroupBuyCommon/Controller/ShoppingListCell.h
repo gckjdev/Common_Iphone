@@ -9,12 +9,32 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
 
+@protocol ShoppingListCellDelegate <NSObject>
+
+- (void)clickEdit:(id)sender atIndexPath:(NSIndexPath*)indexPath;
+
+@end
+
 @interface ShoppingListCell : PPTableViewCell {
     
+    UILabel *keyWordsLabel;
+    UILabel *validPeriodLabel;
+    UILabel *priceLabel;
+    UIButton *editButton;
+    UILabel *boughtCountLabel;
+    UIActivityIndicatorView *loadingIndicator;
 }
+@property (nonatomic, retain) IBOutlet UILabel *keyWordsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *validPeriodLabel;
+@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
+@property (nonatomic, retain) IBOutlet UIButton *editButton;
+@property (nonatomic, retain) IBOutlet UILabel *boughtCountLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
 + (ShoppingListCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
+
+- (IBAction)clickEdit:(id)sender;
 
 @end

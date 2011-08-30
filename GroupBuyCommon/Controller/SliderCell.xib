@@ -144,7 +144,7 @@
 							<object class="IBUITextField" id="562630776">
 								<reference key="NSNextResponder" ref="1042327195"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{196, 7}, {97, 31}}</string>
+								<string key="NSFrame">{{206, 7}, {97, 31}}</string>
 								<reference key="NSSuperview" ref="1042327195"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="423754190"/>
@@ -162,7 +162,7 @@
 									<double key="NSSize">15</double>
 									<int key="NSfFlags">16</int>
 								</object>
-								<int key="IBUITextAlignment">1</int>
+								<int key="IBUITextAlignment">2</int>
 								<bool key="IBUIClearsOnBeginEditing">YES</bool>
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">15</float>
@@ -249,8 +249,8 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="18542345"/>
-							<reference ref="562630776"/>
 							<reference ref="423754190"/>
+							<reference ref="562630776"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
