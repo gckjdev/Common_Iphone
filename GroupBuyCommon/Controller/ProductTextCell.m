@@ -153,7 +153,7 @@
     self.boughtLabel.text = [NSString stringWithFormat:@"售出: %@", [self getBoughtInfo:bought]];    
     self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [rebate description]]; 
     
-    NSLog(@"rebate=%f, rebate=%@", [rebate doubleValue], [rebate description]);
+//    NSLog(@"rebate=%f, rebate=%@", [rebate doubleValue], [rebate description]);
     
     if ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == ReachableViaWiFi){
         self.imageView.hidden = NO;
