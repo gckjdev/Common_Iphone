@@ -118,6 +118,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
     [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
 	
 	self.shouldShowSubCategoryCell = NO;
@@ -515,7 +516,6 @@
     
     if (keywordTextField != nil){        
         self.keywords = keywordTextField.text;
-        NSLog(@"<save> keywords=%@", keywords);
     }
     [self displaySettings];
     

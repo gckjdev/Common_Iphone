@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PPViewController.h"
+#import "PPTableViewController.h"
 
-@interface ShoppingListController : UIViewController {
+@interface ShoppingListController : PPTableViewController {
 
 }
 
