@@ -136,7 +136,7 @@
 							<object class="IBUILabel" id="439902099">
 								<reference key="NSNextResponder" ref="212723496"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{228, 5}, {79, 39}}</string>
+								<string key="NSFrame">{{228, 8}, {79, 26}}</string>
 								<reference key="NSSuperview" ref="212723496"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="789276684"/>
@@ -162,7 +162,7 @@
 							<object class="IBUILabel" id="319297713">
 								<reference key="NSNextResponder" ref="212723496"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{228, 87}, {97, 21}}</string>
+								<string key="NSFrame">{{228, 93}, {97, 21}}</string>
 								<reference key="NSSuperview" ref="212723496"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -185,7 +185,7 @@
 							<object class="IBUILabel" id="789276684">
 								<reference key="NSNextResponder" ref="212723496"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{228, 45}, {72, 21}}</string>
+								<string key="NSFrame">{{228, 56}, {72, 21}}</string>
 								<reference key="NSSuperview" ref="212723496"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="663723859"/>
@@ -201,10 +201,28 @@
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">9</float>
 							</object>
+							<object class="IBUILabel" id="202736684">
+								<reference key="NSNextResponder" ref="212723496"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{228, 37}, {72, 21}}</string>
+								<reference key="NSSuperview" ref="212723496"/>
+								<reference key="NSWindow"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">7</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<string key="IBUIText">美团网</string>
+								<reference key="IBUIFont" ref="344257563"/>
+								<reference key="IBUITextColor" ref="684728118"/>
+								<nil key="IBUIHighlightedColor"/>
+								<int key="IBUIBaselineAdjustment">1</int>
+								<float key="IBUIMinimumFontSize">9</float>
+							</object>
 							<object class="IBUILabel" id="222430352">
 								<reference key="NSNextResponder" ref="212723496"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{228, 66}, {79, 21}}</string>
+								<string key="NSFrame">{{228, 75}, {79, 21}}</string>
 								<reference key="NSSuperview" ref="212723496"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="319297713"/>
@@ -322,6 +340,14 @@
 					</object>
 					<int key="connectionID">34</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">siteNameLabel</string>
+						<reference key="source" ref="501204316"/>
+						<reference key="destination" ref="202736684"/>
+					</object>
+					<int key="connectionID">37</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -356,6 +382,7 @@
 							<reference ref="789276684"/>
 							<reference ref="319297713"/>
 							<reference ref="462741815"/>
+							<reference ref="202736684"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -399,6 +426,11 @@
 						<reference key="object" ref="462741815"/>
 						<reference key="parent" ref="501204316"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">35</int>
+						<reference key="object" ref="202736684"/>
+						<reference key="parent" ref="501204316"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -411,6 +443,7 @@
 					<string>11.IBPluginDependency</string>
 					<string>32.CustomClassName</string>
 					<string>32.IBPluginDependency</string>
+					<string>35.IBPluginDependency</string>
 					<string>4.CustomClassName</string>
 					<string>4.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
@@ -426,6 +459,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>HJManagedImageV</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>ProductTextCell</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -448,7 +482,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">34</int>
+			<int key="maxID">37</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -483,6 +517,7 @@
 							<string>priceLabel</string>
 							<string>productDescLabel</string>
 							<string>rebateLabel</string>
+							<string>siteNameLabel</string>
 							<string>valueLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -490,6 +525,7 @@
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>HJManagedImageV</string>
+							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
@@ -508,6 +544,7 @@
 							<string>priceLabel</string>
 							<string>productDescLabel</string>
 							<string>rebateLabel</string>
+							<string>siteNameLabel</string>
 							<string>valueLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -538,6 +575,10 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">rebateLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">siteNameLabel</string>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">

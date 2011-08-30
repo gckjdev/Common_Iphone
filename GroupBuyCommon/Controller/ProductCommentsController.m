@@ -43,6 +43,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self setNavigationRightButton:@"写评论" action:@selector(writeComment)];
+    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
 }
 
 - (void)viewDidUnload

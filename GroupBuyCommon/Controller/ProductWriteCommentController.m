@@ -45,6 +45,8 @@
     // Do any additional setup after loading the view from its nib.
     //[self setNavigationLeftButton:@"取消" action:@selector(cancel)];
     [self setNavigationRightButton:@"提交" action:@selector(submit)];
+    [self setNavigationLeftButton:@"取消" action:@selector(clickBack:)];
+
 }
 
 - (void)viewDidUnload

@@ -78,7 +78,6 @@
 
 
 #define NOT_LIMIT   @"不限"
-
 -(void) setDefaultSettings
 {
     isShowSubCategory = NO;
