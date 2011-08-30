@@ -17,8 +17,8 @@
 #import "Reachability.h"
 
 @implementation ProductTextCell
-@synthesize imageView;
 
+@synthesize imageView;
 @synthesize productDescLabel;
 @synthesize valueLabel;
 @synthesize priceLabel;
@@ -26,6 +26,7 @@
 @synthesize leftTimeLabel;
 @synthesize distanceLabel;
 @synthesize boughtLabel;
+@synthesize siteNameLabel;
 
 // just replace PPTableViewCell by the new Cell Class Name
 + (ProductTextCell*)createCell:(id)delegate
@@ -148,6 +149,7 @@
         self.distanceLabel.text = @"";         
     }
     
+    self.siteNameLabel.text = siteName;
     self.boughtLabel.text = [NSString stringWithFormat:@"售出: %@", [self getBoughtInfo:bought]];    
     self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [rebate description]]; 
     
@@ -210,6 +212,7 @@
 }
 
 - (void)dealloc {
+    
     [productDescLabel release];
     [valueLabel release];
     [priceLabel release];
@@ -218,6 +221,7 @@
     [distanceLabel release];
     [boughtLabel release];
     [imageView release];
+    [siteNameLabel release];
     [super dealloc];
 }
 

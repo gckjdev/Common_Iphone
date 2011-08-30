@@ -14,6 +14,7 @@
 
 @interface ProductTextCell : PPTableViewCell <HJManagedImageVDelegate> {
     
+    IBOutlet UILabel *siteNameLabel;
     UILabel *productDescLabel;
     UILabel *valueLabel;
     UILabel *priceLabel;
@@ -38,6 +39,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *leftTimeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *distanceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *boughtLabel;
+@property (nonatomic, retain) IBOutlet UILabel *siteNameLabel;
 
 @end
 
