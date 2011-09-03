@@ -80,7 +80,6 @@
 								<string key="NSFrame">{{10, 40}, {300, 30}}</string>
 								<reference key="NSSuperview" ref="1042327195"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBSegmentControlStyle">2</int>
@@ -268,6 +267,7 @@
 						<int key="objectID">17</int>
 						<reference key="object" ref="562630776"/>
 						<reference key="parent" ref="540824265"/>
+						<string key="objectName">Text Field</string>
 					</object>
 				</object>
 			</object>

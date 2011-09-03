@@ -20,7 +20,11 @@
     [super dealloc];
 }
 
-
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 
 // just replace PPTableViewCell by the new Cell Class Name
 + (ShoppingKeywordCell*)createCell:(id)delegate
@@ -33,9 +37,13 @@
         return nil;
     }
     
-    ((ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    ShoppingKeywordCell* cell = (ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0]; 
+    cell.delegate = delegate;
+    [cell.keywordTextField setDelegate:cell];
+    return cell;
+    //((ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
     
-    return (ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0];
+    //return (ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0];
 }
 
 

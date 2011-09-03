@@ -18,7 +18,6 @@
 
 #define NOT_LIMIT @"不限"
 #define TIME_ZONE @"Asia/Shanghai"
-#define DATE_FORMAT @"yyyy年MM月dd日"
 
 
 @interface ShoppingValidPeriodCell : PPTableViewCell {
@@ -32,7 +31,7 @@
 + (ShoppingValidPeriodCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
-+ (NSString *) getPeriodTextWithDate:(NSDate *)date;
+//+ (NSString *) getPeriodTextWithDate:(NSDate *)date;
 
 + (NSDate *)calculateValidPeriodSinceNow:(NSInteger) day;
 
@@ -40,4 +39,5 @@
 
 + (NSDate *)calculateValidPeriodWithSegmentIndex:(NSInteger) index;
 
+- (NSInteger)segmentIndexForDate:(NSDate *)date;
 @end

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
 
-@interface ShoppingKeywordCell : PPTableViewCell {
+@interface ShoppingKeywordCell : PPTableViewCell<UITextFieldDelegate> {
 
     UITextField *keywordTextField;
 }
@@ -17,5 +17,5 @@
 
 + (ShoppingKeywordCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
-
+- (BOOL)textFieldShouldReturn:(UITextField *)textField;
 @end
