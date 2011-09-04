@@ -7,7 +7,7 @@
 //
 
 #import "ShoppingValidPeriodCell.h"
-
+#import "TimeUtils.h"
 
 
 @implementation ShoppingValidPeriodCell
@@ -41,19 +41,6 @@
     return date;
 }
 
-+ (NSString *) getPeriodTextWithDate:(NSDate *)date
-{
-    if (date == nil) {
-        return NOT_LIMIT;
-    }
-    
-    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
-    NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:TIME_ZONE];
-    [formatter setTimeZone:tzGMT];
-    [formatter setDateFormat:DATE_FORMAT];
-    NSString *period = [formatter stringFromDate:date];
-    return period;
-}
 
 
 + (NSArray *)getDayArray
@@ -87,9 +74,6 @@
     
     return cell;
     
-//    ((ShoppingValidPeriodCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
-//    
-//    return (ShoppingValidPeriodCell*)[topLevelObjects objectAtIndex:0];
 }
 
 
@@ -103,4 +87,19 @@
     return 75;
 }
 
+- (NSInteger)segmentIndexForDate:(NSDate *)date
+{
+    if (date == nil) {
+        return PERIOD_UNLIMIT_INDEX;
+    }
+    NSString *dateString = dateToString(date);
+    for (int i = 0; i < PERIOD_UNLIMIT_INDEX; ++ i) {
+        NSDate *vDate = [ShoppingValidPeriodCell calculateValidPeriodWithSegmentIndex:i];
+        NSString *vDateString = dateToString(vDate);
+        if ([dateString isEqualToString:vDateString]) {
+            return i;
+        }
+    }
+    return UISegmentedControlNoSegment;
+}
 @end

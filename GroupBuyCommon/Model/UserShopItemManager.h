@@ -21,14 +21,15 @@
                   maxPrice:(NSNumber*)maxPrice 
                 expireDate:(NSDate*)expireDate;
 
++ (UserShoppingItem *)getShoppingItemById:(NSString *)itemId;
+
 + (NSString *)getSubCategoryNameWithArray:(NSArray *)categoryArray;
-
-//+ (NSString *)getStringWithArray:(NSArray *)array split:(NSString *)split;
-
-//+ (NSArray *)getArrayWithString:(NSString *)string split:(NSString *)split;
 
 + (NSArray *)getSubCategoryArrayWithCategoryName:(NSString *)categoryName;
 
 + (NSArray *)getAllLocalShoppingItems;
+
++ (void)removeItemForItemId:(NSString *)itemId;
+
 
 @end

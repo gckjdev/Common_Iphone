@@ -43,36 +43,33 @@
     if (itemId == nil){
         itemId = [UserShopItemService generateItemId];
     }
+
     
-    [UserShopItemManager createShoppingItem:itemId city:city categoryName:categoryName
-                            subCategoryName:subCategoryName keywords:keywords
-                                   maxPrice:maxPrice expireDate:expireDate];
-    
-//    dispatch_async(workingQueue, ^{
-//        
-//        // fetch user place data from server
-//        CommonNetworkOutput* output = nil;
-//        
-//        output = [GroupBuyNetworkRequest addUserShoppingItem:SERVER_URL appId:appId userId:userId itemId:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice minRebate:nil];
-//        
-//        // if succeed, clean local data and save new data
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//
-//            if (output.resultCode == ERROR_SUCCESS){
-//                // save data locally
-//                [UserShopItemManager createShoppingItem:itemId city:city categoryName:categoryName
-//                                        subCategoryName:subCategoryName keywords:keywords
-//                                               maxPrice:maxPrice expireDate:expireDate];
-//            }
-//            
-//            // notify UI to refresh data
-//            if ([delegate respondsToSelector:@selector(itemActionDone:)]){
-//                [delegate itemActionDone:output.resultCode];
-//            }
-//        });
-//        
-//        
-//    });    
+    dispatch_async(workingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;
+        
+        output = [GroupBuyNetworkRequest addUserShoppingItem:SERVER_URL appId:appId userId:userId itemId:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice minRebate:nil];
+        
+        // if succeed, clean local data and save new data
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            if (output.resultCode == ERROR_SUCCESS){
+                // save data locally
+                [UserShopItemManager createShoppingItem:itemId city:city categoryName:categoryName
+                                        subCategoryName:subCategoryName keywords:keywords
+                                               maxPrice:maxPrice expireDate:expireDate];
+            }
+            
+            // notify UI to refresh data
+            if ([delegate respondsToSelector:@selector(itemActionDone:)]){
+                [delegate itemActionDone:output.resultCode];
+            }
+        });
+        
+        
+    });    
 }
 
 @end

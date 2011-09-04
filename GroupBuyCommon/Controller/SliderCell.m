@@ -58,6 +58,20 @@ NSArray* priceArray;
 }
 
 
+- (NSInteger)segmentIndexForPrice:(NSNumber *)price;
+{
+    
+    if (price == nil) {
+        return UISegmentedControlNoSegment;
+    }
+    NSString *text = [price stringValue];
+    for (int i = 0; i < self.priceSegment.numberOfSegments; ++ i) {
+        if ([text isEqualToString:[self.priceSegment titleForSegmentAtIndex:i]]) {
+            return i;
+        }
+    }
+    return UISegmentedControlNoSegment;
+}
 
 
 @end

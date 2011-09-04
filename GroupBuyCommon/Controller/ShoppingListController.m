@@ -12,6 +12,7 @@
 #import "UserShopItemManager.h"
 #import "UserShoppingItem.h"
 #import "TimeUtils.h"
+#import "ShoppingValidPeriodCell.h"
 @implementation ShoppingListController
 
 /*
@@ -45,7 +46,7 @@
     int i = 0;
     
     for (UserShoppingItem *item in dataList) {
-        NSLog(@"data%d: item subscategory=%@",++i,item.categoryName);
+        NSLog(@"data%d: item subscategory=%@",++i,item.keywords);
     }
     
     // reload table view
@@ -94,7 +95,6 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        NSLog(@"datalist count : %d",[dataList count]);
         return [dataList count];
     }
     return 0;
@@ -103,13 +103,24 @@
 - (void)setShoppingListCell:(ShoppingListCell*)cell UserShoppingItem:(UserShoppingItem *)item
 {
     NSString *category = item.categoryName;
+    
     NSArray *subCategories = [UserShopItemManager getSubCategoryArrayWithCategoryName:item.subCategoryName];
     
     NSString *subCategoryName = [subCategories componentsJoinedByString:@" "];
-    
+
     NSString *keywords = item.keywords;
-    
+
     NSInteger maxPrice = [item.maxPrice intValue];
+    
+    if (category == nil) {
+        category = NOT_LIMIT;
+    }
+    if (subCategoryName == nil) {
+        subCategoryName = @"";
+    }
+    if (keywords == nil) {
+        keywords = @"";
+    }
     
     cell.keyWordsLabel.text = [NSString stringWithFormat:@"%@ %@ %@",keywords,category,subCategoryName];
     
@@ -168,6 +179,19 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSInteger section = [indexPath section];
+    NSInteger row = [indexPath row];
+    if (section == 0 && row <[self.dataList count]) {
+        UserShoppingItem *item = [dataList objectAtIndex:row];
+        
+        [UserShopItemManager removeItemForItemId:item.itemId];
+        self.dataList = [UserShopItemManager getAllLocalShoppingItems];
+        
+        [self.dataTableView beginUpdates];        
+        [self.dataTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.dataTableView endUpdates];
+    }
+    
 }
 
 #pragma button actions
@@ -183,9 +207,7 @@
 - (void)clickEdit:(id)sender atIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.row >= [dataList count])
         return;
-    
-    NSLog(@"click edit, row = %d", indexPath.row);
-    
+        
     UserShoppingItem *item = [dataList objectAtIndex:indexPath.row];
     AddShoppingItemController* vc = [[AddShoppingItemController alloc] initWithUserShoppingItem:item];
     [self.navigationController pushViewController:vc animated:YES];
