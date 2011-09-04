@@ -8,6 +8,9 @@
 
 #import "ProductCommentsController.h"
 #import "ProductWriteCommentController.h"
+#import "GroupBuyNetworkConstants.h"
+#import "TimeUtils.h"
+#import "CommentTableViewCell.h"
 
 
 @implementation ProductCommentsController
@@ -40,10 +43,18 @@
 
 - (void)viewDidLoad
 {
+    supportRefreshHeader = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self setNavigationRightButton:@"写评论" action:@selector(writeComment)];
+    self.navigationItem.title = @"评论";
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(writeComment)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    [rightItem release];
+    
     [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
+    
+    //[GlobalGetProductService() getCommentsWithProductId:productId viewController:self];
 }
 
 - (void)viewDidUnload
@@ -59,12 +70,109 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self reloadTableViewDataSource];
+}
+
 - (void)writeComment
 {
     ProductWriteCommentController *controller = [[ProductWriteCommentController alloc] init];
     controller.productId = self.productId;
     [self.navigationController pushViewController:controller animated:YES];
     [controller release];
+}
+
+- (void)getCommentFinish:(int)result jsonArray:(NSArray *)jsonArray
+{
+    self.dataList = jsonArray;
+    [self.dataTableView reloadData];
+    [refreshHeaderView setCurrentDate];  	
+	[self dataSourceDidFinishLoadingNewData];
+}
+
+- (void) reloadTableViewDataSource
+{
+	[GlobalGetProductService() getCommentsWithProductId:productId viewController:self];
+}
+
+- (NSString*)getDateDisplayText:(NSDate*)date
+{
+    if (date == nil)
+        return @"";
+    
+    int second = abs([date timeIntervalSinceNow]);
+    
+    if (second < 60){
+        return [NSString stringWithFormat:NSLS(@"kDateBySecond"), second];
+    }
+    else if (second < 60*60){
+        return [NSString stringWithFormat:NSLS(@"kDateByMinute"), second/(60)];        
+    }
+    else if (second < 60*60*24){
+        return [NSString stringWithFormat:NSLS(@"kDateByHour"), second/(60*60)];                
+    }
+    else if (second < 60*60*24*3){
+        return [NSString stringWithFormat:NSLS(@"kDateByDay"), second/(60*60*24)];                
+    }
+    else{
+        return dateToStringByFormat(date, @"yyyy-MM-dd");                        
+    }    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    int row = indexPath.row;
+    int index = [self.dataList count] - 1 - row;
+    
+    NSString *CellIdentifier = [CommentTableViewCell getCellIdentifier];
+	CommentTableViewCell *cell = (CommentTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+        cell = [CommentTableViewCell createCell];
+	}
+    
+    NSString *content = [[self.dataList objectAtIndex:index] objectForKey:PARA_COMMENT_CONTENT];
+    NSString *nickName = [[self.dataList objectAtIndex:index] objectForKey:PARA_NICKNAME];
+    NSNumber *interval = [[self.dataList objectAtIndex:index] objectForKey:PARA_CREATE_DATE];
+    NSDate *createDate = [NSDate dateWithTimeIntervalSince1970:interval.doubleValue / 1000];
+	
+    [cell setCellInfoWithContent:content nickName:nickName createDate:createDate];
+    
+	return cell.frame.size.height;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;		
+}
+
+// Customize the number of rows in the table view.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {  
+    return [self.dataList count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    int row = indexPath.row;
+    int index = [self.dataList count] - 1 - row;
+    
+    NSString *CellIdentifier = [CommentTableViewCell getCellIdentifier];
+	CommentTableViewCell *cell = (CommentTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+        cell = [CommentTableViewCell createCell];
+	}
+    
+    NSString *content = [[self.dataList objectAtIndex:index] objectForKey:PARA_COMMENT_CONTENT];
+    NSString *nickName = [[self.dataList objectAtIndex:index] objectForKey:PARA_NICKNAME];
+    NSNumber *interval = [[self.dataList objectAtIndex:index] objectForKey:PARA_CREATE_DATE];
+    NSDate *createDate = [NSDate dateWithTimeIntervalSince1970:interval.doubleValue / 1000];
+	
+    [cell setCellInfoWithContent:content nickName:nickName createDate:createDate];
+    
+	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 }
 
 @end

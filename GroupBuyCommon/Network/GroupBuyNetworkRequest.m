@@ -236,7 +236,7 @@
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
-    const int MAX_COUNT = 8;
+    const int MAX_COUNT = 5;
     
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         
@@ -581,7 +581,7 @@
     };
     
     PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
-        output.jsonDataDict = [dict objectForKey:PARA_DATA];
+        output.jsonDataArray = [dict objectForKey:PARA_DATA];
         return;
     }; 
     

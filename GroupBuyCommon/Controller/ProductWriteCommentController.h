@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PPViewController.h"
 #import "ProductService.h"
+#import "groupbuyAppDelegate.h"
 
 
 @interface ProductWriteCommentController : PPViewController <ProductServiceDelegate> {

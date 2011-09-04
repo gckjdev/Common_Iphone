@@ -526,8 +526,10 @@ enum {
 {
     if ([PRODUCT_ACTION_UP isEqualToString:actionName]) {
         self.upLabel.text = [NSString stringWithFormat:@"%i", count];
+        self.product.up = [NSNumber numberWithLong:count];
     } else if ([PRODUCT_ACTION_DOWN isEqualToString:actionName]) {
         self.downLabel.text = [NSString stringWithFormat:@"%i", count];
+        self.product.down = [NSNumber numberWithLong:count];
     }
 }
 

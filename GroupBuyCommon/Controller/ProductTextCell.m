@@ -155,7 +155,7 @@
     
 //    NSLog(@"rebate=%f, rebate=%@", [rebate doubleValue], [rebate description]);
     
-    if ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == ReachableViaWiFi){
+//    if ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == ReachableViaWiFi){
         self.imageView.hidden = NO;
         self.imageView.callbackOnSetImage = self;
         [self.imageView clear];
@@ -164,11 +164,11 @@
         
         
         self.productDescLabel.hidden = NO;        
-    }
-    else{
-        self.imageView.hidden = YES;
-        self.productDescLabel.hidden = NO;        
-    }
+//    }
+//    else{
+//        self.imageView.hidden = YES;
+//        self.productDescLabel.hidden = NO;        
+//    }
 }
 
 - (void) managedImageSet:(HJManagedImageV*)mi

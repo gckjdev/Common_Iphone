@@ -34,9 +34,9 @@ CategoryManager*    manager;
                      @"火锅", @"西餐", @"自助餐", nil];
     
 	NSArray* shopping = [NSArray arrayWithObjects:
-                         @"鞋子",@"衣服",@"食品",
-                         @"化妆品",@"酒",@"茶",
-                         @"相机",@"家电",@"电脑",
+                         @"代金券", @"抽奖秒杀", @"食品",
+                         @"酒",@"茶",@"相机",
+                         @"家电",@"电脑",@"手机",                         
                          nil];
     
 	NSArray* fun = [NSArray arrayWithObjects:
@@ -59,7 +59,6 @@ CategoryManager*    manager;
 	NSArray* luckyDraw = [NSArray arrayWithObjects:
                           @"iPhone",@"iPad",@"小米手机",
                           @"HTC",@"摩托罗拉",@"MacBook",
-                          @"美女",
                           nil];
     
 	NSArray* sport = [NSArray arrayWithObjects:
