@@ -7,6 +7,7 @@
 //
 
 #import "ProductWriteCommentController.h"
+#import "TextViewExt.h"
 
 
 @implementation ProductWriteCommentController
@@ -43,10 +44,21 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    //[self setNavigationLeftButton:@"取消" action:@selector(cancel)];
+    self.navigationItem.title = @"评论内容";
+    
     [self setNavigationRightButton:@"提交" action:@selector(submit)];
-    [self setNavigationLeftButton:@"取消" action:@selector(clickBack:)];
-
+    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
+    [self.contentTextView setRoundRectStyle];
+    
+    groupbuyAppDelegate *delegate = (groupbuyAppDelegate *)[UIApplication sharedApplication].delegate;
+    User *user = delegate.userService.user;
+    if (nil != user.nickName) {
+        self.nickNameTextField.text = user.nickName;
+        self.nickNameTextField.enabled = NO;
+        [self.contentTextView becomeFirstResponder];
+    } else {
+        [self.nickNameTextField becomeFirstResponder];
+    }
 }
 
 - (void)viewDidUnload
@@ -62,11 +74,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)cancel
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)submit
 {
     NSString *nickName = self.nickNameTextField.text;
@@ -78,6 +85,9 @@
 
 - (void)writeCommentFinish:(int)result
 {
+    NSString *nickName = self.nickNameTextField.text;
+    groupbuyAppDelegate *delegate = (groupbuyAppDelegate *)[UIApplication sharedApplication].delegate;
+    [delegate.userService updateUserNickName:nickName];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -117,6 +117,8 @@
     self.address = product.address;
     self.tel = product.tel;
     self.shop = product.shop;
+    self.up = product.up;
+    self.down = product.down;
     
     self.longitude = product.longitude;
     self.latitude = product.latitude;

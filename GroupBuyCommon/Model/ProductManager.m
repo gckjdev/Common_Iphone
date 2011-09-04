@@ -112,10 +112,11 @@
     product.desc = [productDict objectForKey:PARA_DESC];
     product.offset = [NSNumber numberWithInt:offset];
     
-    product.up = [productDict objectForKey:PARA_UP];
-    product.down = [productDict objectForKey:PARA_DOWN];
-
     product.gps = [ProductManager gpsFromDictionary:productDict];
+
+    product.down = [productDict objectForKey:PARA_DOWN];
+    product.up = [productDict objectForKey:PARA_UP];
+
     
     SBJsonWriter *writer2 = [[SBJsonWriter alloc] init];                
     product.address = [writer2 stringWithObject:[productDict objectForKey:PARA_ADDRESS]];    

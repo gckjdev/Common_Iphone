@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewController.h"
+#import "ProductService.h"
 
 
-@interface ProductCommentsController : PPTableViewController {
+@interface ProductCommentsController : PPTableViewController <ProductServiceDelegate> {
     NSString *productId;
 }
 
