@@ -238,7 +238,7 @@
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
-    const int MAX_COUNT = 8;
+    const int MAX_COUNT = 5;
     
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         
