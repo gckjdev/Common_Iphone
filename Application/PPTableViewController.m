@@ -367,9 +367,6 @@
         return;
     
 	if (scrollView.isDragging) {        
-#ifdef DEBUG        
-        NSLog(@"point=%@", NSStringFromCGPoint(scrollView.contentOffset));
-#endif        
 		if (!_reloading && refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f) {
 			[refreshHeaderView setState:EGOOPullRefreshNormal];
 		} else if (!_reloading && refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f) {
