@@ -22,7 +22,8 @@ enum {
     USE_FOR_KEYWORD,
     USE_FOR_FAVORITE,
     
-    USE_FOR_PER_CATEGORY = 100
+    USE_FOR_PER_CATEGORY = 100,
+    USE_FOR_PER_SHOPPINGITEM = 100000000
 };
 
 @interface ProductManager : NSObject {

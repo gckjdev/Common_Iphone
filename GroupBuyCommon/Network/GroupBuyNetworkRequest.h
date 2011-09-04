@@ -111,6 +111,7 @@
                                categoryName:(NSString*)categoryName
                             subCategoryName:(NSString*)subCategoryName
                                    keywords:(NSString*)keywords
+                                 expireDate:(NSString *)expireDate
                                    maxPrice:(NSNumber*)maxPrice
                                   minRebate:(NSNumber*)minRebate;
 
@@ -122,6 +123,7 @@
                                categoryName:(NSString*)categoryName
                             subCategoryName:(NSString*)subCategoryName
                                    keywords:(NSString*)keywords
+                                 expireDate:(NSString *)expireDate
                                    maxPrice:(NSNumber*)maxPrice
                                   minRebate:(NSNumber*)minRebate;
 
@@ -135,5 +137,17 @@
                             userId:(NSString*)userId
                        deviceToken:(NSString*)deviceToken;
 
++ (CommonNetworkOutput*)getUserShoppingItemCount:(NSString*)baseURL
+                                           appId:(NSString*)appId
+                                          userId:(NSString*)userId
+                                     itemIdArray:(NSArray*)itemIdArray 
+                                   requiredMatch:(BOOL)requireMatch;
+
++ (CommonNetworkOutput*)getShoppingItemProducts:(NSString*)baseURL 
+                                         userId:(NSString*)userId
+                                          appId:(NSString*)appId
+                                         itemId:(NSString*)itemId
+                                    startOffset:(int)startOffset
+                                       maxCount:(int)maxCount;
 
 @end

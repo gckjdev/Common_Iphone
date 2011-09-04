@@ -85,8 +85,9 @@ NSString *dateToString(NSDate *date)
 // covert date to string by given format
 NSString *dateToStringByFormat(NSDate *date, NSString *format)
 {
+    if(date == nil)
+        return nil;
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	
 	[dateFormatter setDateFormat:format];
 	return [dateFormatter stringFromDate:date];	
 	

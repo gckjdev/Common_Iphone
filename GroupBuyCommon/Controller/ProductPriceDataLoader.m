@@ -186,6 +186,56 @@
 @end
 
 
+@implementation ProductShoppingItemDataLoader
+
+@synthesize shoppingItemId;
+
+- (id)initWithShoppingItemId:(NSString*)itemId
+{
+    self = [super init];
+    self.shoppingItemId = itemId;
+    return self;
+}
+
+- (void)dealloc
+{
+    [shoppingItemId release];
+    [super dealloc];
+}
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    int useFor = [shoppingItemId intValue];    
+    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"startDate" sortAsending:NO];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    int useFor = [shoppingItemId intValue];
+    
+    ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:useFor startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:useFor startOffset:startOffset cleanData:NO];
+    }        
+}
+
+@end
+
+
 @implementation ProductHistoryDataLoader
 
 - (BOOL)supportRemote

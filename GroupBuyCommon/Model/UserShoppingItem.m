@@ -20,5 +20,6 @@
 @dynamic createDate;
 @dynamic categoryName;
 @dynamic city;
-
+@dynamic matchCount;
+@dynamic status;
 @end

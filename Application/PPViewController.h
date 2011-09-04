@@ -69,6 +69,9 @@
 - (void)setNavigationLeftButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action;
 - (void)setNavigationLeftButton:(NSString*)title action:(SEL)action;
 - (void)setNavigationRightButton:(NSString*)title action:(SEL)action;
+- (void)setNavigationRightButtonWithSystemStyle:(UIBarButtonSystemItem)systemItem action:(SEL)action;
+- (void)setNavigationLeftButtonWithSystemStyle:(UIBarButtonSystemItem)systemItem action:(SEL)action;
+
 - (void)createNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex;
 
 // this method helps you to performa an internal method with loading view

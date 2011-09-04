@@ -14,7 +14,7 @@
 @synthesize validPeriodLabel;
 @synthesize priceLabel;
 @synthesize editButton;
-@synthesize boughtCountLabel;
+@synthesize matchCountLabel;
 @synthesize loadingIndicator;
 
 - (void)dealloc {
@@ -22,7 +22,7 @@
     [validPeriodLabel release];
     [priceLabel release];
     [editButton release];
-    [boughtCountLabel release];
+    [matchCountLabel release];
     [loadingIndicator release];
     [super dealloc];
 }

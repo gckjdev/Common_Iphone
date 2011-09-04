@@ -133,6 +133,22 @@
 	[barButtonItem release];
 }
 
+
+
+- (void)setNavigationRightButtonWithSystemStyle:(UIBarButtonSystemItem)systemItem action:(SEL)action
+{
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:systemItem target:self action:action];	
+	self.navigationItem.rightBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
+- (void)setNavigationLeftButtonWithSystemStyle:(UIBarButtonSystemItem)systemItem action:(SEL)action
+{
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:systemItem target:self action:action];
+	self.navigationItem.leftBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
 - (void)setNavigationTitle:(NSString*)title textColor:(UIColor*)textColor textFont:(UIFont*)textFont
 {
 

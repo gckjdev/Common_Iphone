@@ -20,11 +20,6 @@
     [super dealloc];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
 
 // just replace PPTableViewCell by the new Cell Class Name
 + (ShoppingKeywordCell*)createCell:(id)delegate
@@ -39,7 +34,7 @@
     
     ShoppingKeywordCell* cell = (ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0]; 
     cell.delegate = delegate;
-    [cell.keywordTextField setDelegate:cell];
+   // [cell.keywordTextField setDelegate:cell];
     return cell;
     //((ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
     

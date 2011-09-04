@@ -83,6 +83,20 @@
 
 @end
 
+@interface ProductShoppingItemDataLoader : NSObject<ProductDataLoader> {
+    
+    NSString    *shoppingItemId;
+    
+}
+@property (nonatomic, retain)     NSString    *shoppingItemId;
+
+- (id)initWithShoppingItemId:(NSString*)itemId;
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end
+
+
 @interface ProductKeywordDataLoader : NSObject<ProductDataLoader> {
     NSString    *keyword;
 }

@@ -62,6 +62,8 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_UPDATESHOPPINGITEM @"usi"
 #define METHOD_DELETESHOPPINGITEM @"dsi"
 #define METHOD_GETSHOPPINGITEM @"gsi"
+#define METHOD_GETITEMMATCHCOUNT @"csip"
+#define METHOD_FINDPRODUCTSBYSHOPPINGITEMID @"fpsi"
 
 
 // request parameters
@@ -92,10 +94,16 @@ extern NSString* GlobalGetServerURL();
 #define PARA_MESSAGE_ID @"mid"
 
 #define PARA_COUNTRYCODE @"cc"
+
+#define PARA_MATCHITEMCOUNT @"mic"
+
 #define PARA_LANGUAGE @"lang"
 #define PARA_APPID @"app"
 
 #define PARA_COMMENT_CONTENT @"comc"
+
+#define PARA_ITEMIDARRAY @"iia"
+#define PARA_REQUIRE_MATCH @"rm"
 
 #define PARA_NEED_RETURN_USER           @"r"
 #define PARA_AVATAR                     @"av"
@@ -158,7 +166,7 @@ extern NSString* GlobalGetServerURL();
 #define PARA_VERSION @"v"
 
 #define PARA_KEYWORD @"kw"
-
+#define PARA_EXPIRE_DATE @"e_date"
 // response parameters
 
 #define RET_MESSAGE @"msg"

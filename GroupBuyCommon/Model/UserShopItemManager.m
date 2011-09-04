@@ -10,7 +10,7 @@
 #import "CoreDataUtil.h"
 #import "UserShoppingItem.h"
 
-#define SPLIT @";"
+#define SPLIT @" "
 
 @implementation UserShopItemManager
 
@@ -28,6 +28,8 @@
     if (shoppingItem == nil) {
         shoppingItem = [dataManager insert:@"UserShoppingItem"];
     }
+        shoppingItem.status = [NSNumber numberWithInt: ShoppingItemCountLoading];
+        shoppingItem.matchCount = [NSNumber numberWithInt:0];
         shoppingItem.itemId = itemId;
         shoppingItem.city = city;
         shoppingItem.categoryName = categoryName;
@@ -36,7 +38,6 @@
         shoppingItem.maxPrice = maxPrice;
         shoppingItem.expireDate = expireDate;
         shoppingItem.createDate = [NSDate date];  
-
     
     return [dataManager save];
 }
@@ -86,6 +87,38 @@
         [dataManager del:item];
     }
     [dataManager save];
+}
+
+
++ (void)updateItemMatchCount:(NSNumber *)count itemId:(NSString *)itemId
+{
+
+    if (count == nil) {
+        return;
+    }
+    CoreDataManager *dataManager = GlobalGetCoreDataManager();
+    UserShoppingItem *item = [UserShopItemManager getShoppingItemById:itemId];
+    if (item != nil) {
+        
+        item.status = [NSNumber numberWithInt: ShoppingItemCountOld];
+        
+        if ([item.matchCount intValue]!= [count intValue]) {
+            item.status = [NSNumber numberWithInt: ShoppingItemCountNew];
+        }
+        
+        item.matchCount = count;
+        [dataManager save];
+    }
+}
+
++ (void)updateItemMatchCountStatus:(ShoppingItemCountStatus)status itemId:(NSString *)itemId
+{
+    CoreDataManager *dataManager = GlobalGetCoreDataManager();
+    UserShoppingItem *item = [UserShopItemManager getShoppingItemById:itemId];
+    if (item != nil) {
+        item.status = [NSNumber numberWithInt: status];
+        [dataManager save];
+    }
 }
 
 @end

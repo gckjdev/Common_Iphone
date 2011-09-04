@@ -13,6 +13,11 @@
 #import "UserShoppingItem.h"
 #import "TimeUtils.h"
 #import "ShoppingValidPeriodCell.h"
+#import "UserShopItemService.h"
+#import "ProductManager.h"
+#import "CommonProductListController.h"
+#import "ProductPriceDataLoader.h"
+
 @implementation ShoppingListController
 
 /*
@@ -29,7 +34,9 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     
-    [self setNavigationRightButton:@"添加" action:@selector(clickAdd:)];
+    [self setNavigationLeftButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(clickRefresh:)];
+    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemAdd action:@selector(clickAdd:)];
+
     [self setBackgroundImageName:@"background.png"];
 
     [super viewDidLoad];
@@ -42,13 +49,6 @@
     // reload data
     
     self.dataList = [UserShopItemManager getAllLocalShoppingItems];
-    
-    int i = 0;
-    
-    for (UserShoppingItem *item in dataList) {
-        NSLog(@"data%d: item subscategory=%@",++i,item.keywords);
-    }
-    
     // reload table view
     [self.dataTableView reloadData];
 
@@ -112,6 +112,8 @@
 
     NSInteger maxPrice = [item.maxPrice intValue];
     
+    NSInteger matchCount = [item.matchCount intValue];
+
     if (category == nil) {
         category = NOT_LIMIT;
     }
@@ -121,8 +123,39 @@
     if (keywords == nil) {
         keywords = @"";
     }
-    
+                
     cell.keyWordsLabel.text = [NSString stringWithFormat:@"%@ %@ %@",keywords,category,subCategoryName];
+
+    switch ([item.status intValue]) {
+        case ShoppingItemCountLoading:
+        {
+            [cell.loadingIndicator setHidden:NO];
+            [cell.loadingIndicator startAnimating];
+            [cell.matchCountLabel setHidden:YES];
+        }
+            break;
+            
+        case ShoppingItemCountNew:
+        {    
+            [cell.loadingIndicator stopAnimating];
+            cell.matchCountLabel.text = [NSString stringWithFormat:@"团 (%d)",matchCount];
+            cell.matchCountLabel.textColor = [UIColor redColor];
+            [cell.matchCountLabel setHidden:NO];
+        }
+            break;
+        case ShoppingItemCountOld:
+        {
+            [cell.loadingIndicator stopAnimating];
+            cell.matchCountLabel.text = [NSString stringWithFormat:@"团 (%d)",matchCount];
+            cell.matchCountLabel.textColor = [UIColor blackColor];
+            [cell.matchCountLabel setHidden:NO];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
     
     if (maxPrice < 0) {
         cell.priceLabel.text = @"可接受价格：不限";
@@ -173,6 +206,23 @@
         
 	if (indexPath.row > [dataList count] - 1)
 		return;
+    
+   // [ProductManager deleteProductsByUseFor:USE_FOR_KEYWORD];
+	
+    
+    UserShoppingItem *item = [self.dataList objectAtIndex:indexPath.row];
+    if (item == nil) {
+        return;
+    }
+    
+    [UserShopItemManager updateItemMatchCountStatus:ShoppingItemCountOld itemId:item.itemId];
+    
+	CommonProductListController *shoppingItemProductsController = [[CommonProductListController alloc] init];
+	shoppingItemProductsController.superController = self;
+	shoppingItemProductsController.dataLoader = [[ProductShoppingItemDataLoader alloc] initWithShoppingItemId:[item itemId]];
+	shoppingItemProductsController.navigationItem.title = @"推荐团购"; 
+	[self.navigationController pushViewController:shoppingItemProductsController animated:YES];
+	[shoppingItemProductsController release];
 }
 
 
@@ -184,12 +234,9 @@
     if (section == 0 && row <[self.dataList count]) {
         UserShoppingItem *item = [dataList objectAtIndex:row];
         
-        [UserShopItemManager removeItemForItemId:item.itemId];
-        self.dataList = [UserShopItemManager getAllLocalShoppingItems];
+        UserShopItemService *service = GlobalGetUserShopItemService();
+        [service deleteUserShoppingItem:item.itemId viewController:self indexPath:indexPath];
         
-        [self.dataTableView beginUpdates];        
-        [self.dataTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self.dataTableView endUpdates];
     }
     
 }
@@ -200,17 +247,26 @@
 - (void)clickAdd:(id)sender {
     
     AddShoppingItemController* vc = [[AddShoppingItemController alloc] init];
+    vc.shoppingListTableViewController = self;
     [self.navigationController pushViewController:vc animated:YES];
+    
     [vc release];
 }
 
 - (void)clickEdit:(id)sender atIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.row >= [dataList count])
         return;
-        
     UserShoppingItem *item = [dataList objectAtIndex:indexPath.row];
     AddShoppingItemController* vc = [[AddShoppingItemController alloc] initWithUserShoppingItem:item];
+    vc.shoppingListTableViewController =self;
     [self.navigationController pushViewController:vc animated:YES];
     [vc release];
+}
+
+
+-(void)clickRefresh:(id)sender
+{
+    UserShopItemService *service = GlobalGetUserShopItemService();
+    [service updateUserShoppingItemCountList:self];
 }
 @end

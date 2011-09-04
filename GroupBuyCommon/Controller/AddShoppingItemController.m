@@ -65,6 +65,7 @@
 @synthesize expireDate;
 @synthesize maxPrice;
 
+@synthesize shoppingListTableViewController;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -107,9 +108,9 @@
             self.maxPrice = item.maxPrice;
             self.expireDate = item.expireDate;
             self.keywords = item.keywords;
+            self.itemId = item.itemId;
             NSArray *categoryArray = [UserShopItemManager getSubCategoryArrayWithCategoryName:item.subCategoryName];
             self.selectedSubCategories = [NSMutableArray arrayWithArray:categoryArray];
-            self.itemId = item.itemId;
             if (self.selectedCategory != nil && [self.selectedCategory length] != 0) {
                 isShowSubCategory  = YES;
             }
@@ -215,6 +216,8 @@
     [selectedSubCategories release];
     
 	[subCateogriesDict release];
+    
+    [shoppingListTableViewController release];
     [super dealloc];
 }
 
@@ -316,6 +319,7 @@
 		if (cell == nil) {
 			cell = [ShoppingKeywordCell createCell:self];
             self.keywordTextField = cell.keywordTextField;
+            [self.keywordTextField setDelegate:self];
             [cell.keywordTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
 		}
        
@@ -438,7 +442,20 @@
             
         }
         
+    }else if (self.keywordTextField == sender) {
+        NSString *text = keywordTextField.text;
+        self.keywords = text;
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (self.keywordTextField == textField) {
+        NSString *text = keywordTextField.text;
+        self.keywords = text;
+    }
+    [textField resignFirstResponder];
+    return YES;
 }
 
 
@@ -471,7 +488,8 @@
         self.expireDate = date;
         
     }
-    [self.view endEditing:YES];
+    //[self.view endEditing:YES];
+    
     [self updateRowIndex];
 }
 
@@ -556,20 +574,26 @@
     UserShopItemService* shopService = GlobalGetUserShopItemService();
     NSString* city = [GlobalGetLocationService() getDefaultCity];    
     NSString* categoryName = nil;
-    NSString* subCategoryName = nil;
     
     if (self.selectedCategory != nil)
         categoryName = self.selectedCategory;
-    
-    if (self.selectedSubCategories != nil && [self.selectedSubCategories count] > 0)
-    {
-        subCategoryName = [UserShopItemManager getSubCategoryNameWithArray:self.selectedSubCategories];
+    if (itemId == nil) {
+        [shopService addUserShoppingItem:city categoryName:categoryName subCategories:selectedSubCategories keywords:self.keywords maxPrice:maxPrice expireDate:expireDate rebate:nil viewController:self];
+    }else{
+        [shopService updateUserShoppingItem:itemId city:city categoryName:categoryName subCategories:self.selectedSubCategories keywords:self.keywords maxPrice:self.maxPrice expireDate:self.expireDate rebate:nil viewController:self];
     }
-
+        
     
-    [shopService addUserShoppingItem:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice expireDate:expireDate];
-    
-    [self.navigationController popViewControllerAnimated:YES];
+//    if (self.selectedSubCategories != nil && [self.selectedSubCategories count] > 0)
+//    {
+//        subCategoryName = [UserShopItemManager getSubCategoryNameWithArray:self.selectedSubCategories];
+//    }
+//
+//    
+//    
+//    [shopService addUserShoppingItem:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice expireDate:expireDate];
+//    
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
