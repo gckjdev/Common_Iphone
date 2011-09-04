@@ -212,28 +212,28 @@
 
 #pragma mark Table View Delegate
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
-{
-
-    return self.indexNameArray;
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
-
-    NSInteger count = 0;
-    for(NSString *character in self.indexNameArray)
-    {
-        if([character isEqualToString:title])
-        {
-            return count;
-        }
-        count ++;
-    }
-    return 0;
-    
-}
+//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
+//{
+//
+//    return self.indexNameArray;
+//}
+//
+//
+//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+//{
+//
+//    NSInteger count = 0;
+//    for(NSString *character in self.indexNameArray)
+//    {
+//        if([character isEqualToString:title])
+//        {
+//            return count;
+//        }
+//        count ++;
+//    }
+//    return 0;
+//    
+//}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
