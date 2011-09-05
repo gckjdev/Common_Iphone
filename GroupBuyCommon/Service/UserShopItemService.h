@@ -67,6 +67,8 @@ typedef enum {
 
 - (void)deleteUserShoppingItem:(NSString*)itemId viewController:(PPViewController *)viewController indexPath:(NSIndexPath *)indexPath;
 
+- (void)requestItemMatchCount:(NSString*)itemId tableViewController:(PPTableViewController*)tableViewController;
+
 @property (nonatomic, assign) NSObject<UserShopItemServiceDelegate>   *delegate;
 
 @end

@@ -136,6 +136,39 @@
     
 }
 
+- (void)requestItemMatchCount:(NSString*)itemId tableViewController:(PPTableViewController*)tableViewController
+{
+    NSString* userId = [GlobalGetUserService() userId];
+    NSString* appId = [AppManager getPlaceAppId];
+
+    dispatch_async(workingQueue, ^{
+        CommonNetworkOutput* countOutput = nil;
+        
+        countOutput =[GroupBuyNetworkRequest getUserShoppingItemCount:SERVER_URL appId:appId userId:userId itemIdArray:[NSArray arrayWithObject:itemId] requiredMatch:YES];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (countOutput.resultCode == ERROR_SUCCESS) {
+                NSArray* itemArray = countOutput.jsonDataArray;
+                if (itemArray != nil && [itemArray count] > 0) {
+                    for (NSDictionary* itemDict in itemArray){
+                        NSNumber *cnt = [itemDict objectForKey:PARA_MATCHITEMCOUNT];
+                        NSString *itemId = [itemDict objectForKey:PARA_ITEMID];
+                        [UserShopItemManager updateItemMatchCount:cnt itemId:itemId];
+                    }   
+                }else {
+                    [UserShopItemManager updateItemMatchCountStatus:ShoppingItemCountOld itemId:itemId];
+                }
+            }else {
+                [UserShopItemManager updateItemMatchCountStatus:ShoppingItemCountOld itemId:itemId];
+            }  
+            
+            tableViewController.dataList = [UserShopItemManager getAllLocalShoppingItems];
+            [tableViewController.dataTableView reloadData];
+
+        });        
+    });
+
+}
 
 - (void)deleteUserShoppingItem:(NSString*)itemId viewController:(PPTableViewController *)tableViewController indexPath:(NSIndexPath *)indexPath{
     NSString* userId = [GlobalGetUserService() userId];

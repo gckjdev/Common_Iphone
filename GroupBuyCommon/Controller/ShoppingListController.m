@@ -48,6 +48,9 @@
 注：消息推送请确认打开了应用程序的推送通知功能。\n\n\
 点击右上角的按钮，马上添加你感兴趣的团购项吧！";
     
+    self.tabBarItem.badgeValue = @"100";
+    NSLog(@"badget value = %@", self.tabBarItem.badgeValue);
+    
     [super viewDidLoad];
 }
 
