@@ -12,6 +12,8 @@
 
 @interface ShoppingListController : PPTableViewController <ShoppingListCellDelegate> {
 
+    UILabel *helpLabel;
 }
+@property (nonatomic, retain) IBOutlet UILabel *helpLabel;
 
 @end

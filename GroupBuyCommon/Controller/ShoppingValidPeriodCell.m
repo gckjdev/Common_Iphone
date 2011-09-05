@@ -84,7 +84,7 @@
 
 + (CGFloat)getCellHeight
 {
-    return 75;
+    return 80;
 }
 
 - (NSInteger)segmentIndexForDate:(NSDate *)date

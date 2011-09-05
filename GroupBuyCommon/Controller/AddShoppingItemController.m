@@ -321,11 +321,12 @@
             self.keywordTextField = cell.keywordTextField;
             [self.keywordTextField setDelegate:self];
             [cell.keywordTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
+            [cell.keywordTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventValueChanged];
+
+            cell.keywordTextField.text = self.keywords;
+
 		}
        
-        if (self.keywords != nil) {
-            self.keywordTextField.text = self.keywords;
-        }
         
         return cell;
 
@@ -367,6 +368,7 @@
             
             [self.priceTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
             [self.priceTextField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
+            [self.priceTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventValueChanged];
 
             [self.priceSegment addTarget:self action:@selector(segmentedDidValueChanged:) forControlEvents:UIControlEventValueChanged];
             
@@ -406,8 +408,40 @@
     self.dataTableView.frame = self.view.bounds;
 }
 
-- (void) textFieldDidBeginEditing:(id)sender{
+- (void)updateKeyword
+{
+    self.keywords = keywordTextField.text;
+}
+
+- (void)updatePrice
+{
+    NSString *text = priceTextField.text;
     
+    if (text == nil || [text length] == 0) {
+        maxPrice = [NSNumber numberWithInteger:-1];
+        [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
+    }
+    else if ([text isEqualToString:NOT_LIMIT]){
+        self.maxPrice = nil;
+    }
+    else {
+        self.maxPrice = [NSNumber numberWithInteger:[priceTextField.text integerValue]];        
+    }    
+}
+
+- (void)textFieldChange:(id)sender {
+
+    if (keywordTextField == sender){
+        [self updateKeyword];
+    }
+    else if (priceTextField == sender) {
+        [self updatePrice];
+    }    
+}
+
+- (void) textFieldDidBeginEditing:(id)sender{
+        
+    // set correct keyboard type for text field
     NSIndexPath* indexPath = nil;
     if (keywordTextField == sender){
         indexPath = [NSIndexPath indexPathForRow:rowOfKeyword inSection:0];    
@@ -419,6 +453,7 @@
         self.currentKeyboardType = priceTextField.keyboardType;
     }
     
+    // adjust table view frame to make text field visable
     CGRect frame = self.dataTableView.frame;
     frame.size.height = 480 - kKeyboadHeight - kNavigationBarHeight - kStatusBarHeight;
     self.dataTableView.frame = frame;
@@ -430,30 +465,21 @@
 - (void)textFieldDidEndEditing:(id)sender
 {
     if (self.priceTextField == sender) {
-        NSString *text = priceTextField.text;
-        
+
+        NSString *text = priceTextField.text;        
         if (text == nil || [text length] == 0) {
-            maxPrice = [NSNumber numberWithInteger:-1];
             priceTextField.text = NOT_LIMIT;
             [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
         }
-        else {
-            self.maxPrice = [NSNumber numberWithInteger:[priceTextField.text integerValue]];
-            
-        }
         
-    }else if (self.keywordTextField == sender) {
-        NSString *text = keywordTextField.text;
-        self.keywords = text;
+    }    
+    else if (self.keywordTextField == sender) {
+
     }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (self.keywordTextField == textField) {
-        NSString *text = keywordTextField.text;
-        self.keywords = text;
-    }
     [textField resignFirstResponder];
     return YES;
 }

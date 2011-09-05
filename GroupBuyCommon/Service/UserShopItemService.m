@@ -66,6 +66,7 @@
     
     NSString *dateString = dateToUTCStringByFormat(expireDate, @"yyyyMMddHHmmss");
     
+    [viewController showActivityWithText:@"服务器处理数据中......"];
     dispatch_async(workingQueue, ^{
         
         // fetch user place data from server
@@ -77,10 +78,11 @@
             output = [GroupBuyNetworkRequest updateUserShoppingItem:SERVER_URL appId:appId userId:userId itemId:itemId city:city categoryName:categoryName subCategoryName:subCategoryNames keywords:keywords expireDate:dateString maxPrice:maxPrice minRebate:rebate];
         }
         
-        [viewController showActivity];
+        
         // if succeed, clean local data and save new data
         dispatch_async(dispatch_get_main_queue(), ^{
             
+            [viewController hideActivity];
             if (output.resultCode == ERROR_SUCCESS){
                 // save data locally
                 [UserShopItemManager createShoppingItem:itemId city:city categoryName:categoryName subCategoryName:subCategoryNames keywords:keywords maxPrice:maxPrice expireDate:expireDate];
@@ -123,7 +125,6 @@
             else{
                 [viewController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
             }
-            [viewController hideActivity];
             
             //            // notify UI to refresh data
             //            if ([delegate respondsToSelector:@selector(itemActionDone:)]){
@@ -140,20 +141,20 @@
     NSString* userId = [GlobalGetUserService() userId];
     NSString* appId = [AppManager getPlaceAppId];
     
+    [tableViewController showActivityWithText:@"删除数据中......"];
     dispatch_async(workingQueue, ^{
         
         // fetch user place data from server
         CommonNetworkOutput* output = nil;
         
         output =[GroupBuyNetworkRequest deleteUserShoppingItem:SERVER_URL appId:appId userId:userId itemId:itemId];
-        [tableViewController showActivity];
         // if succeed, clean local data and save new data
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if (output.resultCode == ERROR_SUCCESS){
                 // save data locally
                 [UserShopItemManager removeItemForItemId:itemId];
-             //   [ProductManager deleteProductsByUseFor:[itemId intValue]];
+                [ProductManager deleteProductsByUseFor:[itemId intValue]];
                 
                 tableViewController.dataList = [UserShopItemManager getAllLocalShoppingItems];
                 [tableViewController.dataTableView beginUpdates];        
@@ -184,13 +185,14 @@
     NSString* userId = [GlobalGetUserService() userId];
     NSString* appId = [AppManager getPlaceAppId];
     
+    [tableViewController showActivityWithText:@"正在更新数据......"];
+    
     dispatch_async(workingQueue, ^{
         
         // fetch user place data from server
         CommonNetworkOutput* output = nil;
         
         output =[GroupBuyNetworkRequest getUserShoppingItemCount:SERVER_URL appId:appId userId:userId itemIdArray:nil requiredMatch:NO];
-        [tableViewController showActivity];
         // if succeed, clean local data and save new data
         dispatch_async(dispatch_get_main_queue(), ^{
             

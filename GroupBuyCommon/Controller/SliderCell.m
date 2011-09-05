@@ -54,7 +54,7 @@ NSArray* priceArray;
 
 + (CGFloat)getCellHeight
 {
-    return 75;
+    return 85;
 }
 
 

@@ -126,7 +126,8 @@
 	searchResultController.superController = self;
 	searchResultController.dataLoader = [[ProductKeywordDataLoader alloc] initWithKeyword:keyword];
     
-	searchResultController.navigationItem.title = @"搜索结果"; 
+	searchResultController.navigationItem.title = [NSString stringWithFormat:@"团购列表 － %@", keyword]; 
+    [searchResultController setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
 	[self.navigationController pushViewController:searchResultController animated:NO];
 	[searchResultController release];
 }
