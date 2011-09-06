@@ -35,7 +35,7 @@
 }
 
 @property (nonatomic, retain) NSString* itemName;
-@property (nonatomic, retain) NSString* keywords;
+@property (nonatomic, copy) NSString* keywords;
 @property (nonatomic, retain) NSString* itemId;
 @property (nonatomic, retain) NSDate*   expireDate;
 @property (nonatomic, retain) NSNumber* maxPrice;

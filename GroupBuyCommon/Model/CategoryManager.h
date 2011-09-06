@@ -22,5 +22,6 @@
 
 + (NSArray*)getAllCategories;
 + (NSArray*)getSubCategoriesByCategory:(NSString*)category;
++ (NSString*)refineSubCategoryNames:(NSString*)categoryName subCategoryNames:(NSString*)subCategoryNames; 
 
 @end

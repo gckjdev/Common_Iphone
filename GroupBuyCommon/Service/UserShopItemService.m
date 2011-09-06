@@ -19,6 +19,8 @@
 #import "ProductManager.h"
 #import "ShoppingListController.h"
 #import "AddShoppingItemController.h"
+#import "CategoryManager.h"
+
 @implementation UserShopItemService
 
 @synthesize delegate;
@@ -45,6 +47,7 @@
         [self handleUserShoppingItem:itemId city:city categoryName:categoryName subCategories:subCategories keywords:keywords maxPrice:maxPrice expireDate:expireDate rebate:rebate viewController:viewController handleType:UpdateShoppingItem];
 }
 
+
 - (void)handleUserShoppingItem:(NSString*)itemId
                           city:(NSString*)city
                   categoryName:(NSString*)categoryName
@@ -62,6 +65,8 @@
     NSString *subCategoryNames = nil;
     if (subCategories != nil ) {
         subCategoryNames = [UserShopItemManager getSubCategoryNameWithArray:subCategories];
+        subCategoryNames = [CategoryManager refineSubCategoryNames:categoryName 
+                                                  subCategoryNames:subCategoryNames];
     }
     
     NSString *dateString = dateToUTCStringByFormat(expireDate, @"yyyyMMddHHmmss");
@@ -71,6 +76,7 @@
         
         // fetch user place data from server
         CommonNetworkOutput* output = nil;
+        
         
         if (handleType == CreateShoppingItem) {
             output = [GroupBuyNetworkRequest addUserShoppingItem:SERVER_URL appId:appId userId:userId itemId:itemId city:city categoryName:categoryName subCategoryName:subCategoryNames keywords:keywords expireDate:dateString maxPrice:maxPrice minRebate:rebate];

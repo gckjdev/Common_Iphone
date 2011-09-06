@@ -84,7 +84,7 @@
     isShowSubCategory = NO;
     self.selectedCategory = nil;
     self.selectedSubCategories = nil;
-    self.maxPrice = [NSNumber numberWithInt:-1];
+    self.maxPrice = nil;
     self.expireDate = nil;
     self.keywords = nil;
     self.itemId = nil;
@@ -321,11 +321,12 @@
             self.keywordTextField = cell.keywordTextField;
             [self.keywordTextField setDelegate:self];
             [cell.keywordTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
-            [cell.keywordTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventValueChanged];
-
-            cell.keywordTextField.text = self.keywords;
+            [cell.keywordTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventEditingChanged];
 
 		}
+        
+        NSLog(@"set text field text to %@", self.keywords);
+        cell.keywordTextField.text = self.keywords;
        
         
         return cell;
@@ -368,7 +369,7 @@
             
             [self.priceTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
             [self.priceTextField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
-            [self.priceTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventValueChanged];
+            [self.priceTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventEditingChanged];
 
             [self.priceSegment addTarget:self action:@selector(segmentedDidValueChanged:) forControlEvents:UIControlEventValueChanged];
             
@@ -411,6 +412,7 @@
 - (void)updateKeyword
 {
     self.keywords = keywordTextField.text;
+    NSLog(@"update keywords to %@", self.keywords);
 }
 
 - (void)updatePrice
@@ -418,7 +420,7 @@
     NSString *text = priceTextField.text;
     
     if (text == nil || [text length] == 0) {
-        maxPrice = [NSNumber numberWithInteger:-1];
+        self.maxPrice = nil;
         [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
     }
     else if ([text isEqualToString:NOT_LIMIT]){
@@ -431,11 +433,11 @@
 
 - (void)textFieldChange:(id)sender {
 
+    NSLog(@"textFieldChange");
     if (keywordTextField == sender){
         [self updateKeyword];
     }
     else if (priceTextField == sender) {
-        [self updatePrice];
     }    
 }
 
@@ -446,11 +448,18 @@
     if (keywordTextField == sender){
         indexPath = [NSIndexPath indexPathForRow:rowOfKeyword inSection:0];    
         self.currentKeyboardType = keywordTextField.keyboardType;
+        
+        self.keywordTextField.text = keywords;
     }
     else if (priceTextField == sender) {
         indexPath = [NSIndexPath indexPathForRow:rowOfPrice inSection:0];   
         [self.priceSegment setSelectedSegmentIndex:UISegmentedControlNoSegment];
         self.currentKeyboardType = priceTextField.keyboardType;
+        
+        if (self.maxPrice == nil || [self.maxPrice intValue] < 0)
+            self.priceTextField.text = @"";
+        else
+            self.priceTextField.text = [self.maxPrice description];
     }
     
     // adjust table view frame to make text field visable
@@ -459,11 +468,14 @@
     self.dataTableView.frame = frame;
     [self.dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
+//    NSLog(@"keyword text field text = %@, keywords = %@", self.keywordTextField.text, self.keywords);
 
 }
 
 - (void)textFieldDidEndEditing:(id)sender
 {
+//    NSLog(@"keyword text field text = %@, keywords = %@", self.keywordTextField.text, self.keywords);
+
     if (self.priceTextField == sender) {
 
         NSString *text = priceTextField.text;        
@@ -471,6 +483,8 @@
             priceTextField.text = NOT_LIMIT;
             [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
         }
+        
+        [self updatePrice];
         
     }    
     else if (self.keywordTextField == sender) {

@@ -128,6 +128,15 @@ CategoryManager*    manager;
     return [[[CategoryManager getManager] subCateogriesDict] objectForKey:category];
 }
 
++ (NSString*)refineSubCategoryNames:(NSString*)categoryName subCategoryNames:(NSString*)subCategoryNames
+{
+    if ([categoryName isEqualToString:HOTEL]){
+        return [subCategoryNames stringByAppendingFormat:@" %@", categoryName];
+    }
+    
+    return subCategoryNames;
+}
+
 - (void)dealloc
 {
     [subCateogriesDict release];
