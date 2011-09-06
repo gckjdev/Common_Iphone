@@ -251,7 +251,7 @@
         hasLocation = YES;
     
     // TODO, cache request in 3G network    
-    [viewController showActivity];
+    [viewController showActivityWithText:@"发送请求中..."];
     dispatch_async(actionWorkingQueue, ^{
         
         // fetch user place data from server
@@ -294,7 +294,7 @@
         hasLocation = YES;
     
     // TODO, cache request in 3G network    
-    [viewController showActivity];
+    [viewController showActivityWithText:@"提交评论中..."];
     dispatch_async(actionWorkingQueue, ^{
         
         // fetch user place data from server
@@ -329,7 +329,7 @@
     
     NSString* appId = [AppManager getPlaceAppId];
     
-    [viewController showActivity];
+    [viewController showActivityWithText:@"正在获取评论中..."];
     dispatch_async(actionWorkingQueue, ^{
         
         // fetch user place data from server

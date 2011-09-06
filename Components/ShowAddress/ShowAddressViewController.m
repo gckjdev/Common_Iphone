@@ -8,7 +8,7 @@
 
 #import "ShowAddressViewController.h"
 #import "AnnotationPin.h"
-
+#import "MapViewUtil.h"
 
 @implementation ShowAddressViewController
 @synthesize mapView;
@@ -61,7 +61,9 @@
     if (!locationFlag && !addressFlag) {
         return;
     }
-
+    
+    if ([locationArray count] == 0)
+        return;
     
     if (locationFlag) {
         //[self.tableView setHidden:YES];
@@ -74,7 +76,10 @@
         theRegion.span.longitudeDelta = LONGITUDEDELTA; 
         theRegion.span.latitudeDelta = LATITUDEDELTA; 
     
-        [self.mapView setRegion:theRegion animated:YES];   
+//        [self.mapView setRegion:theRegion animated:NO];
+        
+        [self.mapView setCenterCoordinate:[[locationArray objectAtIndex:0] coordinate] 
+                                zoomLevel:15 animated:YES];
         
         for (int i = 0; i < [self.locationArray count]; ++i) {
             CLLocation *location = [self.locationArray objectAtIndex:i];

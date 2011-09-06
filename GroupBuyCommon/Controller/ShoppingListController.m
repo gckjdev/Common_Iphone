@@ -17,9 +17,12 @@
 #import "ProductManager.h"
 #import "CommonProductListController.h"
 #import "ProductPriceDataLoader.h"
+#import "groupbuyAppDelegate.h"
 
 @implementation ShoppingListController
+
 @synthesize helpLabel;
+@synthesize tabIndex;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -47,9 +50,6 @@
 3）如果当前没有找到匹配的团购商品，系统会自动发现有满足您的团购新商品时，以消息推送的方式告知您。\n\n\
 注：消息推送请确认打开了应用程序的推送通知功能。\n\n\
 点击右上角的按钮，马上添加你感兴趣的团购项吧！";
-    
-    self.tabBarItem.badgeValue = @"100";
-    NSLog(@"badget value = %@", self.tabBarItem.badgeValue);
     
     [super viewDidLoad];
 }
@@ -121,6 +121,11 @@
     return 0;
 }
 
+- (void)updateTabBadge:(NSString*)value
+{
+    [[[[self.tabBarController tabBar] items] objectAtIndex:tabIndex] setBadgeValue:value];
+}
+
 - (void)setShoppingListCell:(ShoppingListCell*)cell UserShoppingItem:(UserShoppingItem *)item
 {
     NSString *category = item.categoryName;
@@ -162,6 +167,8 @@
             cell.matchCountLabel.text = [NSString stringWithFormat:@"团 (%d)",matchCount];
             cell.matchCountLabel.textColor = [UIColor redColor];
             [cell.matchCountLabel setHidden:NO];
+            
+            [self updateTabBadge:@"新"];
         }
             break;
         case ShoppingItemCountOld:
@@ -170,6 +177,7 @@
             cell.matchCountLabel.text = [NSString stringWithFormat:@"团 (%d)",matchCount];
             cell.matchCountLabel.textColor = [UIColor blackColor];
             [cell.matchCountLabel setHidden:NO];
+            
         }
             break;
             

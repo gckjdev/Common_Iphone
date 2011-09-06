@@ -216,7 +216,7 @@
 - (NSArray*)requestProductListFromDB
 {
     int useFor = [shoppingItemId intValue];    
-    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"startDate" sortAsending:NO];
+    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"offset" sortAsending:YES];
 }
 
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller

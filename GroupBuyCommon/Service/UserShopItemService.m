@@ -138,6 +138,11 @@
 
 - (void)requestItemMatchCount:(NSString*)itemId tableViewController:(PPTableViewController*)tableViewController
 {
+    if (itemId == nil || [itemId length] == 0){
+        NSLog(@"<requestItemMatchCount> but itemId is nil or empty");
+        return;
+    }    
+    
     NSString* userId = [GlobalGetUserService() userId];
     NSString* appId = [AppManager getPlaceAppId];
 

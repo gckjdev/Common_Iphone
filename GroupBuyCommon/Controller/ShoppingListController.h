@@ -13,7 +13,12 @@
 @interface ShoppingListController : PPTableViewController <ShoppingListCellDelegate> {
 
     UILabel *helpLabel;
+    int     tabIndex;
 }
+
 @property (nonatomic, retain) IBOutlet UILabel *helpLabel;
+@property (nonatomic, assign) int               tabIndex;
+
+- (void)updateTabBadge:(NSString*)value;
 
 @end

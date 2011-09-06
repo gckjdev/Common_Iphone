@@ -350,6 +350,7 @@
         str = [str stringByAddQueryParameter:PARA_ITEMID value:itemId];
         str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:maxCount];        
         str = [str stringByAddQueryParameter:PARA_START_OFFSET intValue:startOffset];
+        str = [str stringByAddQueryParameter:PARA_REQUIRE_MATCH intValue:1];
         
         return str;
     };

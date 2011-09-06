@@ -43,10 +43,12 @@
 
 - (void)viewDidLoad
 {
+//    [self setBackgroundImageName:@"background.png"];
+    
     supportRefreshHeader = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.navigationItem.title = @"评论";
+    self.navigationItem.title = @"所有评论";
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(writeComment)];
     self.navigationItem.rightBarButtonItem = rightItem;

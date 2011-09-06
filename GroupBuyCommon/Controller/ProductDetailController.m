@@ -24,12 +24,13 @@ enum {
     SECTION_TITLE,
     SECTION_IMAGE,
 
-    SECTION_DESC,
     SECTION_DATE,
     SECTION_SHOP_ADDRESS,
     SECTION_TEL,    
     SECTION_MORE,
-    SECTION_NUM    
+    SECTION_NUM,    
+
+    SECTION_DESC,   // not used
 };
 
 #define INFO_FONT       ([UIFont systemFontOfSize:14])
@@ -168,7 +169,7 @@ enum {
     NSArray* array = [product addressArray];
     
     if ([array count] == 0){
-        return @"商家地址：请点击更多商品详情";
+        return @"商家地址：暂无";
     }   
 
     NSString* str = @"商家地址：\n";
@@ -195,7 +196,7 @@ enum {
     NSArray* array = [product telArray];
     
     if ([array count] == 0){
-        return @"商家联系电话：请点击更多商品详情";
+        return @"商家联系电话：暂无";
     }
     
     NSString* str = @"商家联系电话：\n";
@@ -371,7 +372,7 @@ enum {
 	switch (indexPath.section) {
         case SECTION_TITLE:
         {            
-            cell.textLabel.text = product.title;
+            cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", product.siteName, product.title];
         }
             break;
             
