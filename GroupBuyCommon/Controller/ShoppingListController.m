@@ -186,7 +186,7 @@
     }
     
     
-    if (maxPrice < 0) {
+    if (maxPrice <= 0) {
         cell.priceLabel.text = @"可接受价格：不限";
     }else
     {
