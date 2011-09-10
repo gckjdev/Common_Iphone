@@ -59,11 +59,22 @@
                                           longitude:(double)longitude
                                         startOffset:(int)startOffset;
 
++ (CommonNetworkOutput*)findAllProductsWithStartDate:(NSString*)baseURL
+                                               appId:(NSString*)appId
+                                         startOffset:(int)startOffset
+                                                city:(NSString*)city;
+
 + (CommonNetworkOutput*)findAllProductsGroupByCategory:(NSString*)baseURL
                                                  appId:(NSString*)appId
                                                   city:(NSString*)city
                                              todayOnly:(BOOL)todayOnly;
 
++ (CommonNetworkOutput *)findAllProductsByScore:(NSString *)baseURL
+                                          appId:(NSString *)appId
+                                    startOffset:(int)startOffset
+                                           city:(NSString *)city
+                                     startPrice:(int)startPrice
+                                       endPrice:(int)endPrice;
 
 + (CommonNetworkOutput*)registerUserDevice:(NSString*)baseURL
                                                  appId:(NSString*)appId

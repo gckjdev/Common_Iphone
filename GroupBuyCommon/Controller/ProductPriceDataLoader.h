@@ -108,3 +108,21 @@
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
 
 @end
+
+@interface ProductTopScoreBelowTenDataLoader : NSObject <ProductDataLoader> {
+
+}
+
+@end
+
+@interface ProductTopScoreAboveTenDataLoader : NSObject <ProductDataLoader> {
+    
+}
+
+@end
+
+@interface ProductStartDateDataLoader : NSObject <ProductDataLoader> {
+    
+}
+
+@end

@@ -183,6 +183,17 @@
             maxCount:DEFAULT_MAX_COUNT];
 }
 
++ (CommonNetworkOutput*)findAllProductsWithStartDate:(NSString*)baseURL
+                                            appId:(NSString*)appId
+                                      startOffset:(int)startOffset
+                                             city:(NSString*)city
+{
+    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0
+                                    maxDistance:DEFAULT_MAX_DISTANCE
+                                      todayOnly:NO category:nil sortBy:SORT_BY_START_DATE startOffset:startOffset
+                                       maxCount:DEFAULT_MAX_COUNT];
+}
+
 + (CommonNetworkOutput*)findAllProductsWithLocation:(NSString*)baseURL
                                               appId:(NSString*)appId
                                                city:(NSString*)city
@@ -268,6 +279,44 @@
                                   output:output];
     
 //    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 todayOnly:NO category:nil sortBy:SORT_BY_START_DATE startOffset:0];
+}
+
++ (CommonNetworkOutput *)findAllProductsByScore:(NSString *)baseURL
+                                            appId:(NSString *)appId
+                                      startOffset:(int)startOffset
+                                             city:(NSString *)city
+                                       startPrice:(int)startPrice
+                                         endPrice:(int)endPrice
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDPRODUCTSBYSCORE];
+        str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:DEFAULT_MAX_COUNT];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_CITY value:city];
+        str = [str stringByAddQueryParameter:PARA_START_OFFSET intValue:startOffset];
+        str = [str stringByAddQueryParameter:PARA_START_PRICE intValue:startPrice];
+        str = [str stringByAddQueryParameter:PARA_END_PRICE intValue:endPrice];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        return;
+    };
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
 }
 
 + (CommonNetworkOutput*)findProducts:(NSString*)baseURL

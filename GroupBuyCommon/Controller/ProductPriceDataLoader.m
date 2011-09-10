@@ -332,3 +332,96 @@
 
 @end
 
+@implementation ProductTopScoreBelowTenDataLoader
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    return [ProductManager getAllProductsByUseFor:USE_FOR_TOPSCORE_BELOW_TEN sortByKey:@"offset" sortAsending:YES];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+	ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:USE_FOR_TOPSCORE_BELOW_TEN startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:USE_FOR_TOPSCORE_BELOW_TEN startOffset:startOffset cleanData:NO];
+    }       
+}
+
+@end
+
+@implementation ProductTopScoreAboveTenDataLoader
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    return [ProductManager getAllProductsByUseFor:USE_FOR_TOPSCORE_ABOVE_TEN sortByKey:@"offset" sortAsending:YES];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+	ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:USE_FOR_TOPSCORE_ABOVE_TEN startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:USE_FOR_TOPSCORE_ABOVE_TEN startOffset:startOffset cleanData:NO];
+    }       
+}
+
+@end
+
+@implementation ProductStartDateDataLoader
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    return [ProductManager getAllProductsByUseFor:USE_FOR_STARTDATE sortByKey:@"offset" sortAsending:YES];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+	ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:USE_FOR_STARTDATE startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:USE_FOR_STARTDATE startOffset:startOffset cleanData:NO];
+    }       
+}
+
+@end
+

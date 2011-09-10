@@ -106,6 +106,23 @@
                                                               startOffset:startOffset];
             }
                 break;
+            case USE_FOR_TOPSCORE_BELOW_TEN:
+            {
+                output = [GroupBuyNetworkRequest findAllProductsByScore:SERVER_URL appId:appId startOffset:startOffset city:city startPrice:-10 endPrice:10];
+            }
+                break;
+                
+            case USE_FOR_TOPSCORE_ABOVE_TEN:
+            {
+                output = [GroupBuyNetworkRequest findAllProductsByScore:SERVER_URL appId:appId startOffset:startOffset city:city startPrice:10 endPrice:1000000];
+            }
+                break;
+                
+            case USE_FOR_STARTDATE:
+            {
+                output = [GroupBuyNetworkRequest findAllProductsWithStartDate:SERVER_URL appId:appId startOffset:startOffset city:city];
+            }
+                break;
                 
             default:
             {

@@ -57,6 +57,7 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_FINDPRODUCTSGROUPBYCATEGORY @"fgc"
 #define METHOD_FINDPRODUCTS @"fp"
 #define METHOD_FINDPRODUCTSBYKEYWORD @"fpk"
+#define METHOD_FINDPRODUCTSBYSCORE @"fps"
 
 #define METHOD_ADDSHOPPINGITEM @"asi"
 #define METHOD_UPDATESHOPPINGITEM @"usi"
@@ -223,6 +224,9 @@ extern NSString* GlobalGetServerURL();
 #define PARA_MAX_DISTANCE @"md"
 #define PARA_TODAY_ONLY @"to"
 #define PARA_SORT_BY @"sb"
+
+#define PARA_START_PRICE @"sp"
+#define PARA_END_PRICE @"ep"
 
 #define PARA_ACTION_NAME @"an"
 #define PARA_ACTION_VALUE @"av"
