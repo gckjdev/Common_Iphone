@@ -10,8 +10,8 @@
 #import "PPViewController+NumPadReturn.h"
 #import "PPTableViewController.h"
 #import "UserShoppingItem.h"
-
-@interface AddShoppingItemController : PPTableViewController {
+#import "ShoppingListController.h"
+@interface AddShoppingItemController : PPTableViewController <UITextFieldDelegate>{
 	
     NSString*   keywords;
     NSString*   itemId;
@@ -19,6 +19,8 @@
     NSNumber*   maxPrice;
     NSString*   selectedCategory;
     NSMutableArray* selectedSubCategories;
+    
+    ShoppingListController *shoppingListTableViewController;
     
     BOOL        isShowSubCategory;
     
@@ -33,13 +35,14 @@
 }
 
 @property (nonatomic, retain) NSString* itemName;
-@property (nonatomic, retain) NSString* keywords;
+@property (nonatomic, copy) NSString* keywords;
 @property (nonatomic, retain) NSString* itemId;
 @property (nonatomic, retain) NSDate*   expireDate;
 @property (nonatomic, retain) NSNumber* maxPrice;
 
 @property (nonatomic, retain) NSString* selectedCategory;
 @property (nonatomic, retain) NSMutableArray* selectedSubCategories;
+@property (nonatomic, retain)  ShoppingListController *shoppingListTableViewController;
 
 -(id) init;
 -(id) initWithUserShoppingItem:(UserShoppingItem *)item;

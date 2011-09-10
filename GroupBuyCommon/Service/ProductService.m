@@ -109,10 +109,17 @@
                 
             default:
             {
-                if (useFor >= USE_FOR_PER_CATEGORY){
+                if (useFor >= USE_FOR_PER_CATEGORY && useFor < USE_FOR_PER_SHOPPINGITEM){
                     NSString* categoryId = [NSString stringWithFormat:@"%d", (useFor - USE_FOR_PER_CATEGORY)];
                     output = [GroupBuyNetworkRequest findProducts:SERVER_URL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 maxDistance:DEFAULT_MAX_DISTANCE todayOnly:NO category:categoryId sortBy:SORT_BY_START_DATE startOffset:startOffset maxCount:DEFAULT_MAX_COUNT];
+                }else if(useFor > USE_FOR_PER_SHOPPINGITEM)
+                {
+                    NSString* userId = [GlobalGetUserService() userId];
+                    NSString* itemId = [NSString stringWithFormat:@"%d",useFor];
+                    output = [GroupBuyNetworkRequest getShoppingItemProducts:SERVER_URL userId:userId appId:appId itemId:itemId startOffset:startOffset maxCount:DEFAULT_MAX_COUNT];
                 }
+                
+                
             }
                 break;
         }
@@ -244,7 +251,7 @@
         hasLocation = YES;
     
     // TODO, cache request in 3G network    
-    [viewController showActivity];
+    [viewController showActivityWithText:@"发送请求中..."];
     dispatch_async(actionWorkingQueue, ^{
         
         // fetch user place data from server
@@ -287,7 +294,7 @@
         hasLocation = YES;
     
     // TODO, cache request in 3G network    
-    [viewController showActivity];
+    [viewController showActivityWithText:@"提交评论中..."];
     dispatch_async(actionWorkingQueue, ^{
         
         // fetch user place data from server
@@ -322,7 +329,7 @@
     
     NSString* appId = [AppManager getPlaceAppId];
     
-    [viewController showActivity];
+    [viewController showActivityWithText:@"正在获取评论中..."];
     dispatch_async(actionWorkingQueue, ^{
         
         // fetch user place data from server

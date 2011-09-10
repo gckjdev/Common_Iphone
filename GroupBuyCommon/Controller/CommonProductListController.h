@@ -28,6 +28,7 @@
     NSObject<ProductDataLoader>     *dataLoader;
     NSString                        *categoryId;
     NSString                        *type;
+    BOOL                            isRemoteRequest;
 }
 
 @property (nonatomic, retain) UIViewController                *superController;

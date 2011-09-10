@@ -183,8 +183,6 @@
             maxCount:DEFAULT_MAX_COUNT];
 }
 
-
-
 + (CommonNetworkOutput*)findAllProductsWithLocation:(NSString*)baseURL
                                               appId:(NSString*)appId
                                                city:(NSString*)city
@@ -330,6 +328,47 @@
                                   output:output];
     
 }
+
+
++ (CommonNetworkOutput*)getShoppingItemProducts:(NSString*)baseURL 
+                            userId:(NSString*)userId
+                               appId:(NSString*)appId
+                                itemId:(NSString*)itemId
+                         startOffset:(int)startOffset
+                            maxCount:(int)maxCount
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDPRODUCTSBYSHOPPINGITEMID];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_ITEMID value:itemId];
+        str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:maxCount];        
+        str = [str stringByAddQueryParameter:PARA_START_OFFSET intValue:startOffset];
+        str = [str stringByAddQueryParameter:PARA_REQUIRE_MATCH intValue:1];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
+
 
 + (CommonNetworkOutput*)registerUserDevice:(NSString*)baseURL
                                      appId:(NSString*)appId
@@ -561,6 +600,7 @@
                                categoryName:(NSString*)categoryName
                             subCategoryName:(NSString*)subCategoryName
                                    keywords:(NSString*)keywords
+                                 expireDate:(NSString *)expireDate
                                    maxPrice:(NSNumber*)maxPrice
                                   minRebate:(NSNumber*)minRebate
 {
@@ -590,6 +630,10 @@
         
         if (keywords){
             str = [str stringByAddQueryParameter:PARA_KEYWORD value:keywords];                        
+        }
+        
+        if (expireDate) {
+            str = [str stringByAddQueryParameter:PARA_EXPIRE_DATE value:expireDate];
         }
         
         if (maxPrice){
@@ -623,8 +667,9 @@
                                   categoryName:(NSString*)categoryName
                                subCategoryName:(NSString*)subCategoryName
                                       keywords:(NSString*)keywords
+                                    expireDate:(NSString*)expireDate
                                       maxPrice:(NSNumber*)maxPrice
-                                     minRebate:(NSNumber*)minRebate
+                                     minRebate:(NSNumber*)minRebate;
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -648,6 +693,10 @@
         
         if (keywords){
             str = [str stringByAddQueryParameter:PARA_KEYWORD value:keywords];                        
+        }
+        
+        if (expireDate) {
+            str = [str stringByAddQueryParameter:PARA_EXPIRE_DATE value:expireDate];
         }
         
         if (maxPrice){
@@ -708,6 +757,48 @@
     
 }
 
+
++ (CommonNetworkOutput*)getUserShoppingItemCount:(NSString*)baseURL
+                                         appId:(NSString*)appId
+                                          userId:(NSString*)userId
+                                     itemIdArray:(NSArray*)itemIdArray 
+                                   requiredMatch:(BOOL)requireMatch
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_GETITEMMATCHCOUNT];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        if (itemIdArray != nil) {
+            NSString *itemIdsString = [itemIdArray componentsJoinedByString:@" "];
+            if (itemIdsString) {
+                str = [str stringByAddQueryParameter:PARA_ITEMIDARRAY value:itemIdsString];
+            }
+        }
+        if (requireMatch) {
+            str = [str stringByAddQueryParameter:PARA_REQUIRE_MATCH value:@"1"];
+        }
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
+
 + (CommonNetworkOutput*)updateUser:(NSString*)baseURL
                                          appId:(NSString*)appId
                                         userId:(NSString*)userId
@@ -727,6 +818,7 @@
         
         return str;
     };
+    
     
     PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
         return;

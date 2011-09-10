@@ -89,6 +89,7 @@
     fra = self.frame;
     fra = CGRectMake(fra.origin.x, fra.origin.y, fra.size.width, fra.size.height - d);
     self.frame = fra;
+    
 }
 
 @end

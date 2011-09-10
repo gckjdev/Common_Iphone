@@ -66,12 +66,16 @@
 // to be override
 - (void)requestProductListFromServer:(BOOL)isRequestLastest
 {    
-
+    if (isRemoteRequest)
+        return;
+    
+    isRemoteRequest = YES;
     return [dataLoader requestProductListFromServer:isRequestLastest controller:self];
 }
 
 - (void)productDataRefresh:(int)result
 {    
+    isRemoteRequest = NO;    
     [self hideActivity];
     
     [GroupBuyReport reportDataRefreshResult:result];
@@ -107,10 +111,6 @@
 {    
     
     [self setBackgroundImageName:@"background.png"];
-    // Do any additional setup after loading the view from its nib.
-//    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-//    self.dataTableView.backgroundColor = [UIColor whiteColor];
-
     
     if ([dataLoader supportRemote])
         supportRefreshHeader = YES;
@@ -119,9 +119,7 @@
         [self setNavigationRightButton:@"全部删除" action:@selector(clickDeleteAll:)];
     }
     
-    
-//    [self initDataList];
-    
+    [self requestProductListFromServer:YES];    
     [super viewDidLoad];
     
     

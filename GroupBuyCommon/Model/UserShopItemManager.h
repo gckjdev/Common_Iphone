@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UserShoppingItem.h"
 
+
 @interface UserShopItemManager : NSObject {
     
 }
@@ -30,6 +31,7 @@
 + (NSArray *)getAllLocalShoppingItems;
 
 + (void)removeItemForItemId:(NSString *)itemId;
++ (void)updateItemMatchCount:(NSNumber *)count itemId:(NSString *)itemId;
 
-
++ (void)updateItemMatchCountStatus:(ShoppingItemCountStatus)status itemId:(NSString *)itemId;
 @end

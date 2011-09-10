@@ -65,6 +65,7 @@
 @synthesize expireDate;
 @synthesize maxPrice;
 
+@synthesize shoppingListTableViewController;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -83,7 +84,7 @@
     isShowSubCategory = NO;
     self.selectedCategory = nil;
     self.selectedSubCategories = nil;
-    self.maxPrice = [NSNumber numberWithInt:-1];
+    self.maxPrice = nil;
     self.expireDate = nil;
     self.keywords = nil;
     self.itemId = nil;
@@ -107,9 +108,9 @@
             self.maxPrice = item.maxPrice;
             self.expireDate = item.expireDate;
             self.keywords = item.keywords;
+            self.itemId = item.itemId;
             NSArray *categoryArray = [UserShopItemManager getSubCategoryArrayWithCategoryName:item.subCategoryName];
             self.selectedSubCategories = [NSMutableArray arrayWithArray:categoryArray];
-            self.itemId = item.itemId;
             if (self.selectedCategory != nil && [self.selectedCategory length] != 0) {
                 isShowSubCategory  = YES;
             }
@@ -215,6 +216,8 @@
     [selectedSubCategories release];
     
 	[subCateogriesDict release];
+    
+    [shoppingListTableViewController release];
     [super dealloc];
 }
 
@@ -316,12 +319,15 @@
 		if (cell == nil) {
 			cell = [ShoppingKeywordCell createCell:self];
             self.keywordTextField = cell.keywordTextField;
+            [self.keywordTextField setDelegate:self];
             [cell.keywordTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
+            [cell.keywordTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventEditingChanged];
+
 		}
+        
+        NSLog(@"set text field text to %@", self.keywords);
+        cell.keywordTextField.text = self.keywords;
        
-        if (self.keywords != nil) {
-            self.keywordTextField.text = self.keywords;
-        }
         
         return cell;
 
@@ -363,6 +369,7 @@
             
             [self.priceTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
             [self.priceTextField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
+            [self.priceTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventEditingChanged];
 
             [self.priceSegment addTarget:self action:@selector(segmentedDidValueChanged:) forControlEvents:UIControlEventValueChanged];
             
@@ -402,43 +409,93 @@
     self.dataTableView.frame = self.view.bounds;
 }
 
-- (void) textFieldDidBeginEditing:(id)sender{
+- (void)updateKeyword
+{
+    self.keywords = keywordTextField.text;
+    NSLog(@"update keywords to %@", self.keywords);
+}
+
+- (void)updatePrice
+{
+    NSString *text = priceTextField.text;
     
+    if (text == nil || [text length] == 0) {
+        self.maxPrice = nil;
+        [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
+    }
+    else if ([text isEqualToString:NOT_LIMIT]){
+        self.maxPrice = nil;
+    }
+    else {
+        self.maxPrice = [NSNumber numberWithInteger:[priceTextField.text integerValue]];        
+    }    
+}
+
+- (void)textFieldChange:(id)sender {
+
+    NSLog(@"textFieldChange");
+    if (keywordTextField == sender){
+        [self updateKeyword];
+    }
+    else if (priceTextField == sender) {
+    }    
+}
+
+- (void) textFieldDidBeginEditing:(id)sender{
+        
+    // set correct keyboard type for text field
     NSIndexPath* indexPath = nil;
     if (keywordTextField == sender){
         indexPath = [NSIndexPath indexPathForRow:rowOfKeyword inSection:0];    
         self.currentKeyboardType = keywordTextField.keyboardType;
+        
+        self.keywordTextField.text = keywords;
     }
     else if (priceTextField == sender) {
         indexPath = [NSIndexPath indexPathForRow:rowOfPrice inSection:0];   
         [self.priceSegment setSelectedSegmentIndex:UISegmentedControlNoSegment];
         self.currentKeyboardType = priceTextField.keyboardType;
+        
+        if (self.maxPrice == nil || [self.maxPrice intValue] < 0)
+            self.priceTextField.text = @"";
+        else
+            self.priceTextField.text = [self.maxPrice description];
     }
     
+    // adjust table view frame to make text field visable
     CGRect frame = self.dataTableView.frame;
     frame.size.height = 480 - kKeyboadHeight - kNavigationBarHeight - kStatusBarHeight;
     self.dataTableView.frame = frame;
     [self.dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
+//    NSLog(@"keyword text field text = %@, keywords = %@", self.keywordTextField.text, self.keywords);
 
 }
 
 - (void)textFieldDidEndEditing:(id)sender
 {
+//    NSLog(@"keyword text field text = %@, keywords = %@", self.keywordTextField.text, self.keywords);
+
     if (self.priceTextField == sender) {
-        NSString *text = priceTextField.text;
-        
+
+        NSString *text = priceTextField.text;        
         if (text == nil || [text length] == 0) {
-            maxPrice = [NSNumber numberWithInteger:-1];
             priceTextField.text = NOT_LIMIT;
             [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
         }
-        else {
-            self.maxPrice = [NSNumber numberWithInteger:[priceTextField.text integerValue]];
-            
-        }
         
+        [self updatePrice];
+        
+    }    
+    else if (self.keywordTextField == sender) {
+
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 
@@ -471,7 +528,8 @@
         self.expireDate = date;
         
     }
-    [self.view endEditing:YES];
+    //[self.view endEditing:YES];
+    
     [self updateRowIndex];
 }
 
@@ -556,20 +614,26 @@
     UserShopItemService* shopService = GlobalGetUserShopItemService();
     NSString* city = [GlobalGetLocationService() getDefaultCity];    
     NSString* categoryName = nil;
-    NSString* subCategoryName = nil;
     
     if (self.selectedCategory != nil)
         categoryName = self.selectedCategory;
-    
-    if (self.selectedSubCategories != nil && [self.selectedSubCategories count] > 0)
-    {
-        subCategoryName = [UserShopItemManager getSubCategoryNameWithArray:self.selectedSubCategories];
+    if (itemId == nil) {
+        [shopService addUserShoppingItem:city categoryName:categoryName subCategories:selectedSubCategories keywords:self.keywords maxPrice:maxPrice expireDate:expireDate rebate:nil viewController:self];
+    }else{
+        [shopService updateUserShoppingItem:itemId city:city categoryName:categoryName subCategories:self.selectedSubCategories keywords:self.keywords maxPrice:self.maxPrice expireDate:self.expireDate rebate:nil viewController:self];
     }
-
+        
     
-    [shopService addUserShoppingItem:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice expireDate:expireDate];
-    
-    [self.navigationController popViewControllerAnimated:YES];
+//    if (self.selectedSubCategories != nil && [self.selectedSubCategories count] > 0)
+//    {
+//        subCategoryName = [UserShopItemManager getSubCategoryNameWithArray:self.selectedSubCategories];
+//    }
+//
+//    
+//    
+//    [shopService addUserShoppingItem:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice expireDate:expireDate];
+//    
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

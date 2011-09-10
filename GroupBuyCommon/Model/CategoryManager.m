@@ -56,10 +56,10 @@ CategoryManager*    manager;
                       @"三星级",@"四星级",@"五星级",
                       @"七天",nil];
     
-	NSArray* luckyDraw = [NSArray arrayWithObjects:
-                          @"iPhone",@"iPad",@"小米手机",
-                          @"HTC",@"摩托罗拉",@"MacBook",
-                          nil];
+//	NSArray* luckyDraw = [NSArray arrayWithObjects:
+//                          @"iPhone",@"iPad",@"小米手机",
+//                          @"HTC",@"摩托罗拉",@"MacBook",
+//                          nil];
     
 	NSArray* sport = [NSArray arrayWithObjects:
                       @"健身",@"游泳",@"瑜伽",
@@ -126,6 +126,15 @@ CategoryManager*    manager;
 + (NSArray*)getSubCategoriesByCategory:(NSString*)category
 {
     return [[[CategoryManager getManager] subCateogriesDict] objectForKey:category];
+}
+
++ (NSString*)refineSubCategoryNames:(NSString*)categoryName subCategoryNames:(NSString*)subCategoryNames
+{
+    if ([categoryName isEqualToString:HOTEL]){
+        return [subCategoryNames stringByAppendingFormat:@" %@", categoryName];
+    }
+    
+    return subCategoryNames;
 }
 
 - (void)dealloc

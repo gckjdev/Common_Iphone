@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+typedef enum {
+    ShoppingItemCountNew = 0,    // shows glow when pressed
+    ShoppingItemCountLoading = 1,
+    ShoppingItemCountOld = 2
+} ShoppingItemCountStatus;
 
 @interface UserShoppingItem : NSManagedObject {
 @private
@@ -22,5 +27,6 @@
 @property (nonatomic, retain) NSDate * createDate;
 @property (nonatomic, retain) NSString * categoryName;
 @property (nonatomic, retain) NSString * city;
-
+@property (nonatomic, retain) NSNumber * matchCount;
+@property (nonatomic, retain) NSNumber * status;  
 @end

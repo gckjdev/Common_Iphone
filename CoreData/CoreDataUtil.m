@@ -214,7 +214,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 															 substitutionVariables:keyValues];
 	
     if (fq == nil){
-        NSLog(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
+        NSLog(@"<execute> execute fetch request (%@) fail, key values = %@, cannot create fetch request", [keyValues description], fetchRequestName);
         return nil;
     }
     

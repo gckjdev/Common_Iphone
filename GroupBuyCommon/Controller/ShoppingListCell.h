@@ -21,14 +21,14 @@
     UILabel *validPeriodLabel;
     UILabel *priceLabel;
     UIButton *editButton;
-    UILabel *boughtCountLabel;
+    UILabel *matchCountLabel;
     UIActivityIndicatorView *loadingIndicator;
 }
 @property (nonatomic, retain) IBOutlet UILabel *keyWordsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *validPeriodLabel;
 @property (nonatomic, retain) IBOutlet UILabel *priceLabel;
 @property (nonatomic, retain) IBOutlet UIButton *editButton;
-@property (nonatomic, retain) IBOutlet UILabel *boughtCountLabel;
+@property (nonatomic, retain) IBOutlet UILabel *matchCountLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
 + (ShoppingListCell*)createCell:(id)delegate;

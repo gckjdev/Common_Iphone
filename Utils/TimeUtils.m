@@ -9,7 +9,7 @@
 #import "TimeUtils.h"
 #define TIME_ZONE_GMT @"Asia/Shanghai"
 #define DATE_FORMAT @"yyyy-MM-dd"
-//#define DATE_FORMAT @"yyyy年MM月dd日"
+#define DATE_CHINESE_FORMAT @"yyyy年MM月dd日"
 
 // return YEAR, MONTH, DAY in NSDateComponents by given NSDate
 NSDateComponents *getDateComponents(NSDate *date)
@@ -67,6 +67,17 @@ NSString *dateToLocaleString(NSDate *date)
 //	return [dateFormatter stringFromDate:date];	
 //}
 
+NSString *dateToChineseString(NSDate *date)
+{
+    if(date == nil)
+        return nil;
+    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:TIME_ZONE_GMT];
+    [formatter setTimeZone:tzGMT];
+    [formatter setDateFormat:DATE_CHINESE_FORMAT];
+    NSString *period = [formatter stringFromDate:date];
+    return period;
+}
 
 NSString *dateToString(NSDate *date)
 {
@@ -85,8 +96,9 @@ NSString *dateToString(NSDate *date)
 // covert date to string by given format
 NSString *dateToStringByFormat(NSDate *date, NSString *format)
 {
+    if(date == nil)
+        return nil;
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	
 	[dateFormatter setDateFormat:format];
 	return [dateFormatter stringFromDate:date];	
 	
