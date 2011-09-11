@@ -187,10 +187,11 @@
                                             appId:(NSString*)appId
                                       startOffset:(int)startOffset
                                              city:(NSString*)city
+                                            category:(NSString *)category
 {
     return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0
                                     maxDistance:DEFAULT_MAX_DISTANCE
-                                      todayOnly:NO category:nil sortBy:SORT_BY_START_DATE startOffset:startOffset
+                                      todayOnly:NO category:category sortBy:SORT_BY_START_DATE startOffset:startOffset
                                        maxCount:DEFAULT_MAX_COUNT];
 }
 
@@ -200,6 +201,7 @@
                                            latitude:(double)latitude
                                           longitude:(double)longitude
                                         startOffset:(int)startOffset
+                                           category:(NSString *)category
 {
 //    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
 //    
@@ -234,7 +236,7 @@
     
     return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:YES 
                                       longitude:longitude  latitude:latitude  
-                                    maxDistance:DEFAULT_MAX_DISTANCE todayOnly:NO category:nil 
+                                    maxDistance:DEFAULT_MAX_DISTANCE todayOnly:NO category:category 
                                          sortBy:SORT_BY_START_DATE startOffset:startOffset
                                        maxCount:DEFAULT_MAX_COUNT];
 
@@ -285,8 +287,9 @@
                                             appId:(NSString *)appId
                                       startOffset:(int)startOffset
                                              city:(NSString *)city
-                                       startPrice:(int)startPrice
-                                         endPrice:(int)endPrice
+                                       startPrice:(NSNumber *)startPrice
+                                         endPrice:(NSNumber *)endPrice
+                                       category:(NSString *)category
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -300,8 +303,15 @@
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_CITY value:city];
         str = [str stringByAddQueryParameter:PARA_START_OFFSET intValue:startOffset];
-        str = [str stringByAddQueryParameter:PARA_START_PRICE intValue:startPrice];
-        str = [str stringByAddQueryParameter:PARA_END_PRICE intValue:endPrice];
+        if (nil != startPrice) {
+            str = [str stringByAddQueryParameter:PARA_START_PRICE intValue:[startPrice intValue]];
+        }
+        if (nil != endPrice) {
+            str = [str stringByAddQueryParameter:PARA_END_PRICE intValue:[endPrice intValue]];
+        }
+        if ([category length] > 0) {
+            str = [str stringByAddQueryParameter:PARA_CATEGORIES value:category];
+        }
         
         return str;
     };

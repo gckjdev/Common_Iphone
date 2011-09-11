@@ -57,12 +57,14 @@
                                                city:(NSString*)city
                                            latitude:(double)latitude
                                           longitude:(double)longitude
-                                        startOffset:(int)startOffset;
+                                        startOffset:(int)startOffset
+                                           category:(NSString *)category;
 
 + (CommonNetworkOutput*)findAllProductsWithStartDate:(NSString*)baseURL
                                                appId:(NSString*)appId
                                          startOffset:(int)startOffset
-                                                city:(NSString*)city;
+                                                city:(NSString*)city
+                                            category:(NSString *)category;
 
 + (CommonNetworkOutput*)findAllProductsGroupByCategory:(NSString*)baseURL
                                                  appId:(NSString*)appId
@@ -73,8 +75,9 @@
                                           appId:(NSString *)appId
                                     startOffset:(int)startOffset
                                            city:(NSString *)city
-                                     startPrice:(int)startPrice
-                                       endPrice:(int)endPrice;
+                                     startPrice:(NSNumber *)startPrice
+                                       endPrice:(NSNumber *)endPrice
+                                       category:(NSString *)category;
 
 + (CommonNetworkOutput*)registerUserDevice:(NSString*)baseURL
                                                  appId:(NSString*)appId
