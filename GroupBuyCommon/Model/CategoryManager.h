@@ -31,6 +31,6 @@
 
 // for NORMAL GROUPBUY category
 + (NSArray*)getAllGroupBuyCategories;
-+ (NSArray*)getGroupBuyCategoryIdByName:(NSString*)name;
++ (NSString*)getGroupBuyCategoryIdByName:(NSString*)name;
 
 @end

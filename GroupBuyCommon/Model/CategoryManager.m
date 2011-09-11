@@ -107,7 +107,7 @@ CategoryManager*    manager;
                               buy2, BUY2,                              
                               nil];
     
-    groupbuyCatories = [[NSArray alloc] initWithObjects:@"美食", @"娱乐", @"美容", @"网购", @"运动", @"生活", @"其他" nil];
+    groupbuyCatories = [[NSArray alloc] initWithObjects:@"美食", @"娱乐", @"美容", @"网购", @"运动", @"生活", @"其他", nil];
     
     groupbuyCatoriesDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                             @"1", @"美食", 
@@ -116,7 +116,7 @@ CategoryManager*    manager;
                             @"4", @"网购", 
                             @"5", @"运动", 
                             @"6", @"生活", 
-                            @"0", @"其他"                             
+                            @"0", @"其他",                             
                             nil];
     
 }
@@ -156,7 +156,7 @@ CategoryManager*    manager;
     return [[CategoryManager getManager] groupbuyCatories];
 }
 
-+ (NSArray*)getGroupBuyCategoryIdByName:(NSString*)name
++ (NSString*)getGroupBuyCategoryIdByName:(NSString*)name
 {
     return [[[CategoryManager getManager] groupbuyCatoriesDict] objectForKey:name];
 }
