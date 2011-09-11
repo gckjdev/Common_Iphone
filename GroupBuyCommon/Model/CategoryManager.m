@@ -25,6 +25,8 @@ CategoryManager*    manager;
 
 @synthesize categories;
 @synthesize subCateogriesDict;
+@synthesize groupbuyCatories;
+@synthesize groupbuyCatoriesDict;
 
 - (void)initData
 {
@@ -105,6 +107,18 @@ CategoryManager*    manager;
                               buy2, BUY2,                              
                               nil];
     
+    groupbuyCatories = [[NSArray alloc] initWithObjects:@"美食", @"娱乐", @"美容", @"网购", @"运动", @"生活", @"其他" nil];
+    
+    groupbuyCatoriesDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                            @"1", @"美食", 
+                            @"2", @"娱乐", 
+                            @"3", @"美容", 
+                            @"4", @"网购", 
+                            @"5", @"运动", 
+                            @"6", @"生活", 
+                            @"0", @"其他"                             
+                            nil];
+    
 }
 
 + (CategoryManager*)getManager
@@ -137,8 +151,21 @@ CategoryManager*    manager;
     return subCategoryNames;
 }
 
++ (NSArray*)getAllGroupBuyCategories
+{
+    return [[CategoryManager getManager] groupbuyCatories];
+}
+
++ (NSArray*)getGroupBuyCategoryIdByName:(NSString*)name
+{
+    return [[[CategoryManager getManager] groupbuyCatoriesDict] objectForKey:name];
+}
+
+
 - (void)dealloc
 {
+    [groupbuyCatories release];
+    [groupbuyCatoriesDict release];
     [subCateogriesDict release];
     [categories release];
     [super dealloc];
