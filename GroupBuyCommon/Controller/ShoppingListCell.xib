@@ -190,7 +190,7 @@
 								</object>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">button.png</string>
+									<string key="NSResourceName">button2.png</string>
 								</object>
 							</object>
 						</object>
@@ -492,7 +492,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">button.png</string>
+			<string key="NS.key.0">button2.png</string>
 			<string key="NS.object.0">{298, 48}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">300</string>
