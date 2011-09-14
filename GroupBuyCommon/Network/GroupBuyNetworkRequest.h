@@ -164,4 +164,19 @@
                                     startOffset:(int)startOffset
                                        maxCount:(int)maxCount;
 
++ (CommonNetworkOutput*)registerUserByEmail:(NSString*)baseURL
+                                      appId:(NSString*)appId
+                                      email:(NSString*)email
+                                   password:(NSString*)password;
+
++ (CommonNetworkOutput*)bindUserEmail:(NSString*)baseURL
+                                appId:(NSString*)appId
+                               userId:(NSString*)userId
+                                email:(NSString*)email
+                             password:(NSString*)password;
+
++ (CommonNetworkOutput*)loginUserByEmail:(NSString*)baseURL
+                                      appId:(NSString*)appId
+                                      email:(NSString*)email
+                                   password:(NSString*)password;
 @end

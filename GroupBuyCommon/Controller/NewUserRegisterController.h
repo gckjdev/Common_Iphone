@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPTableViewController.h"
 
+@interface NewUserRegisterController : PPTableViewController {
 
-@interface NewUserRegisterController : UIViewController {
-    
+    NSString    *email;
+    NSString    *password;
+    NSString    *confirmPassword;
 }
+
+@property (nonatomic, retain) NSString    *email;
+@property (nonatomic, retain) NSString    *password;
+@property (nonatomic, retain) NSString    *confirmPassword;
+
++ (NewUserRegisterController*)showController:(NSString*)defaultEmail password:(NSString*)defaultPassword superController:(UIViewController*)superController;
+
+- (IBAction)clickRegister:(id)sender;
 
 @end

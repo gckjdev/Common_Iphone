@@ -34,4 +34,4 @@
 @property (nonatomic, retain) NSArray *sortedProvince;
 @end
 
-extern CityPickerManager * GlobalCityPickerManager();
+extern CityPickerManager* GlobalCityPickerManager();

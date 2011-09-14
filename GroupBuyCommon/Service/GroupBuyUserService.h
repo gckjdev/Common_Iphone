@@ -12,6 +12,17 @@
 @interface UserService (GroupBuyUserService) 
 
 - (void)groupBuyCheckDevice;
+
 - (void)updateGroupBuyUserDeviceToken:(NSString*)deviceToken;
+
+- (void)registerUser:(NSString*)email 
+            password:(NSString*)password 
+      viewController:(PPViewController*)viewController;
+
+
+- (void)loginUserWithEmail:(NSString*)email 
+                  password:(NSString*)password 
+            viewController:(PPViewController*)viewController;
+
 
 @end

@@ -6,7 +6,11 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
+
 //#import "PPViewController.h"
+
+#import <UIKit/UIKit.h>
+#import "CityPickerManager.h"
 
 @protocol CityPickerDelegate <NSObject>
 
@@ -14,8 +18,6 @@
 
 @end
 
-#import <UIKit/UIKit.h>
-#import "CityPickerManager.h"
 
 @interface CityPickerViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>{
     UITableView *cityTableView;

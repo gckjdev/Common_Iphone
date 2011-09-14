@@ -14,46 +14,7 @@
 #import "LocaleUtils.h"
 
 
-@implementation CommonNetworkOutput
 
-@synthesize resultMessage, resultCode, jsonDataArray, jsonDataDict;
-
-- (void)resultFromJSON:(NSString*)jsonString
-{
-	// get code and message
-	NSDictionary* dict = [jsonString JSONValue];		
-	self.resultCode = [[dict objectForKey:@"ret"] intValue];				
-    //	self.resultMessage = [dict objectForKey:@"msg"];		
-}
-
-- (NSArray*)arrayFromJSON:(NSString*)jsonString
-{
-	// get array data from data object (if it's an array)
-	NSDictionary* dict = [jsonString JSONValue];
-	NSArray* retArray = [dict objectForKey:@"dat"];
-	
-	return retArray;
-}
-
-- (NSDictionary*)dictionaryDataFromJSON:(NSString*)jsonString
-{
-	// get array data from data object (if it's an array)
-	NSDictionary* dict = [jsonString JSONValue];
-	NSDictionary* retDict = [dict objectForKey:PARA_DATA];
-	
-	return retDict;
-}
-
-- (void)dealloc
-{
-	[resultMessage release];
-    [jsonDataArray release];
-    [jsonDataDict release];
-	[super dealloc];
-}
-
-
-@end
 
 
 @implementation GroupBuyNetworkRequest
@@ -890,5 +851,109 @@
     
 }
 
++ (CommonNetworkOutput*)registerUserByEmail:(NSString*)baseURL
+                                      appId:(NSString*)appId
+                                      email:(NSString*)email
+                                   password:(NSString*)password
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_REGISTEREMAIL];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_EMAIL value:email];
+        str = [str stringByAddQueryParameter:PARA_PASSWORD value:password];
+        
+        return str;
+    };
+    
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        output.jsonDataDict = [dict objectForKey:RET_DATA];                        
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+    
+}
+
++ (CommonNetworkOutput*)bindUserEmail:(NSString*)baseURL
+                                appId:(NSString*)appId
+                               userId:(NSString*)userId
+                                email:(NSString*)email
+                             password:(NSString*)password
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_BINDUSER];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        str = [str stringByAddQueryParameter:PARA_EMAIL value:email];
+        str = [str stringByAddQueryParameter:PARA_PASSWORD value:password];        
+        str = [str stringByAddQueryParameter:PARA_REGISTER_TYPE intValue:REGISTER_TYPE_EMAIL];
+        
+        return str;
+    };
+    
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        output.jsonDataDict = [dict objectForKey:RET_DATA];                
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+    
+}
+
++ (CommonNetworkOutput*)loginUserByEmail:(NSString*)baseURL
+                                   appId:(NSString*)appId
+                                   email:(NSString*)email
+                                password:(NSString*)password
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_LOGIN];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_EMAIL value:email];
+        str = [str stringByAddQueryParameter:PARA_PASSWORD value:password];
+        
+        return str;
+    };
+    
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        output.jsonDataDict = [dict objectForKey:RET_DATA];        
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
 
 @end
+

@@ -11,6 +11,47 @@
 #import "JSON.h"
 #import "PPNetworkConstants.h"
 
+@implementation CommonNetworkOutput
+
+@synthesize resultMessage, resultCode, jsonDataArray, jsonDataDict;
+
+- (void)resultFromJSON:(NSString*)jsonString
+{
+	// get code and message
+	NSDictionary* dict = [jsonString JSONValue];		
+	self.resultCode = [[dict objectForKey:@"ret"] intValue];				
+    //	self.resultMessage = [dict objectForKey:@"msg"];		
+}
+
+- (NSArray*)arrayFromJSON:(NSString*)jsonString
+{
+	// get array data from data object (if it's an array)
+	NSDictionary* dict = [jsonString JSONValue];
+	NSArray* retArray = [dict objectForKey:@"dat"];
+	
+	return retArray;
+}
+
+- (NSDictionary*)dictionaryDataFromJSON:(NSString*)jsonString
+{
+	// get array data from data object (if it's an array)
+	NSDictionary* dict = [jsonString JSONValue];
+	NSDictionary* retDict = [dict objectForKey:@"dat"];
+	
+	return retDict;
+}
+
+- (void)dealloc
+{
+	[resultMessage release];
+    [jsonDataArray release];
+    [jsonDataDict release];
+	[super dealloc];
+}
+
+
+@end
+
 @implementation PPNetworkRequest
 
 + (CommonNetworkOutput*)sendRequest:(NSString*)baseURL

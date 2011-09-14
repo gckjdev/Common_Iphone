@@ -6,7 +6,6 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-extern NSString* GlobalGetServerURL();
 
 #define SERVER_URL                  (GlobalGetServerURL())
 
@@ -38,6 +37,12 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_DELETEMESSAGE @"dmm"
 #define METHOD_GETMEPOST @"gmep"
 #define METHOD_UPDATEUSER @"uu"
+
+#define METHOD_REGISTEREMAIL @"re"
+#define METHOD_BINDUSER @"bu"
+
+
+
 #define METHOD_UPDATEPLACE @"up"
 #define METHOD_GETPLACE @"gtp"
 #define METHOD_GETPUBLICTIMELINE @"gpt"
@@ -66,6 +71,7 @@ extern NSString* GlobalGetServerURL();
 #define METHOD_GETITEMMATCHCOUNT @"csip"
 #define METHOD_FINDPRODUCTSBYSHOPPINGITEMID @"fpsi"
 
+#define METHOD_LOGIN @"lg"
 
 // request parameters
 
@@ -236,6 +242,13 @@ extern NSString* GlobalGetServerURL();
 #define PARA_SUB_CATEGORY_NAME @"scn"
 #define PARA_CATEGORY_ID @"ci"
 
+#define PARA_REGISTER_TYPE  @"rt"
+
+#define REGISTER_TYPE_EMAIL     1
+#define REGISTER_TYPE_SINA      2
+#define REGISTER_TYPE_QQ        3
+#define REGISTER_TYPE_RENREN    4
+
 
 #define SORT_BY_START_DATE 0
 #define SORT_BY_PRICE 1
@@ -244,6 +257,26 @@ extern NSString* GlobalGetServerURL();
 
 
 
-#define ERROR_DEVICE_NOT_BIND   20003
+#define ERROR_DEVICE_NOT_BIND           20003
 
+// User Errors
+#define ERROR_LOGINID_EXIST             20001
+#define ERROR_DEVICEID_BIND            	20002
+#define ERROR_DEVICE_NOT_BIND 			20003
+#define ERROR_LOGINID_DEVICE_BOTH_EXIST 20004 
+#define ERROR_USERID_NOT_FOUND          20005
+#define ERROR_CREATE_USER				20006
+#define ERROR_USER_GET_NICKNAME 		20007
+#define ERROR_EMAIL_EXIST				20008
+#define ERROR_EMAIL_VERIFIED			20009
+#define ERROR_PASSWORD_NOT_MATCH        20010
+#define ERROR_EMAIL_NOT_VALID        	20011
+#define ERROR_DEVICE_TOKEN_NULL         20012
+#define ERROR_USER_EMAIL_NOT_FOUND      20013
 
+#define ERROR_PARAMETER_PASSWORD_EMPTY 	10020
+#define ERROR_PARAMETER_PASSWORD_NULL 	10021
+#define ERROR_PARAMETER_EMAIL_NULL      10064
+#define ERROR_PARAMETER_EMAIL_EMPTY     10065
+
+extern NSString* GlobalGetServerURL();
