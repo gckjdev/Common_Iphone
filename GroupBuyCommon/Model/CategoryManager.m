@@ -107,14 +107,13 @@ CategoryManager*    manager;
                               buy2, BUY2,                              
                               nil];
     
-    groupbuyCatories = [[NSArray alloc] initWithObjects:@"美食", @"娱乐", @"美容", @"网购", @"运动", @"生活", @"其他", nil];
+    groupbuyCatories = [[NSArray alloc] initWithObjects:@"美食", @"娱乐", @"女人", @"网购", @"生活", @"其他", nil];
     
     groupbuyCatoriesDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                             @"1", @"美食", 
                             @"2", @"娱乐", 
-                            @"3", @"美容", 
-                            @"4", @"网购", 
-                            @"5", @"运动", 
+                            @"3", @"女人", 
+                            @"4", @"网购",                              
                             @"6", @"生活", 
                             @"0", @"其他",                             
                             nil];
