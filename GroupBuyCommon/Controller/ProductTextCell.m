@@ -171,9 +171,31 @@
 //    }
 }
 
+#define MIN_HEIGHT 70
+
 - (void) managedImageSet:(HJManagedImageV*)mi
 {
-    self.productDescLabel.text = @"";
+    CGRect textFrame = CGRectMake(7, 5, 205, 105);     // default , need to align with Cell.xib
+    CGRect imageFrame = textFrame;
+    if (mi.image.size.height < MIN_HEIGHT){    
+        CGRect frame = mi.frame;
+        frame.size.width = mi.image.size.width;
+        frame.size.height = mi.image.size.height;
+        imageView.imageView.frame = frame;
+        self.imageView.frame = frame;
+                
+        textFrame.size.height = textFrame.size.height - mi.frame.size.height;
+        textFrame.origin.y = mi.frame.origin.y + mi.frame.size.height + 3;
+        self.productDescLabel.frame = textFrame;
+        self.productDescLabel.numberOfLines = 2;
+    }
+    else{    
+        self.imageView.frame = imageFrame;
+        
+        self.productDescLabel.text = @"";
+        self.productDescLabel.frame = textFrame;
+        self.productDescLabel.numberOfLines = 6;    // need to align with cell xib
+    }
 }
 
 - (void) managedImageCancelled:(HJManagedImageV*)mi

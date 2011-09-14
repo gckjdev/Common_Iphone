@@ -50,8 +50,9 @@
 3）如果当前没有找到匹配的团购商品，系统会自动发现有满足您的团购新商品时，以消息推送的方式告知您。\n\n\
 注：消息推送请确认打开了应用程序的推送通知功能。\n\n\
 点击右上角的按钮，马上添加你感兴趣的团购项吧！";
-    
+        
     [super viewDidLoad];
+    [self clickRefresh:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated{

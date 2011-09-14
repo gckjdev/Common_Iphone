@@ -20,5 +20,6 @@
 @property (nonatomic, assign) int               tabIndex;
 
 - (void)updateTabBadge:(NSString*)value;
+-(void)clickRefresh:(id)sender;
 
 @end
