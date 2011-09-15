@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewController.h"
+#import "UITextTableViewCell.h"
 
-@interface NewUserRegisterController : PPTableViewController {
+@interface NewUserRegisterController : PPTableViewController <UITextTableViewCellDelegate> {
 
     NSString    *email;
     NSString    *password;

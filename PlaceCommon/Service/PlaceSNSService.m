@@ -52,13 +52,13 @@
     
     self.sinaRequest = [[SINAWeiboRequest alloc] initWithAppKey:self.sinaAppkey
                                                       appSecret:self.sinaAppSecret
-                                                    callbackURL:SINA_CALLBACK_URL
+                                                    callbackURL:nil
                                                      oauthToken:nil
                                                oauthTokenSecret:nil];
     
     self.qqRequest = [[QQWeiboRequest alloc] initWithAppKey:self.qqAppKey
                                                       appSecret:self.qqAppSecret
-                                                    callbackURL:QQ_CALLBACK_URL
+                                                    callbackURL:@"null"
                                                      oauthToken:nil
                                                oauthTokenSecret:nil];
     
@@ -254,7 +254,7 @@ AuthorizationSuccessHandler snsAuthorizeSuccess = ^(NSDictionary* userInfo, PPVi
             // success
             finalResult = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
-                successHandler(userInfo, displayViewController);
+                snsAuthorizeSuccess(userInfo, displayViewController);
             });            
             
         }

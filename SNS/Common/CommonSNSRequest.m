@@ -54,10 +54,18 @@
         NSLog(@"<getRequestTokenURL> fail to generate initial URL");        
         return nil;
     }
+
+    NSDictionary* dict = nil;
+    if (callbackURL == nil){
+        dict = nil;
+    }
+    else{
+        dict = [NSDictionary dictionaryWithObject:callbackURL forKey:@"oauth_callback"];
+    }
     
     NSString *queryString = [OAuthCore queryStringWithUrl:url
                                                    method:@"GET"
-                                               parameters:nil //[NSDictionary dictionaryWithObject:callbackURL forKey:@"oauth_callback"]
+                                               parameters:dict
                                               consumerKey:self.appKey  
                                            consumerSecret:self.appSecret
                                                     token:nil
