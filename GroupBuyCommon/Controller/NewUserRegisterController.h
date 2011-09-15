@@ -14,6 +14,10 @@
     NSString    *email;
     NSString    *password;
     NSString    *confirmPassword;
+    
+    UITextField *emailTextField;
+    UITextField *passwordTextField;
+    UITextField *confirmPasswordTextField;
 }
 
 @property (nonatomic, retain) NSString    *email;

@@ -48,6 +48,7 @@
 
 - (void)textChange:(UITextField *)textField atIndex:(NSIndexPath *)indexPath;
 - (void)textEditBegin:(UITextField *)textField atIndex:(NSIndexPath *)indexPath;
+- (void)textFieldDone:(UITextField *)textField atIndex:(NSIndexPath *)indexPath;
 
 @end
 

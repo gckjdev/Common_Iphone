@@ -8,6 +8,8 @@
 
 #import "CommonSNSRequest.h"
 #import "OAuthCore.h"
+#import "NetworkUtil.h"
+#import "StringUtil.h"
 
 @implementation CommonSNSRequest
 
@@ -55,7 +57,7 @@
     
     NSString *queryString = [OAuthCore queryStringWithUrl:url
                                                    method:@"GET"
-                                               parameters:[NSDictionary dictionaryWithObject:callbackURL forKey:@"oauth_callback"]
+                                               parameters:nil //[NSDictionary dictionaryWithObject:callbackURL forKey:@"oauth_callback"]
                                               consumerKey:self.appKey  
                                            consumerSecret:self.appSecret
                                                     token:nil
@@ -145,5 +147,7 @@
             [[userInfoCache objectForKey:SNS_OAUTH_TOKEN] length] > 0 &&
             [[userInfoCache objectForKey:SNS_OAUTH_TOKEN_SECRET] length] > 0);
 }
+
+
 
 @end

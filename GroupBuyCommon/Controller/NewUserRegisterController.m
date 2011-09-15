@@ -9,6 +9,8 @@
 #import "NewUserRegisterController.h"
 #import "UITextTableViewCell.h"
 #import "GroupBuyUserService.h"
+#import "GroupBuyUserService.h"
+#import "StringUtil.h"
 
 enum {
     ROW_EMAIL,
@@ -62,9 +64,17 @@ enum {
 
 - (void)viewDidLoad
 {
+    self.navigationItem.title = @"注册";
     [self setBackgroundImageName:@"background.png"];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [self performSelector:@selector(setKeyboardFocus) withObject:nil afterDelay:1.0];
+}
+
+- (void)setKeyboardFocus
+{
+    [emailTextField becomeFirstResponder];
 }
 
 - (void)viewDidUnload
@@ -117,38 +127,50 @@ enum {
 		else
 			cell.textLabel.textColor = [UIColor colorWithRed:0x3e/255.0 green:0x34/255.0 blue:0x53/255.0 alpha:1.0];
 		
-		cell.detailTextLabel.textColor = [UIColor colorWithRed:0x84/255.0 green:0x79/255.0 blue:0x94/255.0 alpha:1.0];			
+		cell.detailTextLabel.textColor = [UIColor colorWithRed:0x84/255.0 green:0x79/255.0 blue:0x94/255.0 alpha:1.0];			    
         
+        UITextField* textField = ((UITextTableViewCell*)cell).textField;    
+        ((UITextTableViewCell*)cell).delegate = self;
+        
+        textField.autocapitalizationType = UITextAutocapitalizationTypeNone;    
+        switch (indexPath.row) {
+            case ROW_EMAIL:
+            {
+                textField.placeholder = @"请输入电子邮件地址";
+                textField.text = email;
+                textField.secureTextEntry = NO;      
+                textField.keyboardType = UIKeyboardTypeEmailAddress;
+                emailTextField = textField;
+                [textField becomeFirstResponder];
+            }
+                break;
+                
+            case ROW_PASSWORD:
+            {
+                textField.placeholder = @"请输入密码";
+                textField.text = password;
+                textField.secureTextEntry = YES;
+                textField.keyboardType = UIKeyboardTypeDefault;
+                passwordTextField = textField;
+            }
+                break;
+                
+            case ROW_CONFIRM_PASSWORD:
+            {
+                textField.placeholder = @"请重新输入密码";
+                textField.secureTextEntry = YES;
+                textField.keyboardType = UIKeyboardTypeDefault;
+                confirmPasswordTextField = textField;
+            }
+                break;
+                
+            default:
+                break;
+        }
         
 	}
     
-    UITextField* textField = ((UITextTableViewCell*)cell).textField;
-    
-    textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    
-    switch (indexPath.row) {
-        case ROW_EMAIL:
-            textField.placeholder = @"请输入电子邮件地址";
-            textField.text = email;
-            textField.secureTextEntry = NO;
-            break;
-            
-        case ROW_PASSWORD:
-            textField.placeholder = @"请输入密码";
-            textField.text = password;
-            textField.secureTextEntry = YES;
-            break;
-
-        case ROW_CONFIRM_PASSWORD:
-            textField.placeholder = @"请重新输入密码";
-            textField.text = confirmPassword;
-            textField.secureTextEntry = YES;
-            break;
-        
-        default:
-            break;
-    }
-	
+    ((UITextTableViewCell*)cell).indexPath = indexPath;
 	return cell;
 	
 }
@@ -169,13 +191,28 @@ enum {
 
 - (BOOL)verifyField
 {
-//    if ([self.loginIdField.text length] <= 0){
-//        return NO;
-//    }
-//    
-//    if ([self.loginPasswordTextField.text length] <= 0){
-//        return NO;
-//    }
+    if ([emailTextField.text length] == 0){
+        [UIUtils alert:@"电子邮件地址不能为空"];
+        [emailTextField becomeFirstResponder];
+        return NO;
+    }
+    
+    if (NSStringIsValidEmail(emailTextField.text) == NO){
+        [UIUtils alert:@"输入的电子邮件地址不合法，请重新输入"];
+        [emailTextField becomeFirstResponder];
+        return NO;        
+    }
+    
+    if ([passwordTextField.text length] == 0){
+        [UIUtils alert:@"密码不能为空"];
+        return NO;
+    }
+
+    if ([confirmPasswordTextField.text isEqualToString:passwordTextField.text] == NO){
+        [UIUtils alert:@"密码和确认密码输入不一致，请确认重新输入"];
+        [passwordTextField becomeFirstResponder];
+        return NO;
+    }    
     
     return YES;
 }
@@ -186,7 +223,66 @@ enum {
         return;
     
     UserService* userService = GlobalGetUserService();
-    [userService registerUser:email password:password viewController:self];         
+    [userService registerUser:emailTextField.text password:passwordTextField.text viewController:self];         
+}
+
+- (void)textChange:(UITextField *)textField atIndex:(NSIndexPath *)indexPath
+{
+    switch (indexPath.row) {
+        case ROW_EMAIL:
+//            self.email = textField.text;
+            break;
+            
+        case ROW_PASSWORD:
+//            self.password = textField.text;
+            break;
+            
+        case ROW_CONFIRM_PASSWORD:
+//            self.confirmPassword = textField.text;
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)textEditBegin:(UITextField *)textField atIndex:(NSIndexPath *)indexPath
+{
+    switch (indexPath.row) {
+        case ROW_EMAIL:
+            break;
+            
+        case ROW_PASSWORD:
+            break;
+            
+        case ROW_CONFIRM_PASSWORD:
+            break;
+            
+        default:
+            break;
+    }       
+   
+}
+
+- (void)textFieldDone:(UITextField *)textField atIndex:(NSIndexPath *)indexPath
+{
+    switch (indexPath.row) {
+        case ROW_EMAIL:
+            [passwordTextField becomeFirstResponder];
+            break;
+            
+        case ROW_PASSWORD:
+            [confirmPasswordTextField becomeFirstResponder];
+            break;
+            
+        case ROW_CONFIRM_PASSWORD:
+            [emailTextField becomeFirstResponder];
+            break;
+            
+        default:
+            break;
+    } 
+    
 }
 
 @end

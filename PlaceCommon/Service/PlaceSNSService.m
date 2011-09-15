@@ -10,6 +10,8 @@
 #import "PPViewController.h"
 #import "UserService.h"
 #import "VariableConstants.h"
+#import "NetworkUtil.h"
+#import "StringUtil.h"
 
 #define SINA_APP_KEY                    @"1528146353"
 #define SINA_APP_SECRET                 @"4815b7938e960380395e6ac1fe645a5c"
@@ -179,7 +181,7 @@
     
     [viewController showActivityWithText:NSLS(@"kInitiateAuthorization")];
     dispatch_async(workingQueue, ^{        
-        BOOL result = [self loginForAuthorization:snsRequest];
+        BOOL result = [self loginForAuthorization:snsRequest viewController:viewController];
         dispatch_async(dispatch_get_main_queue(), ^{
             [viewController hideActivity];
             if (result == NO){
@@ -234,5 +236,40 @@ AuthorizationSuccessHandler snsAuthorizeSuccess = ^(NSDictionary* userInfo, PPVi
     }
     
 }
+
+- (void)finishParsePin:(int)pinResult pin:(NSString*)pin snsRequest:(CommonSNSRequest *)snsRequest
+{
+    [displayViewController showActivityWithText:NSLS(@"kCheckAuthorizationResponse")];
+    dispatch_async(workingQueue, ^{                
+        BOOL finalResult = YES;
+        // parse authorization response
+        BOOL result = [self parsePin:pinResult pin:pin snsRequest:snsRequest];
+        if (result == NO)
+            finalResult = NO;
+        
+        // get user info
+        NSDictionary* userInfo = [self getUserInfo:snsRequest];
+        if (userInfo != nil){            
+            
+            // success
+            finalResult = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                successHandler(userInfo, displayViewController);
+            });            
+            
+        }
+        else{
+            finalResult = NO;
+        }                
+        
+        if (finalResult == NO){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [displayViewController hideActivity]; 
+                [UIUtils alert:NSLS(@"kAuthorizationFailure")];
+            });            
+        }                
+    });    
+}
+
 
 @end
