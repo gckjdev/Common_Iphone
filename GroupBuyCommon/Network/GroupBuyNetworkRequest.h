@@ -179,4 +179,37 @@
                                       appId:(NSString*)appId
                                       email:(NSString*)email
                                    password:(NSString*)password;
+
++ (CommonNetworkOutput*)registerUserBySNS:(NSString*)baseURL
+                                    snsId:(NSString*)snsId
+                             registerType:(int)registerType                                      
+                                    appId:(NSString*)appId
+                              deviceToken:(NSString*)deviceToken
+                                 nickName:(NSString*)nickName
+                                   avatar:(NSString*)avatar
+                              accessToken:(NSString*)accessToken
+                        accessTokenSecret:(NSString*)accessTokenSecret
+                                 province:(int)province
+                                     city:(int)city
+                                 location:(NSString*)location
+                                   gender:(NSString*)gender
+                                 birthday:(NSString*)birthday
+                                   domain:(NSString*)domain;
+
++ (CommonNetworkOutput*)bindUserBySNS:(NSString*)baseURL
+                               userId:(NSString*)userId
+                                snsId:(NSString*)snsId
+                         registerType:(int)registerType                                      
+                                appId:(NSString*)appId
+                             nickName:(NSString*)nickName
+                               avatar:(NSString*)avatar
+                          accessToken:(NSString*)accessToken
+                    accessTokenSecret:(NSString*)accessTokenSecret
+                             province:(int)province
+                                 city:(int)city
+                             location:(NSString*)location
+                               gender:(NSString*)gender
+                             birthday:(NSString*)birthday
+                               domain:(NSString*)domain;
+
 @end

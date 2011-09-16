@@ -25,4 +25,7 @@
             viewController:(PPViewController*)viewController;
 
 
+- (void)groupBuyRegisterUserWithSNSUserInfo:(NSDictionary*)userInfo 
+                             viewController:(PPViewController*)viewController;
+
 @end

@@ -57,7 +57,7 @@
         webViewController.url = url;
         webViewController.delegate = self;
         webViewController.snsRequest = snsRequest;
-        [viewController presentModalViewController:webViewController animated:YES];
+        [viewController.navigationController pushViewController:webViewController animated:YES];
         [webViewController release];
     });    
     

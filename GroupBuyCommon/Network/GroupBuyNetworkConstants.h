@@ -71,6 +71,8 @@
 #define METHOD_GETITEMMATCHCOUNT @"csip"
 #define METHOD_FINDPRODUCTSBYSHOPPINGITEMID @"fpsi"
 
+#define METHOD_REGISTERSNS @"rs"
+
 #define METHOD_LOGIN @"lg"
 
 // request parameters
@@ -126,6 +128,10 @@
 #define PARA_QQ_NICKNAME                @"qn"
 #define PARA_QQ_DOMAIN                  @"qd"
 #define PARA_GPS                        @"gps"
+
+#define PARA_DOMAIN                     @"d"
+#define PARA_SNS_ID                     @"sid"
+
 
 #define PARA_RADIUS @"ra"
 #define PARA_POSTTYPE @"pt"

@@ -69,37 +69,26 @@
 - (NSString *) locateAuthPinInWebView: (UIWebView *) webViewVal {
     
     
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[0-9]{6}" 
+                                                                           options:0 
+                                                                             error:NULL];
     
+    NSString *html = [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerText"];    
+    NSLog(@"html : %@", html);
+    if (html == nil)
+        return nil;
+
+    NSTextCheckingResult *match = [regex firstMatchInString:html 
+                                                    options:0 
+                                                      range:NSMakeRange(0, [html length])];
     
+//    NSRange range = [match rangeAtIndex:1];
+    if (match == nil)
+        return nil;
     
-    NSString *html = [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerText"];
-    
-    NSLog(@"html:%@", [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerText"]);
-    
-    NSArray       *arr  = [html componentsSeparatedByString:@"获取到的授权码："];
-    
-    if ([arr count] > 1) {
-        
-        NSArray       *_arr = [[arr objectAtIndex:1] componentsSeparatedByString:@"Copyright"];
-        
-        NSString *pin = [[_arr objectAtIndex:0] stringByReplacingOccurrencesOfString:@" " withString:@""];
-        
-        pin = [pin stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-        
-        NSLog(@"pin:%@",pin);
-        
-        if (pin.length > 0) return pin;
-        
-    }
-    
-    
-    
-    if (html.length == 0) return nil;
-    
-    
-    
-    return nil;
-    
+    NSString* pin = [html substringWithRange:match.range];
+    NSLog(@"pin : %@", pin);
+    return pin;
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

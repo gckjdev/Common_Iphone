@@ -254,6 +254,7 @@ AuthorizationSuccessHandler snsAuthorizeSuccess = ^(NSDictionary* userInfo, PPVi
             // success
             finalResult = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
+                [displayViewController.navigationController popViewControllerAnimated:YES];
                 snsAuthorizeSuccess(userInfo, displayViewController);
             });            
             
