@@ -13,6 +13,7 @@
 
 @synthesize indexPath;
 @synthesize delegate;
+@synthesize tableViewController;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -33,6 +34,7 @@
 - (void)dealloc
 {
     [indexPath release];
+    [tableViewController release];
     [super dealloc];
 }
 

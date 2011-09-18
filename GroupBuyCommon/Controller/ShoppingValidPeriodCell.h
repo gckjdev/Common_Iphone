@@ -24,9 +24,11 @@
 
     UISegmentedControl *periodSegmented;
     UIButton *validPeriod;
+    NSDate *expireDate;
 }
 @property (nonatomic, retain) IBOutlet UISegmentedControl *periodSegmented;
 @property (nonatomic, retain) IBOutlet UIButton *validPeriod;
+@property (nonatomic, retain) NSDate *exipireDate;
 
 + (ShoppingValidPeriodCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
@@ -40,4 +42,11 @@
 + (NSDate *)calculateValidPeriodWithSegmentIndex:(NSInteger) index;
 
 - (NSInteger)segmentIndexForDate:(NSDate *)date;
+
+- (IBAction)didSelectPeriod:(id)sender;
+
+- (void)setAndCalculateExpireDate:(NSDate *)date;
+
+- (NSDate *)getExpireDate;
+
 @end

@@ -22,6 +22,17 @@
                   maxPrice:(NSNumber*)maxPrice 
                 expireDate:(NSDate*)expireDate;
 
++ (BOOL)createShoppingItem:(NSString*)itemId 
+                      city:(NSString*)city 
+              categoryName:(NSString*)categoryName                        
+           subCategoryName:(NSString*)subCategoryName 
+                  keywords:(NSString*)keywords
+                  maxPrice:(NSNumber*)maxPrice 
+                expireDate:(NSDate*)expireDate 
+                  latitude:(NSNumber*)latitude 
+                 longitude:(NSNumber*)longitude 
+                    radius:(NSNumber*)radius;
+
 + (UserShoppingItem *)getShoppingItemById:(NSString *)itemId;
 
 + (NSString *)getSubCategoryNameWithArray:(NSArray *)categoryArray;

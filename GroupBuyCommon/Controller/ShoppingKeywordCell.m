@@ -11,12 +11,13 @@
 
 @implementation ShoppingKeywordCell
 @synthesize keywordTextField;
-
+@synthesize keywordCellDelegate;
 
 
 
 - (void)dealloc {
     [keywordTextField release];
+    [keywordCellDelegate release];
     [super dealloc];
 }
 
@@ -34,11 +35,7 @@
     
     ShoppingKeywordCell* cell = (ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0]; 
     cell.delegate = delegate;
-   // [cell.keywordTextField setDelegate:cell];
     return cell;
-    //((ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
-    
-    //return (ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0];
 }
 
 
@@ -47,9 +44,30 @@
     return @"ShoppingKeywordCell";
 }
 
+- (IBAction)textFieldDidBeginEditing:(id)sender {
+    if ([self.keywordCellDelegate respondsToSelector:@selector(textFieldDidBeginEditing:)]) {
+        [self.keywordCellDelegate textFieldDidBeginEditing:sender];
+    }
+}
+
+- (IBAction)textFieldDidEndEditing:(id)sender {
+    if ([self.keywordCellDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
+        [self.keywordCellDelegate textFieldDidEndEditing:sender];
+    }
+}
+
 + (CGFloat)getCellHeight
 {
     return 70.0f;
 }
 
+- (void)setkeyword:(NSString *)keyword
+{
+    self.keywordTextField.text = keyword;
+}
+
+- (NSString *)getKeywords
+{
+    return self.keywordTextField.text;
+}
 @end

@@ -7,19 +7,20 @@
 //
 
 #import "SliderCell.h"
-
+#import "AddShoppingItemController.h"
 NSArray* priceArray;
 
 @implementation SliderCell
 @synthesize priceSegment;
 @synthesize priceTextField;
-
+@synthesize priceCellDelegate;
 #define NOT_LIMIT @"不限"
 
 - (void)dealloc {
 
     [priceTextField release];
     [priceSegment release];
+    [priceCellDelegate release];
     [super dealloc];
 }
 
@@ -34,7 +35,7 @@ NSArray* priceArray;
         return nil;
     }
     
-    SliderCell *cell = [topLevelObjects objectAtIndex:0];
+    SliderCell *cell = (SliderCell *)[topLevelObjects objectAtIndex:0];
     cell.delegate = delegate;
     
     cell.priceTextField.text = NOT_LIMIT;
@@ -71,6 +72,75 @@ NSArray* priceArray;
         }
     }
     return UISegmentedControlNoSegment;
+}
+
+
+- (void)setPrice:(NSNumber *)price
+{
+    if (price == nil || [price intValue] < 0) {
+        self.priceTextField.text = NOT_LIMIT;
+        [self.priceSegment setSelected:PRICE_UNLIMIT_INDEX];
+    }else
+    {
+        [self.priceSegment setSelectedSegmentIndex:[self segmentIndexForPrice:price]];
+        self.priceTextField.text = [price stringValue];
+    }
+}
+
+- (void) setPrice:(NSNumber *)price segmentIndex:(NSInteger)index
+{
+    if (price == nil || [price intValue] < 0) {
+        self.priceTextField.text = NOT_LIMIT;
+    }else{
+        self.priceTextField.text = [price stringValue];
+    }
+    
+    [self.priceSegment setSelectedSegmentIndex:index];
+}
+
+- (NSNumber *)getPrice
+{
+    NSNumber *price = nil;
+    if (self.priceTextField.text != nil) {
+        price = [NSNumber numberWithInt:[self.priceTextField.text intValue]];
+    }
+    return price;
+}
+
+
+- (IBAction)selectSegment:(id)sender {
+    if (sender == self.priceSegment) {
+        NSInteger index = self.priceSegment.selectedSegmentIndex;
+        
+        if (index == UISegmentedControlNoSegment) {
+            return;
+        }
+        
+        NSString *value = [self.priceSegment titleForSegmentAtIndex:index];
+        NSNumber *price = nil;
+        
+        if (![value isEqualToString:NOT_LIMIT]) {
+            price = [NSNumber numberWithInt:[value intValue]];
+        }
+        
+        [self setPrice:price segmentIndex:index];
+    } 
+    
+}
+- (IBAction)textFieldDidBeginEditing:(id)sender {
+    [self.priceSegment setSelectedSegmentIndex:UISegmentedControlNoSegment];
+    if ([self.priceCellDelegate respondsToSelector:@selector(textFieldDidBeginEditing:)]) {
+        [self.priceCellDelegate textFieldDidBeginEditing:sender];
+    }
+}
+
+- (IBAction)textFieldDidEndEditing:(id)sender {
+    NSNumber *price = [self getPrice];
+    [self.priceSegment setSelectedSegmentIndex:[self segmentIndexForPrice:price]];
+    
+    if ([self.priceCellDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
+        [self.priceCellDelegate textFieldDidEndEditing:sender];
+    }
 }
 
 

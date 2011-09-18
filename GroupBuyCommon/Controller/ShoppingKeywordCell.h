@@ -9,12 +9,29 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
 
+@protocol KeywordCellDelegate <NSObject>
+
+@required
+- (void)textFieldDidBeginEditing:(id)sender;
+- (void)textFieldDidEndEditing:(id)sender;
+
+@end
+
+
 @interface ShoppingKeywordCell : PPTableViewCell {
 
     UITextField *keywordTextField;
+    id<KeywordCellDelegate> keywordCellDelegate;
 }
 @property (nonatomic, retain) IBOutlet UITextField *keywordTextField;
-
+@property (nonatomic, retain) id<KeywordCellDelegate> keywordCellDelegate;
 + (ShoppingKeywordCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
+
+- (IBAction)textFieldDidBeginEditing:(id)sender;
+- (IBAction)textFieldDidEndEditing:(id)sender;
+
+- (void)setkeyword:(NSString *)keyword;
+- (NSString *)getKeywords;
+
 @end

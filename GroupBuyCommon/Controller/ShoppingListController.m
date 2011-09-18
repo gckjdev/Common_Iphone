@@ -18,12 +18,15 @@
 #import "CommonProductListController.h"
 #import "ProductPriceDataLoader.h"
 #import "groupbuyAppDelegate.h"
+#import "NetworkRequestResultCode.h"
+
 
 @implementation ShoppingListController
 
 @synthesize helpLabel;
 @synthesize tabIndex;
-
+@synthesize addShoppingItemController;
+@synthesize service;
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -37,7 +40,8 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    
+    self.service = GlobalGetUserShopItemService();
+    [self.service setUserShopItemServiceDelegate:self];
     [self setNavigationLeftButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(clickRefresh:)];
     [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemAdd action:@selector(clickAdd:)];
 
@@ -99,6 +103,7 @@
 
 - (void)dealloc {
     [helpLabel release];
+    [addShoppingItemController release];
     [super dealloc];
 }
 
@@ -264,8 +269,8 @@
     if (section == 0 && row <[self.dataList count]) {
         UserShoppingItem *item = [dataList objectAtIndex:row];
         
-        UserShopItemService *service = GlobalGetUserShopItemService();
-        [service deleteUserShoppingItem:item.itemId viewController:self indexPath:indexPath];
+        //UserShopItemService *service = GlobalGetUserShopItemService();
+        [self.service deleteUserShoppingItem:item.itemId viewController:self indexPath:indexPath];
         
     }
     
@@ -276,29 +281,79 @@
 
 - (void)clickAdd:(id)sender {
     
-    AddShoppingItemController* vc = [[AddShoppingItemController alloc] init];
-    vc.shoppingListTableViewController = self;
-    vc.navigationItem.title = @"添加感兴趣的团购";
-    [self.navigationController pushViewController:vc animated:YES];
-    
-    [vc release];
+    if (self.addShoppingItemController == nil) {
+        self.addShoppingItemController = [[AddShoppingItemController alloc]init];
+    }
+    self.addShoppingItemController.navigationItem.title = @"添加感兴趣的团购";
+    [self.navigationController pushViewController:self.addShoppingItemController animated:YES];
 }
 
 - (void)clickEdit:(id)sender atIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.row >= [dataList count])
         return;
     UserShoppingItem *item = [dataList objectAtIndex:indexPath.row];
-    AddShoppingItemController* vc = [[AddShoppingItemController alloc] initWithUserShoppingItem:item];
-    vc.navigationItem.title = @"编辑团购项";
-    vc.shoppingListTableViewController =self;
-    [self.navigationController pushViewController:vc animated:YES];
-    [vc release];
+    
+    if (self.addShoppingItemController == nil) {
+        self.addShoppingItemController = [[AddShoppingItemController alloc]initWithUserShoppingItem:item];
+    }
+    self.addShoppingItemController.navigationItem.title = @"编辑团购项";
+    [self.navigationController pushViewController:self.addShoppingItemController animated:YES];
 }
 
 
 -(void)clickRefresh:(id)sender
 {
-    UserShopItemService *service = GlobalGetUserShopItemService();
-    [service updateUserShoppingItemCountList:self];
+    //UserShopItemService *service = GlobalGetUserShopItemService();
+    [self.service updateUserShoppingItemCountList:self];
 }
+
+#pragma delegate
+
+
+- (void)didBeginUpdateShoppingItem:(NSString *)message
+{
+    [self.addShoppingItemController showActivityWithText:message];
+}
+
+- (void)didEndUpdateShoppingItemWithResultCode:(NSInteger)code
+{
+    [self hideActivity];
+    if (code == ERROR_SUCCESS) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else if (code == ERROR_NETWORK){
+        [self.addShoppingItemController popupUnhappyMessage:NSLS(@"kSystemFailure") title:nil];
+    }else{
+        [self.addShoppingItemController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
+    }
+}
+
+- (void)didBeginLoadMatchCount:(NSArray *)itemIds
+{
+    for(NSString *itemId in itemIds){
+        [UserShopItemManager updateItemMatchCountStatus:ShoppingItemCountLoading itemId:itemId];
+    }
+}
+- (void)didLoadMatchCountSuccess:(NSString *)itemId matchCount:(NSNumber *)count
+{
+    [UserShopItemManager updateItemMatchCount:count itemId:itemId];
+    self.dataList = [UserShopItemManager getAllLocalShoppingItems];
+    [self.dataTableView reloadData];
+
+}
+- (void)didLoadMatchCountFailed:(NSArray *)itemIds errorCode:(NSInteger)code
+{
+    if (code == ERROR_NETWORK){
+        [self.addShoppingItemController popupUnhappyMessage:NSLS(@"kSystemFailure") title:nil];
+    }else{
+        [self.addShoppingItemController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
+    }
+}
+
+- (void)refreshShoppingList
+{
+    self.dataList = [UserShopItemManager getAllLocalShoppingItems];
+    [self.dataTableView reloadData];
+    
+}
+
 @end

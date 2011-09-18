@@ -43,6 +43,40 @@
 }
 
 
++ (BOOL)createShoppingItem:(NSString*)itemId 
+                      city:(NSString*)city 
+              categoryName:(NSString*)categoryName                        
+           subCategoryName:(NSString*)subCategoryName 
+                  keywords:(NSString*)keywords
+                  maxPrice:(NSNumber*)maxPrice 
+                expireDate:(NSDate*)expireDate 
+                  latitude:(NSNumber*)latitude 
+                 longitude:(NSNumber*)longitude 
+                    radius:(NSNumber*)radius
+{
+    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+    
+    UserShoppingItem *shoppingItem = [UserShopItemManager getShoppingItemById:itemId];
+    if (shoppingItem == nil) {
+        shoppingItem = [dataManager insert:@"UserShoppingItem"];
+    }
+    shoppingItem.status = [NSNumber numberWithInt: ShoppingItemCountOld];
+    shoppingItem.matchCount = [NSNumber numberWithInt:0];
+    shoppingItem.itemId = itemId;
+    shoppingItem.city = city;
+    shoppingItem.categoryName = categoryName;
+    shoppingItem.subCategoryName = subCategoryName;
+    shoppingItem.keywords = keywords;
+    shoppingItem.maxPrice = maxPrice;
+    shoppingItem.expireDate = expireDate;
+    shoppingItem.createDate = [NSDate date];  
+    shoppingItem.latitude = latitude;
+    shoppingItem.longitude = longitude;
+    shoppingItem.radius = radius;
+    
+    return [dataManager save];
+}
+
 + (UserShoppingItem *)getShoppingItemById:(NSString *)itemId
 {
     if (itemId == nil) {
@@ -92,17 +126,16 @@
 
 + (void)updateItemMatchCount:(NSNumber *)count itemId:(NSString *)itemId
 {
-
-    if (count == nil) {
-        return;
-    }
     CoreDataManager *dataManager = GlobalGetCoreDataManager();
     UserShoppingItem *item = [UserShopItemManager getShoppingItemById:itemId];
     if (item != nil) {
         
         item.status = [NSNumber numberWithInt: ShoppingItemCountOld];
         
-        if ([item.matchCount intValue]!= [count intValue]) {
+        if (count == nil) {
+            item.status = [NSNumber numberWithInt:ShoppingItemCountOld];
+            count = [NSNumber numberWithInt:0];
+        }else if ([item.matchCount intValue]!= [count intValue]) {
             item.status = [NSNumber numberWithInt: ShoppingItemCountNew];
         }
         
