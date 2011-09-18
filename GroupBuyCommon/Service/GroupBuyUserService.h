@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "UserService.h"
 
+@protocol GroupBuyUserServiceDelegate <NSObject>
+
+@optional
+
+- (void)actionDone:(int)result;
+
+@end
+
 @interface UserService (GroupBuyUserService) 
 
 - (void)groupBuyCheckDevice;
@@ -22,10 +30,10 @@
 
 - (void)loginUserWithEmail:(NSString*)email 
                   password:(NSString*)password 
-            viewController:(PPViewController*)viewController;
+            viewController:(PPViewController<GroupBuyUserServiceDelegate>*)viewController;
 
 
 - (void)groupBuyRegisterUserWithSNSUserInfo:(NSDictionary*)userInfo 
-                             viewController:(PPViewController*)viewController;
+                             viewController:(PPViewController<GroupBuyUserServiceDelegate>*)viewController;
 
 @end

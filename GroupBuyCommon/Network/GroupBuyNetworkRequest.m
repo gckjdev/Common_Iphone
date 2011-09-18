@@ -637,6 +637,7 @@
                                   output:output];
 }
 
+
 + (CommonNetworkOutput*)addUserShoppingItem:(NSString*)baseURL
                                       appId:(NSString*)appId
                                      userId:(NSString*)userId
@@ -646,7 +647,10 @@
                             subCategoryName:(NSString*)subCategoryName
                                    keywords:(NSString*)keywords
                                  expireDate:(NSString *)expireDate
-                                   maxPrice:(NSNumber*)maxPrice
+                                   maxPrice:(NSNumber*)maxPrice 
+                                   latitude:(NSNumber *)latitude 
+                                  longitude:(NSNumber *)longitude 
+                                     radius:(NSNumber *)radius
                                   minRebate:(NSNumber*)minRebate
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
@@ -660,11 +664,11 @@
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_USERID value:userId];
         str = [str stringByAddQueryParameter:PARA_ITEMID value:itemId];
-
+        
         if (city){
             str = [str stringByAddQueryParameter:PARA_CITY value:city];
         }
-
+        
         if (categoryName){
             str = [str stringByAddQueryParameter:PARA_CATEGORY_NAME value:categoryName];            
         }
@@ -684,11 +688,26 @@
         if (maxPrice){
             str = [str stringByAddQueryParameter:PARA_PRICE doubleValue:[maxPrice doubleValue]];
         }
-
+        
+        if (latitude) {
+            
+            str = [str stringByAddQueryParameter:PARA_LATITUDE doubleValue:[latitude doubleValue]];
+        }
+        
+        if (longitude) {
+            
+            str = [str stringByAddQueryParameter:PARA_LONGTITUDE doubleValue:[longitude doubleValue]];
+        }
+        
+        if (radius) {
+            
+            str = [str stringByAddQueryParameter:PARA_RADIUS doubleValue:[radius doubleValue]];
+        }
+        
         if (minRebate){
             str = [str stringByAddQueryParameter:PARA_REBATE doubleValue:[minRebate doubleValue]];
         }
-
+        
         return str;
     };
     
@@ -700,9 +719,9 @@
                      constructURLHandler:constructURLHandler
                          responseHandler:responseHandler
                                   output:output];
-    
-    
+
 }
+
 
 + (CommonNetworkOutput*)updateUserShoppingItem:(NSString*)baseURL
                                          appId:(NSString*)appId
@@ -712,9 +731,12 @@
                                   categoryName:(NSString*)categoryName
                                subCategoryName:(NSString*)subCategoryName
                                       keywords:(NSString*)keywords
-                                    expireDate:(NSString*)expireDate
+                                    expireDate:(NSString *)expireDate
                                       maxPrice:(NSNumber*)maxPrice
-                                     minRebate:(NSNumber*)minRebate;
+                                      latitude:(NSNumber *)latitude 
+                                     longitude:(NSNumber *)longitude 
+                                        radius:(NSNumber *)radius
+                                     minRebate:(NSNumber*)minRebate
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -748,14 +770,29 @@
             str = [str stringByAddQueryParameter:PARA_PRICE doubleValue:[maxPrice doubleValue]];
         }
         
+        if (latitude) {
+            
+            str = [str stringByAddQueryParameter:PARA_LATITUDE doubleValue:[latitude doubleValue]];
+        }
+        
+        if (longitude) {
+            
+            str = [str stringByAddQueryParameter:PARA_LONGTITUDE doubleValue:[longitude doubleValue]];
+        }
+        
+        if (radius) {
+            
+            str = [str stringByAddQueryParameter:PARA_RADIUS doubleValue:[radius doubleValue]];
+        }
+        
         if (minRebate){
             str = [str stringByAddQueryParameter:PARA_REBATE doubleValue:[minRebate doubleValue]];
         }
-
+        
         if (city){
             str = [str stringByAddQueryParameter:PARA_CITY value:city];
         }
-
+        
         
         return str;
     };
@@ -768,7 +805,6 @@
                      constructURLHandler:constructURLHandler
                          responseHandler:responseHandler
                                   output:output];
-    
 }
 
 + (CommonNetworkOutput*)deleteUserShoppingItem:(NSString*)baseURL

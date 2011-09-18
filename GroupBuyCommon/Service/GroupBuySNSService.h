@@ -13,7 +13,7 @@
 
 @class PPViewController;
 
-typedef void (^AuthorizationSuccessHandler)(NSDictionary*, PPViewController*);
+
 
 @interface GroupBuySNSService : SNSServiceHandler {
     
@@ -56,4 +56,4 @@ typedef void (^AuthorizationSuccessHandler)(NSDictionary*, PPViewController*);
 
 @end
 
-extern GroupBuySNSService*   GlobalGetSNSService();
+extern GroupBuySNSService*   GlobalGetGroupBuySNSService();

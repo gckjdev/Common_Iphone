@@ -22,4 +22,8 @@
 @dynamic city;
 @dynamic matchCount;
 @dynamic status;
+@dynamic latitude;
+@dynamic longitude;
+@dynamic radius;
+
 @end

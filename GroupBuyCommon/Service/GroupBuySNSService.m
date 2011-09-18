@@ -20,6 +20,8 @@
 #define QQ_APP_KEY                      @"7c78d5b42d514af8bb66f0200bc7c0fc"
 #define QQ_APP_SECRET                   @"6340ae28094e66d5388b4eb127a2af43"
 
+typedef void (^AuthorizationSuccessHandler)(NSDictionary*, PPViewController*);
+
 @implementation GroupBuySNSService
 
 @synthesize sinaRequest;

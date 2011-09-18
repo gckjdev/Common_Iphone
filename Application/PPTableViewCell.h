@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class PPTableViewController;
 
 @interface PPTableViewCell : UITableViewCell {
     NSIndexPath *indexPath;    
     id delegate;
+    PPTableViewController *tableViewController;
+    
 }
 
 + (PPTableViewCell*)createCell:(id)delegate;
@@ -20,5 +23,6 @@
 
 @property (nonatomic, assign) id delegate;
 @property (nonatomic, retain) NSIndexPath *indexPath;
+@property (nonatomic, retain) PPTableViewController *tableViewController;
 
 @end

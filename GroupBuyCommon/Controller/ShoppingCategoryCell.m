@@ -7,16 +7,18 @@
 //
 
 #import "ShoppingCategoryCell.h"
-
+#import "CategoryManager.h"
 
 @implementation ShoppingCategoryCell
 
 @synthesize selectCategoryLabel;
 @synthesize labelsArray;
+@synthesize selectedCategory;
 
 - (void)dealloc {
     [labelsArray release];
     [selectCategoryLabel release];
+    [selectedCategory release];
     [super dealloc];
 }
 
@@ -32,10 +34,11 @@
         NSLog(@"create <ShoppingCategoryCell> but cannot find cell object from Nib");
         return nil;
     }
-    
-    ((ShoppingCategoryCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
-    
-    return (ShoppingCategoryCell*)[topLevelObjects objectAtIndex:0];
+    ShoppingCategoryCell *cell = ((ShoppingCategoryCell*)[topLevelObjects objectAtIndex:0]);
+    cell.delegate = delegate;
+    NSArray *categories = [CategoryManager getAllCategories];
+    [cell updateAllButtonLabelsWithArray:categories];
+    return cell;
 }
 
 
@@ -112,5 +115,19 @@
 	}
 }
 
+- (void) setAndHighlightSelectedCategory:(NSString *)categoryName
+{
+    self.selectedCategory = categoryName;
+    if (self.selectedCategory == nil) {
+        [self highlightTheSelectedLabel:NOT_LIMT];
+    }else{
+        [self highlightTheSelectedLabel:categoryName];
+    }
+}
+
+- (NSString *)getSelectedCategory
+{
+    return self.selectedCategory;
+}
 
 @end

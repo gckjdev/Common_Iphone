@@ -12,10 +12,11 @@
 @implementation ShoppingSubCategoryCell
 
 @synthesize selectCategoryLabel;
-
+@synthesize selectedSubCategories;
 
 - (void)dealloc {
     [selectCategoryLabel release];
+    [selectedSubCategories release];
     [super dealloc];
 }
 
@@ -129,5 +130,34 @@
 	}
 }
 
+
+- (void) setAndHighlightSelectedSubCategories:(NSArray *)subCategories
+{
+    if (subCategories == nil) {
+        [self highlightTheSelectedLabels:[NSArray arrayWithObject:NOT_LIMIT]];
+        self.selectedSubCategories = nil;
+    }else{
+        self.selectedSubCategories = [NSMutableArray arrayWithArray:subCategories];
+        [self highlightTheSelectedLabels:subCategories];
+    }
+}
+- (void) addAndHighlightSelectedSubCategory:(NSString *)category
+{
+    if (self.selectedSubCategories == nil) {
+        self.selectedSubCategories = [NSMutableArray arrayWithObject:category];
+    }else{
+        if ([self.selectedSubCategories containsObject:category]) {
+            [self.selectedSubCategories removeObject:category];
+        }else{
+            [self.selectedSubCategories addObject:category];
+        }
+    }
+    [self highlightTheSelectedLabels:self.selectedSubCategories];
+}
+
+- (NSArray *)getSelectedSubCategories
+{
+    return self.selectedSubCategories;
+}
 
 @end
