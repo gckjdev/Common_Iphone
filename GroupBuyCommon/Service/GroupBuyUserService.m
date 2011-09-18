@@ -100,7 +100,9 @@
     
 }
 
-- (void)registerUser:(NSString*)email password:(NSString*)password viewController:(PPViewController*)viewController
+- (void)registerUser:(NSString*)email 
+            password:(NSString*)password 
+      viewController:(PPViewController<GroupBuyUserServiceDelegate>*)viewController
 {
     NSString* userId = [[self user] userId];
     NSString* appId = GlobalGetPlaceAppId();
@@ -136,12 +138,22 @@
                     [UserManager updateUserWithEmail:email password:password];
                     [self updateUserCache];
                 }
+                
+                if ([viewController respondsToSelector:@selector(actionDone:)]){
+                    [viewController actionDone:output.resultCode];                    
+                }
             }
             else if (output.resultCode == ERROR_NETWORK) {
                 [viewController popupUnhappyMessage:NSLS(@"kSystemFailure") title:nil];
             }
+            else if (output.resultCode == ERROR_USERID_NOT_FOUND) {
+                [viewController popupUnhappyMessage:@"对不起，用户注册无法完成，请联系我们的技术支持以便解决问题" title:nil];
+            }
+            else if (output.resultCode == ERROR_EMAIL_EXIST) {
+                [viewController popupUnhappyMessage:@"对不起，该电子邮件已经被注册" title:nil];
+            }
             else {
-                [viewController popupUnhappyMessage:@"对不起，注册请求失败，请稍候再试" title:nil];
+                [viewController popupUnhappyMessage:@"对不起，注册失败，请稍候再试" title:nil];
             }
         });
         
@@ -150,7 +162,7 @@
 
 - (void)loginUserWithEmail:(NSString*)email 
                   password:(NSString*)password 
-            viewController:(PPViewController*)viewController
+            viewController:(PPViewController<GroupBuyUserServiceDelegate>*)viewController
 {
     NSString* appId = GlobalGetPlaceAppId();
     
@@ -268,7 +280,8 @@
     
 }
 
-- (void)bindUserWithSNSUserInfo:(NSDictionary*)userInfo viewController:(PPViewController*)viewController
+- (void)bindUserWithSNSUserInfo:(NSDictionary*)userInfo 
+                 viewController:(PPViewController<GroupBuyUserServiceDelegate>*)viewController
 {
     NSString* userId = user.userId;
     NSString* appId = [AppManager getPlaceAppId];
