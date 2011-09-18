@@ -117,6 +117,7 @@
                                             appId:(NSString*)appId
                                           baseURL:(NSString *)baseURL;
 
+
 + (CommonNetworkOutput*)addUserShoppingItem:(NSString*)baseURL
                                       appId:(NSString*)appId
                                      userId:(NSString*)userId
@@ -126,20 +127,27 @@
                             subCategoryName:(NSString*)subCategoryName
                                    keywords:(NSString*)keywords
                                  expireDate:(NSString *)expireDate
-                                   maxPrice:(NSNumber*)maxPrice
+                                   maxPrice:(NSNumber*)maxPrice 
+                                   latitude:(NSNumber *)latitude 
+                                  longitude:(NSNumber *)longitude 
+                                     radius:(NSNumber *)radius
                                   minRebate:(NSNumber*)minRebate;
 
 + (CommonNetworkOutput*)updateUserShoppingItem:(NSString*)baseURL
-                                      appId:(NSString*)appId
-                                     userId:(NSString*)userId
-                                     itemId:(NSString*)itemId
-                                       city:(NSString*)city
-                               categoryName:(NSString*)categoryName
-                            subCategoryName:(NSString*)subCategoryName
-                                   keywords:(NSString*)keywords
-                                 expireDate:(NSString *)expireDate
-                                   maxPrice:(NSNumber*)maxPrice
-                                  minRebate:(NSNumber*)minRebate;
+                                         appId:(NSString*)appId
+                                        userId:(NSString*)userId
+                                        itemId:(NSString*)itemId
+                                          city:(NSString*)city
+                                  categoryName:(NSString*)categoryName
+                               subCategoryName:(NSString*)subCategoryName
+                                      keywords:(NSString*)keywords
+                                    expireDate:(NSString *)expireDate
+                                      maxPrice:(NSNumber*)maxPrice
+                                      latitude:(NSNumber *)latitude 
+                                     longitude:(NSNumber *)longitude 
+                                        radius:(NSNumber *)radius
+                                     minRebate:(NSNumber*)minRebate;
+
 
 + (CommonNetworkOutput*)deleteUserShoppingItem:(NSString*)baseURL
                                          appId:(NSString*)appId

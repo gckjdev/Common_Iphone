@@ -11,14 +11,18 @@
 #import "PPTableViewController.h"
 #import "UserShoppingItem.h"
 #import "ShoppingListController.h"
-@interface AddShoppingItemController : PPTableViewController <UITextFieldDelegate>{
+#import "PPMKMapViewController.h"
+
+#import "ShoppingKeywordCell.h"
+#import "ShoppingCategoryCell.h"
+#import "ShoppingSubCategoryCell.h"
+#import "ShoppingValidPeriodCell.h"
+#import "LocationCell.h"
+#import "SliderCell.h"
+
+@interface AddShoppingItemController : PPTableViewController <UITextFieldDelegate, MKReverseGeocoderDelegate, PriceCellDelegate, KeywordCellDelegate, LocationCellDelegate>{
 	
-    NSString*   keywords;
     NSString*   itemId;
-    NSDate*     expireDate;
-    NSNumber*   maxPrice;
-    NSString*   selectedCategory;
-    NSMutableArray* selectedSubCategories;
     
     ShoppingListController *shoppingListTableViewController;
     
@@ -29,20 +33,34 @@
     int         rowOfKeyword;
     int         rowOfValidPeriod;
     int         rowOfPrice;
+    int         rowOfLocation;
     int         rowOfRebate;
     int         rowOfCity;
     int         rowNumber;
+    
+    //cell 
+    ShoppingCategoryCell *categoryCell;
+    ShoppingSubCategoryCell *subCategoryCell;
+    ShoppingKeywordCell *keywordCell;
+    ShoppingValidPeriodCell *validPeriodCell;
+    SliderCell *priceCell;
+    LocationCell *locationCell;
 }
 
 @property (nonatomic, retain) NSString* itemName;
-@property (nonatomic, copy) NSString* keywords;
 @property (nonatomic, retain) NSString* itemId;
-@property (nonatomic, retain) NSDate*   expireDate;
-@property (nonatomic, retain) NSNumber* maxPrice;
 
-@property (nonatomic, retain) NSString* selectedCategory;
-@property (nonatomic, retain) NSMutableArray* selectedSubCategories;
 @property (nonatomic, retain)  ShoppingListController *shoppingListTableViewController;
+
+//cell
+@property (nonatomic, retain) ShoppingCategoryCell *categoryCell;
+@property (nonatomic, retain) ShoppingSubCategoryCell *subCategoryCell;
+@property (nonatomic, retain) ShoppingKeywordCell *keywordCell;
+@property (nonatomic, retain) ShoppingValidPeriodCell *validPeriodCell;
+@property (nonatomic, retain) SliderCell *priceCell;
+@property (nonatomic, retain) LocationCell *locationCell;
+
+
 
 -(id) init;
 -(id) initWithUserShoppingItem:(UserShoppingItem *)item;

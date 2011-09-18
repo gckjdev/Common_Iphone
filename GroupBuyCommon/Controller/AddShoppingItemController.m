@@ -8,11 +8,6 @@
 
 
 #import "AddShoppingItemController.h"
-#import "ShoppingKeywordCell.h"
-#import "ShoppingCategoryCell.h"
-#import "ShoppingSubCategoryCell.h"
-#import "ShoppingValidPeriodCell.h"
-#import "SliderCell.h"
 #import "UserShopItemService.h"
 #import "UIViewUtils.h"
 #import "CategoryManager.h"
@@ -26,19 +21,9 @@
 // static data
 @property (nonatomic, retain) NSArray* categories;
 @property (nonatomic, retain) NSArray* subCategories;
-@property (nonatomic,retain) NSDictionary* subCateogriesDict;
-
-// data
-
 
 // UI elements
-@property (nonatomic,assign) BOOL shouldShowSubCategoryCell;
-@property (nonatomic,retain) UITextField* keywordTextField;
-@property (nonatomic,retain) UITextField* priceTextField;
-@property (nonatomic,retain) UISegmentedControl* priceSegment;
-@property (nonatomic,retain) UISegmentedControl* periodSegment;
-@property (nonatomic,retain) UIButton* periodButton;
-
+//@property (nonatomic,assign) BOOL shouldShowSubCategoryCell;
 
 
 @end
@@ -48,24 +33,21 @@
 
 @synthesize categories;
 @synthesize subCategories;
-@synthesize shouldShowSubCategoryCell;
+//@synthesize shouldShowSubCategoryCell;
 @synthesize itemName;
-@synthesize selectedCategory;
-@synthesize selectedSubCategories;
-@synthesize subCateogriesDict;
-
-@synthesize keywordTextField;
-@synthesize priceSegment;
-@synthesize priceTextField;
-@synthesize periodSegment;
-@synthesize periodButton;
 
 @synthesize itemId;
-@synthesize keywords;
-@synthesize expireDate;
-@synthesize maxPrice;
 
 @synthesize shoppingListTableViewController;
+
+//cell
+@synthesize categoryCell;
+@synthesize subCategoryCell;
+@synthesize validPeriodCell;
+@synthesize keywordCell;
+@synthesize priceCell;
+@synthesize locationCell;
+
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -79,21 +61,104 @@
 
 
 #define NOT_LIMIT   @"不限"
--(void) setDefaultSettings
+
+- (void)setCells
 {
-    isShowSubCategory = NO;
-    self.selectedCategory = nil;
-    self.selectedSubCategories = nil;
-    self.maxPrice = nil;
-    self.expireDate = nil;
-    self.keywords = nil;
-    self.itemId = nil;
-    self.shouldShowSubCategoryCell = NO;
+    
+    //get category cell;
+    NSString *CellIdentifier = [ShoppingCategoryCell getCellIdentifier];
+    self.categoryCell = (ShoppingCategoryCell*)[self.dataTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (self.categoryCell == nil) {
+        self.categoryCell = [ShoppingCategoryCell createCell:self];
+        [self.categoryCell addButtonsAction:@selector(selectCategory:)];
+    }
+    
+    //get subcategory cell;
+    CellIdentifier = [ShoppingSubCategoryCell getCellIdentifier];
+    self.subCategoryCell = (ShoppingSubCategoryCell*)[self.dataTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (self.subCategoryCell == nil) {
+        self.subCategoryCell = [ShoppingSubCategoryCell createCell:self];
+        [self.subCategoryCell addButtonsAction:@selector(selectSubCategory:)];
+    }
+    
+    //get keyword cell;
+    CellIdentifier = [ShoppingKeywordCell getCellIdentifier];
+    self.keywordCell = (ShoppingKeywordCell*)[self.dataTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (self.keywordCell == nil) {
+        self.keywordCell = [ShoppingKeywordCell createCell:self];
+        [self.keywordCell.keywordTextField setDelegate:self];
+        [self.keywordCell setKeywordCellDelegate:self];
+        
+    }
+    
+    //get valid period cell;
+    CellIdentifier = [ShoppingValidPeriodCell getCellIdentifier];
+    self.validPeriodCell = (ShoppingValidPeriodCell*)[self.dataTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (self.validPeriodCell == nil) {
+        self.validPeriodCell = [ShoppingValidPeriodCell createCell:self];
+    }
+    
+    //get price cell;
+    CellIdentifier = [SliderCell getCellIdentifier];
+    self.priceCell = (SliderCell*)[self.dataTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (self.priceCell == nil) {
+        self.priceCell = [SliderCell createCell:self];
+        self.priceCell.priceCellDelegate = self;
+    }
+    
+    //get location cell;
+    CellIdentifier = [LocationCell getCellIdentifier];
+    self.locationCell = (LocationCell*)[self.dataTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (self.locationCell == nil) {
+        self.locationCell = [LocationCell createCell:self];
+        self.locationCell.locationCellDelegate = self;
+    }
 }
+
+-(void) updateCellWithItem:(UserShoppingItem *)item
+{
+    if (item) {
+        self.itemId = item.itemId;
+        //category
+        [self.categoryCell setAndHighlightSelectedCategory:item.categoryName];
+        
+        //category array
+        NSArray *categoryArray = [UserShopItemManager getSubCategoryArrayWithCategoryName:item.subCategoryName];
+        [self.subCategoryCell setAndHighlightSelectedSubCategories:categoryArray];
+        if (self.categoryCell.selectedCategory != nil && [self.categoryCell.selectedCategory length] != 0) {
+            isShowSubCategory  = YES;
+        }
+        
+        //keywords
+        [self.keywordCell setkeyword:item.keywords];
+        
+        //expireDate
+        [self.validPeriodCell setAndCalculateExpireDate:item.expireDate];
+        
+        //price
+        [self.priceCell setPrice:item.maxPrice];
+        
+        [self.locationCell setLatitude:item.latitude longitude:item.longitude radius:item.radius];
+    }else{
+        self.itemId = nil;
+        isShowSubCategory = NO;
+        [self.categoryCell setAndHighlightSelectedCategory:nil];
+        [self.subCategoryCell setAndHighlightSelectedSubCategories:nil];
+        [self.keywordCell setkeyword:nil];
+        [self.validPeriodCell setAndCalculateExpireDate:nil];
+        [self.priceCell setPrice:nil];
+        [self.locationCell setLatitude:nil longitude:nil radius:nil];
+    }
+
+}
+
 -(id) init{
     self = [super init];
     if (self) {
-        [self setDefaultSettings];
+        //[self setDefaultSettings];
+        [self setCells];
+        [self updateCellWithItem:nil];
     }
     return self;
 }
@@ -101,27 +166,15 @@
 -(id) initWithUserShoppingItem:(UserShoppingItem *)item{
     self = [super init];
     if (self) {
-        if (item == nil) {
-            [self setDefaultSettings];
-        }else{
-            self.selectedCategory = item.categoryName;
-            self.maxPrice = item.maxPrice;
-            self.expireDate = item.expireDate;
-            self.keywords = item.keywords;
-            self.itemId = item.itemId;
-            NSArray *categoryArray = [UserShopItemManager getSubCategoryArrayWithCategoryName:item.subCategoryName];
-            self.selectedSubCategories = [NSMutableArray arrayWithArray:categoryArray];
-            if (self.selectedCategory != nil && [self.selectedCategory length] != 0) {
-                isShowSubCategory  = YES;
-            }
-        }
+        [self setCells];
+        [self updateCellWithItem:item];
     }
     return self;
 }
 
 - (void)updateRowIndex
 {
-    if (self.selectedCategory == nil || [selectedCategory isEqualToString:NOT_LIMIT]) {
+    if (self.categoryCell.selectedCategory == nil || [self.categoryCell.selectedCategory isEqualToString:NOT_LIMIT]) {
         isShowSubCategory = NO;
     }else{
         isShowSubCategory = YES ;
@@ -133,9 +186,10 @@
         rowOfKeyword = 2;
         rowOfValidPeriod = 3;
         rowOfPrice = 4;
+        rowOfLocation = 5;
         rowOfRebate = -1;       // not used
-        rowOfCity = -1;
-        rowNumber = 5;
+        rowOfCity = -1;         // not used
+        rowNumber = 6;
     }
     else{
         rowOfCategory = 0;
@@ -143,9 +197,10 @@
         rowOfKeyword = 1;
         rowOfValidPeriod = 2;
         rowOfPrice = 3;
+        rowOfLocation = 4;
         rowOfCity = -1;         // not used 
         rowOfRebate = -1;       // not used
-        rowNumber = 4;
+        rowNumber = 5;
     }
     
     [self.dataTableView reloadData];
@@ -159,9 +214,6 @@
     
     [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
     [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
-	
-//    
-    self.categories = [CategoryManager getAllCategories];
     
     [self activateKeyboardNumberPadReturn];
     
@@ -190,6 +242,14 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
+    
+    locationCell = nil;
+    keywordCell = nil;
+    categoryCell = nil;
+    subCategoryCell = nil;
+    validPeriodCell = nil;
+    priceCell = nil;
+    
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -197,27 +257,22 @@
 
 - (void)dealloc {
     
-    [maxPrice release];
-    [expireDate release];    
     [itemId release];
-    [keywords release];
-    
-    [keywordTextField release];
-    [priceSegment release];
-    [priceTextField release];
-    [periodSegment release];
-    [periodButton release];
-    
+
 	[categories release];
 	[subCategories release];
 	[itemName release];
     
-	[selectedCategory release];
-    [selectedSubCategories release];
-    
-	[subCateogriesDict release];
-    
     [shoppingListTableViewController release];
+    
+    //cell
+    [locationCell release];
+    [keywordCell release];
+    [categoryCell release];
+    [subCategoryCell release];
+    [validPeriodCell release];
+    [priceCell release];
+    
     [super dealloc];
 }
 
@@ -249,6 +304,9 @@
     else if (indexPath.row == rowOfPrice){
 		return [SliderCell getCellHeight];
     }
+    else if (indexPath.row == rowOfLocation){
+        return [LocationCell getCellHeight];
+    }
     else if (indexPath.row == rowOfRebate){
 		return [SliderCell getCellHeight];
     }
@@ -268,137 +326,29 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {	
-	if (indexPath.row == rowOfCategory){
-        
-        ShoppingCategoryCell* cell = nil;		
-		NSString *CellIdentifier = [ShoppingCategoryCell getCellIdentifier];
-		cell = (ShoppingCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [ShoppingCategoryCell createCell:self];
-            [cell updateAllButtonLabelsWithArray:self.categories];
-            [cell addButtonsAction:@selector(selectCategory:)];
-		}
-        //highlight the selected category.
-        if (self.selectedCategory != nil && [self.selectedCategory length] != 0) {
-            [cell highlightTheSelectedLabel:self.selectedCategory];
-        }else{
-            [cell highlightTheSelectedLabel:NOT_LIMIT];
-        }
-        
-        return cell;
+	if (indexPath.row == rowOfCategory){        
+        return self.categoryCell;
     }	
 	else if (indexPath.row == rowOfSubCategory){		
-        
-        ShoppingSubCategoryCell* cell = nil;
-        
-        NSString *CellIdentifier = [ShoppingSubCategoryCell getCellIdentifier];
-        cell = (ShoppingSubCategoryCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			
-        if (cell == nil) {
-            cell = [ShoppingSubCategoryCell createCell:self];
-            [cell addButtonsAction:@selector(selectSubCategory:)];
-        }
-		   
-        NSArray* subCategory = [CategoryManager getSubCategoriesByCategory:self.selectedCategory];
-        [cell updateAllButtonLabelsWithArray:subCategory];
-        
-        if (self.selectedSubCategories != nil && [self.selectedSubCategories count] != 0) {
-            [cell highlightTheSelectedLabels:self.selectedSubCategories];
-        }else
-        {
-            [cell highlightTheSelectedLabel:NOT_LIMIT];
-        }
-        return cell;
+
+        return self.subCategoryCell;
     }	
     else if (indexPath.row == rowOfKeyword){
-        
-        ShoppingKeywordCell* cell = nil;
+        return self.keywordCell;
 
-		NSString *CellIdentifier = [ShoppingKeywordCell getCellIdentifier];
-		cell = (ShoppingKeywordCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [ShoppingKeywordCell createCell:self];
-            self.keywordTextField = cell.keywordTextField;
-            [self.keywordTextField setDelegate:self];
-            [cell.keywordTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
-            [cell.keywordTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventEditingChanged];
-
-		}
-        
-        NSLog(@"set text field text to %@", self.keywords);
-        cell.keywordTextField.text = self.keywords;
-       
-        
-        return cell;
-
-		
 	}else if (indexPath.row == rowOfValidPeriod) {
         
-        ShoppingValidPeriodCell* cell = nil;
-
-		NSString *CellIdentifier = [ShoppingValidPeriodCell getCellIdentifier];
-		cell = (ShoppingValidPeriodCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [ShoppingValidPeriodCell createCell:self];
-            self.periodSegment = cell.periodSegmented;
-            self.periodButton = cell.validPeriod;
-            
-            [self.periodSegment addTarget:self action:@selector(segmentedDidValueChanged:) forControlEvents:UIControlEventValueChanged];
-		}
-        
-        if (self.expireDate != nil) {
-            self.periodButton.titleLabel.text = dateToString(self.expireDate);
-        }else{
-            self.periodButton.titleLabel.text = NOT_LIMIT;
-        }
-        NSInteger index = [cell segmentIndexForDate:self.expireDate];
-        [self.periodSegment setSelectedSegmentIndex:index];
-        
-        return cell;
+        return self.validPeriodCell;
 		
 	}else if (indexPath.row == rowOfPrice)  {
-
-        SliderCell* cell = nil;
         
-		NSString *CellIdentifier = [SliderCell getCellIdentifier];
-		cell = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [SliderCell createCell:self];
-            self.priceTextField = cell.priceTextField;
-            self.priceSegment = cell.priceSegment;
-            
-            [self.priceTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
-            [self.priceTextField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
-            [self.priceTextField addTarget:self action:@selector(textFieldChange:) forControlEvents:UIControlEventEditingChanged];
-
-            [self.priceSegment addTarget:self action:@selector(segmentedDidValueChanged:) forControlEvents:UIControlEventValueChanged];
-            
-		}
-        
-        if (self.maxPrice == nil || [self.maxPrice intValue] < 0) {
-            self.priceTextField.text = NOT_LIMIT;
-            [self.priceSegment setSelected:PRICE_UNLIMIT_INDEX];
-        }else
-        {
-            [self.priceSegment setSelectedSegmentIndex:[cell segmentIndexForPrice:self.maxPrice]];
-            self.priceTextField.text = [self.maxPrice stringValue];
-        }
-        
-        return cell;
+        return self.priceCell;
 		
-	} else if (indexPath.row == rowOfRebate)  {
+	}else if(indexPath.row == rowOfLocation){
         
-        SliderCell* cell = nil;
-
-		NSString *CellIdentifier = [SliderCell getCellIdentifier];
-		cell = (SliderCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [SliderCell createCell:self];
-		}
-        return cell;
-		
-	}
-    else{
+        return self.locationCell;
+        
+    }else{
         NSLog(@"ERROR: <cellForRowAtIndexPath> cannot found cell for row at %d", indexPath.row);
         return nil;
     }
@@ -409,57 +359,19 @@
     self.dataTableView.frame = self.view.bounds;
 }
 
-- (void)updateKeyword
-{
-    self.keywords = keywordTextField.text;
-    NSLog(@"update keywords to %@", self.keywords);
-}
-
-- (void)updatePrice
-{
-    NSString *text = priceTextField.text;
-    
-    if (text == nil || [text length] == 0) {
-        self.maxPrice = nil;
-        [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
-    }
-    else if ([text isEqualToString:NOT_LIMIT]){
-        self.maxPrice = nil;
-    }
-    else {
-        self.maxPrice = [NSNumber numberWithInteger:[priceTextField.text integerValue]];        
-    }    
-}
-
-- (void)textFieldChange:(id)sender {
-
-    NSLog(@"textFieldChange");
-    if (keywordTextField == sender){
-        [self updateKeyword];
-    }
-    else if (priceTextField == sender) {
-    }    
-}
 
 - (void) textFieldDidBeginEditing:(id)sender{
         
     // set correct keyboard type for text field
     NSIndexPath* indexPath = nil;
-    if (keywordTextField == sender){
+    if (self.keywordCell.keywordTextField == sender){
         indexPath = [NSIndexPath indexPathForRow:rowOfKeyword inSection:0];    
-        self.currentKeyboardType = keywordTextField.keyboardType;
-        
-        self.keywordTextField.text = keywords;
+        self.currentKeyboardType = self.keywordCell.keywordTextField.keyboardType;
+
     }
-    else if (priceTextField == sender) {
-        indexPath = [NSIndexPath indexPathForRow:rowOfPrice inSection:0];   
-        [self.priceSegment setSelectedSegmentIndex:UISegmentedControlNoSegment];
-        self.currentKeyboardType = priceTextField.keyboardType;
-        
-        if (self.maxPrice == nil || [self.maxPrice intValue] < 0)
-            self.priceTextField.text = @"";
-        else
-            self.priceTextField.text = [self.maxPrice description];
+    else if (self.priceCell.priceTextField == sender) {
+        indexPath = [NSIndexPath indexPathForRow:rowOfPrice inSection:0];
+        self.currentKeyboardType = self.priceCell.priceTextField.keyboardType;
     }
     
     // adjust table view frame to make text field visable
@@ -467,28 +379,17 @@
     frame.size.height = 480 - kKeyboadHeight - kNavigationBarHeight - kStatusBarHeight;
     self.dataTableView.frame = frame;
     [self.dataTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    
-//    NSLog(@"keyword text field text = %@, keywords = %@", self.keywordTextField.text, self.keywords);
-
 }
 
 - (void)textFieldDidEndEditing:(id)sender
 {
 //    NSLog(@"keyword text field text = %@, keywords = %@", self.keywordTextField.text, self.keywords);
 
-    if (self.priceTextField == sender) {
-
-        NSString *text = priceTextField.text;        
-        if (text == nil || [text length] == 0) {
-            priceTextField.text = NOT_LIMIT;
-            [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
-        }
-        
-        [self updatePrice];
+    if (self.keywordCell.keywordTextField == sender) {
         
     }    
-    else if (self.keywordTextField == sender) {
-
+    else if (self.priceCell.priceTextField == sender) {
+        
     }
 }
 
@@ -499,42 +400,12 @@
 }
 
 
-- (void)segmentedDidValueChanged:(id)sender
-{
-    
-    if (sender == self.priceSegment) {
-        NSInteger index = self.priceSegment.selectedSegmentIndex;
-        
-        if (index == UISegmentedControlNoSegment) {
-            return;
-        }
-        
-        NSString *value = [self.priceSegment titleForSegmentAtIndex:index];
-        
-        NSInteger price = -1;
-        if ([value compare:NOT_LIMIT] != 0) {
-            price = [value integerValue];
-        }
-        self.maxPrice = [NSNumber numberWithInt:price];
-        
-    } else if(self.periodSegment == sender){
-        NSInteger index = self.periodSegment.selectedSegmentIndex;
-        
-        if (index == UISegmentedControlNoSegment) {
-            return;
-        }
-        
-        NSDate *date = [ShoppingValidPeriodCell calculateValidPeriodWithSegmentIndex:index];
-        self.expireDate = date;
-        
-    }
-    //[self.view endEditing:YES];
-    
-    [self updateRowIndex];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
+    if (indexPath.section == 0) {
+        if (indexPath.row == rowOfLocation) {
+            [self.navigationController pushViewController:self.locationCell.mapViewController animated:YES];
+        }
+    }
 }
 
 
@@ -558,20 +429,19 @@
 
 -(IBAction) selectCategory:(id) sender {
 	UIButton *button = (UIButton *)sender;    
+    NSString *title = button.currentTitle;
     
-    if (![button.currentTitle isEqualToString:self.selectedCategory]) {
-        self.selectedSubCategories = nil;
-    }
-    
-	if([button.currentTitle isEqualToString:NOT_LIMIT]){
-		shouldShowSubCategoryCell = NO;
-        self.selectedCategory = nil;
-        self.selectedSubCategories = nil;
+	if([title isEqualToString:NOT_LIMIT]){
+        [self.categoryCell setAndHighlightSelectedCategory:nil];
+        self.subCategoryCell.selectedSubCategories = nil;
 	}else{
-		self.shouldShowSubCategoryCell = YES;
-        self.selectedCategory = button.currentTitle;
+        [self.categoryCell setAndHighlightSelectedCategory:title];
+        [self.subCategoryCell updateAllButtonLabelsWithArray:[CategoryManager getSubCategoriesByCategory:title]];
+        [self.subCategoryCell setAndHighlightSelectedSubCategories:nil];
 	}
+    
     NSLog(@"<selectCategory> category=%@", button.currentTitle);
+    
     [self updateRowIndex];
 }
 
@@ -581,23 +451,13 @@
 
 	UIButton *button = (UIButton *)sender;        
     NSString *category = button.currentTitle;
+    
     if ([category isEqualToString:NOT_LIMIT]) {
-        self.selectedSubCategories = nil;
+        //self.subCategoryCell.selectedSubCategories = nil;
+        [self.subCategoryCell setAndHighlightSelectedSubCategories:nil];
     }
     else{
-        
-        if (self.selectedSubCategories == nil) {
-            self.selectedSubCategories = [[NSMutableArray alloc] initWithObjects:NOT_LIMIT, nil];
-        }
-        
-        if ([self.selectedSubCategories containsObject:NOT_LIMIT]) {
-            [self.selectedSubCategories removeObject:NOT_LIMIT];
-        }
-        if ([self.selectedSubCategories containsObject:category]) {
-            [self.selectedSubCategories removeObject:category];
-        }else{
-            [self.selectedSubCategories addObject:category];
-        }
+        [self.subCategoryCell addAndHighlightSelectedSubCategory:category];
     }
     [self updateRowIndex];
 }
@@ -606,34 +466,66 @@
 {
     [self.view endEditing:YES];
     
-    if (keywordTextField != nil){        
-        self.keywords = keywordTextField.text;
-    }
-    
-    
     UserShopItemService* shopService = GlobalGetUserShopItemService();
     NSString* city = [GlobalGetLocationService() getDefaultCity];    
     NSString* categoryName = nil;
+    NSArray* selectedSubCategories = [self.subCategoryCell getSelectedSubCategories];
+    NSString *keywords = [self.keywordCell getKeywords];
+    NSDate *expireDate = [self.validPeriodCell getExpireDate];
+    NSNumber *price = [self.priceCell getPrice];
+    NSNumber *latitude = [self.locationCell getLatitude];
+    NSNumber *longitude = [self.locationCell getLongtitude];
+    NSNumber *radius = [self.locationCell getRadius];
     
-    if (self.selectedCategory != nil)
-        categoryName = self.selectedCategory;
     if (itemId == nil) {
-        [shopService addUserShoppingItem:city categoryName:categoryName subCategories:selectedSubCategories keywords:self.keywords maxPrice:maxPrice expireDate:expireDate rebate:nil viewController:self];
+        [shopService addUserShoppingItem:city categoryName:categoryName subCategories:selectedSubCategories keywords:keywords maxPrice:price expireDate:expireDate latitude:latitude longitude:longitude radius:radius rebate:nil];
     }else{
-        [shopService updateUserShoppingItem:itemId city:city categoryName:categoryName subCategories:self.selectedSubCategories keywords:self.keywords maxPrice:self.maxPrice expireDate:self.expireDate rebate:nil viewController:self];
+        [shopService updateUserShoppingItem:itemId city:city categoryName:categoryName subCategories:selectedSubCategories keywords:keywords maxPrice:price expireDate:expireDate latitude:latitude longitude:longitude radius:radius rebate:nil];
     }
-        
+//    if (self.categoryCell.selectedCategory != nil)
+//        categoryName = self.categoryCell.selectedCategory;
     
-//    if (self.selectedSubCategories != nil && [self.selectedSubCategories count] > 0)
-//    {
-//        subCategoryName = [UserShopItemManager getSubCategoryNameWithArray:self.selectedSubCategories];
+//    if (itemId == nil) {
+//        [shopService addUserShoppingItem:city categoryName:categoryName subCategories:selectedSubCategories keywords:self.keywords maxPrice:maxPrice expireDate:expireDate rebate:nil viewController:self];
+//    }else{
+//        [shopService updateUserShoppingItem:itemId city:city categoryName:categoryName subCategories:self.selectedSubCategories keywords:self.keywords maxPrice:self.maxPrice expireDate:self.expireDate rebate:nil viewController:self];
 //    }
-//
-//    
-//    
-//    [shopService addUserShoppingItem:itemId city:city categoryName:categoryName subCategoryName:subCategoryName keywords:keywords maxPrice:maxPrice expireDate:expireDate];
-//    
-//    [self.navigationController popViewControllerAnimated:YES];
+        
+}
+
+
+#pragma cell delegete
+
+-(void) didSwitchOn
+{
+    [self.navigationController pushViewController:self.locationCell.mapViewController animated:YES];
+}
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark
+{
+    
+    NSLog(@"level two");
+    NSString* str = [NSString stringWithString:@""];
+	if (placemark == nil){
+		return;
+	}
+	
+	if (placemark.locality){
+		str = [str stringByAppendingFormat:@"%@", placemark.locality];
+	}
+	
+	if (placemark.subLocality){
+		str = [str stringByAppendingFormat:@" %@", placemark.subLocality];
+	}
+    
+    self.locationCell.locationLabel.text = str;
+    NSLog(@"done: %@",self.locationCell.locationLabel.text);
+    
+}
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error
+{
+    self.locationCell.locationLabel.text = @"地址解析错误。";
+    
 }
 
 @end

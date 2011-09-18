@@ -13,10 +13,13 @@
 @implementation ShoppingValidPeriodCell
 @synthesize periodSegmented;
 @synthesize validPeriod;
+@synthesize exipireDate;
 
 - (void)dealloc {
     [periodSegmented release];
     [validPeriod release];
+    [expireDate release];
+    
     [super dealloc];
 }
 
@@ -101,5 +104,38 @@
         }
     }
     return UISegmentedControlNoSegment;
+}
+
+- (IBAction)didSelectPeriod:(id)sender {
+    
+    NSInteger index = self.periodSegmented.selectedSegmentIndex;
+    
+    if (index == UISegmentedControlNoSegment) {
+        return;
+    }
+    self.exipireDate = [ShoppingValidPeriodCell calculateValidPeriodWithSegmentIndex:index];
+    if (self.exipireDate) {
+        self.validPeriod.titleLabel.text = dateToString(self.exipireDate);
+    }else{
+        self.validPeriod.titleLabel.text = NOT_LIMIT;
+    }
+}
+
+
+- (void)setAndCalculateExpireDate:(NSDate *)date
+{
+    if (date == nil) {
+        self.validPeriod.titleLabel.text = NOT_LIMIT;
+        [self.periodSegmented setSelectedSegmentIndex:UISegmentedControlNoSegment];
+    }else
+    {
+        self.validPeriod.titleLabel.text = dateToString(date);
+        int index = [self segmentIndexForDate:date];
+        [self.periodSegmented setSelectedSegmentIndex: index];
+    }
+}
+- (NSDate *)getExpireDate
+{
+    return self.exipireDate;
 }
 @end
