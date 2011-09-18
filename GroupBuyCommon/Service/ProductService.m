@@ -103,17 +103,54 @@
                                                                         city:city
                                                                     latitude:latitude
                                                                    longitude:longitude 
-                                                              startOffset:startOffset];
+                                                                 startOffset:startOffset
+                                                                    category:nil];
+            }
+                break;
+            case USE_FOR_TOPSCORE_BELOW_TEN:
+            {
+                output = [GroupBuyNetworkRequest findAllProductsByScore:SERVER_URL appId:appId startOffset:startOffset city:city startPrice:nil endPrice:[NSNumber numberWithInt:10] category:nil];
+            }
+                break;
+                
+            case USE_FOR_TOPSCORE_ABOVE_TEN:
+            {
+                output = [GroupBuyNetworkRequest findAllProductsByScore:SERVER_URL appId:appId startOffset:startOffset city:city startPrice:[NSNumber numberWithInt:10] endPrice:[NSNumber numberWithInt:1000000] category:nil];
+            }
+                break;
+                
+            case USE_FOR_STARTDATE:
+            {
+                output = [GroupBuyNetworkRequest findAllProductsWithStartDate:SERVER_URL appId:appId startOffset:startOffset city:city category:nil];
             }
                 break;
                 
             default:
             {
-                if (useFor >= USE_FOR_PER_CATEGORY && useFor < USE_FOR_PER_SHOPPINGITEM){
+                if (useFor >= USE_FOR_CATEGORY_TOPSCORE_BELOW_TEN && useFor < USE_FOR_CATEGORY_TOPSCORE_ABOVE_TEN) {
+                    NSString* categoryId = [NSString stringWithFormat:@"%d", (useFor - USE_FOR_CATEGORY_TOPSCORE_BELOW_TEN)];
+                    output = [GroupBuyNetworkRequest findAllProductsByScore:SERVER_URL appId:appId startOffset:startOffset city:city startPrice:nil endPrice:[NSNumber numberWithInt:10] category:categoryId];
+                } else if (useFor >= USE_FOR_CATEGORY_TOPSCORE_ABOVE_TEN && useFor < USE_FOR_CATEGORY_STARTDATE) {
+                    NSString* categoryId = [NSString stringWithFormat:@"%d", (useFor - USE_FOR_CATEGORY_TOPSCORE_ABOVE_TEN)];
+                    output = [GroupBuyNetworkRequest findAllProductsByScore:SERVER_URL appId:appId startOffset:startOffset city:city startPrice:[NSNumber numberWithInt:10] endPrice:[NSNumber numberWithInt:1000000] category:categoryId];
+                } else if (useFor >= USE_FOR_CATEGORY_STARTDATE && useFor < USE_FOR_CATEGORY_DISTANCE) {
+                    NSString* categoryId = [NSString stringWithFormat:@"%d", (useFor - USE_FOR_CATEGORY_STARTDATE)];
+                    output = [GroupBuyNetworkRequest findAllProductsWithStartDate:SERVER_URL appId:appId startOffset:startOffset city:city category:categoryId];
+                } else if (useFor >= USE_FOR_CATEGORY_DISTANCE && useFor < USE_FOR_PER_CATEGORY) {
+                    NSString* categoryId = [NSString stringWithFormat:@"%d", (useFor - USE_FOR_CATEGORY_DISTANCE)];
+                    double latitude = location.coordinate.latitude;
+                    double longitude = location.coordinate.longitude;
+                    output = [GroupBuyNetworkRequest findAllProductsWithLocation:SERVER_URL 
+                                                                           appId:appId
+                                                                            city:city
+                                                                        latitude:latitude
+                                                                       longitude:longitude 
+                                                                     startOffset:startOffset
+                                                                        category:categoryId];
+                } else if (useFor >= USE_FOR_PER_CATEGORY && useFor < USE_FOR_PER_SHOPPINGITEM) {
                     NSString* categoryId = [NSString stringWithFormat:@"%d", (useFor - USE_FOR_PER_CATEGORY)];
                     output = [GroupBuyNetworkRequest findProducts:SERVER_URL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 maxDistance:DEFAULT_MAX_DISTANCE todayOnly:NO category:categoryId sortBy:SORT_BY_START_DATE startOffset:startOffset maxCount:DEFAULT_MAX_COUNT];
-                }else if(useFor > USE_FOR_PER_SHOPPINGITEM)
-                {
+                } else if(useFor > USE_FOR_PER_SHOPPINGITEM) {
                     NSString* userId = [GlobalGetUserService() userId];
                     NSString* itemId = [NSString stringWithFormat:@"%d",useFor];
                     output = [GroupBuyNetworkRequest getShoppingItemProducts:SERVER_URL userId:userId appId:appId itemId:itemId startOffset:startOffset maxCount:DEFAULT_MAX_COUNT];

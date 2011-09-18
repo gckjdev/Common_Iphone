@@ -104,6 +104,10 @@
 
 - (BOOL)textFieldDone:(id)sender
 {
+    if (self.delegate != nil && [delegate respondsToSelector:@selector(textEditBegin:atIndex:)] == YES){
+		[self.delegate textFieldDone:self.textField atIndex:self.indexPath];
+	}
+    
 //	[self.textField resignFirstResponder];
 	return YES;
 }

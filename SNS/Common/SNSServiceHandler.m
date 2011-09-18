@@ -12,6 +12,7 @@
 #import "OAuthCore.h"
 #import "NetworkUtil.h"
 #import "JSON.h"
+#import "SNSWebViewController.h"
 
 @implementation SNSServiceHandler
 
@@ -41,7 +42,7 @@
     return result;
 }
 
-- (BOOL)gotoToAuthorizeURL:(CommonSNSRequest*)snsRequest
+- (BOOL)gotoToAuthorizeURL:(CommonSNSRequest*)snsRequest viewController:(UIViewController*)viewController
 {
     __block BOOL result = YES;
     
@@ -52,13 +53,19 @@
     }
     
     dispatch_sync(dispatch_get_main_queue(), ^{
-        result = [[UIApplication sharedApplication] openURL:url];
-    });
-
+        SNSWebViewController* webViewController = [[SNSWebViewController alloc] init];
+        webViewController.url = url;
+        webViewController.delegate = self;
+        webViewController.snsRequest = snsRequest;
+        [viewController.navigationController pushViewController:webViewController animated:YES];
+        [webViewController release];
+    });    
+    
     return result;
 }
 
-- (BOOL)loginForAuthorization:(CommonSNSRequest*)snsRequest
+
+- (BOOL)loginForAuthorization:(CommonSNSRequest*)snsRequest viewController:(UIViewController*)viewController
 {
     BOOL result = YES;
     
@@ -66,7 +73,7 @@
     if (result == NO)
         return result;
     
-    result = [self gotoToAuthorizeURL:snsRequest];  
+    result = [self gotoToAuthorizeURL:snsRequest viewController:viewController];  
     return result;
 }
 
@@ -163,6 +170,40 @@
     }];
         
     return result;
+}
+
+- (BOOL)parsePin:(int)result pin:(NSString*)pin snsRequest:(CommonSNSRequest *)snsRequest
+{
+    if (result != 0 || [pin length] <= 0)
+        return NO;
+    
+    NSURL* url = [NSURL URLWithString:[snsRequest getAccessTokenURLMain]];
+    NSString *queryString = [OAuthCore queryStringWithUrl:url
+                                                   method:@"POST"
+                                               parameters:[NSDictionary dictionaryWithObject:pin 
+                                                                                      forKey:@"oauth_verifier"]
+                                              consumerKey:snsRequest.appKey
+                                           consumerSecret:snsRequest.appSecret
+                                                    token:snsRequest.oauthToken
+                                              tokenSecret:snsRequest.oauthTokenSecret];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[queryString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSLog(@"send access_token, POST data=%@", queryString);
+    
+    result = [NetworkUtil sendRequest:request respnoseHandlerBlock:^(NSString* responseText) {
+        NSDictionary* dict = [responseText URLQueryStringToDictionary];
+        snsRequest.oauthToken = [dict objectForKey:@"oauth_token"];
+        snsRequest.oauthTokenSecret = [dict objectForKey:@"oauth_token_secret"];
+    }];    
+    
+    return (result == 0) ? YES : NO;
+}
+
+- (void)finishParsePin:(int)result pin:(NSString*)pin snsRequest:(CommonSNSRequest *)snsRequest
+{
+    [self parsePin:result pin:pin snsRequest:snsRequest];
 }
 
 @end

@@ -107,6 +107,15 @@
 
 @implementation ProductDistanceDataLoader
 
+@synthesize categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryIdVal
+{
+    self = [super init];
+    self.categoryId = categoryIdVal;
+    return self;
+}
+
 - (BOOL)supportRemote
 {
     return YES;
@@ -118,18 +127,26 @@
 
 - (NSArray*)requestProductListFromDB
 {
-    return [ProductManager getAllProductsByUseFor:USE_FOR_DISTANCE sortByKey:@"distance" sortAsending:YES];
+    int useFor = USE_FOR_DISTANCE;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_DISTANCE;
+    }
+    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"distance" sortAsending:YES];
 }
 
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
 {
+    int useFor = USE_FOR_DISTANCE;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_DISTANCE;
+    }
     ProductService* productService = GlobalGetProductService();
     if (isRequestLastest){
-        [productService requestProductData:controller useFor:USE_FOR_DISTANCE startOffset:0 cleanData:YES];
+        [productService requestProductData:controller useFor:useFor startOffset:0 cleanData:YES];
     }
     else{
         int startOffset = [controller.dataList count];
-        [productService requestProductData:controller useFor:USE_FOR_DISTANCE startOffset:startOffset cleanData:NO];
+        [productService requestProductData:controller useFor:useFor startOffset:startOffset cleanData:NO];
     }        
 }
 
@@ -327,6 +344,150 @@
     else{
         int startOffset = [controller.dataList count];
         [productService requestProductData:controller useFor:USE_FOR_KEYWORD startOffset:startOffset cleanData:NO keyword:keyword];
+    }       
+}
+
+@end
+
+@implementation ProductTopScoreBelowTenDataLoader
+
+@synthesize categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryIdVal
+{
+    self = [super init];
+    self.categoryId = categoryIdVal;
+    return self;
+}
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    int useFor = USE_FOR_TOPSCORE_BELOW_TEN;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_TOPSCORE_BELOW_TEN;
+    }
+    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"offset" sortAsending:YES];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    int useFor = USE_FOR_TOPSCORE_BELOW_TEN;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_TOPSCORE_BELOW_TEN;
+    }
+	ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:useFor startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:useFor startOffset:startOffset cleanData:NO];
+    }       
+}
+
+@end
+
+@implementation ProductTopScoreAboveTenDataLoader
+
+@synthesize categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryIdVal
+{
+    self = [super init];
+    self.categoryId = categoryIdVal;
+    return self;
+}
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    int useFor = USE_FOR_TOPSCORE_ABOVE_TEN;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_TOPSCORE_ABOVE_TEN;
+    }
+    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"offset" sortAsending:YES];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    int useFor = USE_FOR_TOPSCORE_ABOVE_TEN;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_TOPSCORE_ABOVE_TEN;
+    }
+	ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:useFor startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:useFor startOffset:startOffset cleanData:NO];
+    }       
+}
+
+@end
+
+@implementation ProductStartDateDataLoader
+
+@synthesize categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryIdVal
+{
+    self = [super init];
+    self.categoryId = categoryIdVal;
+    return self;
+}
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    int useFor = USE_FOR_STARTDATE;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_STARTDATE;
+    }
+    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"offset" sortAsending:YES];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    int useFor = USE_FOR_STARTDATE;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_STARTDATE;
+    }
+	ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:useFor startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:useFor startOffset:startOffset cleanData:NO];
     }       
 }
 

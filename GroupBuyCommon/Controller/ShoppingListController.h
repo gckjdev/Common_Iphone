@@ -26,5 +26,6 @@
 @property (nonatomic, retain) AddShoppingItemController *addShoppingItemController;
 @property (nonatomic, assign) UserShopItemService *service;
 - (void)updateTabBadge:(NSString*)value;
+-(void)clickRefresh:(id)sender;
 
 @end

@@ -57,13 +57,27 @@
                                                city:(NSString*)city
                                            latitude:(double)latitude
                                           longitude:(double)longitude
-                                        startOffset:(int)startOffset;
+                                        startOffset:(int)startOffset
+                                           category:(NSString *)category;
+
++ (CommonNetworkOutput*)findAllProductsWithStartDate:(NSString*)baseURL
+                                               appId:(NSString*)appId
+                                         startOffset:(int)startOffset
+                                                city:(NSString*)city
+                                            category:(NSString *)category;
 
 + (CommonNetworkOutput*)findAllProductsGroupByCategory:(NSString*)baseURL
                                                  appId:(NSString*)appId
                                                   city:(NSString*)city
                                              todayOnly:(BOOL)todayOnly;
 
++ (CommonNetworkOutput *)findAllProductsByScore:(NSString *)baseURL
+                                          appId:(NSString *)appId
+                                    startOffset:(int)startOffset
+                                           city:(NSString *)city
+                                     startPrice:(NSNumber *)startPrice
+                                       endPrice:(NSNumber *)endPrice
+                                       category:(NSString *)category;
 
 + (CommonNetworkOutput*)registerUserDevice:(NSString*)baseURL
                                                  appId:(NSString*)appId
@@ -157,5 +171,53 @@
                                          itemId:(NSString*)itemId
                                     startOffset:(int)startOffset
                                        maxCount:(int)maxCount;
+
++ (CommonNetworkOutput*)registerUserByEmail:(NSString*)baseURL
+                                      appId:(NSString*)appId
+                                      email:(NSString*)email
+                                   password:(NSString*)password;
+
++ (CommonNetworkOutput*)bindUserEmail:(NSString*)baseURL
+                                appId:(NSString*)appId
+                               userId:(NSString*)userId
+                                email:(NSString*)email
+                             password:(NSString*)password;
+
++ (CommonNetworkOutput*)loginUserByEmail:(NSString*)baseURL
+                                      appId:(NSString*)appId
+                                      email:(NSString*)email
+                                   password:(NSString*)password;
+
++ (CommonNetworkOutput*)registerUserBySNS:(NSString*)baseURL
+                                    snsId:(NSString*)snsId
+                             registerType:(int)registerType                                      
+                                    appId:(NSString*)appId
+                              deviceToken:(NSString*)deviceToken
+                                 nickName:(NSString*)nickName
+                                   avatar:(NSString*)avatar
+                              accessToken:(NSString*)accessToken
+                        accessTokenSecret:(NSString*)accessTokenSecret
+                                 province:(int)province
+                                     city:(int)city
+                                 location:(NSString*)location
+                                   gender:(NSString*)gender
+                                 birthday:(NSString*)birthday
+                                   domain:(NSString*)domain;
+
++ (CommonNetworkOutput*)bindUserBySNS:(NSString*)baseURL
+                               userId:(NSString*)userId
+                                snsId:(NSString*)snsId
+                         registerType:(int)registerType                                      
+                                appId:(NSString*)appId
+                             nickName:(NSString*)nickName
+                               avatar:(NSString*)avatar
+                          accessToken:(NSString*)accessToken
+                    accessTokenSecret:(NSString*)accessTokenSecret
+                             province:(int)province
+                                 city:(int)city
+                             location:(NSString*)location
+                               gender:(NSString*)gender
+                             birthday:(NSString*)birthday
+                               domain:(NSString*)domain;
 
 @end

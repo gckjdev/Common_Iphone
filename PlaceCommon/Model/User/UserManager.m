@@ -158,6 +158,45 @@ UserManager* userManager;
 	return [dataManager save];
 }
 
++ (BOOL)createUserWithUserId:(NSString *)userId
+                     email:(NSString *)email
+                    password:(NSString *)password
+{
+	CoreDataManager* dataManager = GlobalGetCoreDataManager();
+	User* user = (User*)[dataManager execute:@"getUser" forKey:@"queryId" value:DEFAULT_USER_QUERY_ID];
+    if (nil == user) {
+        user = [dataManager insert:@"User"];
+    }
+    
+    user.userId = userId;
+    user.queryId = DEFAULT_USER_QUERY_ID;
+    user.email = email;
+    user.password = password;
+    user.loginStatus = [NSNumber numberWithBool:YES];    
+    
+    NSLog(@"<createUser> user=%@", [user description]);
+    
+	return [dataManager save];
+}
+
++ (BOOL)updateUserWithEmail:(NSString *)email
+                    password:(NSString *)password
+{
+	CoreDataManager* dataManager = GlobalGetCoreDataManager();
+	User* user = (User*)[dataManager execute:@"getUser" forKey:@"queryId" value:DEFAULT_USER_QUERY_ID];
+    if (nil == user) {
+        NSLog(@"<updateUserWithEmail> error! user not found");
+        return NO;
+    }
+    
+    user.email = email;
+    user.password = password;
+    user.loginStatus = [NSNumber numberWithBool:YES];    
+    
+    NSLog(@"<updateUserWithEmail> user=%@", [user description]);    
+	return [dataManager save];
+}
+
 + (BOOL)bindUserWithUserId:(NSString *)userId
                   loginId:(NSString *)loginId
               loginIdType:(int)loginIdType

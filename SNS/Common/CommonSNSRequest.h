@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "OAuthCore.h"
 #import "SNSConstants.h"
+#import "SNSWebViewController.h"
 
 @protocol CommonSNSProtocol <NSObject>
 

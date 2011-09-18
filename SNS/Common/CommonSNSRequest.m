@@ -8,6 +8,8 @@
 
 #import "CommonSNSRequest.h"
 #import "OAuthCore.h"
+#import "NetworkUtil.h"
+#import "StringUtil.h"
 
 @implementation CommonSNSRequest
 
@@ -52,10 +54,18 @@
         NSLog(@"<getRequestTokenURL> fail to generate initial URL");        
         return nil;
     }
+
+    NSDictionary* dict = nil;
+    if (callbackURL == nil){
+        dict = nil;
+    }
+    else{
+        dict = [NSDictionary dictionaryWithObject:callbackURL forKey:@"oauth_callback"];
+    }
     
     NSString *queryString = [OAuthCore queryStringWithUrl:url
                                                    method:@"GET"
-                                               parameters:[NSDictionary dictionaryWithObject:callbackURL forKey:@"oauth_callback"]
+                                               parameters:dict
                                               consumerKey:self.appKey  
                                            consumerSecret:self.appSecret
                                                     token:nil
@@ -145,5 +155,7 @@
             [[userInfoCache objectForKey:SNS_OAUTH_TOKEN] length] > 0 &&
             [[userInfoCache objectForKey:SNS_OAUTH_TOKEN_SECRET] length] > 0);
 }
+
+
 
 @end

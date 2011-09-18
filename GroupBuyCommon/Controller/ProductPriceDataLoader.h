@@ -31,11 +31,13 @@
 
 @interface ProductDistanceDataLoader : NSObject<ProductDataLoader> {
     
+    NSString    *categoryId;
     
 }
 
-- (NSArray*)requestProductListFromDB;
-- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+@property (nonatomic, retain)     NSString    *categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryId;
 
 @end
 
@@ -106,5 +108,41 @@
 - (id)initWithKeyword:(NSString*)keyword;
 - (NSArray*)requestProductListFromDB;
 - (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end
+
+@interface ProductTopScoreBelowTenDataLoader : NSObject <ProductDataLoader> {
+    
+    NSString    *categoryId;
+    
+}
+
+@property (nonatomic, retain)     NSString    *categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryId;
+
+@end
+
+@interface ProductTopScoreAboveTenDataLoader : NSObject <ProductDataLoader> {
+    
+    NSString    *categoryId;
+    
+}
+
+@property (nonatomic, retain)     NSString    *categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryId;
+
+@end
+
+@interface ProductStartDateDataLoader : NSObject <ProductDataLoader> {
+    
+    NSString    *categoryId;
+    
+}
+
+@property (nonatomic, retain)     NSString    *categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryId;
 
 @end

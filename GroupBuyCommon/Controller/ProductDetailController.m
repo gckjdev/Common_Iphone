@@ -23,6 +23,7 @@
 enum {
     SECTION_TITLE,
     SECTION_IMAGE,
+    SECTION_PRICE,
 
     SECTION_DATE,
     SECTION_SHOP_ADDRESS,
@@ -62,6 +63,7 @@ enum {
     
     ProductDetailController* vc = [[ProductDetailController alloc] init];
     vc.product = product;
+    vc.hidesBottomBarWhenPushed = YES;
     [navigationController pushViewController:vc animated:YES];
     [vc release];
 }
@@ -263,6 +265,9 @@ enum {
             return size.height + EXTRA_HEIGHT;
         }
             
+        case SECTION_PRICE:
+            return 60;
+            
         case SECTION_IMAGE:
             return 160;
             
@@ -379,6 +384,14 @@ enum {
         case SECTION_IMAGE:
         {
             
+        }
+            break;
+            
+        case SECTION_PRICE:
+        {
+            cell.textLabel.text = [NSString stringWithFormat:@"价格 %@  折扣 %@  原价 %@  销量 %@", 
+                                   [product.price description], [product.rebate description],
+                                   [product.value description], [product.bought description]];
         }
             break;
             

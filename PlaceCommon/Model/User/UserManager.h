@@ -67,4 +67,11 @@
 
 + (void)logoutUser:(User*)user;
 
++ (BOOL)createUserWithUserId:(NSString *)userId
+                       email:(NSString *)email
+                    password:(NSString *)password;
+
++ (BOOL)updateUserWithEmail:(NSString *)email
+                   password:(NSString *)password;
+
 @end

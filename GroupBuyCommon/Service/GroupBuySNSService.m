@@ -1,27 +1,26 @@
 //
-//  PlaceSNSService.m
+//  GroupBuySNSService.m
 //  Dipan
 //
 //  Created by qqn_pipi on 11-6-6.
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#import "PlaceSNSService.h"
+#import "GroupBuySNSService.h"
 #import "PPViewController.h"
-#import "UserService.h"
+#import "GroupBuyUserService.h"
 #import "VariableConstants.h"
 #import "NetworkUtil.h"
 #import "StringUtil.h"
 
+
 #define SINA_APP_KEY                    @"1528146353"
 #define SINA_APP_SECRET                 @"4815b7938e960380395e6ac1fe645a5c"
-#define SINA_CALLBACK_URL               @"dipan://sina"
 
 #define QQ_APP_KEY                      @"7c78d5b42d514af8bb66f0200bc7c0fc"
 #define QQ_APP_SECRET                   @"6340ae28094e66d5388b4eb127a2af43"
-#define QQ_CALLBACK_URL                 @"dipan://qq"
 
-@implementation PlaceSNSService
+@implementation GroupBuySNSService
 
 @synthesize sinaRequest;
 @synthesize qqRequest;
@@ -57,10 +56,10 @@
                                                oauthTokenSecret:nil];
     
     self.qqRequest = [[QQWeiboRequest alloc] initWithAppKey:self.qqAppKey
-                                                      appSecret:self.qqAppSecret
-                                                    callbackURL:@"null"
-                                                     oauthToken:nil
-                                               oauthTokenSecret:nil];
+                                                  appSecret:self.qqAppSecret
+                                                callbackURL:@"null"
+                                                 oauthToken:nil
+                                           oauthTokenSecret:nil];
     
     return self;
 }
@@ -84,7 +83,7 @@
     [sinaRequest release];
     [qqRequest release];
     [super dealloc];
-        
+    
 }
 
 #pragma mark - Cache Handling
@@ -201,20 +200,20 @@
     [self snsInitiateLogin:viewController snsRequest:qqRequest];
 }
 
-AuthorizationSuccessHandler snsAuthorizeSuccess = ^(NSDictionary* userInfo, PPViewController* viewController){
+AuthorizationSuccessHandler groupBuySnsAuthorizeSuccess = ^(NSDictionary* userInfo, PPViewController* viewController){
     UserService* userService = GlobalGetUserService();
-    [userService loginUserWithSNSUserInfo:userInfo viewController:viewController];            
+    [userService groupBuyRegisterUserWithSNSUserInfo:userInfo viewController:viewController];            
     
 };
 
 - (void)sinaParseAuthorizationResponseURL:(NSString *)query
 {
-    [self sinaParseAuthorizationResponseURL:query viewController:displayViewController successHandler:snsAuthorizeSuccess];
+    [self sinaParseAuthorizationResponseURL:query viewController:displayViewController successHandler:groupBuySnsAuthorizeSuccess];
 }
 
 - (void)qqParseAuthorizationResponseURL:(NSString *)query
 {
-    [self qqParseAuthorizationResponseURL:query viewController:displayViewController successHandler:snsAuthorizeSuccess];    
+    [self qqParseAuthorizationResponseURL:query viewController:displayViewController successHandler:groupBuySnsAuthorizeSuccess];    
 }
 
 - (void)syncWeiboToAllSNS:(NSString*)text viewController:(PPViewController*)viewController
@@ -228,7 +227,7 @@ AuthorizationSuccessHandler snsAuthorizeSuccess = ^(NSDictionary* userInfo, PPVi
             [self sendText:text snsRequest:qqRequest]; 
         });
     }
-
+    
     if ([userService hasUserBindSina]){
         dispatch_async(workingQueue, ^{
             [self sendText:text snsRequest:sinaRequest]; 
@@ -255,7 +254,7 @@ AuthorizationSuccessHandler snsAuthorizeSuccess = ^(NSDictionary* userInfo, PPVi
             finalResult = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [displayViewController.navigationController popViewControllerAnimated:YES];
-                snsAuthorizeSuccess(userInfo, displayViewController);
+                groupBuySnsAuthorizeSuccess(userInfo, displayViewController);
             });            
             
         }
