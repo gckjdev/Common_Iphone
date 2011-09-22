@@ -14,6 +14,7 @@
 #import <MessageUI/MessageUI.h>
 #import "StringUtil.h"
 #import "TKAlertCenter.h"
+#import "UIBlankView.h"
 
 @implementation PPViewController
 
@@ -26,6 +27,7 @@
 @synthesize selectedImage;
 @synthesize selectedImageSaveFileName;
 @synthesize currentKeyboardType;
+@synthesize blankView;
 
 #pragma mark background and navigation bar buttons
 
@@ -276,6 +278,12 @@
 	[super viewDidAppear:animated];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self removeBlankView];
+    [super viewDidDisappear:animated];
+}
+
 - (void)viewDidLoad
 {
 	[self createWorkingQueue];
@@ -292,6 +300,7 @@
     self.alertView = nil;   // release alert view
     
 	[self deregsiterKeyboardNotification];
+    [self.blankView deregsiterKeyboardNotification];
 	[super viewDidUnload];
 }
 
@@ -308,6 +317,7 @@
 	[self releaseWorkingQueue];
 	[backgroundImageName release];
 	[timer release];
+    [blankView release];
 	
 	[locationManager release];
 	[reverseGeocoder release];
@@ -695,6 +705,27 @@
         [self presentModalViewController:picker animated:YES];        
     }
     
+}
+
+- (void)addBlankView:(UIView*)searchBar
+{
+    int top = searchBar.frame.origin.y + searchBar.frame.size.height;
+    [self addBlankView:top currentResponder:searchBar];
+}
+
+- (void)addBlankView:(CGFloat)top currentResponder:(UIView*)currentResponder
+{
+    CGRect frame = CGRectMake(0, top, 320, 480);
+    if (self.blankView == nil){
+        blankView = [[UIBlankView alloc] initWithFrame:frame];
+    }
+    
+    [blankView registerKeyboardNotification:currentResponder fatherView:self.view frame:frame];
+}
+
+- (void)removeBlankView
+{
+    [self.blankView deregsiterKeyboardNotification];
 }
 
 @end

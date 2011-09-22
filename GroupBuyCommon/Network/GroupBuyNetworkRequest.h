@@ -220,4 +220,7 @@
                              birthday:(NSString*)birthday
                                domain:(NSString*)domain;
 
++ (CommonNetworkOutput*)segmentText:(NSString*)baseURL
+                              appId:(NSString*)appId
+                               text:(NSString*)text;
 @end

@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPTableViewController.h"
 
-
-@interface TaobaoSearchResultController : UIViewController {
+@interface TaobaoSearchResultController : PPTableViewController {
     
 }
 

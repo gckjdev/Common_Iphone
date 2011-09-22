@@ -75,6 +75,9 @@
 
 #define METHOD_LOGIN @"lg"
 
+#define METHOD_SEGMENTTEXT @"st"
+#define METHOD_COMPAREPRODUCT @"comp"
+
 // request parameters
 
 #define PARA_USERID @"uid"

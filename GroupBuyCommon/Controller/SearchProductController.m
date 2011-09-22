@@ -80,7 +80,9 @@
 -(void) viewDidAppear:(BOOL)animated
 {
 	[self refreshLatestSearchHistory];
-	[super viewDidAppear:animated];
+    [self addBlankView:keywordSearchBar];
+	
+    [super viewDidAppear:animated];
 }
 
 -(void) refreshLatestSearchHistory

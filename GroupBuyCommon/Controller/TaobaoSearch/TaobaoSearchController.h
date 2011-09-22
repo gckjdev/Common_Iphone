@@ -7,10 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPViewController.h"
+#import "ProductService.h"
 
+@interface TaobaoSearchController : PPViewController<ProductServiceDelegate, UISearchBarDelegate> {
 
-@interface TaobaoSearchController : UIViewController {
-    
+    NSString    *text;
+    UIView *keywordBackgroundView;
+    UISearchBar *searchBar;
 }
+
+@property (nonatomic, retain) NSString    *text;
+@property (nonatomic, retain) IBOutlet UIView *keywordBackgroundView;
+
+@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
++ (TaobaoSearchController*)showController:(UIViewController*)superController text:(NSString*)text;
 
 @end

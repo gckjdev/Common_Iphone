@@ -27,12 +27,14 @@
 - (void)actionOnProductFinish:(int)result actionName:(NSString *)actionName count:(long)count;
 - (void)writeCommentFinish:(int)result;
 - (void)getCommentFinish:(int)result jsonArray:(NSArray *)jsonArray;
+- (void)segmentTextFinish:(int)result jsonArray:(NSArray *)jsonArray;
 
 @end
 
 @interface ProductService : CommonService {
     
     dispatch_queue_t    actionWorkingQueue;
+    dispatch_queue_t    segmentTextQueue;
 }
 
 - (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
@@ -57,6 +59,8 @@
 - (void)writeCommentWithContent:(NSString *)content nickName:(NSString *)nickName productId:(NSString *)productId viewController:(PPViewController<ProductServiceDelegate> *)viewController;
 
 - (void)getCommentsWithProductId:(NSString *)productId viewController:(PPViewController<ProductServiceDelegate> *)viewController;
+
+- (void)segmentText:(NSString*)text delegate:(id<ProductServiceDelegate>)delegate;
 
 @end
 
