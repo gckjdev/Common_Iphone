@@ -17,6 +17,9 @@
     
 }
 
++ (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
+                                  appId:(NSString *)appId;
+
 + (CommonNetworkOutput*)deviceLogin:(NSString*)baseURL
                               appId:(NSString*)appId
                      needReturnUser:(BOOL)needReturnUser

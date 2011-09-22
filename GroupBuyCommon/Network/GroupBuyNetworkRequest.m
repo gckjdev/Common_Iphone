@@ -13,11 +13,37 @@
 #import "JSON.h"
 #import "LocaleUtils.h"
 
-
-
-
-
 @implementation GroupBuyNetworkRequest
+
++ (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
+                                  appId:(NSString *)appId
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_GETALLCATEGORY];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        NSLog(@"<getAllCategory> data=%@", [output.jsonDataArray description]);
+        return;
+    };
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+}
 
 + (CommonNetworkOutput*)deviceLogin:(NSString*)baseURL
                               appId:(NSString*)appId
@@ -59,7 +85,6 @@
                      constructURLHandler:constructURLHandler
                          responseHandler:responseHandler
                                   output:output];
-    
 }
 
 

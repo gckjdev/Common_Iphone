@@ -70,6 +70,7 @@
 #define METHOD_GETSHOPPINGITEM @"gsi"
 #define METHOD_GETITEMMATCHCOUNT @"csip"
 #define METHOD_FINDPRODUCTSBYSHOPPINGITEMID @"fpsi"
+#define METHOD_GETALLCATEGORY @"gac"
 
 #define METHOD_REGISTERSNS @"rs"
 
@@ -250,6 +251,7 @@
 #define PARA_CATEGORY_NAME @"na"
 #define PARA_SUB_CATEGORY_NAME @"scn"
 #define PARA_CATEGORY_ID @"ci"
+#define PARA_CATEGORY_PRODUCTS_NUM @"cpn"
 
 #define PARA_REGISTER_TYPE  @"rt"
 
