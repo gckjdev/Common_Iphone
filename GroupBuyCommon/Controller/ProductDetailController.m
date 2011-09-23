@@ -605,7 +605,7 @@ enum {
 
 - (void)clickTaobaoSearch:(id)sender
 {
-    [TaobaoSearchController showController:self text:product.title];    
+    [TaobaoSearchController showController:self text:product.title price:[product.price doubleValue] value:[product.value doubleValue]];    
 }
 
 @end

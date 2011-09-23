@@ -226,4 +226,10 @@
 + (CommonNetworkOutput*)segmentText:(NSString*)baseURL
                               appId:(NSString*)appId
                                text:(NSString*)text;
+
++ (CommonNetworkOutput*)taobaoSearch:(NSString*)baseURL
+                               appId:(NSString*)appId
+                             keyword:(NSString*)keyword;
+
+
 @end

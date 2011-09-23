@@ -63,6 +63,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [self.webView stopLoading];
+    [self hideActivity];
     [loadActivityIndicator stopAnimating];
     if (loadActivityIndicator.superview)
         [loadActivityIndicator removeFromSuperview];
@@ -134,6 +135,8 @@
         [loadActivityIndicator removeFromSuperview];
     [toolbar addSubview:loadActivityIndicator];
     
+    [self showActivityWithText:@"加载中..."];
+    
 //    [self.view addSubview:loadActivityIndicator];
     
     [loadActivityIndicator startAnimating];
@@ -141,6 +144,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
 
+    [self hideActivity];
     if (loadActivityIndicator.superview)
         [loadActivityIndicator removeFromSuperview];
 }
@@ -154,8 +158,16 @@
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    [self hideActivity];
     if (loadActivityIndicator.superview)
         [loadActivityIndicator removeFromSuperview];
+}
+
++ (void)show:(UIViewController*)superController url:(NSString*)url
+{
+    PPWebViewController *webController = [[[PPWebViewController alloc] init] autorelease];
+    [superController.navigationController pushViewController:webController animated:YES];    
+    [webController openURL:url];
 }
 
 @end

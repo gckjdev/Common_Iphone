@@ -41,6 +41,7 @@
 - (void)webViewDidStartLoad:(UIWebView *)webView;
 - (void)webViewDidFinishLoad:(UIWebView *)webView;
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error;
++ (void)show:(UIViewController*)superController url:(NSString*)url;
 
 @end
 

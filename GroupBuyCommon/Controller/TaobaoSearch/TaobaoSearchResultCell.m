@@ -7,51 +7,95 @@
 //
 
 #import "TaobaoSearchResultCell.h"
-
+#import "PPApplication.h"
 
 @implementation TaobaoSearchResultCell
+@synthesize imageView;
+@synthesize valueGapLabel;
+@synthesize priceGapLabel;
+@synthesize titleLabel;
+@synthesize priceLabel;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+// just replace PPTableViewCell by the new Cell Class Name
++ (TaobaoSearchResultCell*)createCell:(id)delegate
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"TaobaoSearchResultCell" 
+                                                             owner:self options:nil];
+    // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).  
+    if (topLevelObjects == nil || [topLevelObjects count] <= 0){
+        NSLog(@"create <TaobaoSearchResultCell> but cannot find cell object from Nib");
+        return nil;
     }
-    return self;
+    
+    ((TaobaoSearchResultCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    
+    return (TaobaoSearchResultCell*)[topLevelObjects objectAtIndex:0];
 }
 
-- (void)dealloc
+- (void)setCellStyle
 {
+    self.selectionStyle = UITableViewCellSelectionStyleBlue;
+    //    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
+
++ (NSString*)getCellIdentifier
+{
+    return @"TaobaoSearchResultCell";
+}
+
++ (CGFloat)getCellHeight
+{
+    return 116.0f;
+}
+
+- (void)setCellInfoWithProduct:(NSDictionary*)taobaoProduct 
+                     indexPath:(NSIndexPath*)indexPath
+                         price:(double)price
+                         value:(double)value
+
+{
+    NSString *name = [taobaoProduct objectForKey:@"title"];    
+    NSString *taobaoPrice = [taobaoProduct objectForKey:@"price"];
+    NSString *shop = [taobaoProduct objectForKey:@"nick"];
+    NSString *image = [taobaoProduct objectForKey:@"pic_url"];
+    double   taobaoDoublePrice = [taobaoPrice doubleValue];
+    
+    self.titleLabel.text = [NSString stringWithFormat:@"【%@】 %@", shop, name];
+    self.titleLabel.numberOfLines = 3;
+    self.priceLabel.text = [NSString stringWithFormat:@"%@ 元", taobaoPrice];
+    if ( taobaoDoublePrice > price ){
+        self.priceGapLabel.text = [NSString stringWithFormat:@"＋%.2f 元 ／", taobaoDoublePrice - price];
+        self.priceGapLabel.textColor = [UIColor blueColor];
+    }
+    else{
+        self.priceGapLabel.text = [NSString stringWithFormat:@"%.2f 元 ／", taobaoDoublePrice - price];
+        self.priceGapLabel.textColor = [UIColor redColor];
+    }
+
+    if ( taobaoDoublePrice > value ){
+        self.valueGapLabel.text = [NSString stringWithFormat:@"＋%.2f 元", taobaoDoublePrice - value];
+        self.valueGapLabel.textColor = [UIColor blueColor];
+    }
+    else {
+        self.valueGapLabel.text = [NSString stringWithFormat:@"%.2f 元", taobaoDoublePrice - value];
+        self.valueGapLabel.textColor = [UIColor redColor];
+    }
+    
+    self.imageView.hidden = YES;
+//    self.imageView.callbackOnSetImage = self;
+//    [self.imageView clear];
+//    self.imageView.url = [NSURL URLWithString:image];
+//    [GlobalGetImageCache() manage:self.imageView];
+
+}
+
+
+- (void)dealloc {
+    [titleLabel release];
+    [priceLabel release];
+    [priceGapLabel release];
+    [valueGapLabel release];
+    [imageView release];
     [super dealloc];
 }
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 @end

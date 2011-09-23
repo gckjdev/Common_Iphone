@@ -7,10 +7,31 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPTableViewCell.h"
+#import "HJManagedImageV.h"
 
-
-@interface TaobaoSearchResultCell : UIViewController {
+@interface TaobaoSearchResultCell : PPTableViewCell {
     
+    UILabel *titleLabel;
+    UILabel *priceLabel;
+    UILabel *priceGapLabel;
+    UILabel *valueGapLabel;
+    HJManagedImageV *imageView;
 }
+
++ (TaobaoSearchResultCell*)createCell:(id)delegate;
++ (NSString*)getCellIdentifier;
++ (CGFloat)getCellHeight;
+
+@property (nonatomic, retain) IBOutlet HJManagedImageV *imageView;
+@property (nonatomic, retain) IBOutlet UILabel *valueGapLabel;
+- (void)setCellInfoWithProduct:(NSDictionary*)taobaoProduct 
+                     indexPath:(NSIndexPath*)indexPath
+                         price:(double)price
+                         value:(double)value;
+@property (nonatomic, retain) IBOutlet UILabel *priceGapLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
 
 @end

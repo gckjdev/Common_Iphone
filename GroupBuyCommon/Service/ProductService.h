@@ -28,6 +28,8 @@
 - (void)writeCommentFinish:(int)result;
 - (void)getCommentFinish:(int)result jsonArray:(NSArray *)jsonArray;
 - (void)segmentTextFinish:(int)result jsonArray:(NSArray *)jsonArray;
+- (void)taobaoSearchFinish:(int)result jsonArray:(NSArray *)jsonArray;
+
 
 @end
 
@@ -61,6 +63,7 @@
 - (void)getCommentsWithProductId:(NSString *)productId viewController:(PPViewController<ProductServiceDelegate> *)viewController;
 
 - (void)segmentText:(NSString*)text delegate:(id<ProductServiceDelegate>)delegate;
+- (void)taobaoSearch:(NSString*)keyword delegate:(id<ProductServiceDelegate>)delegate;
 
 @end
 

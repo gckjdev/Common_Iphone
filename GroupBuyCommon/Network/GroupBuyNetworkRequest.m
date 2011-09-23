@@ -1159,5 +1159,41 @@
     
 }
 
++ (CommonNetworkOutput*)taobaoSearch:(NSString*)baseURL
+                              appId:(NSString*)appId
+                               keyword:(NSString*)keyword
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];        
+        str = [str stringByAddQueryParameter:METHOD
+                                       value:METHOD_COMPAREPRODUCT];
+        str = [str stringByAddQueryParameter:PARA_APPID
+                                       value:appId];
+        str = [str stringByAddQueryParameter:PARA_KEYWORD
+                                       value:keyword];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        NSLog(@"<taobaoSearch> data=%@", [output.jsonDataArray description]);
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+    
+}
+
+
 @end
 

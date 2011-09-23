@@ -8,9 +8,23 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewController.h"
+#import "ProductService.h"
 
-@interface TaobaoSearchResultController : PPTableViewController {
+@interface TaobaoSearchResultController : PPTableViewController<ProductServiceDelegate> {
     
-}
+    NSString* searchKeyword;
+    double      price;
+    double      value;}
+
+@property (nonatomic, retain) NSString* searchKeyword;
+@property (nonatomic, assign) double      price;
+@property (nonatomic, assign) double      value;
+
+- (id)initWithSearchKeyword:(NSString*)keyword;
++ (TaobaoSearchResultController*)showController:(UIViewController*)superController 
+                                        keyword:(NSString*)keyword
+                                          price:(double)price
+                                          value:(double)value;
+
 
 @end

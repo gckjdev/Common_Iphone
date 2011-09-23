@@ -8,17 +8,26 @@
 
 #import "TaobaoSearchController.h"
 #import "ProductService.h"
+#import "TaobaoSearchResultController.h"
 
 @implementation TaobaoSearchController
 
 @synthesize text;
+@synthesize price;
+@synthesize value;
 @synthesize keywordBackgroundView;
 @synthesize searchBar;
 
-+ (TaobaoSearchController*)showController:(UIViewController*)superController text:(NSString*)text
++ (TaobaoSearchController*)showController:(UIViewController*)superController 
+                                     text:(NSString*)text
+                                    price:(double)price
+                                    value:(double)value
+
 {
     TaobaoSearchController* vc = [[[TaobaoSearchController alloc] init] autorelease];
     vc.text = text;
+    vc.price = price;
+    vc.value = value;
     [superController.navigationController pushViewController:vc animated:YES];
     return vc;
 }
@@ -154,17 +163,26 @@
 {
     UIButton* button = (UIButton*)sender;
     NSString* title = [button titleForState:UIControlStateNormal];
+    NSString* titleAfterTrim = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (searchBar.text == nil){
-        searchBar.text = title;
+        searchBar.text = titleAfterTrim;
     }
     else{
-        searchBar.text = [searchBar.text stringByAppendingString:[title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+        searchBar.text = [searchBar.text stringByAppendingString:titleAfterTrim];
     }
 }
 
 - (void)clickSearch:(id)sender
 {
+    if ([searchBar.text length] == 0){
+        [self popupUnhappyMessage:@"还没选择或者输入关键字呢..." title:nil];        
+        return;
+    }        
     
+    [TaobaoSearchResultController showController:self 
+                                         keyword:searchBar.text
+                                           price:price
+                                           value:value];
 }
 
 @end
