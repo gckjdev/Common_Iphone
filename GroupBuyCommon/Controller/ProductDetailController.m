@@ -19,6 +19,7 @@
 #import "ProductService.h"
 #import "ProductManager.h"
 #import "ProductCommentsController.h"
+#import "TaobaoSearchController.h"
 
 enum {
     SECTION_IMAGE,
@@ -102,8 +103,9 @@ enum {
 {
     [GroupBuyReport reportEnterProductDetail:product];
     
-    self.navigationItem.title = @"团购商品详情";
+    self.navigationItem.title = @"商品详情";
     [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
+    [self setNavigationRightButton:@"淘宝比价" action:@selector(clickTaobaoSearch:)];
     
     self.boughtLabel.text = [product.bought description];
     self.rebateLabel.text = [product.rebate description];
@@ -601,6 +603,9 @@ enum {
     [self handleForwardProduct:buttonIndex];
 }
 
-
+- (void)clickTaobaoSearch:(id)sender
+{
+    [TaobaoSearchController showController:self text:product.title price:[product.price doubleValue] value:[product.value doubleValue]];    
+}
 
 @end

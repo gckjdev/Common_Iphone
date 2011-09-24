@@ -393,4 +393,43 @@
     });
 }
 
+- (void)segmentText:(NSString*)text delegate:(id<ProductServiceDelegate>)delegate
+{
+    if (segmentTextQueue == NULL){
+        segmentTextQueue = dispatch_queue_create("segment text queue", NULL);
+    }    
+    
+    dispatch_async(segmentTextQueue, ^{
+
+        CommonNetworkOutput* output = nil;        
+        output = [GroupBuyNetworkRequest segmentText:SERVER_URL appId:GlobalGetPlaceAppId() text:text];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSArray* resultArray = [output jsonDataArray];
+            if (delegate && [delegate respondsToSelector:@selector(segmentTextFinish:jsonArray:)])
+                [delegate segmentTextFinish:output.resultCode jsonArray:resultArray];
+        });
+    });
+}
+
+- (void)taobaoSearch:(NSString*)keyword delegate:(id<ProductServiceDelegate>)delegate
+{
+    if (segmentTextQueue == NULL){
+        segmentTextQueue = dispatch_queue_create("segment text queue", NULL);
+    }    
+    
+    dispatch_async(segmentTextQueue, ^{
+        
+        CommonNetworkOutput* output = nil;        
+        output = [GroupBuyNetworkRequest taobaoSearch:SERVER_URL appId:GlobalGetPlaceAppId() keyword:keyword];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSArray* resultArray = [output jsonDataArray];
+            if (delegate && [delegate respondsToSelector:@selector(taobaoSearchFinish:jsonArray:)])
+                [delegate taobaoSearchFinish:output.resultCode jsonArray:resultArray];
+        });
+    });
+    
+}
+
 @end

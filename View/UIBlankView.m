@@ -54,8 +54,10 @@
 	self.frame = initFrame;
 	
 	// add current view to super view
-	[self.fatherView insertSubview:self atIndex:0];	
-	[self.fatherView bringSubviewToFront:self];
+	// [self.fatherView insertSubview:self atIndex:0];	
+	// [self.fatherView bringSubviewToFront:self];    
+    
+    [self.fatherView addSubview:self];
 }
 
 - (void)keyboardDidHide:(NSNotification *)notification
@@ -68,6 +70,8 @@
 	if (isRegister == YES)
 		return;
 	
+    NSLog(@"<BlankView> registerKeyboardNotification");
+    
 	// set current keyboard responder
 	self.currentKeyboardResponder = theResponder;
 	self.fatherView = theFatherView;
@@ -82,6 +86,7 @@
 
 - (void)deregsiterKeyboardNotification
 {
+    NSLog(@"<BlankView> deregsiterKeyboardNotification");
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];	
 	

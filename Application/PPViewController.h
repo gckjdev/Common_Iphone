@@ -20,6 +20,8 @@
 #define kLocationUpdateTimeOut		60.0
 #define kTimeOutObjectString		@"Time out"
 
+@class UIBlankView;
+
 @interface PPViewController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate, MKReverseGeocoderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 
 	NSString*				backgroundImageName;
@@ -45,6 +47,7 @@
     NSString                *selectedImageSaveFileName;
     
     UIKeyboardType          currentKeyboardType;
+    UIBlankView             *blankView;
 }
 
 @property (nonatomic, retain) TKLoadingView*        loadingView;
@@ -62,6 +65,8 @@
 @property (nonatomic, retain) UIImage               *selectedImage;
 @property (nonatomic, retain) NSString              *selectedImageSaveFileName;
 @property (nonatomic, assign) UIKeyboardType        currentKeyboardType;
+
+@property (nonatomic, retain) UIBlankView             *blankView;
 
 
 - (void)showBackgroundImage;
@@ -109,5 +114,9 @@
 
 - (void)selectPhoto;
 - (void)takePhoto;
+
+- (void)addBlankView:(UIView*)searchBar;
+- (void)addBlankView:(CGFloat)top currentResponder:(UIView*)currentResponder;
+- (void)removeBlankView;
 
 @end

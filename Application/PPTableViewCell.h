@@ -17,6 +17,7 @@
     
 }
 
+// copy and override three methods below
 + (PPTableViewCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;

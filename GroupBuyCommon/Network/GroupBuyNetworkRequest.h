@@ -17,6 +17,9 @@
     
 }
 
++ (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
+                                  appId:(NSString *)appId;
+
 + (CommonNetworkOutput*)deviceLogin:(NSString*)baseURL
                               appId:(NSString*)appId
                      needReturnUser:(BOOL)needReturnUser
@@ -219,5 +222,14 @@
                                gender:(NSString*)gender
                              birthday:(NSString*)birthday
                                domain:(NSString*)domain;
+
++ (CommonNetworkOutput*)segmentText:(NSString*)baseURL
+                              appId:(NSString*)appId
+                               text:(NSString*)text;
+
++ (CommonNetworkOutput*)taobaoSearch:(NSString*)baseURL
+                               appId:(NSString*)appId
+                             keyword:(NSString*)keyword;
+
 
 @end
