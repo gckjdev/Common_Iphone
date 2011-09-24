@@ -87,13 +87,21 @@
 {
 	// Do any additional setup after loading the view from its nib.
 	NSArray* latestSearchHistories = [SearchHistoryManager getLatestSearchHistories];
-	
-	if([latestSearchHistories count] >=1 )
+	latestSearchButton1.hidden = YES;
+    latestSearchButton2.hidden = YES;
+    latestSearchButton3.hidden = YES;
+	if([latestSearchHistories count] >=1 ){
 		[latestSearchButton1 setTitle:((SearchHistory*)[latestSearchHistories objectAtIndex:0]).keywords forState:UIControlStateNormal];
-	if([latestSearchHistories count] >=2 )
+        latestSearchButton1.hidden = NO;
+    }
+	if([latestSearchHistories count] >=2 ){
 		[latestSearchButton2 setTitle:((SearchHistory*)[latestSearchHistories objectAtIndex:1]).keywords forState:UIControlStateNormal];
-	if([latestSearchHistories count] >=3 )
+        latestSearchButton2.hidden = NO;
+    }
+	if([latestSearchHistories count] >=3 ){
 		[latestSearchButton3 setTitle:((SearchHistory*)[latestSearchHistories objectAtIndex:2]).keywords forState:UIControlStateNormal];
+        latestSearchButton3.hidden = NO;
+    }
 	
 	NSArray* hotKeyWords = [HotKeywordManager getAllHotKeywords];
 	 

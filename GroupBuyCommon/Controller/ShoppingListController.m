@@ -318,7 +318,7 @@
 
 - (void)didEndUpdateShoppingItemWithResultCode:(NSInteger)code
 {
-    [self hideActivity];
+    [self.addShoppingItemController hideActivity];
     if (code == ERROR_SUCCESS) {
         [self.navigationController popViewControllerAnimated:YES];
     }else if (code == ERROR_NETWORK){
