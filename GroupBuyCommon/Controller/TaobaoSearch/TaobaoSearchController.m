@@ -28,6 +28,7 @@
     vc.text = text;
     vc.price = price;
     vc.value = value;
+    vc.searchBar.delegate = vc;
     [superController.navigationController pushViewController:vc animated:YES];
     return vc;
 }
@@ -183,6 +184,12 @@
                                          keyword:searchBar.text
                                            price:price
                                            value:value];
+}
+
+-(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.searchBar resignFirstResponder];
+    [self clickSearch:searchBar];
 }
 
 @end

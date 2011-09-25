@@ -284,6 +284,8 @@
     
     if (self.addShoppingItemController == nil) {
         self.addShoppingItemController = [[AddShoppingItemController alloc]init];
+    }else{
+        [self.addShoppingItemController updateCellWithItem:nil];
     }
     self.addShoppingItemController.navigationItem.title = @"添加感兴趣的团购";
     [self.navigationController pushViewController:self.addShoppingItemController animated:YES];
@@ -296,7 +298,11 @@
     
     if (self.addShoppingItemController == nil) {
         self.addShoppingItemController = [[AddShoppingItemController alloc]initWithUserShoppingItem:item];
+    }else{
+        [self.addShoppingItemController updateCellWithItem:item];
     }
+    
+    
     self.addShoppingItemController.navigationItem.title = @"编辑团购项";
     [self.navigationController pushViewController:self.addShoppingItemController animated:YES];
 }

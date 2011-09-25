@@ -67,5 +67,6 @@
 
 -(IBAction) selectCategory:(id) sender;
 -(IBAction) selectSubCategory:(id) sender;
+-(void) updateCellWithItem:(UserShoppingItem *)item;
 
 @end
