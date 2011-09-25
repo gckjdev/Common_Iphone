@@ -27,13 +27,14 @@ enum {
     
     NSArray*        jsonDataArray;
     NSDictionary*   jsonDataDict;
+    NSString*       textData;
 }
 
 @property (nonatomic, assign) int			resultCode;
 @property (nonatomic, retain) NSString*		resultMessage;
 @property (nonatomic, retain) NSArray*        jsonDataArray;
 @property (nonatomic, retain) NSDictionary*   jsonDataDict;
-
+@property (nonatomic, retain) NSString*       textData;
 - (void)resultFromJSON:(NSString*)jsonString;
 - (NSDictionary*)dictionaryDataFromJSON:(NSString*)jsonString;
 - (NSArray*)arrayFromJSON:(NSString*)jsonString;

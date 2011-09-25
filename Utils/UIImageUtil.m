@@ -8,7 +8,6 @@
 
 #import "UIImageUtil.h"
 #import "FileUtil.h"
-#import "VariableConstants.h"
 
 @implementation UIImage (UIImageUtil)
 
@@ -83,6 +82,9 @@
     
     return retRect;
 }
+
+#define IMAGE_DEFAULT_COMPRESS_QUALITY  1.0
+#define IMAGE_POST_MAX_BYTE             (6000000)
 
 + (NSData *)compressImage:(UIImage *)image {
 

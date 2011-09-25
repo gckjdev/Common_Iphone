@@ -13,7 +13,7 @@
 
 @implementation CommonNetworkOutput
 
-@synthesize resultMessage, resultCode, jsonDataArray, jsonDataDict;
+@synthesize resultMessage, resultCode, jsonDataArray, jsonDataDict, textData;
 
 - (void)resultFromJSON:(NSString*)jsonString
 {
@@ -43,6 +43,7 @@
 
 - (void)dealloc
 {
+    [textData release];
 	[resultMessage release];
     [jsonDataArray release];
     [jsonDataDict release];
