@@ -132,6 +132,7 @@
         
         //keywords
         [self.keywordCell setkeyword:item.keywords];
+        [self.keywordCell setkeyword:@"test keywords"];
         
         //expireDate
         [self.validPeriodCell setAndCalculateExpireDate:item.expireDate];
@@ -468,7 +469,7 @@
     
     UserShopItemService* shopService = GlobalGetUserShopItemService();
     NSString* city = [GlobalGetLocationService() getDefaultCity];    
-    NSString* categoryName = nil;
+    NSString* categoryName = [self.categoryCell selectedCategory];
     NSArray* selectedSubCategories = [self.subCategoryCell getSelectedSubCategories];
     NSString *keywords = [self.keywordCell getKeywords];
     NSDate *expireDate = [self.validPeriodCell getExpireDate];
