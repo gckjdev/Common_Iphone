@@ -132,7 +132,6 @@
         
         //keywords
         [self.keywordCell setkeyword:item.keywords];
-        [self.keywordCell setkeyword:@"test keywords"];
         
         //expireDate
         [self.validPeriodCell setAndCalculateExpireDate:item.expireDate];
@@ -187,10 +186,10 @@
         rowOfKeyword = 2;
         rowOfValidPeriod = 3;
         rowOfPrice = 4;
-        rowOfLocation = 5;
+        rowOfLocation = -1;
         rowOfRebate = -1;       // not used
         rowOfCity = -1;         // not used
-        rowNumber = 6;
+        rowNumber = 5;          // hide location
     }
     else{
         rowOfCategory = 0;
@@ -198,10 +197,10 @@
         rowOfKeyword = 1;
         rowOfValidPeriod = 2;
         rowOfPrice = 3;
-        rowOfLocation = 4;
+        rowOfLocation = -1;
         rowOfCity = -1;         // not used 
         rowOfRebate = -1;       // not used
-        rowNumber = 5;
+        rowNumber = 4;          // hide location
     }
     
     [self.dataTableView reloadData];

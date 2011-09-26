@@ -457,7 +457,9 @@ enum {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-    if (indexPath.section == SECTION_MORE){
+    if (indexPath.section == SECTION_MORE || 
+        indexPath.section == SECTION_TITLE || 
+        indexPath.section == SECTION_IMAGE){
         [GroupBuyReport reportClickShowProductMore:product];
         [self gotoBuy];
     }else if(indexPath.section == SECTION_TEL){

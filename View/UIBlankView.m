@@ -14,14 +14,12 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-	if (self = [super initWithFrame:frame]){
-		self.backgroundColor = [UIColor grayColor];
-		self.alpha = 0.4;
-		self.tag = kBlankViewTag;
-		
-		isRegister = NO;
-	}
-	
+	self = [super initWithFrame:frame];
+    self.backgroundColor = [UIColor grayColor];
+    self.alpha = 0.4;
+    self.tag = kBlankViewTag;
+    
+    isRegister = NO;
 	return self;
 }
 

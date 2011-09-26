@@ -280,7 +280,11 @@
 	if (indexPath.row > [dataList count] - 1)
 		return;
     
-    BOOL isCreateHistory = NO; //([dataLoader isKindOfClass:[ProductHistoryDataLoader class]] == NO);
+    BOOL isCreateHistory = NO;
+    if ([dataLoader isKindOfClass:[ProductHistoryDataLoader class]] == NO){
+        isCreateHistory = YES;
+    }
+
     Product* product = [dataList objectAtIndex:indexPath.row];  
     UINavigationController* navigationController;
     if (self.superController)

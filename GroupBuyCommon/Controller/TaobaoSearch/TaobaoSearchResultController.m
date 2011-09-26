@@ -117,8 +117,6 @@
 	TaobaoSearchResultCell *cell = (TaobaoSearchResultCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
         cell = [TaobaoSearchResultCell createCell:self];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     NSDictionary *taobaoProduct = [self.dataList objectAtIndex:indexPath.row];

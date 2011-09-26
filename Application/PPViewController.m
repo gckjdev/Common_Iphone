@@ -720,6 +720,7 @@
         blankView = [[UIBlankView alloc] initWithFrame:frame];
     }
     
+    [blankView removeFromSuperview];
     [blankView registerKeyboardNotification:currentResponder fatherView:self.view frame:frame];
 }
 
