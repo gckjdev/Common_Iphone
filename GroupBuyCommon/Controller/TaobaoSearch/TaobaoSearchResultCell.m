@@ -57,7 +57,7 @@
     NSString *name = [taobaoProduct objectForKey:@"title"];    
     NSString *taobaoPrice = [taobaoProduct objectForKey:@"price"];
     NSString *shop = [taobaoProduct objectForKey:@"nick"];
-    NSString *image = [taobaoProduct objectForKey:@"pic_url"];
+//    NSString *image = [taobaoProduct objectForKey:@"pic_url"];
     double   taobaoDoublePrice = [taobaoPrice doubleValue];
     
     self.titleLabel.text = [NSString stringWithFormat:@"【%@】 %@", shop, name];

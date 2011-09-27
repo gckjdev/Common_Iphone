@@ -98,7 +98,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	[myPool release];
 }
 
-- (BOOL) startNotifer
+- (BOOL) startNotifier
 {
 	BOOL retVal = NO;
 	SCNetworkReachabilityContext	context = {0, self, NULL, NULL, NULL};

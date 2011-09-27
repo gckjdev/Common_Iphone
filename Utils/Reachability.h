@@ -78,7 +78,7 @@ typedef enum {
 + (Reachability*) reachabilityForLocalWiFi;
 
 //Start listening for reachability notifications on the current run loop
-- (BOOL) startNotifer;
+- (BOOL) startNotifier;
 - (void) stopNotifer;
 
 + (void) asyncDetectInternetConnection:(dispatch_queue_t)queue errorMsg:(NSString*)errorMsg;

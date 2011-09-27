@@ -65,11 +65,14 @@
     NSString* appId = [AppManager getPlaceAppId];
     NSString* city = [GlobalGetLocationService() getDefaultCity]; // need to get from LocationService    
     
-    dispatch_queue_t queue = [self getWorkingQueue:useFor];
-    if (queue == NULL)
-        return;
-    
-    dispatch_async(queue, ^{
+//    dispatch_queue_t queue = [self getWorkingQueue:useFor];
+//    if (queue == NULL)
+//        return;
+
+    NSOperationQueue* queue = [self getOperationQueue:[NSString stringWithInt:useFor]];  
+    NSLog(@"current operation count in queue(%d) is %d, cancelled", useFor, [queue operationCount]);
+    [queue cancelAllOperations];
+    [queue addOperationWithBlock:^{
         
         // fetch user place data from server
         CommonNetworkOutput* output = nil;
@@ -199,7 +202,7 @@
         });
         
         
-    });
+    }];
     
 }
 
