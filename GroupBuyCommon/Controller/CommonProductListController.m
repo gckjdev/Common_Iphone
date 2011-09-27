@@ -66,8 +66,9 @@
 // to be override
 - (void)requestProductListFromServer:(BOOL)isRequestLastest
 {    
-    if (isRemoteRequest)
+    if (isRemoteRequest){
         return;
+    }
     
     isRemoteRequest = YES;
     return [dataLoader requestProductListFromServer:isRequestLastest controller:self];

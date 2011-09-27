@@ -11,6 +11,12 @@
 
 @interface CommonService : NSObject {
     dispatch_queue_t  workingQueue;
+    
+    NSMutableDictionary*     workingQueueDict;    
+    NSMutableDictionary*     workingQueueOperationDict;
 }
+
+- (dispatch_queue_t)getQueue:(NSString*)key;
+- (NSOperationQueue*)getOperationQueue:(NSString*)key;
 
 @end

@@ -39,6 +39,8 @@
     dispatch_queue_t    segmentTextQueue;
 }
 
+- (dispatch_queue_t)getWorkingQueue:(int)useFor;
+
 - (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
                     useFor:(int)useFor
                startOffset:(int)startOffset

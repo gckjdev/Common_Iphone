@@ -17,6 +17,7 @@
 
 + (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
                                   appId:(NSString *)appId
+                                   city:(NSString*)city
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -27,6 +28,7 @@
         
         str = [str stringByAddQueryParameter:METHOD value:METHOD_GETALLCATEGORY];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_CITY value:city];
         
         return str;
     };

@@ -16,8 +16,14 @@
 #import "LocationService.h"
 #import "HotKeywordManager.h"
 #import "GroupBuyUserService.h"
+#import "StringUtil.h"
 
 @implementation ProductService
+
+- (dispatch_queue_t)getWorkingQueue:(int)useFor
+{
+    return [self getQueue:[NSString stringWithInt:useFor]];
+}
 
 - (void)notifyDelegate:(id)delegate selector:(SEL)selector resultCode:(int)resultCode
 {
@@ -59,7 +65,11 @@
     NSString* appId = [AppManager getPlaceAppId];
     NSString* city = [GlobalGetLocationService() getDefaultCity]; // need to get from LocationService    
     
-    dispatch_async(workingQueue, ^{
+    dispatch_queue_t queue = [self getWorkingQueue:useFor];
+    if (queue == NULL)
+        return;
+    
+    dispatch_async(queue, ^{
         
         // fetch user place data from server
         CommonNetworkOutput* output = nil;
@@ -197,7 +207,7 @@
 {
     NSString* appId = [AppManager getPlaceAppId];
     NSString* city = [GlobalGetLocationService() getDefaultCity]; // need to get from LocationService    
-    
+        
     dispatch_async(workingQueue, ^{
         
         // fetch user place data from server

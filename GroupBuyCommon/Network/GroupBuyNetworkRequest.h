@@ -18,7 +18,8 @@
 }
 
 + (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
-                                  appId:(NSString *)appId;
+                                  appId:(NSString *)appId
+                                   city:(NSString*)city;
 
 + (CommonNetworkOutput*)deviceLogin:(NSString*)baseURL
                               appId:(NSString*)appId

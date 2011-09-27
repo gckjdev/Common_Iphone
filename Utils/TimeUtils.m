@@ -124,7 +124,7 @@ NSDate *dateFromStringByFormat(NSString *string, NSString *format)
 	
 }
 	 
- // convert string to date by given format
+// convert string to date by given format
 NSDate *dateFromUTCStringByFormat(NSString *string, NSString *format)
 {
 	if (string == nil)
@@ -137,6 +137,21 @@ NSDate *dateFromUTCStringByFormat(NSString *string, NSString *format)
 	 
 	return [dateFormatter dateFromString:string];	
 	 
+}
+
+// convert string to date by given format
+NSDate *dateFromChineseStringByFormat(NSString *string, NSString *format)
+{
+	if (string == nil)
+		return nil;
+	
+	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    
+	[dateFormatter setDateFormat:format];
+	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:TIME_ZONE_GMT]];
+    
+	return [dateFormatter dateFromString:string];	
+    
 }
 
 // return start date time of the day

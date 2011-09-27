@@ -11,19 +11,21 @@
 #import "GroupBuyNetworkRequest.h"
 #import "GroupBuyNetworkConstants.h"
 #import "PPNetworkRequest.h"
+#import "LocationService.h"
 
 @implementation CategoryService
 
 - (void)getAllCategory:(id<CategoryServiceDelegate>)delegate
 {
     NSString* appId = [AppManager getPlaceAppId];
+    NSString* city = [GlobalGetLocationService() getDefaultCity];
     
     dispatch_async(workingQueue, ^{
         
         // fetch user place data from server
         CommonNetworkOutput *output = nil;
         
-        output = [GroupBuyNetworkRequest getAllCategory:SERVER_URL appId:appId];
+        output = [GroupBuyNetworkRequest getAllCategory:SERVER_URL appId:appId city:city];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             

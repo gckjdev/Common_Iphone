@@ -35,3 +35,5 @@ NSDate *getDateEnd(NSDate* date);
 NSDate *nextDate(NSDate *date);
 
 NSDate *previousDate(NSDate *date);
+
+NSDate *dateFromChineseStringByFormat(NSString *string, NSString *format);

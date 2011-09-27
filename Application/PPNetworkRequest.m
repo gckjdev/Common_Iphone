@@ -13,7 +13,7 @@
 
 @implementation CommonNetworkOutput
 
-@synthesize resultMessage, resultCode, jsonDataArray, jsonDataDict, textData;
+@synthesize resultMessage, resultCode, jsonDataArray, jsonDataDict, textData, arrayData;
 
 - (void)resultFromJSON:(NSString*)jsonString
 {
@@ -43,6 +43,7 @@
 
 - (void)dealloc
 {
+    [arrayData release];
     [textData release];
 	[resultMessage release];
     [jsonDataArray release];
@@ -71,7 +72,9 @@
         return output;
     }
     
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+    
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
     if (request == nil){
         output.resultCode = ERROR_CLIENT_REQUEST_NULL;
         return output;
