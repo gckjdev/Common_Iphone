@@ -71,7 +71,6 @@
 
     NSOperationQueue* queue = [self getOperationQueue:[NSString stringWithInt:useFor]];  
     NSLog(@"current operation count in queue(%d) is %d, cancelled", useFor, [queue operationCount]);
-    [queue cancelAllOperations];
     [queue addOperationWithBlock:^{
         
         // fetch user place data from server

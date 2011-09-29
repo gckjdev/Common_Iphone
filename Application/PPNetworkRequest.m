@@ -80,14 +80,15 @@
     [request setTimeOutSeconds:NETWORK_TIMEOUT];
 
 #ifdef DEBUG    
+    int startTime = time(0);
     NSLog(@"[SEND] URL=%@", [url description]);    
 #endif
 
     [request startSynchronous];
 //    BOOL *dataWasCompressed = [request isResponseCompressed]; // Was the response gzip compressed?
-//    NSData *compressedResponse = [request rawResponseData]; // Compressed data
-    
+//    NSData *compressedResponse = [request rawResponseData]; // Compressed data    
 //    NSData *uncompressedData = [request responseData]; // Uncompressed data
+
     NSError *error = [request error];
     int statusCode = [request responseStatusCode];
     
@@ -105,7 +106,10 @@
         NSString *text = [request responseString];
         
 #ifdef DEBUG
-        NSLog(@"[RECV] data : %@", text);
+        int endTime = time(0);
+        NSLog(@"[RECV] data (len=%d bytes, latency=%d seconds, raw=%d bytes, real=%d bytes)", 
+              [text length], (endTime - startTime),
+              [[request rawResponseData] length], [[request responseData] length]);
 #endif            
         
         NSDictionary* dataDict = [text JSONValue];

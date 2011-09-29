@@ -86,7 +86,7 @@
         [self.dataTableView reloadData];
     }
     else if (result == ERROR_NETWORK){
-        [self popupUnhappyMessage:@"无法连接到互联网，请检查网络是否可用？" title:@"网络错误"];
+        [self popupUnhappyMessage:@"连接网络超时或者错误，请检查网络是否可用？" title:@"网络错误"];
     }
     
     if ([self isReloading]){
@@ -272,6 +272,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	    
     if ([self isMoreRow:indexPath.row]){
+        [self showActivityWithText:@"加载数据中..."];
         [self.moreLoadingView startAnimating];
         [self requestProductListFromServer:NO];
         [GroupBuyReport reportClickMore:categoryId type:type];

@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#define DEFAULT_MAX_COUNT       12          // 20 RECORDS
-#define DEFAULT_MAX_DISTANCE    3           // 3 km
+#define DEFAULT_MAX_COUNT       8          // 20 RECORDS
+#define DEFAULT_MAX_DISTANCE    3          // 3 km
 
 @class CommonNetworkOutput;
 
