@@ -20,6 +20,8 @@ NSString *dateToString(NSDate *date);
 
 NSString *dateToChineseString(NSDate *date);
 
+NSString *dateToChineseStringByFormat(NSDate *date, NSString *format);
+
 NSString *dateToStringByFormat(NSDate *date, NSString *format);
 
 NSString *dateToUTCStringByFormat(NSDate *date, NSString *format);

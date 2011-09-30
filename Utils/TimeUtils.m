@@ -79,6 +79,18 @@ NSString *dateToChineseString(NSDate *date)
     return period;
 }
 
+NSString *dateToChineseStringByFormat(NSDate *date, NSString *format)
+{
+    if(date == nil)
+        return nil;
+    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:TIME_ZONE_GMT];
+    [formatter setTimeZone:tzGMT];
+    [formatter setDateFormat:format];
+    NSString *period = [formatter stringFromDate:date];
+    return period;
+}
+
 NSString *dateToString(NSDate *date)
 {
     if(date == nil)
