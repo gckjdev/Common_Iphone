@@ -36,4 +36,8 @@
 - (void)groupBuyRegisterUserWithSNSUserInfo:(NSDictionary*)userInfo 
                              viewController:(PPViewController<GroupBuyUserServiceDelegate>*)viewController;
 
+
+- (void)groupBuyUpdateUser:(PPViewController*)viewController 
+            successHandler:(UpdateUserSuccessHandler)successHandler;
+
 @end

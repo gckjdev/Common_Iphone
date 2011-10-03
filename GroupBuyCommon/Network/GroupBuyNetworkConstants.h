@@ -86,6 +86,8 @@
 #define PARA_LOGINIDTYPE @"lty"
 #define PARA_USERTYPE @"uty"
 #define PARA_PASSWORD @"pwd"
+#define PARA_NEW_PASSWORD @"npwd"
+
 
 #define PARA_SINAID @"sid"
 #define PARA_QQID @"qid"

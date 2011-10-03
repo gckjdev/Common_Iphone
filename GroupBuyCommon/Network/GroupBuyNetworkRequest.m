@@ -883,9 +883,12 @@
 }
 
 + (CommonNetworkOutput*)updateUser:(NSString*)baseURL
-                                         appId:(NSString*)appId
-                                        userId:(NSString*)userId
-                                        deviceToken:(NSString*)deviceToken
+                             appId:(NSString*)appId
+                            userId:(NSString*)userId
+                       deviceToken:(NSString*)deviceToken
+                          nickName:(NSString*)nickName
+                          password:(NSString*)password
+                       newPassword:(NSString*)newPassword
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -897,8 +900,20 @@
         str = [str stringByAddQueryParameter:METHOD value:METHOD_UPDATEUSER];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_USERID value:userId];
-        str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];
         
+        if (deviceToken != nil){
+            str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];
+        }
+        
+        if (nickName != nil){
+            str = [str stringByAddQueryParameter:PARA_NICKNAME value:nickName];            
+        }
+        
+        if (password != nil && newPassword != nil){
+            str = [str stringByAddQueryParameter:PARA_PASSWORD value:password];            
+            str = [str stringByAddQueryParameter:PARA_NEW_PASSWORD value:newPassword];            
+        }
+
         return str;
     };
     

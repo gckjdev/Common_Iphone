@@ -25,6 +25,7 @@
 	id							delegate;
 	BOOL						isSingleLine;
 	BOOL						isNumber;
+    BOOL                        allowNull;
     BOOL                        hasSendButton;
 	
 	IBOutlet UITextView*		textView;
@@ -36,6 +37,7 @@
 @property (nonatomic, assign) id		delegate;
 @property (nonatomic, assign) BOOL		isSingleLine;
 @property (nonatomic, assign) BOOL		isNumber;
+@property (nonatomic, assign) BOOL      allowNull;
 @property (nonatomic, assign) BOOL      hasSendButton;
 
 @end

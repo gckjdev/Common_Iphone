@@ -86,7 +86,7 @@
 - (void)updateGroupBuyUserDeviceToken:(NSString*)deviceToken
 {
     dispatch_async(workingQueue, ^{
-        CommonNetworkOutput* output = [GroupBuyNetworkRequest updateUser:SERVER_URL appId:GlobalGetPlaceAppId() userId:user.userId deviceToken:deviceToken];
+        CommonNetworkOutput* output = [GroupBuyNetworkRequest updateUser:SERVER_URL appId:GlobalGetPlaceAppId() userId:user.userId deviceToken:deviceToken nickName:nil password:nil newPassword:nil];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (output.resultCode == ERROR_SUCCESS) {
@@ -98,6 +98,26 @@
         
     });
     
+}
+
+- (void)groupBuyUpdateUser:(PPViewController*)viewController successHandler:(UpdateUserSuccessHandler)successHandler
+{
+    
+    dispatch_async(workingQueue, ^{
+                                
+        CommonNetworkOutput* output = [GroupBuyNetworkRequest updateUser:SERVER_URL 
+                                                                   appId:GlobalGetPlaceAppId() 
+                                                                  userId:user.userId                                        
+                                                             deviceToken:nil
+                                                                nickName:user.nickName
+                                                                password:user.password
+                                                             newPassword:self.newPassword];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            successHandler(viewController, output.resultCode);
+        });
+        
+    });
 }
 
 - (void)registerUser:(NSString*)email 

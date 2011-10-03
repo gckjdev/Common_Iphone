@@ -31,6 +31,7 @@
 @synthesize delegate;
 @synthesize gender;
 @synthesize userCurrentStatus;
+@synthesize newPassword;
 
 + (NSString*)defaultAvatarByGender:(NSString*)gender
 {
@@ -154,6 +155,22 @@
     [CommonManager save];    
 
     [self setUserUpdateFlag];
+}
+
+- (void)updateUserPassword:(NSString*)value
+{
+    if ([value length] == 0 || [user.password isEqualToString:value])
+        return;
+    
+    user.password = value;
+    [CommonManager save];    
+    
+    [self setUserUpdateFlag];
+}
+
+- (void)updateUserPasswordByNewPassword
+{
+    [self updateUserPassword:newPassword];
 }
 
 - (void)updateUserMobile:(NSString*)value

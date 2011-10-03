@@ -43,6 +43,7 @@ enum{
 @end
 
 typedef void (^SaveUserSuccessHandler)(PPViewController*);
+typedef void (^UpdateUserSuccessHandler)(PPViewController*, int);
 
 @interface UserService : NSObject {
     
@@ -51,12 +52,14 @@ typedef void (^SaveUserSuccessHandler)(PPViewController*);
     id<UserServiceDelegate> delegate;           
     dispatch_queue_t        workingQueue;
     int                     userCurrentStatus;    
+    
 }
 
 @property (nonatomic, retain) User        *user;
 @property (nonatomic, retain) NSString    *gender;
 @property (nonatomic, assign) id<UserServiceDelegate> delegate; 
 @property (nonatomic, assign) int                     userCurrentStatus;    
+@property (nonatomic, retain) NSString    *newPassword;
 
 - (id)init;
 
@@ -82,12 +85,14 @@ typedef void (^SaveUserSuccessHandler)(PPViewController*);
 - (void)updateUserMobile:(NSString*)value;
 - (void)updateUserAvatar:(UIImage*)image;
 - (void)updateUserGender:(NSString*)value;
+- (void)updateUserPasswordByNewPassword;
 
 - (void)updateUserToServer:(PPViewController*)viewController successHandler:(SaveUserSuccessHandler)saveSuccessHandler;
 
 + (NSString*)defaultAvatarByGender:(NSString*)gender;
 
 - (BOOL)hasBindAccount;
+- (BOOL)hasBindEmail;
 
 @end
 

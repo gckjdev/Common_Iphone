@@ -18,12 +18,15 @@
 
 @implementation PasswordInputController
 
+@synthesize oldPasswordTextField;
 @synthesize passwordTextField;
 @synthesize confirmPasswordTextField;
 @synthesize canReturn;
 @synthesize button1;
 @synthesize button2;
 @synthesize password;
+@synthesize oldPassword;
+@synthesize delegate;
 
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -37,14 +40,36 @@
 }
 */
 
+- (id)initWithPassword:(NSString*)oldPasswordValue delegate:(id<PasswordInputControllerDelegate>)delegateValue
+{
+    self = [super init];
+    if (self){
+        self.oldPassword = oldPasswordValue;
+        self.delegate = delegateValue;
+    }
+    
+    return self;
+}
+
+- (void)initRow
+{
+    int row = 0;
+    
+    rowOldPassword = row ++;
+    rowNewPassword = row ++;
+    rowNewPasswordConfirm = row ++;
+    totalRow = row;   
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    
+    [self initRow];
 	
-	[self.button1 setTitle:NSLS(@"kPasswordOK") forState:UIControlStateNormal];
+	[self.button1 setTitle:NSLS(@"确认") forState:UIControlStateNormal];
 	
 	if (canReturn){
-		[self.button2 setTitle:NSLS(@"Cancel") forState:UIControlStateNormal];
+		[self.button2 setTitle:NSLS(@"取消") forState:UIControlStateNormal];
 		[self.button2 addTarget:self action:@selector(clickReturn:) forControlEvents:UIControlEventTouchUpInside];
 	}
 	else{
@@ -65,7 +90,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-	[self.passwordTextField becomeFirstResponder];
+//	[self.oldPasswordTextField becomeFirstResponder];
 	[super viewDidAppear:animated];
 }
 
@@ -84,6 +109,8 @@
 
 
 - (void)dealloc {
+    [oldPasswordTextField release];
+    [oldPassword release];
 	[passwordTextField release];
 	[confirmPasswordTextField release];
 	[button1 release];
@@ -96,24 +123,12 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
-	NSString *sectionHeader = @"";	
-	
-	//	switch (section) {
-	//		case <#constant#>:
-	//			<#statements#>
-	//			break;
-	//		default:
-	//			break;
-	//	}
-	
+	NSString *sectionHeader = @"";		
 	return sectionHeader;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// return [self getRowHeight:indexPath.row totalRow:[dataList count]];
-	// return cellImageHeight;
-	
 	return 45;
 }
 
@@ -123,86 +138,83 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return kTotalRow;			// default implementation
+    return totalRow;
 }
-
 
 - (void)textDidEnd:(id)sender
 {
 	if (sender == passwordTextField){
 		[confirmPasswordTextField becomeFirstResponder];
 	}
+    else if (sender == oldPasswordTextField){
+        [passwordTextField becomeFirstResponder];
+    }
+    else if (sender == confirmPasswordTextField){
+        [self clickOK:sender];
+    }
+}
+
+- (UITextTableViewCell*)createPasswordCell:(NSString*)CellIdentifier
+{
+    UITextTableViewCell* cell = (UITextTableViewCell*)[dataTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+    if (cell == nil) {
+        cell = [[[UITextTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle 
+                                           reuseIdentifier:CellIdentifier] autorelease];				
+
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;		
+        cell.textField.keyboardType = UIKeyboardTypeDefault;
+        cell.textField.font = [UIFont systemFontOfSize:kFontSize];    
+        
+        [cell.textField addTarget:self 
+                           action:@selector(textDidEnd:) 
+                 forControlEvents:UIControlEventEditingDidEndOnExit];
+        
+        cell.textField.textColor = [UIColor colorWithRed:130/255.0 
+                                                   green:111/255.0 
+                                                    blue:95/255.0 
+                                                   alpha:1.0];
+        
+        cell.textField.secureTextEntry = YES;
+    }    
+
+    return cell;
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
 	int row = indexPath.row;	
-	if (row == kRowPasswordOne){
-		static  NSString *CellIdentifier = @"PasswordCell1";
-		UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {		
-			cell = [[[UITextTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];				
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;		
-			((UITextTableViewCell*)cell).textField.keyboardType = UIKeyboardTypeDefault;
-			((UITextTableViewCell*)cell).textField.placeholder = NSLS(@"请输入旧密码");
-			((UITextTableViewCell*)cell).textField.font = [UIFont systemFontOfSize:kFontSize];
-			
-			self.passwordTextField = ((UITextTableViewCell*)cell).textField;
-//			[self.passwordTextField addTarget:self action:@selector(textDidChange:) forControlEvents:UIControlEventEditingChanged];
-			[self.passwordTextField addTarget:self action:@selector(textDidEnd:) forControlEvents:UIControlEventEditingDidEndOnExit];
-			
-			((UITextTableViewCell*)cell).textField.textColor = [UIColor colorWithRed:130/255.0 green:111/255.0 blue:95/255.0 alpha:1.0];
-			((UITextTableViewCell*)cell).textField.secureTextEntry = YES;
-								
-			if (password != nil){
-				((UITextTableViewCell*)cell).textField.text = password;
-			}
-		}		
-		
-//		[self setCellBackground:cell row:row count:kTotalRow];
-		
-		if ([self.confirmPasswordTextField isFirstResponder] == NO){
-			[self.passwordTextField becomeFirstResponder];
-		}
-		
-		
+    if (row == rowOldPassword){
+        UITextTableViewCell* cell = [self createPasswordCell:@"PasswordCell0"];
+        cell.textField.placeholder = NSLS(@"请输入当前密码");
+        if (oldPasswordTextField == nil){
+            self.oldPasswordTextField = cell.textField;        
+//            [oldPasswordTextField becomeFirstResponder];
+        }
+        return cell;
+    }
+	else if (row == rowNewPassword){
+        UITextTableViewCell* cell = [self createPasswordCell:@"PasswordCell1"];
+        cell.textField.placeholder = NSLS(@"请输入新密码");
+        self.passwordTextField = cell.textField;								
 		return cell;
 	}
-	else {
-		static  NSString *CellIdentifier = @"PasswordCell2";
-		UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {		
-			cell = [[[UITextTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];				
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;		
-			((UITextTableViewCell*)cell).textField.keyboardType = UIKeyboardTypeDefault;
-			((UITextTableViewCell*)cell).textField.placeholder = NSLS(@"kConfirmPassword");
-			((UITextTableViewCell*)cell).textField.font = [UIFont systemFontOfSize:kFontSize];
-			
-			self.confirmPasswordTextField = ((UITextTableViewCell*)cell).textField;
-//			[self.confirmPasswordTextField addTarget:self action:@selector(textDidChange:) forControlEvents:UIControlEventEditingChanged];
-			
-			((UITextTableViewCell*)cell).textField.textColor = [UIColor colorWithRed:130/255.0 green:111/255.0 blue:95/255.0 alpha:1.0];
-			((UITextTableViewCell*)cell).textField.secureTextEntry = YES;
-			
-			if (password != nil){
-				((UITextTableViewCell*)cell).textField.text = password;
-			}
-		}		
-		
-//		[self setCellBackground:cell row:row count:kTotalRow];
-		
-		
+	else if (indexPath.row == rowNewPasswordConfirm) {
+        UITextTableViewCell* cell = [self createPasswordCell:@"PasswordCell2"];            
+        cell.textField.placeholder = NSLS(@"请再次输入新密码");
+        self.confirmPasswordTextField = cell.textField;		
 		return cell;
 	}
 	
-	
-	
+//		[self setCellBackground:cell row:row count:kTotalRow];
+
+	return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row < 0 || indexPath.row > [dataList count] - 1)
+	if (indexPath.row > [dataList count] - 1)
 		return;
 	
 	// do select row action
@@ -211,47 +223,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (editingStyle == UITableViewCellEditingStyleDelete) {
-		
-		if (indexPath.row < 0 || indexPath.row > [dataList count] - 1)
-			return;
-		
-		// take delete action below, update data list
-		// NSObject* dataObject = [dataList objectAtIndex:indexPath.row];		
-		
-		// update table view
-		
-	}
-	
 }
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//	// create the parent view that will hold header Label
-//	UIView* customView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 0.0, 300.0, 44.0)];
-//	
-//	// create the button object
-//	UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//	headerLabel.backgroundColor = [UIColor clearColor];
-//	headerLabel.opaque = NO;
-//	headerLabel.textColor = [UIColor blackColor];
-//	headerLabel.highlightedTextColor = [UIColor whiteColor];
-//	headerLabel.font = [UIFont boldSystemFontOfSize:20];
-//	headerLabel.frame = CGRectMake(10.0, 0.0, 300.0, 44.0);
-//	
-//	// If you want to align the header text as centered
-//	// headerLabel.frame = CGRectMake(150.0, 0.0, 300.0, 44.0);
-//	
-//	headerLabel.text = <Put here whatever you want to display> // i.e. array element
-//	[customView addSubview:headerLabel];
-//	
-//	return customView;
-//}
-//
-//- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//	return 44.0;
-//}
 
 - (void)clickHelp:(id)sender
 {
@@ -260,41 +232,48 @@
 
 - (void)clickOK:(id)sender
 {
+    if ([oldPasswordTextField.text length] == 0){
+		[self popupUnhappyMessage:NSLS(@"密码不能为空吧") title:GlobalGetAppName()];
+		[oldPasswordTextField becomeFirstResponder];
+		return;        
+    }
+    
+    if ([oldPasswordTextField.text isEqualToString:oldPassword] == 0){
+		[self popupUnhappyMessage:NSLS(@"密码和原有密码不一致，请仔细检查一下吧") title:GlobalGetAppName()];
+		[oldPasswordTextField becomeFirstResponder];
+		return;        
+    }    
+    
 	if (passwordTextField.text == nil || [passwordTextField.text length] == 0){
-		[self popupUnhappyMessage:NSLS(@"kPasswordEmpty") title:GlobalGetAppName()];
+		[self popupUnhappyMessage:NSLS(@"密码不能为空吧") title:GlobalGetAppName()];
 		[passwordTextField becomeFirstResponder];
 		return;
 	}
 
 	if (confirmPasswordTextField.text == nil || [confirmPasswordTextField.text length] == 0){
-		[self popupUnhappyMessage:NSLS(@"kPasswordEmpty") title:GlobalGetAppName()];
+		[self popupUnhappyMessage:NSLS(@"密码不能为空吧") title:GlobalGetAppName()];
 		[confirmPasswordTextField becomeFirstResponder];
 		return;
 	}
 		
 	if ([passwordTextField.text isEqualToString:confirmPasswordTextField.text] == NO){
-		[self popupUnhappyMessage:NSLS(@"kPasswordNotEqual") title:GlobalGetAppName()];
+		[self popupUnhappyMessage:NSLS(@"输入的密码不一致，请重新输入吧") title:GlobalGetAppName()];
 		[passwordTextField becomeFirstResponder];		
 		return;
 	}
 	
 	int MIN_PASSWORD_LEN = 6;
 	if ([passwordTextField.text length] < MIN_PASSWORD_LEN){
-		[self popupUnhappyMessage:NSLS(@"kPasswordLenTooShort") title:GlobalGetAppName()];
+		[self popupUnhappyMessage:NSLS(@"密码长度至少要6位吧，请补足下可以吗？") title:GlobalGetAppName()];
 		[passwordTextField becomeFirstResponder];		
 		return;
 	}
-	
-//	[ConfigManager setPassword:passwordTextField.text];
-	
-	if (canReturn == NO){
-//		FreeSMSAppDelegate* appDelegate = (FreeSMSAppDelegate*)[[UIApplication sharedApplication] delegate];
-//		[appDelegate hideSetPasswordView];
-	}
-	else {
-		[self.navigationController popViewControllerAnimated:YES];
-	}
-
+	    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    if (delegate && [delegate respondsToSelector:@selector(didPasswordChange:)]){
+        [delegate didPasswordChange:[passwordTextField text]];
+    }
 }
 
 - (void)clickReturn:(id)sender
