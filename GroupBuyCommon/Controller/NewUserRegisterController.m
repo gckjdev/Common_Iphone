@@ -11,6 +11,7 @@
 #import "GroupBuyUserService.h"
 #import "GroupBuyUserService.h"
 #import "StringUtil.h"
+#import "MyInfoController.h"
 
 enum {
     ROW_EMAIL,
@@ -283,6 +284,14 @@ enum {
             break;
     } 
     
+}
+
+- (void)actionDone:(int)result
+{
+    NSLog(@"register finish, result = %d", result);
+    if (result == 0){
+        [MyInfoController show:self.navigationController];
+    }
 }
 
 @end

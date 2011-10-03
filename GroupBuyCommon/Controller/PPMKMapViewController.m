@@ -57,22 +57,22 @@
     return self;
 }
 
-- (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate radius:(CLLocationDistance)radius
+- (id)initWithCoordinate:(CLLocationCoordinate2D)c radius:(CLLocationDistance)r
 {
     self = [super init];
     if (self) {
-        self.currentCoordinate = coordinate;
-        self.radius = radius;
+        self.currentCoordinate = c;
+        self.radius = r;
     }
     return self;
 }
 
-- (id)initWithLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude radius:(CLLocationDistance)radius
+- (id)initWithLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude radius:(CLLocationDistance)r
 {
     self = [super init];
     if (self) {
          CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
-        self.radius = radius;
+        self.radius = r;
         self.currentCoordinate = coordinate;
  //       [self setCoordinate:coordinate radius:radius];    
     }

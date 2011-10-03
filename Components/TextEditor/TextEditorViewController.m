@@ -36,7 +36,7 @@
 	
 	if (isSingleLine){
 		CGRect rect = textView.frame;
-		rect.size.height = 145;
+		rect.size.height = 135;
 		textView.frame = rect;
 	}
 	if (isNumber){

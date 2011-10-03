@@ -56,6 +56,7 @@ typedef void (^SaveUserSuccessHandler)(PPViewController*);
 @property (nonatomic, retain) User        *user;
 @property (nonatomic, retain) NSString    *gender;
 @property (nonatomic, assign) id<UserServiceDelegate> delegate; 
+@property (nonatomic, assign) int                     userCurrentStatus;    
 
 - (id)init;
 
@@ -85,6 +86,8 @@ typedef void (^SaveUserSuccessHandler)(PPViewController*);
 - (void)updateUserToServer:(PPViewController*)viewController successHandler:(SaveUserSuccessHandler)saveSuccessHandler;
 
 + (NSString*)defaultAvatarByGender:(NSString*)gender;
+
+- (BOOL)hasBindAccount;
 
 @end
 

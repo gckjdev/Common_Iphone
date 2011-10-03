@@ -186,10 +186,10 @@
                                            value:value];
 }
 
--(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
+-(void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
 {
     [self.searchBar resignFirstResponder];
-    [self clickSearch:searchBar];
+    [self clickSearch:theSearchBar];
 }
 
 @end

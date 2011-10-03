@@ -36,14 +36,14 @@
         self.selectedCity = cityName;
         self.navigationItem.title = @"请选择城市";
         if (hasLeftButton) {
-            self.leftButton = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
+            leftButton = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
             self.navigationItem.leftBarButtonItem = self.leftButton;
         }else {
             self.navigationItem.leftBarButtonItem = nil;
             self.navigationItem.hidesBackButton = YES;
         }
         
-        self.rightButton = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(onclickConfirm:)];
+        rightButton = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(onclickConfirm:)];
         [self.rightButton setEnabled:NO];
         self.navigationItem.rightBarButtonItem = self.rightButton;
     }
@@ -168,10 +168,10 @@
 }
 
 - (void)onclickConfirm:(id)sender
-{
-    
+{    
+    [self onclickBack:nil];
+
     if ([self.delegate respondsToSelector:@selector(dealWithPickedCity:)]){
-        [self onclickBack:nil];
 		[delegate dealWithPickedCity:selectedCity];
     }
 	else{

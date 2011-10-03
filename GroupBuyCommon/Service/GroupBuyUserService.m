@@ -152,6 +152,9 @@
             else if (output.resultCode == ERROR_EMAIL_EXIST) {
                 [viewController popupUnhappyMessage:@"对不起，该电子邮件已经被注册" title:nil];
             }
+            else if (output.resultCode == ERROR_EMAIL_NOT_VALID) {
+                [viewController popupUnhappyMessage:@"对不起，该电子邮件格式不正确，请重新输入" title:nil];
+            }
             else {
                 [viewController popupUnhappyMessage:@"对不起，注册失败，请稍候再试" title:nil];
             }

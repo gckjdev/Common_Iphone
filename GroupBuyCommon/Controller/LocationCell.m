@@ -70,9 +70,9 @@
     self.areaLabel.text = str;
 }
 
-- (void)setCoordinate:(CLLocationCoordinate2D)coordinate radius:(CLLocationDistance)r
+- (void)setCoordinate:(CLLocationCoordinate2D)c radius:(CLLocationDistance)r
 {
-    self.coordinate = coordinate;
+    self.coordinate = c;
     self.radius = r;
     [self setLabelText:r];
 }
@@ -88,11 +88,11 @@
     }
 }
 
--(void)didChangeLocation:(CLLocationCoordinate2D)coordinate radius:(CLLocationDistance)radius
+-(void)didChangeLocation:(CLLocationCoordinate2D)c radius:(CLLocationDistance)r
 {
     
     [self.locationSwitch setOn:YES];
-    [self setCoordinate:coordinate radius:radius];
+    [self setCoordinate:c radius:r];
 
 }
 

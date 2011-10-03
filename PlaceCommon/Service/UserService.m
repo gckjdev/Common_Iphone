@@ -30,6 +30,7 @@
 @synthesize user;
 @synthesize delegate;
 @synthesize gender;
+@synthesize userCurrentStatus;
 
 + (NSString*)defaultAvatarByGender:(NSString*)gender
 {
@@ -264,6 +265,8 @@
 {
     if ([user.userLoginId length] > 0)
         return user.userLoginId;
+    else if ([user.email length] > 0)
+        return [NSString stringWithFormat:@"%@", user.email];    
     else if ([user.sinaLoginId length] > 0)
         return [NSString stringWithFormat:@"%@ - 新浪微博", user.sinaLoginId];
     else if ([user.qqLoginId length] > 0)
@@ -691,6 +694,24 @@
             break;
     }
     
+}
+
+- (BOOL)hasBindEmail
+{
+    if ([user.email length] == 0){
+        return NO;
+    }
+    else{
+        return YES;
+    }
+}
+
+- (BOOL)hasBindAccount
+{
+    if ([self hasBindSNS] || [self hasBindEmail])
+        return YES;
+    else
+        return NO;
 }
 
 @end
