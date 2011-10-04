@@ -79,7 +79,7 @@ NSArray* priceArray;
 {
     if (price == nil || [price intValue] < 0) {
         self.priceTextField.text = NOT_LIMIT;
-        [self.priceSegment setSelected:PRICE_UNLIMIT_INDEX];
+        [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
     }else
     {
         [self.priceSegment setSelectedSegmentIndex:[self segmentIndexForPrice:price]];

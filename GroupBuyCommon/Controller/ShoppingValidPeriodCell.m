@@ -126,7 +126,7 @@
 {
     if (date == nil) {
         self.validPeriod.titleLabel.text = NOT_LIMIT;
-        [self.periodSegmented setSelectedSegmentIndex:UISegmentedControlNoSegment];
+        [self.periodSegmented setSelectedSegmentIndex:PERIOD_UNLIMIT_INDEX];
     }else
     {
         self.validPeriod.titleLabel.text = dateToString(date);
