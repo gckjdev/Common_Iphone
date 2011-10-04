@@ -39,14 +39,14 @@ typedef void (^AuthorizationSuccessHandler)(NSDictionary*, PPViewController*);
 @property (nonatomic, retain) NSString *qqAppSecret;
 @property (nonatomic, retain) NSString *renrenAppKey;
 @property (nonatomic, retain) NSString *renrenAppSecret;
-- (BOOL)hasQQCacheData;
-- (BOOL)hasSinaCacheData;
+//- (BOOL)hasQQCacheData;
+//- (BOOL)hasSinaCacheData;
 
 - (void)sinaInitiateLogin:(PPViewController*)viewController;
 - (void)qqInitiateLogin:(PPViewController*)viewController;
 
-- (void)sinaParseAuthorizationResponseURL:(NSString *)query;
-- (void)qqParseAuthorizationResponseURL:(NSString *)query;
+//- (void)sinaParseAuthorizationResponseURL:(NSString *)query;
+//- (void)qqParseAuthorizationResponseURL:(NSString *)query;
 
 - (void)syncWeiboToAllSNS:(NSString*)text viewController:(PPViewController*)viewController;
 

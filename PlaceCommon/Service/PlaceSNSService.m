@@ -207,15 +207,15 @@ AuthorizationSuccessHandler snsAuthorizeSuccess = ^(NSDictionary* userInfo, PPVi
     
 };
 
-- (void)sinaParseAuthorizationResponseURL:(NSString *)query
-{
-    [self sinaParseAuthorizationResponseURL:query viewController:displayViewController successHandler:snsAuthorizeSuccess];
-}
-
-- (void)qqParseAuthorizationResponseURL:(NSString *)query
-{
-    [self qqParseAuthorizationResponseURL:query viewController:displayViewController successHandler:snsAuthorizeSuccess];    
-}
+//- (void)sinaParseAuthorizationResponseURL:(NSString *)query
+//{
+//    [self sinaParseAuthorizationResponseURL:query viewController:displayViewController successHandler:snsAuthorizeSuccess];
+//}
+//
+//- (void)qqParseAuthorizationResponseURL:(NSString *)query
+//{
+//    [self qqParseAuthorizationResponseURL:query viewController:displayViewController successHandler:snsAuthorizeSuccess];    
+//}
 
 - (void)syncWeiboToAllSNS:(NSString*)text viewController:(PPViewController*)viewController
 {

@@ -38,7 +38,7 @@
     
     NSMutableDictionary *retDict = [NSMutableDictionary dictionary];
     
-    if ([[retDict allKeys] count] == 0)
+    if ([[origUserInfo allKeys] count] == 0)
         return nil;
     
     [retDict setObject:SNS_QQ_WEIBO forKey:SNS_NETWORK];

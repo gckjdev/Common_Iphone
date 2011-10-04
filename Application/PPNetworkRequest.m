@@ -93,7 +93,7 @@
     int statusCode = [request responseStatusCode];
     
 #ifdef DEBUG    
-    NSLog(@"[RECV] : status=%d, error=%@", [request responseStatusCode], [error description]);
+    NSLog(@"[RECV] : HTTP status=%d, error=%@", [request responseStatusCode], [error description]);
 #endif    
     
     if (error != nil){
@@ -107,9 +107,11 @@
         
 #ifdef DEBUG
         int endTime = time(0);
-        NSLog(@"[RECV] data (len=%d bytes, latency=%d seconds, raw=%d bytes, real=%d bytes)", 
+        NSLog(@"[RECV] data statistic (len=%d bytes, latency=%d seconds, raw=%d bytes, real=%d bytes)", 
               [text length], (endTime - startTime),
               [[request rawResponseData] length], [[request responseData] length]);
+        
+        NSLog(@"[RECV] data = %@", [request responseString]);
 #endif            
         
         NSDictionary* dataDict = [text JSONValue];

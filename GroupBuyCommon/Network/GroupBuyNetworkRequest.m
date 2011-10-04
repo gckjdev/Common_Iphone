@@ -887,8 +887,8 @@
                             userId:(NSString*)userId
                        deviceToken:(NSString*)deviceToken
                           nickName:(NSString*)nickName
-                          password:(NSString*)password
-                       newPassword:(NSString*)newPassword
+                          password:(NSString*)newPassword
+//                       newPassword:(NSString*)newPassword
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -901,17 +901,16 @@
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_USERID value:userId];
         
-        if (deviceToken != nil){
+        if ([deviceToken length] > 0){
             str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];
         }
         
-        if (nickName != nil){
+        if ([nickName length] > 0){
             str = [str stringByAddQueryParameter:PARA_NICKNAME value:nickName];            
         }
         
-        if (password != nil && newPassword != nil){
-            str = [str stringByAddQueryParameter:PARA_PASSWORD value:password];            
-            str = [str stringByAddQueryParameter:PARA_NEW_PASSWORD value:newPassword];            
+        if ([newPassword length] > 0){
+            str = [str stringByAddQueryParameter:PARA_PASSWORD value:newPassword];            
         }
 
         return str;

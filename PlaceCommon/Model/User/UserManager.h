@@ -71,6 +71,18 @@
                        email:(NSString *)email
                     password:(NSString *)password;
 
++ (BOOL)createUserWithUserId:(NSString *)userId
+                       email:(NSString *)email 
+                    password:(NSString *)password
+                    nickName:(NSString *)nickName
+                      avatar:(NSString *)avatar
+                 sinaLoginId:(NSString *)sinaLoginId
+             sinaAccessToken:(NSString *)sinaAccessToken
+       sinaAccessTokenSecret:(NSString *)sinaAccessTokenSecret                       
+                   qqLoginId:(NSString *)qqLoginId
+               qqAccessToken:(NSString *)qqAccessToken
+         qqAccessTokenSecret:(NSString *)qqAccessTokenSecret;
+
 + (BOOL)updateUserWithEmail:(NSString *)email
                    password:(NSString *)password;
 

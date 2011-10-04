@@ -56,7 +56,28 @@
                 if (output.resultCode == ERROR_SUCCESS) {
                     // save return User ID locally
                     NSString* userId = [output.jsonDataDict objectForKey:PARA_USERID]; 
-                    [UserManager createUserWithUserId:userId loginId:nil loginIdType:0 nickName:nil avatar:nil accessToken:nil accessTokenSecret:nil];
+                    NSString* avatar = [output.jsonDataDict objectForKey:PARA_AVATAR]; 
+                    NSString* email = [output.jsonDataDict objectForKey:PARA_EMAIL];
+                    NSString* nickName = [output.jsonDataDict objectForKey:PARA_NICKNAME];
+                    NSString* qqAccessToken = [output.jsonDataDict objectForKey:PARA_QQ_ACCESS_TOKEN];
+                    NSString* qqAccessTokenSecret = [output.jsonDataDict objectForKey:PARA_QQ_ACCESS_TOKEN_SECRET];
+                    NSString* sinaAccessToken = [output.jsonDataDict objectForKey:PARA_SINA_ACCESS_TOKEN];
+                    NSString* sinaAccessTokenSecret = [output.jsonDataDict objectForKey:PARA_SINA_ACCESS_TOKEN_SECRET];
+                    NSString* password = [output.jsonDataDict objectForKey:PARA_PASSWORD];
+                    NSString* sinaLoginId = [output.jsonDataDict objectForKey:PARA_SINA_ID];
+                    NSString* qqLoginId = [output.jsonDataDict objectForKey:PARA_QQ_ID];
+                    
+                    [UserManager createUserWithUserId:userId 
+                                                email:email 
+                                             password:password 
+                                             nickName:nickName 
+                                               avatar:avatar 
+                                          sinaLoginId:sinaLoginId 
+                                      sinaAccessToken:sinaAccessToken 
+                                sinaAccessTokenSecret:sinaAccessTokenSecret                      
+                                            qqLoginId:qqLoginId                     
+                                        qqAccessToken:qqAccessToken 
+                                  qqAccessTokenSecret:qqAccessTokenSecret];
 
                     [self updateUserCache];
                 }
@@ -86,7 +107,7 @@
 - (void)updateGroupBuyUserDeviceToken:(NSString*)deviceToken
 {
     dispatch_async(workingQueue, ^{
-        CommonNetworkOutput* output = [GroupBuyNetworkRequest updateUser:SERVER_URL appId:GlobalGetPlaceAppId() userId:user.userId deviceToken:deviceToken nickName:nil password:nil newPassword:nil];
+        CommonNetworkOutput* output = [GroupBuyNetworkRequest updateUser:SERVER_URL appId:GlobalGetPlaceAppId() userId:user.userId deviceToken:deviceToken nickName:nil password:nil];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (output.resultCode == ERROR_SUCCESS) {
@@ -110,11 +131,20 @@
                                                                   userId:user.userId                                        
                                                              deviceToken:nil
                                                                 nickName:user.nickName
-                                                                password:user.password
-                                                             newPassword:self.newPassword];
+                                                                password:self.newPassword];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             successHandler(viewController, output.resultCode);
+            
+            if (output.resultCode == ERROR_NETWORK) {
+                [viewController popupUnhappyMessage:NSLS(@"kSystemFailure") title:nil];
+            }
+            else if (output.resultCode != ERROR_SUCCESS) {
+                [viewController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
+            }
+            else{
+                [viewController popupUnhappyMessage:NSLS(@"保存用户信息成功！") title:nil];
+            }
         });
         
     });
@@ -313,7 +343,7 @@
     int loginIdType = [self getRegisterType:userInfo];
     
     
-    NSString* nickName = (user.nickName == nil || [user.nickName length] == 0) ? [userInfo objectForKey:SNS_NICK_NAME] : user.nickName;
+    NSString* nickName = [userInfo objectForKey:SNS_NICK_NAME];
     
     [viewController showActivityWithText:NSLS(@"kRegisteringUser")];    
     dispatch_async(workingQueue, ^{        
@@ -350,7 +380,7 @@
                 [self updateUserCache];                 // MUST call this!!!
             }
             
-            [delegate loginUserResult:output.resultCode];
+//            [delegate loginUserResult:output.resultCode];
         });
     });
     
@@ -366,10 +396,6 @@
             break;
             
         case USER_EXIST_LOCAL_STATUS_LOGIN:            
-            // it's strange here, we just treat this as login locally again
-            [self bindUserWithSNSUserInfo:userInfo viewController:viewController];
-            break;
-            
         case USER_EXIST_LOCAL_STATUS_LOGOUT:
             [self bindUserWithSNSUserInfo:userInfo viewController:viewController];            
             break;

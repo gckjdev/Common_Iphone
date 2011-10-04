@@ -128,6 +128,43 @@ UserManager* userManager;
 }
 
 + (BOOL)createUserWithUserId:(NSString *)userId
+                       email:(NSString *)email 
+                    password:(NSString *)password
+                    nickName:(NSString *)nickName
+                      avatar:(NSString *)avatar
+                 sinaLoginId:(NSString *)sinaLoginId
+             sinaAccessToken:(NSString *)sinaAccessToken
+       sinaAccessTokenSecret:(NSString *)sinaAccessTokenSecret                       
+                   qqLoginId:(NSString *)qqLoginId
+               qqAccessToken:(NSString *)qqAccessToken
+         qqAccessTokenSecret:(NSString *)qqAccessTokenSecret
+{
+	CoreDataManager* dataManager = GlobalGetCoreDataManager();
+	User* user = (User*)[dataManager execute:@"getUser" forKey:@"queryId" value:DEFAULT_USER_QUERY_ID];
+    if (nil == user) {
+        user = [dataManager insert:@"User"];
+    }
+    
+    user.email = email;
+    user.password = password;
+    user.nickName = nickName;
+    user.avatar = avatar;
+    user.sinaLoginId = sinaLoginId;
+    user.sinaAccessToken = sinaAccessToken;
+    user.sinaAccessTokenSecret = sinaAccessTokenSecret;
+    user.qqLoginId = qqLoginId;
+    user.qqAccessToken = qqAccessToken;
+    user.qqAccessTokenSecret = qqAccessTokenSecret;
+    
+    user.userId = userId;
+    user.queryId = DEFAULT_USER_QUERY_ID;
+    user.loginStatus = [NSNumber numberWithBool:YES];    
+    
+    NSLog(@"<createUser> user=%@", [user description]);    
+	return [dataManager save];
+}
+
++ (BOOL)createUserWithUserId:(NSString *)userId
                   loginId:(NSString *)loginId
               loginIdType:(int)loginIdType
                  nickName:(NSString *)nickName
@@ -197,6 +234,28 @@ UserManager* userManager;
 	return [dataManager save];
 }
 
++ (BOOL)canSetNickName:(User*)user newNickName:(NSString*)newNickName
+{
+    if ([newNickName length] == 0)
+        return NO;
+    
+    if ([user.nickName length] == 0)
+        return YES;
+    else
+        return NO;
+}
+
++ (BOOL)canSetAvatar:(User*)user newAvatar:(NSString*)newAvatar
+{
+    if ([newAvatar length] == 0)
+        return NO;
+    
+    if ([user.avatar length] == 0)
+        return YES;
+    else
+        return NO;    
+}
+
 + (BOOL)bindUserWithUserId:(NSString *)userId
                   loginId:(NSString *)loginId
               loginIdType:(int)loginIdType
@@ -218,11 +277,22 @@ UserManager* userManager;
 //    user.userId = userId;
     user.loginStatus = [NSNumber numberWithBool:YES];
 
+    NSString* newNickName = nickName;
+    NSString* newAvatar = avatar;
+
+    if ([UserManager canSetNickName:user newNickName:nickName] == NO){
+        newNickName = nil;
+    }
+
+    if ([UserManager canSetAvatar:user newAvatar:avatar] == NO){
+        newAvatar = nil;
+    }
+    
     [UserManager setUserLoginId:user 
                         loginId:loginId 
                            type:loginIdType     
-                       nickName:nickName
-                         avatar:avatar 
+                       nickName:newNickName
+                         avatar:newAvatar
                     accessToken:accessToken 
               accessTokenSecret:accessTokenSecret];
     

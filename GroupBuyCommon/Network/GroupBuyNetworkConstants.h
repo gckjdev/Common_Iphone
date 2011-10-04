@@ -89,8 +89,9 @@
 #define PARA_NEW_PASSWORD @"npwd"
 
 
-#define PARA_SINAID @"sid"
-#define PARA_QQID @"qid"
+#define PARA_SINA_ID @"siid"
+#define PARA_QQ_ID @"qid"
+
 #define PARA_FACEBOOKID @"fid"
 #define PARA_RENRENID @"rid"
 #define PARA_TWITTERID @"tid"

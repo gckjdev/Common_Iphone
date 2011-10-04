@@ -116,16 +116,19 @@
     __block NSMutableDictionary *userInfo = nil;
     NSURL *url = [NSURL URLWithString:[snsRequest getUserInfoURLMain]];
     NSString *queryString = [OAuthCore queryStringWithUrl:url
-                                         method:@"POST"
+                                         method:@"GET"
                                      parameters:nil
                                     consumerKey:snsRequest.appKey
                                  consumerSecret:snsRequest.appSecret
                                           token:snsRequest.oauthToken
                                     tokenSecret:snsRequest.oauthTokenSecret];
     
+    NSString* urlString = [NSString stringWithFormat:@"%@?%@", [snsRequest getUserInfoURLMain], queryString];
+    url = [NSURL URLWithString:urlString];
+                           
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];    
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:[queryString dataUsingEncoding:NSUTF8StringEncoding]];
+//    [request setHTTPMethod:@"GET"];
+//    [request setHTTPBody:[queryString dataUsingEncoding:NSUTF8StringEncoding]];
     [NetworkUtil sendRequest:request respnoseHandlerBlock:^(NSString *responseText) {
         NSMutableDictionary* dict = [responseText JSONValue];
         if (dict == nil){                        
