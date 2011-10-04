@@ -123,8 +123,11 @@
         //category
         [self.categoryCell setAndHighlightSelectedCategory:item.categoryName];
         
+        [self.subCategoryCell updateAllButtonLabelsWithArray:[CategoryManager getSubCategoriesByCategory:item.categoryName]];
+        
         //category array
         NSArray *categoryArray = [UserShopItemManager getSubCategoryArrayWithCategoryName:item.subCategoryName];
+        
         [self.subCategoryCell setAndHighlightSelectedSubCategories:categoryArray];
         if (self.categoryCell.selectedCategory != nil && [self.categoryCell.selectedCategory length] != 0) {
             isShowSubCategory  = YES;

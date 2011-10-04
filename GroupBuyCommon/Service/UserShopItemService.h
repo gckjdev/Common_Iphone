@@ -33,6 +33,9 @@ typedef enum {
 - (void)refreshShoppingList;
 - (void)didLoadMatchCountFailed:(NSArray *)itemIds errorCode:(NSInteger)code;
 
+- (void)didBeginDeleteItem:(NSString *)message;
+- (void)didEndDeleteItem:(NSString *)itemId Code:(NSInteger)code;
+
 @optional
 - (void)itemActionDone:(int)result;
 
@@ -45,14 +48,6 @@ typedef enum {
 
 
 + (NSString*)generateItemId;
-//- (void)addUserShoppingItem:(NSString*)city
-//               categoryName:(NSString*)categoryName
-//            subCategories:(NSArray*)subCategories
-//                   keywords:(NSString*)keywords
-//                   maxPrice:(NSNumber*)maxPrice
-//                 expireDate:(NSDate*)expireDate 
-//                     rebate:(NSNumber *)rebate 
-//             viewController:(AddShoppingItemController *)viewController;
 
 - (void)addUserShoppingItem:(NSString*)city
                categoryName:(NSString*)categoryName
@@ -79,35 +74,11 @@ typedef enum {
 
 - (void)refreshUserShoppingItemMatchCount:(NSArray *)itemIds appId:(NSString *)appId userId:(NSString *)userId;
 
-//- (void)updateUserShoppingItem:(NSString*)itemId
-//                       city:(NSString*)city
-//               categoryName:(NSString*)categoryName
-//            subCategories:(NSArray*)subCategories
-//                   keywords:(NSString*)keywords
-//                   maxPrice:(NSNumber*)maxPrice
-//                 expireDate:(NSDate*)expireDate 
-//                        rebate:(NSNumber *)rebate 
-//                viewController:(AddShoppingItemController *)viewController;
-
-
-//- (void)handleUserShoppingItem:(NSString*)itemId
-//                          city:(NSString*)city
-//                  categoryName:(NSString*)categoryName
-//                 subCategories:(NSArray*)subCategories
-//                      keywords:(NSString*)keywords
-//                      maxPrice:(NSNumber*)maxPrice
-//                    expireDate:(NSDate*)expireDate 
-//                        rebate:(NSNumber *)rebate 
-//                viewController:(AddShoppingItemController *)viewController 
-//                    handleType:(ShoppingItemHandleType)handleType;
-
-- (void)updateUserShoppingItemCountList:(PPTableViewController *)tableViewController;
-
-- (void)deleteUserShoppingItem:(NSString*)itemId viewController:(PPViewController *)viewController indexPath:(NSIndexPath *)indexPath;
+- (void)updateUserShoppingItemCountList;
 
 - (void)deleteUserShoppingItem:(NSString*)itemId;
 
-- (void)requestItemMatchCount:(NSString*)itemId tableViewController:(PPTableViewController*)tableViewController;
+- (void)requestItemMatchCount:(NSString*)itemId;
 
 
 @property (nonatomic,assign) NSObject<UserShopItemServiceDelegate>   *userShopItemServiceDelegate;

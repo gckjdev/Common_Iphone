@@ -271,7 +271,7 @@
         UserShoppingItem *item = [dataList objectAtIndex:row];
         
         //UserShopItemService *service = GlobalGetUserShopItemService();
-        [self.service deleteUserShoppingItem:item.itemId viewController:self indexPath:indexPath];
+        [self.service deleteUserShoppingItem:item.itemId];
         
     }
     
@@ -310,8 +310,7 @@
 
 -(void)clickRefresh:(id)sender
 {
-    //UserShopItemService *service = GlobalGetUserShopItemService();
-    [self.service updateUserShoppingItemCountList:self];
+    [self.service updateUserShoppingItemCountList];
 }
 
 #pragma delegate
@@ -339,6 +338,7 @@
     for(NSString *itemId in itemIds){
         [UserShopItemManager updateItemMatchCountStatus:ShoppingItemCountLoading itemId:itemId];
     }
+    [self.dataTableView reloadData];
 }
 - (void)didLoadMatchCountSuccess:(NSString *)itemId matchCount:(NSNumber *)count
 {
@@ -354,6 +354,24 @@
     }else{
         [self.addShoppingItemController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
     }
+}
+
+- (void)didEndDeleteItem:(NSString *)itemId Code:(NSInteger)code
+{
+    [self hideActivity];
+    if (code == ERROR_SUCCESS) {
+        [self.navigationController popViewControllerAnimated:YES];
+        [self refreshShoppingList];
+    }else if (code == ERROR_NETWORK){
+        [self.addShoppingItemController popupUnhappyMessage:NSLS(@"kSystemFailure") title:nil];
+    }else{
+        [self.addShoppingItemController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
+    }
+}
+
+- (void)didBeginDeleteItem:(NSString *)message
+{
+    [self showActivityWithText:message];
 }
 
 - (void)refreshShoppingList

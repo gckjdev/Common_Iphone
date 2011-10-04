@@ -154,4 +154,14 @@
     }
 }
 
++ (NSArray *)getAllLocalShoppingItemIds
+{
+    NSArray *items = [UserShopItemManager getAllLocalShoppingItems];
+    NSMutableArray *ids = [[[NSMutableArray alloc] initWithCapacity:[items count]]autorelease];
+    for (UserShoppingItem *item in items) {
+        [ids addObject:item.itemId];
+    }
+    return ids;
+}
+
 @end

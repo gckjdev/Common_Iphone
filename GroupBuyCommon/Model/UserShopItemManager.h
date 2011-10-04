@@ -40,6 +40,7 @@
 + (NSArray *)getSubCategoryArrayWithCategoryName:(NSString *)categoryName;
 
 + (NSArray *)getAllLocalShoppingItems;
++ (NSArray *)getAllLocalShoppingItemIds;
 
 + (void)removeItemForItemId:(NSString *)itemId;
 + (void)updateItemMatchCount:(NSNumber *)count itemId:(NSString *)itemId;
