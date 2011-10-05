@@ -31,8 +31,6 @@
 }
 
 - (IBAction)radiusChange:(id)sender {
-
-    NSLog(@"got it!");
     CLLocationDistance r = radiusSlider.value * 1000;
     self.radius = r;
     [self setAreaLabelWithRadius:r];
@@ -46,13 +44,17 @@
 
 }
 
+- (void)setDefault{
+    LocationService *service = GlobalGetLocationService();
+    self.currentCoordinate = [[service currentLocation] coordinate];
+    self.radius = RADIUS;
+}
+
 - (id)init
 {
     self = [super init];
     if (self) {
-        LocationService *service = GlobalGetLocationService();
-        self.currentCoordinate = [[service currentLocation] coordinate];
-        self.radius = RADIUS;
+        [self setDefault];
     }
     return self;
 }
@@ -66,6 +68,7 @@
     }
     return self;
 }
+
 
 - (id)initWithLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude radius:(CLLocationDistance)r
 {
@@ -196,7 +199,6 @@
     [self.mapView.userLocation setTitle:@"所选位置"];
     NSString *subTitle = [NSString stringWithFormat:@"(%.3f,%.3f)",currentCoordinate.latitude,currentCoordinate.longitude];
     [self.mapView.userLocation setSubtitle:subTitle];
-    NSLog(@"here");
     return pinView; 
 }
 
@@ -221,7 +223,6 @@
 {
     self.radius = r;
     [self setMark:coordinate];
-    NSLog(@"out of!");
     [self setAreaLabelWithRadius:r];
     [self setCircle:coordinate radius:r];
     [self setSlider:r];
@@ -233,7 +234,6 @@
 - (void)setAreaLabelWithRadius:(CLLocationDistance)r
 {
     self.areaLabel.text = [self getAreaDesc:r];
-    NSLog(@"in of!");
 }
 
 - (void)setSlider:(CLLocationDistance)r

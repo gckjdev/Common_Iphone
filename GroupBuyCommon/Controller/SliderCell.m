@@ -101,9 +101,11 @@ NSArray* priceArray;
 - (NSNumber *)getPrice
 {
     NSNumber *price = nil;
-    if (self.priceTextField.text != nil) {
+    
+    if (self.priceTextField.text && ![self.priceTextField.text isEqualToString:NOT_LIMIT]) {
         price = [NSNumber numberWithInt:[self.priceTextField.text intValue]];
     }
+
     return price;
 }
 

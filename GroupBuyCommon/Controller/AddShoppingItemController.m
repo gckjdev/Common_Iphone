@@ -153,6 +153,7 @@
         [self.priceCell setPrice:nil];
         [self.locationCell setLatitude:nil longitude:nil radius:nil];
     }
+        [self hideActivity];
 
 }
 
@@ -189,10 +190,10 @@
         rowOfKeyword = 2;
         rowOfValidPeriod = 3;
         rowOfPrice = 4;
-        rowOfLocation = -1;
+        rowOfLocation = 5;
         rowOfRebate = -1;       // not used
         rowOfCity = -1;         // not used
-        rowNumber = 5;          // hide location
+        rowNumber = 6;          // hide location
     }
     else{
         rowOfCategory = 0;
@@ -200,10 +201,10 @@
         rowOfKeyword = 1;
         rowOfValidPeriod = 2;
         rowOfPrice = 3;
-        rowOfLocation = -1;
+        rowOfLocation = 4;
         rowOfCity = -1;         // not used 
         rowOfRebate = -1;       // not used
-        rowNumber = 4;          // hide location
+        rowNumber = 5;          // hide location
     }
     
     [self.dataTableView reloadData];
@@ -406,7 +407,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         if (indexPath.row == rowOfLocation) {
-            [self.navigationController pushViewController:self.locationCell.mapViewController animated:YES];
+            PPMKMapViewController *mapViewController = nil;
+            if ([self.locationCell getLatitude] && [self.locationCell getLongtitude]) {
+                mapViewController = [[PPMKMapViewController alloc] initWithCoordinate:self.locationCell.coordinate radius:self.locationCell.radius];
+            }else{
+                mapViewController = [[PPMKMapViewController alloc] init];
+            }
+            mapViewController.mapViewdelegate = self.locationCell;
+            [self.navigationController pushViewController:mapViewController animated:YES];
+            [mapViewController release];
         }
     }
 }
@@ -485,14 +494,6 @@
     }else{
         [shopService updateUserShoppingItem:itemId city:city categoryName:categoryName subCategories:selectedSubCategories keywords:keywords maxPrice:price expireDate:expireDate latitude:latitude longitude:longitude radius:radius rebate:nil];
     }
-//    if (self.categoryCell.selectedCategory != nil)
-//        categoryName = self.categoryCell.selectedCategory;
-    
-//    if (itemId == nil) {
-//        [shopService addUserShoppingItem:city categoryName:categoryName subCategories:selectedSubCategories keywords:self.keywords maxPrice:maxPrice expireDate:expireDate rebate:nil viewController:self];
-//    }else{
-//        [shopService updateUserShoppingItem:itemId city:city categoryName:categoryName subCategories:self.selectedSubCategories keywords:self.keywords maxPrice:self.maxPrice expireDate:self.expireDate rebate:nil viewController:self];
-//    }
         
 }
 
@@ -501,18 +502,20 @@
 
 -(void) didSwitchOn
 {
-    [self.navigationController pushViewController:self.locationCell.mapViewController animated:YES];
+    
+    PPMKMapViewController *mapViewController = [[PPMKMapViewController alloc] init];
+    mapViewController.mapViewdelegate = self.locationCell;
+    [self.navigationController pushViewController:mapViewController animated:YES];
+    [mapViewController release];
 }
 
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark
 {
     
-    NSLog(@"level two");
     NSString* str = [NSString stringWithString:@""];
 	if (placemark == nil){
 		return;
 	}
-	
 	if (placemark.locality){
 		str = [str stringByAppendingFormat:@"%@", placemark.locality];
 	}
@@ -522,7 +525,6 @@
 	}
     
     self.locationCell.locationLabel.text = str;
-    NSLog(@"done: %@",self.locationCell.locationLabel.text);
     
 }
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error

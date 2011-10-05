@@ -301,8 +301,6 @@
     }else{
         [self.addShoppingItemController updateCellWithItem:item];
     }
-    
-    
     self.addShoppingItemController.navigationItem.title = @"编辑团购项";
     [self.navigationController pushViewController:self.addShoppingItemController animated:YES];
 }
@@ -324,6 +322,7 @@
 - (void)didEndUpdateShoppingItemWithResultCode:(NSInteger)code
 {
     [self.addShoppingItemController hideActivity];
+    NSLog(@"end hide activity");
     if (code == ERROR_SUCCESS) {
         [self.navigationController popViewControllerAnimated:YES];
     }else if (code == ERROR_NETWORK){
