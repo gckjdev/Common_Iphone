@@ -34,7 +34,7 @@
     UILabel *areaLabel;
     CLLocationCoordinate2D coordinate;
     CLLocationDistance radius;
-    PPMKMapViewController *mapViewController;
+//    PPMKMapViewController *mapViewController;
     id<LocationCellDelegate> locationCellDelegate;
     
 }
@@ -43,7 +43,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *areaLabel;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, assign) CLLocationDistance radius;
-@property (nonatomic, retain) PPMKMapViewController *mapViewController;
+//@property (nonatomic, retain) PPMKMapViewController *mapViewController;
 @property (nonatomic, assign) id<LocationCellDelegate>locationCellDelegate;
 
 

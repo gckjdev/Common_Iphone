@@ -15,7 +15,7 @@
 @synthesize areaLabel;
 @synthesize coordinate;
 @synthesize radius;
-@synthesize mapViewController;
+//@synthesize mapViewController;
 @synthesize locationCellDelegate;
 
 - (void)dealloc
@@ -23,7 +23,7 @@
     [locationSwitch release];
     [locationLabel release];
     [areaLabel release];
-    [mapViewController release];
+//    [mapViewController release];
     [super dealloc];
 }
 
@@ -38,10 +38,10 @@
         return nil;
     }
     LocationCell *cell = (LocationCell *)[topLevelObjects objectAtIndex:0];
-    cell.mapViewController = [[PPMKMapViewController alloc] init];
+////    cell.mapViewController = [[PPMKMapViewController alloc] init];
     cell.coordinate = CLLocationCoordinate2DMake(DEGREE_NOT_SET, DEGREE_NOT_SET);
     
-    cell.mapViewController.mapViewdelegate = cell;
+//    cell.mapViewController.mapViewdelegate = cell;
     cell.areaLabel.text = nil;
     cell.locationLabel.text = nil;
     cell.delegate = delegate;
@@ -56,7 +56,7 @@
 
 + (CGFloat)getCellHeight
 {
-    return 85;
+    return 80;
 }
 
 - (void)setLabelText:(CLLocationDistance)r
@@ -79,33 +79,39 @@
 
 - (void)setLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude radius:(NSNumber *)r
 {
+    CLLocationCoordinate2D coorinate;
+    CLLocationDistance distance;
     if (latitude == nil || longitude == nil || r == nil || [r intValue] < MIN_RADIUS) {
-        self.coordinate = CLLocationCoordinate2DMake(DEGREE_NOT_SET, DEGREE_NOT_SET);
-        self.radius = -1;
+        coorinate = CLLocationCoordinate2DMake(DEGREE_NOT_SET, DEGREE_NOT_SET);
+        distance = -1;
+        self.locationSwitch.on = NO;
     }else{
-        CLLocationCoordinate2D c = CLLocationCoordinate2DMake([latitude doubleValue], [longitude doubleValue]);
-        [self setCoordinate:c radius:[r doubleValue]];
+        coorinate = CLLocationCoordinate2DMake([latitude doubleValue], [longitude doubleValue]);
+        distance = [r doubleValue];
+        self.locationSwitch.on = YES;
     }
+    [self setCoordinate:coorinate radius:distance];
 }
 
 -(void)didChangeLocation:(CLLocationCoordinate2D)c radius:(CLLocationDistance)r
 {
-    
     [self.locationSwitch setOn:YES];
     [self setCoordinate:c radius:r];
 
 }
 
 - (IBAction)didChangeSwitch:(id)sender {
+
     if (self.locationSwitch.on) {
+        [self setLatitude:nil longitude:nil radius:nil];
         if ([self.locationCellDelegate respondsToSelector:@selector(didSwitchOn)]) {
             [self.locationCellDelegate didSwitchOn];
-            [self.locationSwitch setOn:NO];
         }
     }else{
-        self.areaLabel.text = nil;
+        [self setLatitude:nil longitude:nil radius:nil];
         self.locationLabel.text = @"不限";
     }
+    [self.locationSwitch setOn:NO];
 }
 
 
@@ -133,5 +139,6 @@
     }
     return r;
 }
+
 
 @end

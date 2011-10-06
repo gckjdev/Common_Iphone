@@ -130,12 +130,14 @@
             //update ui
             if ([self.userShopItemServiceDelegate respondsToSelector:@selector(didEndUpdateShoppingItemWithResultCode:)]) {
                 [self.userShopItemServiceDelegate didEndUpdateShoppingItemWithResultCode:output.resultCode];
+            }
+            
             if (output.resultCode == ERROR_SUCCESS) {
                 //get count
                 NSArray *itemIds = [NSArray arrayWithObject:itemId];
                     [self refreshUserShoppingItemMatchCount:itemIds appId:appId userId:userId];
-                }
             }
+            
 
     });
     });
