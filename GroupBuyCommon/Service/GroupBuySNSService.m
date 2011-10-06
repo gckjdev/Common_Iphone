@@ -192,13 +192,16 @@ typedef void (^AuthorizationSuccessHandler)(NSDictionary*, PPViewController*);
     });        
 }
 
-- (void)sinaInitiateLogin:(PPViewController*)viewController
+- (void)sinaInitiateLogin:(PPViewController*)viewController //loginSuccessHandler:(LoginSuccessHandler)handler
 {
+//    loginSuccessHandler = handler;
     [self snsInitiateLogin:viewController snsRequest:sinaRequest];
 }
 
-- (void)qqInitiateLogin:(PPViewController*)viewController
+- (void)qqInitiateLogin:(PPViewController*)viewController //loginSuccessHandler:(LoginSuccessHandler)handler
+
 {
+//    loginSuccessHandler = handler;
     [self snsInitiateLogin:viewController snsRequest:qqRequest];
 }
 
@@ -236,8 +239,6 @@ typedef void (^AuthorizationSuccessHandler)(NSDictionary*, PPViewController*);
 
 // block function for authroization successful
 AuthorizationSuccessHandler groupBuySnsAuthorizeSuccess = ^(NSDictionary* userInfo, PPViewController* viewController){
-    UserService* userService = GlobalGetUserService();
-    [userService groupBuyRegisterUserWithSNSUserInfo:userInfo viewController:viewController];       
     
     
     
@@ -261,8 +262,11 @@ AuthorizationSuccessHandler groupBuySnsAuthorizeSuccess = ^(NSDictionary* userIn
             // success
             finalResult = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [displayViewController.navigationController popViewControllerAnimated:YES];
-                groupBuySnsAuthorizeSuccess(userInfo, displayViewController);
+                [displayViewController.navigationController popViewControllerAnimated:NO];
+                
+                UserService* userService = GlobalGetUserService();
+                [userService groupBuyRegisterUserWithSNSUserInfo:userInfo 
+                                                  viewController:displayViewController];                       
             });            
             
         }

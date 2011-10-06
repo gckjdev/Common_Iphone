@@ -16,14 +16,28 @@
 #import "UIUtils.h"
 #import "PPViewController.h"
 #import "SNSConstants.h"
+#import "UIDevice+IdentifierAddition.h"
 
 //#import "DeviceLoginRequest.h"
 
 @implementation UserService (GroupBuyUserService)
 
+// share method for all registration/login finish
+- (void)actionDone:(PPViewController<GroupBuyUserServiceDelegate>*)viewController resultCode:(int)resultCode
+{
+    if ([viewController respondsToSelector:@selector(actionDone:)]){
+        [viewController actionDone:resultCode];
+    }
+}
+
+- (NSString*)getDeviceToken
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kKeyDeviceToken];
+}
+
 - (void)registerUserByDevice
 {
-    NSString* deviceToken = [[NSUserDefaults standardUserDefaults] objectForKey:kKeyDeviceToken];
+    NSString* deviceToken = [self getDeviceToken];
     
     dispatch_async(workingQueue, ^{
         CommonNetworkOutput* output = [GroupBuyNetworkRequest registerUserDevice:SERVER_URL appId:GlobalGetPlaceAppId() deviceToken:deviceToken];
@@ -44,7 +58,7 @@
 }
 
 - (void)groupBuyCheckDevice
-{
+{    
     NSLog(@"current user Id is %@", user.userId);
     NSString* deviceToken = [[NSUserDefaults standardUserDefaults] objectForKey:kKeyDeviceToken];
     
@@ -107,7 +121,13 @@
 - (void)updateGroupBuyUserDeviceToken:(NSString*)deviceToken
 {
     dispatch_async(workingQueue, ^{
-        CommonNetworkOutput* output = [GroupBuyNetworkRequest updateUser:SERVER_URL appId:GlobalGetPlaceAppId() userId:user.userId deviceToken:deviceToken nickName:nil password:nil];
+        CommonNetworkOutput* output = [GroupBuyNetworkRequest updateUser:SERVER_URL 
+                                                                   appId:GlobalGetPlaceAppId() 
+                                                                  userId:user.userId 
+                                                                deviceId:[[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]
+                                                             deviceToken:deviceToken 
+                                                                nickName:nil 
+                                                                password:nil];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (output.resultCode == ERROR_SUCCESS) {
@@ -123,13 +143,15 @@
 
 - (void)groupBuyUpdateUser:(PPViewController*)viewController successHandler:(UpdateUserSuccessHandler)successHandler
 {
+    NSString* deviceToken = [self getDeviceToken];
     
     dispatch_async(workingQueue, ^{
                                 
         CommonNetworkOutput* output = [GroupBuyNetworkRequest updateUser:SERVER_URL 
                                                                    appId:GlobalGetPlaceAppId() 
-                                                                  userId:user.userId                                        
-                                                             deviceToken:nil
+                                                                  userId:user.userId  
+                                                                deviceId:[[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]                                       
+                                                             deviceToken:deviceToken
                                                                 nickName:user.nickName
                                                                 password:self.newPassword];
         
@@ -143,7 +165,7 @@
                 [viewController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
             }
             else{
-                [viewController popupUnhappyMessage:NSLS(@"保存用户信息成功！") title:nil];
+                [viewController popupHappyMessage:NSLS(@"保存用户信息成功！") title:nil];
             }
         });
         
@@ -156,6 +178,7 @@
 {
     NSString* userId = [[self user] userId];
     NSString* appId = GlobalGetPlaceAppId();
+    NSString* deviceToken = [self getDeviceToken];
     
     [viewController showActivityWithText:@"注册帐号中......"];    
     dispatch_async(workingQueue, ^{
@@ -165,14 +188,16 @@
             output = [GroupBuyNetworkRequest registerUserByEmail:SERVER_URL 
                                                            appId:appId 
                                                            email:email 
-                                                        password:password];
+                                                        password:password
+                                                     deviceToken:deviceToken];
         }
         else{
             output = [GroupBuyNetworkRequest bindUserEmail:SERVER_URL 
                                                      appId:appId 
                                                     userId:userId 
                                                      email:email 
-                                                  password:password];
+                                                  password:password
+                                               deviceToken:deviceToken];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -218,6 +243,7 @@
             viewController:(PPViewController<GroupBuyUserServiceDelegate>*)viewController
 {
     NSString* appId = GlobalGetPlaceAppId();
+    NSString* deviceToken = [self getDeviceToken];
     
     [viewController showActivityWithText:@"用户登录中......"];    
     dispatch_async(workingQueue, ^{
@@ -226,7 +252,8 @@
         output = [GroupBuyNetworkRequest loginUserByEmail:SERVER_URL 
                                                     appId:appId 
                                                     email:email 
-                                                 password:password];
+                                                 password:password
+                                              deviceToken:deviceToken];
     
         dispatch_async(dispatch_get_main_queue(), ^{
             [viewController hideActivity];
@@ -263,6 +290,8 @@
             else {
                 [viewController popupUnhappyMessage:@"对不起，登录失败，请稍候再试" title:nil];
             }
+            
+            [self actionDone:viewController resultCode:output.resultCode];
         });
         
     });    
@@ -283,10 +312,12 @@
     return -1;
 }
 
+
+
 - (void)registerUserWithSNSUserInfo:(NSDictionary*)userInfo viewController:(PPViewController*)viewController
 {
     NSString* appId = [AppManager getPlaceAppId];
-    NSString* deviceToken = @""; // TODO get device token here!    
+    NSString* deviceToken = [self getDeviceToken];
     
     NSString* loginId = [userInfo objectForKey:SNS_USER_ID];
     int loginIdType = [self getRegisterType:userInfo];
@@ -327,7 +358,8 @@
                 [self updateUserCache];                 // MUST call this!!!
             }
             
-            [delegate loginUserResult:output.resultCode];
+//            [delegate loginUserResult:output.resultCode];
+            [self actionDone:viewController resultCode:output.resultCode];
         }); 
     });
     
@@ -379,6 +411,8 @@
                               accessTokenSecret:[userInfo objectForKey:SNS_OAUTH_TOKEN_SECRET]];
                 [self updateUserCache];                 // MUST call this!!!
             }
+
+            [self actionDone:viewController resultCode:output.resultCode];
             
 //            [delegate loginUserResult:output.resultCode];
         });

@@ -13,7 +13,7 @@
 
 @class PPViewController;
 
-
+typedef void (^LoginSuccessHandler)(PPViewController*, int);
 
 @interface GroupBuySNSService : SNSServiceHandler {
     
@@ -29,6 +29,8 @@
     NSString *qqAppSecret;
     NSString *renrenAppKey;
     NSString *renrenAppSecret;
+    
+    LoginSuccessHandler loginSuccessHandler;
 }
 
 @property (nonatomic, retain) SINAWeiboRequest    *sinaRequest;

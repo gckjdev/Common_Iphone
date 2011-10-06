@@ -282,7 +282,7 @@ if (nil != payload) {
 
 - (BOOL)isPushNotificationEnable {
 	NSUserDefaults* userDefault = [NSUserDefaults standardUserDefaults];
-	return ( [userDefault objectForKey:kKeyDeviceToken] != nil );
+	return ( [[userDefault objectForKey:kKeyDeviceToken] length] > 0 );
 }
 
 - (void)saveDeviceToken:(NSData*)deviceToken {

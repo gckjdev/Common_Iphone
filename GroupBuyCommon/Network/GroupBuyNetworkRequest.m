@@ -12,6 +12,7 @@
 #import "StringUtil.h"
 #import "JSON.h"
 #import "LocaleUtils.h"
+#import "UIDevice+IdentifierAddition.h"
 
 @implementation GroupBuyNetworkRequest
 
@@ -53,7 +54,7 @@
                         deviceToken:(NSString*)deviceToken
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
-    NSString* deviceId = [[UIDevice currentDevice] uniqueIdentifier];
+    NSString* deviceId = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier];
     
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         
@@ -431,7 +432,7 @@
         NSString* str = [NSString stringWithString:baseURL];       
         
         str = [str stringByAddQueryParameter:METHOD value:METHOD_REGISTERDEVICE];
-        str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueIdentifier]];
+        str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]];
         str = [str stringByAddQueryParameter:PARA_DEVICEMODEL value:[[UIDevice currentDevice] model]];
         str = [str stringByAddQueryParameter:PARA_DEVICEOS intValue:OS_IOS];
         str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:[LocaleUtils getCountryCode]];
@@ -476,7 +477,7 @@
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_CITY value:city];
         str = [str stringByAddQueryParameter:PARA_KEYWORD value:keyword];
-        str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueIdentifier]];        
+        str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]];        
         str = [str stringByAddQueryParameter:PARA_START_OFFSET intValue:startOffset];
 		
         return str;
@@ -885,6 +886,7 @@
 + (CommonNetworkOutput*)updateUser:(NSString*)baseURL
                              appId:(NSString*)appId
                             userId:(NSString*)userId
+                          deviceId:(NSString*)deviceId
                        deviceToken:(NSString*)deviceToken
                           nickName:(NSString*)nickName
                           password:(NSString*)newPassword
@@ -900,6 +902,10 @@
         str = [str stringByAddQueryParameter:METHOD value:METHOD_UPDATEUSER];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_USERID value:userId];
+        
+        if ([deviceId length] > 0){
+            str = [str stringByAddQueryParameter:PARA_DEVICEID value:deviceId];            
+        }
         
         if ([deviceToken length] > 0){
             str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];
@@ -932,6 +938,7 @@
                                       appId:(NSString*)appId
                                       email:(NSString*)email
                                    password:(NSString*)password
+                                deviceToken:(NSString*)deviceToken
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -940,10 +947,12 @@
         // set input parameters
         NSString* str = [NSString stringWithString:baseURL];       
         
-        str = [str stringByAddQueryParameter:METHOD value:METHOD_REGISTEREMAIL];
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_REGISTERUSER];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_EMAIL value:email];
         str = [str stringByAddQueryParameter:PARA_PASSWORD value:password];
+        str = [str stringByAddQueryParameter:PARA_REGISTER_TYPE intValue:REGISTER_TYPE_EMAIL];
+        str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];
         
         return str;
     };
@@ -967,6 +976,7 @@
                                userId:(NSString*)userId
                                 email:(NSString*)email
                              password:(NSString*)password
+                          deviceToken:(NSString*)deviceToken
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -981,6 +991,7 @@
         str = [str stringByAddQueryParameter:PARA_EMAIL value:email];
         str = [str stringByAddQueryParameter:PARA_PASSWORD value:password];        
         str = [str stringByAddQueryParameter:PARA_REGISTER_TYPE intValue:REGISTER_TYPE_EMAIL];
+        str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];
         
         return str;
     };
@@ -1003,6 +1014,8 @@
                                    appId:(NSString*)appId
                                    email:(NSString*)email
                                 password:(NSString*)password
+                             deviceToken:(NSString*)deviceToken
+
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -1015,6 +1028,7 @@
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_EMAIL value:email];
         str = [str stringByAddQueryParameter:PARA_PASSWORD value:password];
+        str = [str stringByAddQueryParameter:PARA_DEVICETOKEN value:deviceToken];
         
         return str;
     };
@@ -1055,7 +1069,7 @@
         // set input parameters
         NSString* str = [NSString stringWithString:baseURL];       
         
-        str = [str stringByAddQueryParameter:METHOD value:METHOD_REGISTERSNS];
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_REGISTERUSER];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_SNS_ID value:snsId];
         str = [str stringByAddQueryParameter:PARA_REGISTER_TYPE intValue:registerType];

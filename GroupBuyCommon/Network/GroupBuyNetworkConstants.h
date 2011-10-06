@@ -38,10 +38,8 @@
 #define METHOD_GETMEPOST @"gmep"
 #define METHOD_UPDATEUSER @"uu"
 
-#define METHOD_REGISTEREMAIL @"re"
+#define METHOD_REGISTERUSER @"ru"
 #define METHOD_BINDUSER @"bu"
-
-
 
 #define METHOD_UPDATEPLACE @"up"
 #define METHOD_GETPLACE @"gtp"
@@ -71,8 +69,6 @@
 #define METHOD_GETITEMMATCHCOUNT @"csip"
 #define METHOD_FINDPRODUCTSBYSHOPPINGITEMID @"fpsi"
 #define METHOD_GETALLCATEGORY @"gac"
-
-#define METHOD_REGISTERSNS @"rs"
 
 #define METHOD_LOGIN @"lg"
 

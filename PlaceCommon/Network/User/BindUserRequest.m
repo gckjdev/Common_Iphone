@@ -9,6 +9,7 @@
 #import "BindUserRequest.h"
 #import "TimeUtils.h"
 #import "LocaleUtils.h"
+#import "UIDevice+IdentifierAddition.h"
 
 @implementation BindUserInput
 

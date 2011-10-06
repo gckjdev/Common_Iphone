@@ -9,6 +9,7 @@
 #import "RegisterUserRequest.h"
 #import "TimeUtils.h"
 #import "LocaleUtils.h"
+#import "UIDevice+IdentifierAddition.h"
 
 @implementation RegisterUserInput
 

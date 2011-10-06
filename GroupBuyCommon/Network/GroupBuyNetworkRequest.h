@@ -161,6 +161,7 @@
 + (CommonNetworkOutput*)updateUser:(NSString*)baseURL
                              appId:(NSString*)appId
                             userId:(NSString*)userId
+                          deviceId:(NSString*)deviceId
                        deviceToken:(NSString*)deviceToken
                           nickName:(NSString*)nickName
                           password:(NSString*)newPassword;
@@ -181,18 +182,21 @@
 + (CommonNetworkOutput*)registerUserByEmail:(NSString*)baseURL
                                       appId:(NSString*)appId
                                       email:(NSString*)email
-                                   password:(NSString*)password;
+                                   password:(NSString*)password
+                                deviceToken:(NSString*)deviceToken;
 
 + (CommonNetworkOutput*)bindUserEmail:(NSString*)baseURL
                                 appId:(NSString*)appId
                                userId:(NSString*)userId
                                 email:(NSString*)email
-                             password:(NSString*)password;
+                             password:(NSString*)password
+                          deviceToken:(NSString*)deviceToken;
 
 + (CommonNetworkOutput*)loginUserByEmail:(NSString*)baseURL
                                       appId:(NSString*)appId
                                       email:(NSString*)email
-                                   password:(NSString*)password;
+                                   password:(NSString*)password
+                             deviceToken:(NSString*)deviceToken;
 
 + (CommonNetworkOutput*)registerUserBySNS:(NSString*)baseURL
                                     snsId:(NSString*)snsId
