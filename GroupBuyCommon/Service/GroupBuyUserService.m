@@ -127,7 +127,8 @@
                                                                 deviceId:[[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]
                                                              deviceToken:deviceToken 
                                                                 nickName:nil 
-                                                                password:nil];
+                                                                password:nil
+                                                                  avatar:nil];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (output.resultCode == ERROR_SUCCESS) {
@@ -153,7 +154,8 @@
                                                                 deviceId:[[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]                                       
                                                              deviceToken:deviceToken
                                                                 nickName:user.nickName
-                                                                password:self.newPassword];
+                                                                password:self.newPassword                                       
+                                                                  avatar:[self getUserAvatarData]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             successHandler(viewController, output.resultCode);
@@ -165,6 +167,12 @@
                 [viewController popupUnhappyMessage:NSLS(@"kUnknowFailure") title:nil];
             }
             else{
+                NSString* avatarURL = [output.jsonDataDict objectForKey:PARA_AVATAR];
+                if (avatarURL){
+                    [user setAvatar:avatarURL];
+                    [CommonManager save];
+                    [self updateUserCache];
+                }
                 [viewController popupHappyMessage:NSLS(@"保存用户信息成功！") title:nil];
             }
         });

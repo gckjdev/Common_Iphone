@@ -8,6 +8,8 @@
 
 #import "PPMKMapViewController.h"
 #import "LocationService.h"
+#import "MapViewUtil.h"
+
 @implementation PPMKMapViewController
 @synthesize radiusSlider;
 @synthesize areaLabel;
@@ -24,8 +26,11 @@
     NSString *str = nil;
     if (r > 1000) {
         str = [NSString stringWithFormat:@"半径 %.1f 公里",r/1000];
-    }else{
+    }else if (r > 0){
         str = [NSString stringWithFormat:@"半径 %d 米",(NSInteger)r];
+    }
+    else{
+        str = @"不限";
     }
     return str;
 }
@@ -40,14 +45,14 @@
 
 - (void)resetMap{
     LocationService *service = GlobalGetLocationService();
-    [self setCoordinate:[[service currentLocation]coordinate] radius:RADIUS];
+    [self setCoordinate:[[service currentLocation]coordinate] radius:0];
 
 }
 
 - (void)setDefault{
     LocationService *service = GlobalGetLocationService();
     self.currentCoordinate = [[service currentLocation] coordinate];
-    self.radius = RADIUS;
+    self.radius = 0;
 }
 
 - (id)init
@@ -111,6 +116,9 @@
     
     [self setCoordinate:self.currentCoordinate radius:self.radius];
     
+    [mapView setCenterCoordinate:self.currentCoordinate zoomLevel:12 animated:NO];
+    
+    self.navigationItem.title = @"选择位置";
     [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
     [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
 

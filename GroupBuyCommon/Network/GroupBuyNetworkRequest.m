@@ -890,6 +890,7 @@
                        deviceToken:(NSString*)deviceToken
                           nickName:(NSString*)nickName
                           password:(NSString*)newPassword
+                            avatar:(NSData*)avatar
 //                       newPassword:(NSString*)newPassword
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
@@ -918,19 +919,26 @@
         if ([newPassword length] > 0){
             str = [str stringByAddQueryParameter:PARA_PASSWORD value:newPassword];            
         }
+        
+        if (avatar != nil && [avatar length] > 0){
+            NSString* HAS_AVATAR = @"1";
+            str = [str stringByAddQueryParameter:PARA_AVATAR value:HAS_AVATAR];
+        }
 
         return str;
     };
     
     
     PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        output.jsonDataDict = [dict objectForKey:RET_DATA];                        
         return;
     }; 
     
-    return [PPNetworkRequest sendRequest:baseURL
-                     constructURLHandler:constructURLHandler
-                         responseHandler:responseHandler
-                                  output:output];
+    return [PPNetworkRequest uploadRequest:baseURL
+                                uploadData:avatar
+                       constructURLHandler:constructURLHandler                       
+                           responseHandler:responseHandler                           
+                                    output:output];
     
 }
 

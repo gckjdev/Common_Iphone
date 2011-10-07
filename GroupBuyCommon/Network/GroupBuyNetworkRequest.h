@@ -164,7 +164,8 @@
                           deviceId:(NSString*)deviceId
                        deviceToken:(NSString*)deviceToken
                           nickName:(NSString*)nickName
-                          password:(NSString*)newPassword;
+                          password:(NSString*)newPassword
+                            avatar:(NSData*)avatar;
 
 + (CommonNetworkOutput*)getUserShoppingItemCount:(NSString*)baseURL
                                            appId:(NSString*)appId

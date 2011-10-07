@@ -11,6 +11,7 @@
 #import "JSON.h"
 #import "PPNetworkConstants.h"
 #import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 
 @implementation CommonNetworkOutput
 
@@ -57,20 +58,93 @@
 
 @implementation PPNetworkRequest
 
-#define NETWORK_TIMEOUT (30)       // 30 seconds
+#define NETWORK_TIMEOUT (30)        // 30 seconds
+#define UPLOAD_TIMEOUT  (120)       // 120 seconds
+
++ (CommonNetworkOutput*)uploadRequest:(NSString *)baseURL 
+                           uploadData:(NSData*)uploadData
+                constructURLHandler:(ConstructURLBlock)constructURLHandler 
+                    responseHandler:(PPNetworkResponseBlock)responseHandler 
+                             output:(CommonNetworkOutput *)output
+{
+    if (baseURL == nil || constructURLHandler == NULL || responseHandler == NULL){
+        NSLog(@"<sendRequest> failure because baseURL = nil || constructURLHandler = NULL || responseHandler = NULL");
+        return nil;
+    }
+    
+    NSURL* url = [NSURL URLWithString:[constructURLHandler(baseURL) stringByURLEncode]];    
+    if (url == nil){
+        NSLog(@"<sendRequest> fail to construct URL");
+        output.resultCode = ERROR_CLIENT_URL_NULL;
+        return output;
+    }
+    
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request setAllowCompressedResponse:YES];
+    [request setTimeOutSeconds:UPLOAD_TIMEOUT];
+    [request setData:uploadData withFileName:@"pp" andContentType:@"image/jpeg" forKey:@"photo"];
+    
+#ifdef DEBUG    
+    int startTime = time(0);
+    NSLog(@"[SEND] UPLOAD DATA URL=%@", [url description]);    
+#endif
+    
+    [request startSynchronous];
+    
+    NSError *error = [request error];
+    int statusCode = [request responseStatusCode];
+    
+#ifdef DEBUG    
+    NSLog(@"[RECV] : HTTP status=%d, error=%@", [request responseStatusCode], [error description]);
+#endif    
+    
+    if (error != nil){
+        output.resultCode = ERROR_NETWORK;
+    }
+    else if (statusCode != 200){
+        output.resultCode = statusCode;
+    }
+    else{
+        NSString *text = [request responseString];
+        
+#ifdef DEBUG
+        int endTime = time(0);
+        NSLog(@"[RECV] data statistic (len=%d bytes, latency=%d seconds, raw=%d bytes, real=%d bytes)", 
+              [text length], (endTime - startTime),
+              [[request rawResponseData] length], [[request responseData] length]);
+        
+        NSLog(@"[RECV] data = %@", [request responseString]);
+#endif            
+        
+        NSDictionary* dataDict = [text JSONValue];
+        if (dataDict == nil){
+            output.resultCode = ERROR_CLIENT_PARSE_JSON;
+            return output;
+        }
+        
+        output.resultCode = [[dataDict objectForKey:RET_CODE] intValue];
+        responseHandler(dataDict, output);
+        
+        return output;
+    }
+    
+    return output;
+    
+}
 
 + (CommonNetworkOutput*)sendRequest:(NSString*)baseURL
                 constructURLHandler:(ConstructURLBlock)constructURLHandler
                     responseHandler:(PPNetworkResponseBlock)responseHandler
                              output:(CommonNetworkOutput*)output
 {    
-    NSURL* url = nil;    
-    if (constructURLHandler != NULL)
-        url = [NSURL URLWithString:[constructURLHandler(baseURL) stringByURLEncode]];
-    else
-        url = [NSURL URLWithString:baseURL];        
+    if (baseURL == nil || constructURLHandler == NULL || responseHandler == NULL){
+        NSLog(@"<sendRequest> failure because baseURL = nil || constructURLHandler = NULL || responseHandler = NULL");
+        return nil;
+    }
     
+    NSURL* url = [NSURL URLWithString:[constructURLHandler(baseURL) stringByURLEncode]];    
     if (url == nil){
+        NSLog(@"<sendRequest> fail to construct URL");
         output.resultCode = ERROR_CLIENT_URL_NULL;
         return output;
     }
@@ -85,9 +159,6 @@
 #endif
 
     [request startSynchronous];
-//    BOOL *dataWasCompressed = [request isResponseCompressed]; // Was the response gzip compressed?
-//    NSData *compressedResponse = [request rawResponseData]; // Compressed data    
-//    NSData *uncompressedData = [request responseData]; // Uncompressed data
 
     NSError *error = [request error];
     int statusCode = [request responseStatusCode];

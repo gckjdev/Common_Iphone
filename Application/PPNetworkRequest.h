@@ -54,6 +54,12 @@ typedef void (^PPNetworkResponseBlock)(NSDictionary* dict, CommonNetworkOutput* 
     
 }
 
++ (CommonNetworkOutput*)uploadRequest:(NSString *)baseURL 
+                           uploadData:(NSData*)uploadData
+                  constructURLHandler:(ConstructURLBlock)constructURLHandler 
+                      responseHandler:(PPNetworkResponseBlock)responseHandler 
+                               output:(CommonNetworkOutput *)output;
+
 + (CommonNetworkOutput*)sendRequest:(NSString*)baseURL
          constructURLHandler:(ConstructURLBlock)constructURLHandler
              responseHandler:(PPNetworkResponseBlock)responseHandler

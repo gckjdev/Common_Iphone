@@ -80,6 +80,7 @@ typedef void (^UpdateUserSuccessHandler)(PPViewController*, int);
 - (BOOL)hasBindSNS;
 
 - (NSURL*)getUserAvatarURL;
+- (NSData*)getUserAvatarData;
 
 - (void)updateUserNickName:(NSString*)value;
 - (void)updateUserMobile:(NSString*)value;

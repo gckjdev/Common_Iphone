@@ -45,6 +45,10 @@
     cell.areaLabel.text = nil;
     cell.locationLabel.text = nil;
     cell.delegate = delegate;
+    
+    cell.locationSwitch.hidden = YES; 
+    cell.locationSwitch.enabled = NO; 
+    
     return cell;
 }
 
@@ -56,7 +60,7 @@
 
 + (CGFloat)getCellHeight
 {
-    return 80;
+    return 60;
 }
 
 - (void)setLabelText:(CLLocationDistance)r
@@ -66,6 +70,9 @@
         str = [NSString stringWithFormat:@"附近 %d 米",(int)r];
     }else if(r >=1000 ){
         str = [NSString stringWithFormat:@"附近 %.1f 公里",r/1000];
+    }
+    else{
+        str = @"不限";
     }
     self.areaLabel.text = str;
 }
@@ -95,9 +102,14 @@
 
 -(void)didChangeLocation:(CLLocationCoordinate2D)c radius:(CLLocationDistance)r
 {
-    [self.locationSwitch setOn:YES];
-    [self setCoordinate:c radius:r];
-
+    if (r > 0.0f){
+        [self.locationSwitch setOn:YES];
+        [self setCoordinate:c radius:r];
+    }
+    else{
+        [self.locationSwitch setOn:NO];      
+        [self setLatitude:nil longitude:nil radius:nil];
+    }
 }
 
 - (IBAction)didChangeSwitch:(id)sender {
