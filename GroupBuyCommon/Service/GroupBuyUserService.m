@@ -134,7 +134,7 @@
             if (output.resultCode == ERROR_SUCCESS) {
             }
             else{
-                [UIUtils alert:@"推送通知注册失败"];
+                NSLog(@"<updateGroupBuyUserDeviceToken> update user return failure");
             }
         });
         
