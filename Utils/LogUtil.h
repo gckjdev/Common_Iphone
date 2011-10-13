@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#ifdef DEBUG
+    #define PPDebug(format, ...) NSLog(format, ## __VA_ARGS__)
+#else
+    #define PPDebug(format, ...)
+#endif
 
 @interface LogUtil : NSObject {
 

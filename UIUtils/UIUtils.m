@@ -169,6 +169,27 @@
 
 #pragma mark Tab Bar View Controller Utills
 
++ (UIViewController*)addViewController:(NSObject*)viewControllerAllocObject viewTitle:(NSString*)viewTitle viewImage:(NSString*)viewImage highlightImage:(NSString*)highlightImage hasNavController:(BOOL)hasNavController viewControllers:(NSMutableArray*)viewControllers
+{
+	UIViewController* retViewController = [[viewControllerAllocObject init] autorelease];		
+	UITabBarItem* button1 = [[[UITabBarItem alloc] initWithTitle:viewTitle image:[UIImage imageNamed:viewImage] tag:0] autorelease];						
+    
+	if (hasNavController){
+		UINavigationController *navController1 = [[[UINavigationController alloc] initWithRootViewController:retViewController] autorelease];				
+		[viewControllers addObject:navController1];
+		navController1.tabBarItem = button1;	
+		navController1.title = viewTitle;
+		retViewController.title = viewTitle;
+	}
+	else {
+		[viewControllers addObject:retViewController];
+		retViewController.tabBarItem = button1;	
+	}
+	
+	return retViewController;
+}
+
+
 + (UIViewController*)addViewController:(NSObject*)viewControllerAllocObject viewTitle:(NSString*)viewTitle viewImage:(NSString*)viewImage hasNavController:(BOOL)hasNavController viewControllers:(NSMutableArray*)viewControllers
 {
 	UIViewController* retViewController = [[viewControllerAllocObject init] autorelease];		

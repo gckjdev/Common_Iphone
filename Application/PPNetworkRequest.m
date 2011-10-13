@@ -12,6 +12,7 @@
 #import "PPNetworkConstants.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
+#import "LogUtil.h"
 
 @implementation CommonNetworkOutput
 
@@ -68,13 +69,13 @@
                              output:(CommonNetworkOutput *)output
 {
     if (baseURL == nil || constructURLHandler == NULL || responseHandler == NULL){
-        NSLog(@"<sendRequest> failure because baseURL = nil || constructURLHandler = NULL || responseHandler = NULL");
+        PPDebug(@"<sendRequest> failure because baseURL = nil || constructURLHandler = NULL || responseHandler = NULL");
         return nil;
     }
     
     NSURL* url = [NSURL URLWithString:[constructURLHandler(baseURL) stringByURLEncode]];    
     if (url == nil){
-        NSLog(@"<sendRequest> fail to construct URL");
+        PPDebug(@"<sendRequest> fail to construct URL");
         output.resultCode = ERROR_CLIENT_URL_NULL;
         return output;
     }
@@ -83,20 +84,16 @@
     [request setAllowCompressedResponse:YES];
     [request setTimeOutSeconds:UPLOAD_TIMEOUT];
     [request setData:uploadData withFileName:@"pp" andContentType:@"image/jpeg" forKey:@"photo"];
-    
-#ifdef DEBUG    
+      
     int startTime = time(0);
-    NSLog(@"[SEND] UPLOAD DATA URL=%@", [url description]);    
-#endif
+    PPDebug(@"[SEND] UPLOAD DATA URL=%@", [url description]);    
     
     [request startSynchronous];
     
     NSError *error = [request error];
     int statusCode = [request responseStatusCode];
     
-#ifdef DEBUG    
-    NSLog(@"[RECV] : HTTP status=%d, error=%@", [request responseStatusCode], [error description]);
-#endif    
+    PPDebug(@"[RECV] : HTTP status=%d, error=%@", [request responseStatusCode], [error description]);
     
     if (error != nil){
         output.resultCode = ERROR_NETWORK;
@@ -107,14 +104,12 @@
     else{
         NSString *text = [request responseString];
         
-#ifdef DEBUG
         int endTime = time(0);
-        NSLog(@"[RECV] data statistic (len=%d bytes, latency=%d seconds, raw=%d bytes, real=%d bytes)", 
+        PPDebug(@"[RECV] data statistic (len=%d bytes, latency=%d seconds, raw=%d bytes, real=%d bytes)", 
               [text length], (endTime - startTime),
               [[request rawResponseData] length], [[request responseData] length]);
         
-        NSLog(@"[RECV] data = %@", [request responseString]);
-#endif            
+        PPDebug(@"[RECV] data = %@", [request responseString]);
         
         NSDictionary* dataDict = [text JSONValue];
         if (dataDict == nil){
@@ -138,13 +133,13 @@
                              output:(CommonNetworkOutput*)output
 {    
     if (baseURL == nil || constructURLHandler == NULL || responseHandler == NULL){
-        NSLog(@"<sendRequest> failure because baseURL = nil || constructURLHandler = NULL || responseHandler = NULL");
+        PPDebug(@"<sendRequest> failure because baseURL = nil || constructURLHandler = NULL || responseHandler = NULL");
         return nil;
     }
     
     NSURL* url = [NSURL URLWithString:[constructURLHandler(baseURL) stringByURLEncode]];    
     if (url == nil){
-        NSLog(@"<sendRequest> fail to construct URL");
+        PPDebug(@"<sendRequest> fail to construct URL");
         output.resultCode = ERROR_CLIENT_URL_NULL;
         return output;
     }
@@ -153,19 +148,15 @@
     [request setAllowCompressedResponse:YES];
     [request setTimeOutSeconds:NETWORK_TIMEOUT];
 
-#ifdef DEBUG    
     int startTime = time(0);
-    NSLog(@"[SEND] URL=%@", [url description]);    
-#endif
+    PPDebug(@"[SEND] URL=%@", [url description]);    
 
     [request startSynchronous];
 
     NSError *error = [request error];
     int statusCode = [request responseStatusCode];
     
-#ifdef DEBUG    
-    NSLog(@"[RECV] : HTTP status=%d, error=%@", [request responseStatusCode], [error description]);
-#endif    
+    PPDebug(@"[RECV] : HTTP status=%d, error=%@", [request responseStatusCode], [error description]);
     
     if (error != nil){
         output.resultCode = ERROR_NETWORK;
@@ -176,14 +167,12 @@
     else{
         NSString *text = [request responseString];
         
-#ifdef DEBUG
         int endTime = time(0);
-        NSLog(@"[RECV] data statistic (len=%d bytes, latency=%d seconds, raw=%d bytes, real=%d bytes)", 
+        PPDebug(@"[RECV] data statistic (len=%d bytes, latency=%d seconds, raw=%d bytes, real=%d bytes)", 
               [text length], (endTime - startTime),
               [[request rawResponseData] length], [[request responseData] length]);
         
-        NSLog(@"[RECV] data = %@", [request responseString]);
-#endif            
+        PPDebug(@"[RECV] data = %@", [request responseString]);
         
         NSDictionary* dataDict = [text JSONValue];
         if (dataDict == nil){

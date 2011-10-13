@@ -13,11 +13,20 @@
 	NSMutableArray *buttons;
 	int currentSelectedIndex;
 	UIImageView *slideBg;    
+    
+    UIView* customTabBarView;
+
 }
 @property (nonatomic, assign) int				currentSelectedIndex;
 
 @property (nonatomic,retain) NSMutableArray *buttons;
 @property (nonatomic,retain) UIImageView *slideBg;
+@property (nonatomic,retain) UIImageView *backgroundView;
+@property (nonatomic,retain) UIView* customTabBarView;
+@property (nonatomic,retain) NSArray* selectedImageArray;
+
+// for external call
+- (void)setBarBackground:(NSString*)backgroundImageName;
 
 // only for internal usage
 - (void)hideRealTabBar;
