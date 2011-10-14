@@ -16,6 +16,6 @@
 - (void)show;
 - (void)hide;
 - (void)setStatusText:(NSString*)text vibrate:(BOOL)vibrate duration:(int)duration;
-- (void)setStatusText;
+- (void)setStatusText:(NSString*)text;
 
 @end
