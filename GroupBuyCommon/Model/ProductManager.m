@@ -47,8 +47,9 @@
     NSMutableArray* gpsArray = [[[NSMutableArray alloc] init] autorelease];
     for (NSArray* valuePair in array){
         if (valuePair && [valuePair count] == 2){
-            double latitude = [[valuePair objectAtIndex:0] doubleValue];
-            double longitude = [[valuePair objectAtIndex:1] doubleValue];
+            // key fixing on 10/15/2011, change position, longitude first and then latitdue
+            double longitude = [[valuePair objectAtIndex:0] doubleValue];
+            double latitude = [[valuePair objectAtIndex:1] doubleValue];
             CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];            
             [gpsArray addObject:location];
             [location release];

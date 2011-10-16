@@ -121,6 +121,8 @@
     self.navigationItem.title = @"选择位置";
     [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
     [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
+    
+//    [self.mapView set
 
 }
 
