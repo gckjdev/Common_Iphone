@@ -11,11 +11,25 @@
 
 @interface StatusView : UIView {
     
+    UIWindow    *statusWindow;
+    NSTimer     *timer;
 }
 
-- (void)show;
-- (void)hide;
+
+- (void)showStatusWithText:(NSString*)text 
+                   vibrate:(BOOL)vibrate 
+                  duration:(int)duration;
+- (void)didHideStatusText;
 - (void)setStatusText:(NSString*)text vibrate:(BOOL)vibrate duration:(int)duration;
 - (void)setStatusText:(NSString*)text;
+
++ (void)showtStatusText:(NSString*)text 
+                vibrate:(BOOL)vibrate 
+               duration:(int)duration;
++ (void)hideStatusText;
+
+@property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, retain) UIWindow *statusWindow;
+
 
 @end
