@@ -11,11 +11,31 @@
 #define DATE_FORMAT @"yyyy-MM-dd"
 #define DATE_CHINESE_FORMAT @"yyyy年MM月dd日"
 
+static  NSArray *weekDays; 
+
+NSArray *getWeekDayArray()
+{
+    if(!weekDays)
+    {
+        weekDays = [NSArray arrayWithObjects: @"星期日", @"星期一", @"星期二",
+                      @"星期三",@"星期四",@"星期五",@"星期六", nil];
+    }
+    return weekDays;
+}
+
 // return YEAR, MONTH, DAY in NSDateComponents by given NSDate
 NSDateComponents *getDateComponents(NSDate *date)
 {
 	NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];	
-	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSWeekdayCalendarUnit;
+	NSDateComponents *comps = [gregorian components:unitFlags fromDate:date];	
+	return comps;
+}
+
+NSDateComponents *getChineseDateComponents(NSDate *date)
+{
+	NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSChineseCalendar] autorelease];	
+	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSWeekdayCalendarUnit;
 	NSDateComponents *comps = [gregorian components:unitFlags fromDate:date];	
 	return comps;
 }
@@ -208,7 +228,19 @@ NSDate *previousDate(NSDate *date)
 	
 }
 
+NSDate *nextNDate(NSDate *date, NSInteger interval)
+{
+	return [[[NSDate alloc] initWithTimeInterval:24*3600*interval sinceDate:date] autorelease];
+	
+}
 
+NSString *chineseWeekDayFromDate(NSDate *date)
+{
+    NSDateComponents *dc = getChineseDateComponents(date);
+    [dc setTimeZone:[NSTimeZone timeZoneWithName:TIME_ZONE_GMT]];
+    NSInteger weekIndex = [dc weekday];
+    return [getWeekDayArray() objectAtIndex:weekIndex-1];
+}
 /*
  // The date in your source timezone (eg. EST)
  NSDate* sourceDate = [NSDate date];
