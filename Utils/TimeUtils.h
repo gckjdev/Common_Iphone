@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 
 #define DEFAULT_DATE_FORMAT		@"yyyyMMddHHmmss"
+#define TIME_ZONE_GMT           @"Asia/Shanghai"
+#define DATE_FORMAT             @"yyyy-MM-dd"
+#define DATE_CHINESE_FORMAT     @"yyyy年MM月dd日"
+
 
 NSDateComponents *getDateComponents(NSDate *date);
 
