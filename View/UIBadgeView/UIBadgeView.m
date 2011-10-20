@@ -46,7 +46,7 @@
 {
 	if (self = [super initWithFrame:frame])
 	{
-		font = [[UIFont boldSystemFontOfSize: 14] retain];
+		font = [[UIFont boldSystemFontOfSize: 9] retain];//m14
 		
 		self.backgroundColor = [UIColor clearColor];
 	}
@@ -76,7 +76,7 @@
 	
 	self.width = numberSize.width + 16;
 	
-	CGRect bounds = CGRectMake(0 , 0, numberSize.width + 13 , 21);
+	CGRect bounds = CGRectMake(0 , 0, numberSize.width + 10 , 16);//13,21
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
@@ -110,7 +110,7 @@
 									   bounds.size.width - 4, 
 									   bounds.size.height - 3);
 	
-		[self drawRoundedRect:shadowRect inContext:context withRadius:8];
+		[self drawRoundedRect:shadowRect inContext:context withRadius:8];//m8
 	
 		CGContextDrawPath(context, kCGPathFill);
 	
@@ -160,7 +160,7 @@
 								 bounds.size.height /2);
 	
 	bounds.origin.x = (bounds.size.width - numberSize.width) / 2 + 0.5;
-	bounds.origin.y++;
+	bounds.origin.y += 2;//bounds.origin.y++;
 	
 	CGContextSetFillColorWithColor(context, [HEXCOLOR(0xffffffff)  CGColor]);
 	
