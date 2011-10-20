@@ -46,7 +46,7 @@
 {
 	if (self = [super initWithFrame:frame])
 	{
-		font = [[UIFont boldSystemFontOfSize: 14] retain];
+		font = [[UIFont boldSystemFontOfSize: 10] retain];//m14
 		
 		self.backgroundColor = [UIColor clearColor];
 	}
@@ -76,7 +76,7 @@
 	
 	self.width = numberSize.width + 16;
 	
-	CGRect bounds = CGRectMake(0 , 0, numberSize.width + 13 , 21);
+	CGRect bounds = CGRectMake(0 , 0, numberSize.width + 8 , 12);//13,21
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
@@ -110,7 +110,7 @@
 									   bounds.size.width - 4, 
 									   bounds.size.height - 3);
 	
-		[self drawRoundedRect:shadowRect inContext:context withRadius:8];
+		[self drawRoundedRect:shadowRect inContext:context withRadius:8];//m8
 	
 		CGContextDrawPath(context, kCGPathFill);
 	
@@ -123,7 +123,7 @@
 	CGContextSetLineWidth(context, 0.0);
 	CGContextSetAlpha(context, 1.0); 
 	
-	CGContextSetLineWidth(context, 2.0);
+	CGContextSetLineWidth(context, 1);// set the white line width,orgin is 2.0
 	
 	
 	
@@ -132,13 +132,13 @@
 		
 	// Draw background
 	
-	CGFloat backOffset = 2;
-	CGRect backRect = CGRectMake(bounds.origin.x + backOffset, 
+	CGFloat backOffset = -0.5;//org--2
+	CGRect backRect = CGRectMake(bounds.origin.x + backOffset+0.5, 
 								 bounds.origin.y + backOffset, 
 								 bounds.size.width - backOffset*2, 
 								 bounds.size.height - backOffset*2);
 	
-	[self drawRoundedRect:backRect inContext:context withRadius:8];
+	[self drawRoundedRect:backRect inContext:context withRadius:7];
 
 	CGContextDrawPath(context, kCGPathFillStroke);
 	/*
@@ -156,11 +156,11 @@
 	CGContextRestoreGState(context);
 
 	
-	CGRect ovalRect = CGRectMake(2, 1, bounds.size.width-4, 
-								 bounds.size.height /2);
+	CGRect ovalRect = CGRectMake(0, 0, bounds.size.width, 
+								 bounds.size.height /2);//draw highlight
 	
-	bounds.origin.x = (bounds.size.width - numberSize.width) / 2 + 0.5;
-	bounds.origin.y++;
+	bounds.origin.x = (bounds.size.width - numberSize.width) / 2 + 1;
+	bounds.origin.y += 0;//bounds.origin.y++;
 	
 	CGContextSetFillColorWithColor(context, [HEXCOLOR(0xffffffff)  CGColor]);
 	
