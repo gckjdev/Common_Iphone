@@ -9,6 +9,6 @@
 #import "GroupBuyControllerExt.h"
 
 
-@implementation GroupBuyControllerExt
+@implementation PPViewController (GroupBuyControllerExt)
 
 @end

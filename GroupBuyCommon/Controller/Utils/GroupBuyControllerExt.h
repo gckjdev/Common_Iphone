@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PPViewController.h"
+
+@interface PPViewController (GroupBuyControllerExt) 
 
 
-@interface GroupBuyControllerExt : NSObject {
-    
-}
 
 @end

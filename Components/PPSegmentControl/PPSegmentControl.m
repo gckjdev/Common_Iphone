@@ -11,6 +11,9 @@
 
 @implementation PPSegmentControl
 
+@synthesize clickActionBlock;
+@synthesize selectedSegmentIndex;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -28,6 +31,37 @@
     // Drawing code
 }
 */
+
+- (id)initWithItems:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex
+{
+    self = [super init];
+    return self;
+}
+
+- (void)setClickAction:(id)delegate actionBlock:(PPSegmentControlActionBlock)block
+{
+    
+}
+
+- (NSString*)titleForSegmentAtIndex
+{
+    return nil;
+}
+
+- (void)setBackgroundImage:(NSString*)imageName
+{
+    
+}
+
+- (void)setSelectedBackgroundImage:(NSString*)imageName
+{
+    
+}
+
+- (void)selectIndex:(int)index
+{
+    
+}
 
 - (void)dealloc
 {

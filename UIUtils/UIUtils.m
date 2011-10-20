@@ -189,8 +189,7 @@
 	return retViewController;
 }
 
-
-+ (UIViewController*)addViewController:(NSObject*)viewControllerAllocObject viewTitle:(NSString*)viewTitle viewImage:(NSString*)viewImage hasNavController:(BOOL)hasNavController viewControllers:(NSMutableArray*)viewControllers
++ (UIViewController*)addViewController:(NSObject*)viewControllerAllocObject viewTitle:(NSString*)viewTitle viewImage:(NSString*)viewImage hasNavController:(BOOL)hasNavController hideNavigationBar:(BOOL)hideNavigationBar viewControllers:(NSMutableArray*)viewControllers
 {
 	UIViewController* retViewController = [[viewControllerAllocObject init] autorelease];		
 	UITabBarItem* button1 = [[[UITabBarItem alloc] initWithTitle:viewTitle image:[UIImage imageNamed:viewImage] tag:0] autorelease];							   
@@ -198,9 +197,10 @@
 	if (hasNavController){
 		UINavigationController *navController1 = [[[UINavigationController alloc] initWithRootViewController:retViewController] autorelease];				
 		[viewControllers addObject:navController1];
+        navController1.navigationBarHidden = hideNavigationBar;
 		navController1.tabBarItem = button1;	
 		navController1.title = viewTitle;
-		retViewController.title = viewTitle;
+		retViewController.title = viewTitle;            
 	}
 	else {
 		[viewControllers addObject:retViewController];
@@ -208,6 +208,11 @@
 	}
 	
 	return retViewController;
+}
+
++ (UIViewController*)addViewController:(NSObject*)viewControllerAllocObject viewTitle:(NSString*)viewTitle viewImage:(NSString*)viewImage hasNavController:(BOOL)hasNavController viewControllers:(NSMutableArray*)viewControllers
+{
+    return [UIUtils addViewController:viewControllerAllocObject viewTitle:viewTitle viewImage:viewImage hasNavController:hasNavController hideNavigationBar:NO viewControllers:viewControllers];
 }
 
 #pragma mark Action Sheet Delegate

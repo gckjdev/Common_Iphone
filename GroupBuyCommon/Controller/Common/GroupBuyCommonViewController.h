@@ -7,10 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "PPViewController.h"
 
 @interface GroupBuyCommonViewController : PPViewController {
     
 }
+
+- (id)init;
+
+- (void)setNavigationLeftButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action;
+- (void)setNavigationRightButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action;
 
 @end

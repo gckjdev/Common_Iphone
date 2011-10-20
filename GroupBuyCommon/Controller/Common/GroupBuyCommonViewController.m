@@ -11,4 +11,20 @@
 
 @implementation GroupBuyCommonViewController
 
+- (id)init
+{
+    self = [super init];
+    return self;
+}
+
+- (void)setNavigationLeftButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action
+{
+    
+}
+
+- (void)setNavigationRightButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action
+{
+    
+}
+
 @end
