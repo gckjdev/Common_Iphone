@@ -31,7 +31,10 @@
 + (NSString*)getAppLink:(NSString*)appId;
 + (BOOL) canFaceTime;
 + (void) makeFaceTime:(NSString *)faceTimeId;
+
 + (UIViewController*)addViewController:(NSObject*)viewControllerAllocObject viewTitle:(NSString*)viewTitle viewImage:(NSString*)viewImage hasNavController:(BOOL)hasNavController viewControllers:(NSMutableArray*)viewControllers;
+
++ (UIViewController*)addViewController:(NSObject*)viewControllerAllocObject viewTitle:(NSString*)viewTitle viewImage:(NSString*)viewImage hasNavController:(BOOL)hasNavController hideNavigationBar:(BOOL)hideNavigationBar viewControllers:(NSMutableArray*)viewControllers;
 
 + (void)openURL:(NSString*)url;
 + (UIAlertView*)popup:(NSString *)title msg:(NSString*)msg;

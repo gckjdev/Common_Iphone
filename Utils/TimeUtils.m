@@ -7,10 +7,7 @@
 //
 
 #import "TimeUtils.h"
-#define TIME_ZONE_GMT @"Asia/Shanghai"
-#define DATE_FORMAT @"yyyy-MM-dd"
-#define DATE_CHINESE_FORMAT @"yyyy年MM月dd日"
-
+#import "LocaleConstants.h"
 static  NSArray *weekDays; 
 
 NSArray *getWeekDayArray()
@@ -239,7 +236,9 @@ NSString *chineseWeekDayFromDate(NSDate *date)
     NSDateComponents *dc = getChineseDateComponents(date);
     [dc setTimeZone:[NSTimeZone timeZoneWithName:TIME_ZONE_GMT]];
     NSInteger weekIndex = [dc weekday];
-    return [getWeekDayArray() objectAtIndex:weekIndex-1];
+    if(weekIndex >= [getWeekDayArray() count])
+        return @"";
+    return FNS([getWeekDayArray() objectAtIndex:weekIndex-1]);
 }
 /*
  // The date in your source timezone (eg. EST)
