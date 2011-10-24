@@ -83,6 +83,7 @@
 - (void)performSelectorWithLoading:(SEL)aSelector loadingText:(NSString*)loadingText;
 
 - (void)showActivityWithText:(NSString*)loadingText withCenter:(CGPoint)point;
+- (void)showActivityWithText:(NSString*)loadingText;
 - (void)showActivity;
 - (void)hideActivity;
 

@@ -188,10 +188,28 @@
 	return loadingView;
 }
 
+- (TKLoadingView*)getActivityViewWithText:(NSString*)loadingText
+{
+	if (loadingView == nil){
+		self.loadingView = [[[TKLoadingView alloc] initWithTitle:nil message:loadingText] autorelease];
+        loadingView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2+10);
+		[self.view addSubview:loadingView];
+	}
+	
+	return loadingView;
+}
 
 - (void)showActivityWithText:(NSString*)loadingText withCenter:(CGPoint)point
 {
 	loadingView = [self getActivityViewWithText:loadingText withCenter:point];
+	[loadingView setMessage:loadingText];
+	[loadingView startAnimating];
+	loadingView.hidden = NO;
+}
+
+- (void)showActivityWithText:(NSString*)loadingText
+{
+	loadingView = [self getActivityViewWithText:loadingText];
 	[loadingView setMessage:loadingText];
 	[loadingView startAnimating];
 	loadingView.hidden = NO;
