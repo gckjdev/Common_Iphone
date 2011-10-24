@@ -7,7 +7,6 @@
 //
 
 #import "TimeUtils.h"
-#import "LocaleConstants.h"
 static  NSArray *weekDays; 
 
 NSArray *getWeekDayArray()
@@ -238,7 +237,7 @@ NSString *chineseWeekDayFromDate(NSDate *date)
     NSInteger weekIndex = [dc weekday];
     if(weekIndex >= [getWeekDayArray() count])
         return @"";
-    return FNS([getWeekDayArray() objectAtIndex:weekIndex-1]);
+    return [getWeekDayArray() objectAtIndex:weekIndex-1];
 }
 /*
  // The date in your source timezone (eg. EST)
