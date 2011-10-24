@@ -82,7 +82,7 @@
 // this method helps you to performa an internal method with loading view
 - (void)performSelectorWithLoading:(SEL)aSelector loadingText:(NSString*)loadingText;
 
-- (void)showActivityWithText:(NSString*)loadingText;
+- (void)showActivityWithText:(NSString*)loadingText withCenter:(CGPoint)point;
 - (void)showActivity;
 - (void)hideActivity;
 

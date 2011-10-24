@@ -1,6 +1,7 @@
 
 #import "PPWebViewController.h"
 #import "StringUtil.h"
+#import "LocaleConstants.h"
 
 
 
@@ -135,7 +136,8 @@
         [loadActivityIndicator removeFromSuperview];
     [toolbar addSubview:loadActivityIndicator];
     
-    [self showActivityWithText:@"加载中..."];
+    CGPoint point = CGPointMake(160, 290);
+    [self showActivityWithText:FNS(@"加载数据中...") withCenter:point];;
     
 //    [self.view addSubview:loadActivityIndicator];
     

@@ -177,20 +177,21 @@
 
 #pragma mark activity loading view
 
-- (TKLoadingView*)getActivityViewWithText:(NSString*)loadingText
+- (TKLoadingView*)getActivityViewWithText:(NSString*)loadingText withCenter:(CGPoint)point
 {
 	if (loadingView == nil){
 		self.loadingView = [[[TKLoadingView alloc] initWithTitle:nil message:loadingText] autorelease];
-        loadingView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2 + 10);
+        loadingView.center = point;
 		[self.view addSubview:loadingView];
 	}
 	
 	return loadingView;
 }
 
-- (void)showActivityWithText:(NSString*)loadingText
+
+- (void)showActivityWithText:(NSString*)loadingText withCenter:(CGPoint)point
 {
-	loadingView = [self getActivityViewWithText:loadingText];
+	loadingView = [self getActivityViewWithText:loadingText withCenter:point];
 	[loadingView setMessage:loadingText];
 	[loadingView startAnimating];
 	loadingView.hidden = NO;
@@ -198,7 +199,8 @@
 
 - (void)showActivity
 {
-	[self showActivityWithText:@""];
+	CGPoint point = CGPointMake(160, 290);
+    [self showActivityWithText:@"" withCenter:point];;
 }
 
 - (void)hideActivity
@@ -218,7 +220,8 @@
 - (void)performSelectorWithLoading:(SEL)aSelector loadingText:(NSString*)loadingText
 {	
 	[self performSelector:@selector(performSelectorStopLoading:) withObject:NSStringFromSelector(aSelector) afterDelay:0.0];
-	[self showActivityWithText:loadingText];
+	CGPoint point = CGPointMake(160, 290);
+    [self showActivityWithText:loadingText withCenter:point];
 }
 
 #pragma mark resource management
