@@ -31,6 +31,7 @@ enum {
 + (NSString *) returnDeviceName:(BOOL)ignoreSimulator;
 + (BOOL) isIPodTouch;
 + (BOOL) isOS4;
++ (BOOL) isOS5;
 + (BOOL) canSendSms;
 
 @end

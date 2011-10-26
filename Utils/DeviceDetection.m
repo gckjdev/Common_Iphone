@@ -34,6 +34,16 @@
 	
 }
 
++ (BOOL)isOS5
+{
+    NSString *ver = [[UIDevice currentDevice] systemVersion];
+    int ver_int = [ver intValue];
+    if (ver_int == 5)
+        return YES;
+    else
+        return NO;
+}
+
 + (BOOL)canSendSms
 {
 	return [MFMessageComposeViewController canSendText];
