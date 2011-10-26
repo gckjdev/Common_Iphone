@@ -136,8 +136,7 @@
         [loadActivityIndicator removeFromSuperview];
     [toolbar addSubview:loadActivityIndicator];
     
-    CGPoint point = CGPointMake(160, 290);
-    [self showActivityWithText:FNS(@"加载数据中...") withCenter:point];;
+    [self showActivityWithText:FNS(@"加载数据中...")];;
     
 //    [self.view addSubview:loadActivityIndicator];
     
