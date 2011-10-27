@@ -217,8 +217,7 @@
 
 - (void)showActivity
 {
-	CGPoint point = CGPointMake(160, 290);
-    [self showActivityWithText:@"" withCenter:point];;
+    [self showActivityWithText:@""];;
 }
 
 - (void)hideActivity

@@ -139,10 +139,38 @@ static NSDateFormatter *refreshFormatter;
                              [refreshFormatter stringFromDate:date]];
 }
 
+#ifndef TIME_ZONE_GMT
+    #define TIME_ZONE_GMT           @"Asia/Shanghai"
+#endif
+
+-(NSString *)getChineseDateString:(NSDate *)date withFormat:(NSString *)format
+{
+    if(date == nil)
+        return nil;
+    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:TIME_ZONE_GMT];
+    [formatter setTimeZone:tzGMT];
+    [formatter setDateFormat:format];
+    NSString *period = [formatter stringFromDate:date];
+    return period;
+}
+
+- (void)setFontColor:(UIColor *)color
+{
+    if (color) {
+        [lastUpdatedLabel setTextColor:color];
+        [statusLabel setTextColor:color];
+//        UILabel *statusLabel;
+    }
+}
+
 - (void)setCurrentDate {
-	lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", 
-                             EGONS(@"kLastUpdated"),
-                             [refreshFormatter stringFromDate:[NSDate date]]];
+
+    NSString *dateString = [self getChineseDateString:[NSDate date] withFormat:@"  MM月dd日 HH时mm分"];
+    lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", @"最后更新",dateString];
+//	lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", 
+//                             EGONS(@"kLastUpdated"),
+//                             [refreshFormatter stringFromDate:[NSDate date]]];
 //	[[NSUserDefaults standardUserDefaults] setObject:lastUpdatedLabel.text forKey:@"EGORefreshTableView_LastRefresh"];
 //	[[NSUserDefaults standardUserDefaults] synchronize];
 }

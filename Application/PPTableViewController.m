@@ -88,6 +88,7 @@
         refreshHeaderView.bottomBorderThickness = 1.0;
         [self.dataTableView addSubview:refreshHeaderView];
         self.dataTableView.showsVerticalScrollIndicator = YES;
+        [self.refreshHeaderView setFontColor:[UIColor blueColor]];
     }
 }
 
@@ -407,6 +408,7 @@
 	[UIView commitAnimations];
 	
 	[refreshHeaderView setState:EGOOPullRefreshNormal];
+    [self.refreshHeaderView setCurrentDate];
 }
 
 #pragma mark For Sub Class to override and implement

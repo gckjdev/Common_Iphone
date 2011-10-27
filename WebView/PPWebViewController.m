@@ -1,6 +1,10 @@
 
 #import "PPWebViewController.h"
 #import "StringUtil.h"
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 
 
 @implementation PPWebViewController
@@ -134,7 +138,7 @@
         [loadActivityIndicator removeFromSuperview];
     [toolbar addSubview:loadActivityIndicator];
     
-    [self showActivityWithText:@"加载数据中..."];;
+    [self showActivityWithText:@"加载数据中..."];
     
 //    [self.view addSubview:loadActivityIndicator];
     
