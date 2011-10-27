@@ -48,8 +48,9 @@
 + (BOOL) deleteAllHotKeywords
 {
 	CoreDataManager *dataManager = GlobalGetCoreDataManager();
+    NSArray* keywords = [HotKeywordManager getAllHotKeywords];
     
-    for (HotKeyword* keyword in [HotKeywordManager getAllHotKeywords]){
+    for (HotKeyword* keyword in keywords){
         [dataManager del:keyword];
     }
     

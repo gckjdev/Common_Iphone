@@ -1,7 +1,6 @@
 
 #import "PPWebViewController.h"
 #import "StringUtil.h"
-#import "LocaleConstants.h"
 
 
 
@@ -136,7 +135,7 @@
         [loadActivityIndicator removeFromSuperview];
     [toolbar addSubview:loadActivityIndicator];
     
-    [self showActivityWithText:FNS(@"加载数据中...")];;
+    [self showActivityWithText:@"加载数据中..."];
     
 //    [self.view addSubview:loadActivityIndicator];
     
