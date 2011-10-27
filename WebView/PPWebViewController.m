@@ -1,11 +1,6 @@
 
 #import "PPWebViewController.h"
 #import "StringUtil.h"
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
-
 
 @implementation PPWebViewController
 @synthesize webView;
