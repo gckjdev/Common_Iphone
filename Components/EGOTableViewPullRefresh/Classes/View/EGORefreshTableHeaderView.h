@@ -55,5 +55,5 @@ typedef enum{
 - (void)setLastRefreshDate:(NSDate*)date;
 - (void)setCurrentDate;
 - (void)setState:(EGOPullRefreshState)aState;
-
+- (void)setFontColor:(UIColor *)color;
 @end
