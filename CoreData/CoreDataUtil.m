@@ -125,7 +125,8 @@ CoreDataManager* GlobalGetCoreDataManager()
 
 - (NSArray*)execute:(NSString*)fetchRequestName
 {
-	NSFetchRequest* fq = [self.managedObjectModel fetchRequestTemplateForName:fetchRequestName];
+	NSFetchRequest* fq = [self.managedObjectModel fetchRequestFromTemplateWithName:fetchRequestName 
+                                                             substitutionVariables:nil];
     
     if (fq == nil){
         NSLog(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
@@ -144,12 +145,14 @@ CoreDataManager* GlobalGetCoreDataManager()
 		NSLog(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
 	}		
     
+        
 	return objects;
 }
 
 - (NSArray*)execute:(NSString*)fetchRequestName sortBy:(NSString*)keyName ascending:(BOOL)ascending
 {
-	NSFetchRequest* fq = [self.managedObjectModel fetchRequestTemplateForName:fetchRequestName];
+	NSFetchRequest* fq = [self.managedObjectModel fetchRequestFromTemplateWithName:fetchRequestName 
+                                                             substitutionVariables:nil];
     
     if (fq == nil){
         NSLog(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
@@ -175,6 +178,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 		NSLog(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
 	}		
 		
+    
 	return objects;
 }
 
@@ -199,6 +203,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 		NSLog(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
 	}		
 	
+    
 	if (objects && [objects count] > 0)
 		return [objects objectAtIndex:0];
 	else
@@ -237,6 +242,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 		NSLog(@"<execute> execute fetch request (%@), error=%@", [fq description], [error localizedDescription]);
 	}		
 	
+    
 	return objects;
 }
 
@@ -274,6 +280,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 		NSLog(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
 	}		
 	
+    
 	return objects;
 }
 
