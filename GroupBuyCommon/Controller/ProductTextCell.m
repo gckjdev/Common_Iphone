@@ -175,7 +175,7 @@
 
 - (void) managedImageSet:(HJManagedImageV*)mi
 {
-    CGRect textFrame = CGRectMake(6, 5, 210, 105);     // default , need to align with Cell.xib
+    CGRect textFrame = CGRectMake(0, 0, 210, 111);     // default , need to align with Cell.xib
     CGRect imageFrame = textFrame;
     if (mi.image.size.height < MIN_HEIGHT){    
         CGRect frame = mi.frame;

@@ -21,6 +21,7 @@
 #import "ProductDetailController.h"
 #import "CoreDataUtil.h"
 #import "GroupBuyReport.h"
+#import "UITableViewCellUtil.h"
 
 @implementation CommonProductListController
 
@@ -190,10 +191,10 @@
 //	return [self getSectionView:tableView section:section];
 //}
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//	return sectionImageHeight;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 0.0f;
+}
 
 //- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 //{
@@ -238,6 +239,7 @@
         // check if it's last row - to load more
         MoreTableViewCell* moreCell = [MoreTableViewCell createCell:theTableView];
         self.moreLoadingView = moreCell.loadingView;
+//        [moreCell setBackgroundImageByName:@"切图_195.png"];
         return moreCell;
     }
     
@@ -246,6 +248,7 @@
 	ProductTextCell *cell = (ProductTextCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
         cell = [ProductTextCell createCell:self];
+//        [cell setBackgroundImageByName:@"切图_197.png"];
 	}
 
     cell.indexPath = indexPath;
