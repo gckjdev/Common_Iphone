@@ -167,7 +167,8 @@
     self.titleSegControl = [[[UISegmentedControl alloc] initWithItems:titleArray] autorelease];
     
     titleSegControl.segmentedControlStyle = UISegmentedControlStyleBar;    
-    if (defaultSelectIndex >= 0 && defaultSelectIndex < [titleArray count])        titleSegControl.selectedSegmentIndex = defaultSelectIndex;
+    if (defaultSelectIndex >= 0 && defaultSelectIndex < [titleArray count])        
+        titleSegControl.selectedSegmentIndex = defaultSelectIndex;
     [titleSegControl addTarget:self 
                         action:@selector(clickSegControl:) 
               forControlEvents:UIControlEventValueChanged];

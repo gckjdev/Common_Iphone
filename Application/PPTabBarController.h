@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+enum TAB_BUTTON_STYLE {
+    TAB_BUTTON_STYLE_FILL = 0,
+    TAB_BUTTON_STYLE_ICON = 1
+};
 
 @interface PPTabBarController : UITabBarController {
 	NSMutableArray *buttons;
@@ -24,6 +28,9 @@
 @property (nonatomic,retain) UIImageView *backgroundView;
 @property (nonatomic,retain) UIView* customTabBarView;
 @property (nonatomic,retain) NSArray* selectedImageArray;
+@property (nonatomic,assign) int buttonStyle;
+@property (nonatomic,retain) UIColor* normalTextColor;
+@property (nonatomic,retain) UIColor* selectTextColor;
 
 // for external call
 - (void)setBarBackground:(NSString*)backgroundImageName;
@@ -32,5 +39,6 @@
 - (void)hideRealTabBar;
 - (void)customTabBar;
 - (void)selectedTab:(UIButton *)button;
+- (void)setTextColor:(UIColor*)normalTextColor selectTextColor:(UIColor*)selectTextColor;
 
 @end
