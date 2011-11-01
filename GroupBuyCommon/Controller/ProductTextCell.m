@@ -46,7 +46,7 @@
 
 - (void)setCellStyle
 {
-    self.selectionStyle = UITableViewCellSelectionStyleBlue;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.leftTimeLabel.hidden = YES;
     self.valueLabel.hidden = YES;
 //    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
