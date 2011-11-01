@@ -9,7 +9,7 @@
 #import "GroupBuyReport.h"
 #import "MobClick.h"
 #import "Product.h"
-
+#import "PPSegmentControl.h"
 @implementation GroupBuyReport
 
 + (void)reportTabBarControllerClick:(UITabBarController *)tabBarController{
@@ -22,6 +22,14 @@
 + (void)reportSegControlClick:(UISegmentedControl*)segControl
 {
     int selectedIndex = segControl.selectedSegmentIndex;
+    NSString* title = [segControl titleForSegmentAtIndex:selectedIndex];
+    NSString* eventName = @"Click Seg";
+    [MobClick event:eventName label:title];
+}
+
++ (void)reportPPSegControlClick:(PPSegmentControl*)segControl
+{
+    int selectedIndex = [segControl selectedSegmentIndex];
     NSString* title = [segControl titleForSegmentAtIndex:selectedIndex];
     NSString* eventName = @"Click Seg";
     [MobClick event:eventName label:title];

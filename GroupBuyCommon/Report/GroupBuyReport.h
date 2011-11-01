@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @class Product;
-
+@class PPSegmentControl;
 @interface GroupBuyReport : NSObject {
     
 }
 
 + (void)reportTabBarControllerClick:(UITabBarController *)tabBarController;
 + (void)reportSegControlClick:(UISegmentedControl*)segControl;
++ (void)reportPPSegControlClick:(PPSegmentControl*)segControl;
 + (void)reportDataRefreshResult:(int)result;
 
 + (void)reportClickMore:(NSString*)categoryName type:(NSString*)type;
