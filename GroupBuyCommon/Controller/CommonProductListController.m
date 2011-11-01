@@ -111,7 +111,7 @@
 
 - (void)viewDidLoad
 {    
-    
+    self.view.backgroundColor = [UIColor clearColor];
     [self setBackgroundImageName:@"background.png"];
     
     if ([dataLoader supportRemote])
