@@ -15,10 +15,18 @@
     UIButton *latestSearchButton1;
 	UIButton *latestSearchButton2;
 	UIButton *latestSearchButton3;
+    IBOutlet UITextField *searchTextField;
+    IBOutlet UIButton *searchButton;
     IBOutlet UISearchBar *keywordSearchBar;
+    IBOutlet UIImageView *searchTextFieldBackground;
+    IBOutlet UIImageView *searchBackgroundView;
 
 //    ASREngine   *asrEngine;
 }
+@property (retain, nonatomic) IBOutlet UIImageView *searchTextFieldBackgroundView;
+@property (retain, nonatomic) IBOutlet UIButton *searchButton;
+@property (retain, nonatomic) IBOutlet UITextField *searchTextField;
+@property (retain, nonatomic) IBOutlet UIImageView *searchBackgroundView;
 
 @property (nonatomic, retain) IBOutlet UIButton *latestSearchButton1;
 @property (nonatomic, retain) IBOutlet UIButton *latestSearchButton2;

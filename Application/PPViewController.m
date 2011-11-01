@@ -107,6 +107,34 @@
 	
 }
 
+#define INSET_TOP 10
+#define INSET_LEFT 10
+
+- (UIButton *)createButtonWithTitle:(NSString*)title imageName:(NSString*)imageName target:(id)target action:(SEL)action
+{
+	UIButton* button = [[[UIButton alloc] init] autorelease];
+    UIImage* image = [UIImage imageNamed:imageName];
+	[button setImage:image forState:UIControlStateNormal];
+	[button setTitle:title forState:UIControlStateNormal];
+	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[button setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];	
+	button.titleLabel.font = [UIFont boldSystemFontOfSize:12];	
+	[button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];	
+    CGRect rect = CGRectMake(0, 0, image.size.width + INSET_LEFT, image.size.height + INSET_TOP);
+    button.frame = rect;
+	return button;
+}
+
+- (void)setNavigationLeftButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action hasEdgeInSet:(BOOL)hasEdgeInSet
+{
+    UIButton* button = [self createButtonWithTitle:title imageName:imageName target:self action:action];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(INSET_TOP, INSET_LEFT, 0, 0)];
+    
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];	
+	self.navigationItem.leftBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
 - (void)setNavigationRightButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action
 {
 	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] 
