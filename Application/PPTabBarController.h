@@ -32,5 +32,6 @@
 - (void)hideRealTabBar;
 - (void)customTabBar;
 - (void)selectedTab:(UIButton *)button;
+- (void)setBadgeValue:(NSString*)value buttonTag:(NSInteger)tag;
 
 @end

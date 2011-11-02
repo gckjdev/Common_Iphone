@@ -9,6 +9,8 @@
 #import "PPTabBarController.h"
 #import "UIBadgeView.h"
 
+#define TAB_BADGEVIEW_OFFSET 120111101
+
 @implementation PPTabBarController
 
 @synthesize currentSelectedIndex;
@@ -89,6 +91,7 @@
             UIBadgeView *badgeView = [[UIBadgeView alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
             badgeView.badgeString = v.tabBarItem.badgeValue;
             badgeView.badgeColor = [UIColor redColor];
+            badgeView.tag = btn.tag + TAB_BADGEVIEW_OFFSET;
             [btn addSubview:badgeView];
             [badgeView release];
         }
@@ -135,6 +138,7 @@
 	[self performSelector:@selector(slideTabBg:) withObject:button];
 }
 
+
 - (void)slideTabBg:(UIButton *)btn{
 	[UIView beginAnimations:nil context:nil];  
 	[UIView setAnimationDuration:0.20];  
@@ -152,5 +156,27 @@
 	[super dealloc];
 }
 
-
+- (void)setBadgeValue:(NSString *)value buttonTag:(NSInteger)tag
+{
+    for (UIButton* b in buttons) {
+        if (b.tag == tag) {
+            UIBadgeView *view = [b viewWithTag:(tag + TAB_BADGEVIEW_OFFSET)];
+            if (view == nil) {
+                view = [[UIBadgeView alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+                view.tag = tag + TAB_BADGEVIEW_OFFSET;
+                [view setBadgeString:value];
+                view.badgeColor = [UIColor redColor];
+                [b addSubview:view];
+            } else {
+                [view setBadgeString:value];
+            }
+            if ([value intValue] == 0) {
+                [view setHidden:YES];
+            } else {
+                [view setHidden:NO];
+            }
+            
+        } 
+    }
+}
 @end
