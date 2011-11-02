@@ -14,6 +14,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "TKLoadingView.h"
+#import "PPSegmentControl.h"
 
 #define kDefaultBarButton			@"barbutton.png"
 
@@ -21,6 +22,7 @@
 #define kTimeOutObjectString		@"Time out"
 
 @class UIBlankView;
+@class PPSegmentControl;
 
 @interface PPViewController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate, MKReverseGeocoderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 
@@ -41,8 +43,8 @@
 	MKReverseGeocoder		*reverseGeocoder;
 	MKPlacemark				*currentPlacemark;
 	
+    PPSegmentControl        *titlePPSegControl;
     UISegmentedControl      *titleSegControl;
-    
     UIImage                 *selectedImage;
     NSString                *selectedImageSaveFileName;
     
@@ -60,8 +62,8 @@
 @property (nonatomic, retain) MKReverseGeocoder		*reverseGeocoder;
 @property (nonatomic, retain) MKPlacemark			*currentPlacemark;
 
-@property (nonatomic, retain) UISegmentedControl    *titleSegControl;
-
+@property (nonatomic, retain) PPSegmentControl    *titlePPSegControl;
+@property (nonatomic, retain) UISegmentedControl  *titleSegControl;
 @property (nonatomic, retain) UIImage               *selectedImage;
 @property (nonatomic, retain) NSString              *selectedImageSaveFileName;
 @property (nonatomic, assign) UIKeyboardType        currentKeyboardType;
@@ -76,8 +78,10 @@
 - (void)setNavigationRightButton:(NSString*)title action:(SEL)action;
 - (void)setNavigationRightButtonWithSystemStyle:(UIBarButtonSystemItem)systemItem action:(SEL)action;
 - (void)setNavigationLeftButtonWithSystemStyle:(UIBarButtonSystemItem)systemItem action:(SEL)action;
+- (void)setNavigationLeftButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action hasEdgeInSet:(BOOL)hasEdgeInSet;
 
-- (void)createNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex;
+//- (void)createNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex;
+- (void)createDefaultNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex;
 
 // this method helps you to performa an internal method with loading view
 - (void)performSelectorWithLoading:(SEL)aSelector loadingText:(NSString*)loadingText;

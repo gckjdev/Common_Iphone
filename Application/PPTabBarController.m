@@ -10,6 +10,10 @@
 #import "UIBadgeView.h"
 
 #define TAB_BADGEVIEW_OFFSET 120111101
+#define TAB_BUTTON_FIX_WIDTH    27
+#define TAB_BUTTON_FIX_HEIGHT   27
+
+#define TITLE_TAG       820111031
 
 @implementation PPTabBarController
 
@@ -19,6 +23,9 @@
 @synthesize backgroundView;
 @synthesize customTabBarView;
 @synthesize selectedImageArray;
+@synthesize buttonStyle;
+@synthesize normalTextColor;
+@synthesize selectTextColor;
 
 - (void)viewDidAppear:(BOOL)animated{
 	[self hideRealTabBar];
@@ -36,9 +43,10 @@
 
 - (void)setBarBackground:(NSString*)backgroundImageName
 {
-    UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:backgroundImageName]];    
+    UIImage* image = [UIImage imageNamed:backgroundImageName];
+    UIImageView* imageView = [[UIImageView alloc] initWithImage:image];    
     self.backgroundView = imageView;
-    self.backgroundView.frame = self.tabBar.frame;
+    self.backgroundView.frame = self.tabBar.bounds;
     [imageView release];
 }
 
@@ -53,7 +61,8 @@
     customTabBarView = [[UIView alloc] initWithFrame:self.tabBar.frame];
     
     // set background
-    customTabBarView.backgroundColor = [UIColor grayColor];    
+//    customTabBarView.backgroundColor = [UIColor grayColor];    
+    customTabBarView.backgroundColor = [UIColor clearColor];
     [customTabBarView addSubview:backgroundView];
     
 	// create buttons
@@ -67,23 +76,39 @@
 	for (int i = 0; i < viewCount; i++) {
 		UIViewController *v = [self.viewControllers objectAtIndex:i];
 		UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-		btn.frame = CGRectMake(i*_width, 0, _width, _height);
+        
+        if (buttonStyle == TAB_BUTTON_STYLE_FILL){
+            btn.frame = CGRectMake(i*_width, 0, _width, _height);
+        }
+        else{
+            int leftIndent = (_width - TAB_BUTTON_FIX_WIDTH)/2;
+            btn.frame = CGRectMake(i*_width + leftIndent, 3, TAB_BUTTON_FIX_WIDTH, TAB_BUTTON_FIX_HEIGHT);
+        }
 //        NSLog(@"button frame : %@", NSStringFromCGRect(btn.frame));
 
 		[btn addTarget:self action:@selector(selectedTab:) forControlEvents:UIControlEventTouchUpInside];
 		btn.tag = i;
+        btn.backgroundColor = [UIColor clearColor];
                 
         // set background
 		[btn setBackgroundImage:v.tabBarItem.image forState:UIControlStateNormal];
         
         // add title label
-		UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _height-20, _width, _height-30)];
+		UILabel *titleLabel;
+        if (buttonStyle == TAB_BUTTON_STYLE_FILL){
+            titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _height-20, _width, _height-30)];
+            titleLabel.textColor = [UIColor whiteColor];
+        }
+        else{
+            int leftIndent = -((_width - TAB_BUTTON_FIX_WIDTH)/2);
+            titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftIndent, _height-22, _width, _height-30)];                        
+        }
+        titleLabel.tag = TITLE_TAG + i;
 		titleLabel.backgroundColor = [UIColor clearColor];
 		titleLabel.text = v.tabBarItem.title;
 		titleLabel.textAlignment = UITextAlignmentCenter;
-		titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.font = [UIFont boldSystemFontOfSize:10];
-		[btn addSubview:titleLabel];
+        titleLabel.font = [UIFont boldSystemFontOfSize:10];        
+		[btn addSubview:titleLabel];        
 		[titleLabel release];
         
         // add badge view
@@ -100,10 +125,11 @@
 		[customTabBarView addSubview:btn];
 	}
     
-	[customTabBarView addSubview:slideBg];
+//	[customTabBarView addSubview:slideBg];
 	[self.view insertSubview:customTabBarView atIndex:0];
 
 	[self selectedTab:[self.buttons objectAtIndex:self.selectedIndex]];
+
 }
 
 - (void)selectedTab:(UIButton *)button{
@@ -118,10 +144,18 @@
         if (self.currentSelectedIndex == b.tag) {		
             NSString* imageName = [selectedImageArray objectAtIndex:i];
             image = [UIImage imageNamed:imageName];
+            
+            // set text color
+            UILabel* label = (UILabel*)[b viewWithTag:TITLE_TAG+i];
+            [label setTextColor:selectTextColor];
         }
         else{
             UIViewController* v = [self.viewControllers objectAtIndex:i];
             image = v.tabBarItem.image;
+
+            // set text color
+            UILabel* label = (UILabel*)[b viewWithTag:TITLE_TAG+i];
+            [label setTextColor:normalTextColor];
         }
         
         if (image != nil){
@@ -138,6 +172,11 @@
 	[self performSelector:@selector(slideTabBg:) withObject:button];
 }
 
+- (void)setTextColor:(UIColor*)normalTextColorValue selectTextColor:(UIColor*)selectTextColorValue
+{
+    self.selectTextColor = selectTextColorValue;
+    self.normalTextColor = normalTextColorValue;
+}
 
 - (void)slideTabBg:(UIButton *)btn{
 	[UIView beginAnimations:nil context:nil];  
@@ -148,6 +187,8 @@
 }
 
 - (void) dealloc{
+    [selectTextColor release];
+    [normalTextColor release];
     [selectedImageArray release];
     [backgroundView release];
 	[slideBg release];
@@ -160,7 +201,7 @@
 {
     for (UIButton* b in buttons) {
         if (b.tag == tag) {
-            UIBadgeView *view = [b viewWithTag:(tag + TAB_BADGEVIEW_OFFSET)];
+            UIBadgeView *view = (UIBadgeView*)[b viewWithTag:(tag + TAB_BADGEVIEW_OFFSET)];
             if (view == nil) {
                 view = [[UIBadgeView alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
                 view.tag = tag + TAB_BADGEVIEW_OFFSET;

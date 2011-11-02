@@ -15,7 +15,7 @@
 #import "StringUtil.h"
 #import "TKAlertCenter.h"
 #import "UIBlankView.h"
-
+//#import "PPSegmentControl.h"
 @implementation PPViewController
 
 @synthesize loadingView;
@@ -23,6 +23,7 @@
 @synthesize alertView;
 @synthesize timer;
 @synthesize locationManager, currentLocation, reverseGeocoder, currentPlacemark;
+@synthesize titlePPSegControl;
 @synthesize titleSegControl;
 @synthesize selectedImage;
 @synthesize selectedImageSaveFileName;
@@ -106,6 +107,34 @@
 	
 }
 
+#define INSET_TOP 10
+#define INSET_LEFT 10
+
+- (UIButton *)createButtonWithTitle:(NSString*)title imageName:(NSString*)imageName target:(id)target action:(SEL)action
+{
+	UIButton* button = [[[UIButton alloc] init] autorelease];
+    UIImage* image = [UIImage imageNamed:imageName];
+	[button setImage:image forState:UIControlStateNormal];
+	[button setTitle:title forState:UIControlStateNormal];
+	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[button setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];	
+	button.titleLabel.font = [UIFont boldSystemFontOfSize:12];	
+	[button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];	
+    CGRect rect = CGRectMake(0, 0, image.size.width + INSET_LEFT, image.size.height + INSET_TOP);
+    button.frame = rect;
+	return button;
+}
+
+- (void)setNavigationLeftButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action hasEdgeInSet:(BOOL)hasEdgeInSet
+{
+    UIButton* button = [self createButtonWithTitle:title imageName:imageName target:self action:action];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(INSET_TOP, INSET_LEFT, 0, 0)];
+    
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];	
+	self.navigationItem.leftBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
 - (void)setNavigationRightButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action
 {
 	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] 
@@ -159,21 +188,44 @@
 										 font:textFont];
 }
 
-- (void)createNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex
-{    
+#pragma Segment Control Delegate
+
+- (void)clickSegControl:(id)sender
+{
+    NSLog(@"This is PPViewController default implementation");
+}
+
+- (void)createDefaultNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex
+{
     if (titleArray == nil)
         return;
     
     self.titleSegControl = [[[UISegmentedControl alloc] initWithItems:titleArray] autorelease];
     
     titleSegControl.segmentedControlStyle = UISegmentedControlStyleBar;    
-    if (defaultSelectIndex >= 0 && defaultSelectIndex < [titleArray count])        titleSegControl.selectedSegmentIndex = defaultSelectIndex;
+    if (defaultSelectIndex >= 0 && defaultSelectIndex < [titleArray count])        
+        titleSegControl.selectedSegmentIndex = defaultSelectIndex;
     [titleSegControl addTarget:self 
                         action:@selector(clickSegControl:) 
               forControlEvents:UIControlEventValueChanged];
-    
-    self.navigationItem.titleView = titleSegControl;    
+    self.navigationItem.titleView = titleSegControl;
 }
+
+
+//
+//- (void)createNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex
+//{    
+//    if (titleArray == nil)
+//        return;
+//    UIImage *bgImage = [[UIImage imageNamed:@"tu_46.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:0];
+//    UIImage *selectImage = [[UIImage imageNamed:@"tu_39-15.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:0];
+//    self.titlePPSegControl = [[PPSegmentControl alloc] initWithItems:titleArray defaultSelectIndex:defaultSelectIndex bgImage:bgImage selectedImage:selectImage];
+//    [self.titlePPSegControl  setSegmentFrame:CGRectMake(0, 0, 320, 25)];
+//    [self.titlePPSegControl  setSelectedTextFont:[UIFont systemFontOfSize:12] color:[UIColor colorWithRed:134/255 green:148/255 blue:67/255 alpha:1]];
+//    [self.titlePPSegControl  setUnselectedTextFont:[UIFont systemFontOfSize:12] color:[UIColor colorWithRed:111/255 green:104/255 blue:94/255 alpha:1]];
+//    [self.titlePPSegControl  setSelectedSegmentFrame:CGRectMake(0, 0, titlePPSegControl.buttonWidth, 30) image:selectImage];
+//    [self.titlePPSegControl  setViewController:self];
+//}
 
 #pragma mark activity loading view
 
@@ -344,10 +396,11 @@
 	[currentLocation release];
 	[currentPlacemark release];
 	
-    [titleSegControl release];
+    [titlePPSegControl release];
     
     [selectedImageSaveFileName release];
     [selectedImage release];
+    [titleSegControl release];
 
 #ifdef _THREE20_	
 	[loadingView release];
@@ -676,12 +729,14 @@
 	//	NSLog(@"current country is %@, province is %@, city is %@, street is %@%@", self.currentPlacemark.country, currentPlacemark.administrativeArea, currentPlacemark.locality, placemark.thoroughfare, placemark.subThoroughfare);	
 }
 
-#pragma Segment Control Delegate
 
-- (void)clickSegControl:(id)sender
+#pragma PPSegmentControl delegate
+
+- (void)clickedSegment:(PPSegmentControl *)segControl
 {
-    NSLog(@"This is PPViewController default implementation");
+    [self clickSegControl:segControl];
 }
+
 
 #pragma Image Picker Related
 

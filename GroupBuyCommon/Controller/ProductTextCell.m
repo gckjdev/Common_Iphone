@@ -46,7 +46,7 @@
 
 - (void)setCellStyle
 {
-    self.selectionStyle = UITableViewCellSelectionStyleBlue;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.leftTimeLabel.hidden = YES;
     self.valueLabel.hidden = YES;
 //    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -136,6 +136,17 @@
     int leftSeconds = [endDate timeIntervalSinceNow];
     NSString* timeInfo = [self getTimeInfo:leftSeconds];
     
+    UIColor* textColor = [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
+    UIColor* textColor2 = [UIColor colorWithRed:183/255.0 green:177/255.0 blue:169/255.0 alpha:1.0];
+    
+    productDescLabel.textColor = textColor;
+    priceLabel.textColor = [UIColor colorWithRed:245/255.0 green:109/255.0 blue:42/255.0 alpha:1.0];
+    siteNameLabel.textColor = textColor;
+    rebateLabel.textColor = textColor2;
+    distanceLabel.textColor = textColor2;
+    boughtLabel.textColor = textColor2;
+    
+    
     self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];
     self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [self getValue:value]];
     self.priceLabel.text = [NSString stringWithFormat:@"%@元", [price description]];
@@ -175,7 +186,7 @@
 
 - (void) managedImageSet:(HJManagedImageV*)mi
 {
-    CGRect textFrame = CGRectMake(0, 0, 210, 111);     // default , need to align with Cell.xib
+    CGRect textFrame = CGRectMake(5, 3, 200, 106);     // default , need to align with Cell.xib
     CGRect imageFrame = textFrame;
     if (mi.image.size.height < MIN_HEIGHT){    
         CGRect frame = mi.frame;

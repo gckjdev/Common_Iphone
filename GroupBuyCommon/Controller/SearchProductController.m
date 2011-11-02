@@ -24,6 +24,10 @@
 
 @implementation SearchProductController
 
+@synthesize searchTextFieldBackgroundView;
+@synthesize searchButton;
+@synthesize searchTextField;
+@synthesize searchBackgroundView;
 @synthesize latestSearchButton1;
 @synthesize latestSearchButton2;
 @synthesize latestSearchButton3;
@@ -40,10 +44,19 @@
 - (void)dealloc
 {
 //    [asrEngine release];
+    [searchBackgroundView release];
 	[latestSearchButton1 release];
 	[latestSearchButton2 release];
 	[latestSearchButton3 release];
     [keywordSearchBar release];
+    [searchTextField release];
+    [searchButton release];
+    [searchBackgroundView release];
+    [searchTextFieldBackgroundView release];
+    [searchButton release];
+    [searchTextField release];
+    [searchTextFieldBackground release];
+    [searchBackgroundView release];
     [super dealloc];
 }
 
@@ -61,6 +74,13 @@
 {
     [self setBackgroundImageName:@"background.png"];
     [super viewDidLoad];
+
+    UIImage* buttonImage = [[UIImage imageNamed:@"tu_48.png"] stretchableImageWithLeftCapWidth:1 
+                                                                                  topCapHeight:0];
+    [self.searchButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    
+    UIImage* searchTextFieldImage = [[UIImage imageNamed:@"tu_46-18.png"] stretchableImageWithLeftCapWidth:57 topCapHeight:0];
+    [self.searchTextFieldBackgroundView setImage:searchTextFieldImage];
     
 //    [self setNavigationRightButton:@"语音搜索" action:@selector(speechSearch:)];
 }
@@ -69,6 +89,19 @@
 {
     [keywordSearchBar release];
     keywordSearchBar = nil;
+    [self setSearchTextField:nil];
+    [self setSearchButton:nil];
+    [searchBackgroundView release];
+    searchBackgroundView = nil;
+    [self setSearchTextFieldBackgroundView:nil];
+    [searchButton release];
+    searchButton = nil;
+    [searchTextField release];
+    searchTextField = nil;
+    [searchTextFieldBackground release];
+    searchTextFieldBackground = nil;
+    [searchBackgroundView release];
+    searchBackgroundView = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

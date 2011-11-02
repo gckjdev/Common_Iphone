@@ -111,8 +111,10 @@
 
 - (void)viewDidLoad
 {    
+    self.view.backgroundColor = [UIColor clearColor];
     
-    [self setBackgroundImageName:@"background.png"];
+    //don't set background here, it's set by caller viewcontrollers    
+    //[self setBackgroundImageName:@"background.png"];
     
     if ([dataLoader supportRemote])
         supportRefreshHeader = YES;
