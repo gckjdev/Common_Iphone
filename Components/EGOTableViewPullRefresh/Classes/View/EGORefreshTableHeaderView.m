@@ -37,6 +37,7 @@
 @synthesize state=_state;
 @synthesize bottomBorderThickness;
 @synthesize bottomBorderColor;
+@synthesize _backgroundImage;
 
 static NSDateFormatter *refreshFormatter;
 
@@ -59,6 +60,11 @@ static NSDateFormatter *refreshFormatter;
 	return [self initWithFrame:relativeFrame];
 }
 
+- (void)setBackgroundImage:(UIImage *)image
+{
+    self._backgroundImage.contents = (id)image.CGImage;
+}
+
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
 		
@@ -75,11 +81,6 @@ static NSDateFormatter *refreshFormatter;
 		[self addSubview:lastUpdatedLabel];
 		[lastUpdatedLabel release];
 
-//		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"]) {
-//			lastUpdatedLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"];
-//		} else {
-//			[self setCurrentDate];
-//		}
 		
 		statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 48.0f, self.frame.size.width, 20.0f)];
 		statusLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -100,6 +101,14 @@ static NSDateFormatter *refreshFormatter;
 		[[self layer] addSublayer:arrowImage];
 		[arrowImage release];
 		
+        self._backgroundImage = [CALayer layer];
+        self._backgroundImage.frame = CGRectMake(0,0, self.frame.size.width, self.frame.size.height);
+//        UIImage *back = [[UIImage imageNamed:@"tu_185.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:0];
+//        self._backgroundImage.contents = (id)back.CGImage;
+        [self.layer insertSublayer:self._backgroundImage atIndex:0];
+        
+
+        
 		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 		activityView.frame = CGRectMake(25.0f, frame.size.height - 38.0f, 20.0f, 20.0f);
 		activityView.hidesWhenStopped = YES;
@@ -126,6 +135,7 @@ static NSDateFormatter *refreshFormatter;
 	CGContextAddLineToPoint(context, self.bounds.size.width, self.bounds.size.height - strokeOffset);
 	CGContextStrokePath(context);
 }
+
 
 - (void)setLastRefreshDate:(NSDate*)date
 {
@@ -160,7 +170,6 @@ static NSDateFormatter *refreshFormatter;
     if (color) {
         [lastUpdatedLabel setTextColor:color];
         [statusLabel setTextColor:color];
-//        UILabel *statusLabel;
     }
 }
 
@@ -238,6 +247,7 @@ static NSDateFormatter *refreshFormatter;
 	statusLabel = nil;
 	arrowImage = nil;
 	lastUpdatedLabel = nil;
+    [_backgroundImage release];   
     [super dealloc];
 }
 

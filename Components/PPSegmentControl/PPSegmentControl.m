@@ -113,7 +113,6 @@
             [button addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
             [self.buttonItems addObject:button];
             [self addSubview:button];
-            
         }
         
         //deal with the selected segment

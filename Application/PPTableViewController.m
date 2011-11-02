@@ -83,13 +83,20 @@
         return;
     
     if (refreshHeaderView == nil) {
-        self.refreshHeaderView = [[[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.dataTableView.bounds.size.height, 320.0f, self.dataTableView.bounds.size.height)] autorelease];
+        self.refreshHeaderView = [[[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(8.0f, 0.0f - self.dataTableView.bounds.size.height, 304.0f, self.dataTableView.bounds.size.height)] autorelease];
         refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
         refreshHeaderView.bottomBorderThickness = 1.0;
         [self.dataTableView addSubview:refreshHeaderView];
         self.dataTableView.showsVerticalScrollIndicator = YES;
-        [self.refreshHeaderView setFontColor:[UIColor blueColor]];
+        [self.refreshHeaderView setFontColor:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0]];
+        UIImage *back = [[UIImage imageNamed:@"tu_185.png"]stretchableImageWithLeftCapWidth:0 topCapHeight:0];
+        [self.refreshHeaderView setBackgroundImage:back];
     }
+}
+
+- (void)setRefreshHeaderViewFrame:(CGRect)frame
+{
+    self.refreshHeaderView.frame = frame;
 }
 
 - (void)clearRefreshFlag

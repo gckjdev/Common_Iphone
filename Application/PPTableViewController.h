@@ -140,4 +140,5 @@
 // call this method to dismiss control row
 - (void)deleteControlRow;
 
+- (void)setRefreshHeaderViewFrame:(CGRect)frame;
 @end
