@@ -39,6 +39,7 @@ enum TAB_BUTTON_STYLE {
 - (void)hideRealTabBar;
 - (void)customTabBar;
 - (void)selectedTab:(UIButton *)button;
+- (void)setBadgeValue:(NSString*)value buttonTag:(NSInteger)tag;
 - (void)setTextColor:(UIColor*)normalTextColor selectTextColor:(UIColor*)selectTextColor;
 
 @end
