@@ -112,7 +112,7 @@ enum {
     CGFloat height = self.navigationController.navigationBar.frame.size.height;
 
     
-    [self setNavigationTitleWithTitle:@"商品详细" fontSize:18.0 textColor:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1] yOffset:20];
+//    [self setNavigationTitleWithTitle:@"商品详细" fontSize:18.0 textColor:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1] yOffset:20];
     
     //set left button item
     UIImage *leftButtonImage = [UIImage imageNamed:@"tu_63.png"];
@@ -122,7 +122,7 @@ enum {
     UIView *leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, height, height)];
     [leftView addSubview:leftButton];
     [leftButton release];
-    [self setNavigationLeftButtonWithCustomView:leftView];
+//    [self setNavigationLeftButtonWithCustomView:leftView];
     
     [leftView release];
     
@@ -140,7 +140,7 @@ enum {
     UIView *rightView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, height, height)];
     [rightView addSubview:rightButton];
     [rightButton release];
-    [self setNavigationRightButtonWithCustomView:rightView];
+//    [self setNavigationRightButtonWithCustomView:rightView];
     [rightView release];
         
     self.boughtLabel.text = [product.bought description];

@@ -79,11 +79,8 @@
 - (void)setNavigationRightButtonWithSystemStyle:(UIBarButtonSystemItem)systemItem action:(SEL)action;
 - (void)setNavigationLeftButtonWithSystemStyle:(UIBarButtonSystemItem)systemItem action:(SEL)action;
 - (void)setNavigationLeftButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action hasEdgeInSet:(BOOL)hasEdgeInSet;
-- (void)setNavigationLeftButtonWithCustomView:(UIView *)customView;
-- (void)setNavigationRightButtonWithCustomView:(UIView *)customView;
-
-- (void)setNavigationTitleWithTitle:(NSString *)title fontSize:(CGFloat)fontSize 
-                          textColor:(UIColor *)textColor yOffset:(CGFloat)offset;
+- (void)setNavigationRightButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action hasEdgeInSet:(BOOL)hasEdgeInSet;
+- (void)setNavigationRightButton:(NSString*)title image:(UIImage*)strectableImage action:(SEL)action hasEdgeInSet:(BOOL)hasEdgeInSet;
 
 //- (void)createNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex;
 - (void)createDefaultNavigationTitleToolbar:(NSArray*)titleArray defaultSelectIndex:(int)defaultSelectIndex;
@@ -128,5 +125,9 @@
 - (void)addBlankView:(UIView*)searchBar;
 - (void)addBlankView:(CGFloat)top currentResponder:(UIView*)currentResponder;
 - (void)removeBlankView;
+
+- (void)setGroupBuyNavigationBackButton;
+- (void)setGroupBuyNavigationTitle:(NSString*)titleString;
+- (void)setGroupBuyNavigationRightButton:(NSString*)buttonTitle action:(SEL)action;
 
 @end

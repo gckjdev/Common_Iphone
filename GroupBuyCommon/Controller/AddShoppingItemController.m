@@ -214,10 +214,13 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    
+    [self setBackgroundImageName:@"background.png"];
+    
     [super viewDidLoad];
     
-    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
-    [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
+    [self setGroupBuyNavigationBackButton];
+    [self setGroupBuyNavigationRightButton:@"保存" action:@selector(clickSave:)];
     
     [self activateKeyboardNumberPadReturn];
     

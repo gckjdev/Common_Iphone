@@ -72,21 +72,29 @@
 
 - (void)viewDidLoad
 {
+    keywordSearchBar.hidden = YES;
+    
     [self setBackgroundImageName:@"background.png"];
+    [self setGroupBuyNavigationTitle:self.tabBarItem.title];
+
     [super viewDidLoad];
 
-    UIImage* buttonImage = [[UIImage imageNamed:@"tu_48.png"] stretchableImageWithLeftCapWidth:1 
-                                                                                  topCapHeight:0];
-    [self.searchButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+//    UIImage* buttonImage = [[UIImage imageNamed:@"tu_188.png"] stretchableImageWithLeftCapWidth:1 
+//                                                                                  topCapHeight:0];
+//    [self.searchButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     
-    UIImage* searchTextFieldImage = [[UIImage imageNamed:@"tu_46-18.png"] stretchableImageWithLeftCapWidth:57 topCapHeight:0];
+    UIImage* searchTextFieldImage = [[UIImage imageNamed:@"tu_46-18.png"] stretchableImageWithLeftCapWidth:57/2 topCapHeight:0];
     [self.searchTextFieldBackgroundView setImage:searchTextFieldImage];
+    
+    // set search button background
+    UIImage* buttonBgImage = [[UIImage imageNamed:@"tu_48.png"] stretchableImageWithLeftCapWidth:23 topCapHeight:0];
+    [searchButton setBackgroundImage:buttonBgImage forState:UIControlStateNormal];
     
 //    [self setNavigationRightButton:@"语音搜索" action:@selector(speechSearch:)];
 }
 
 - (void)viewDidUnload
-{
+{        
     [keywordSearchBar release];
     keywordSearchBar = nil;
     [self setSearchTextField:nil];
@@ -113,7 +121,9 @@
 -(void) viewDidAppear:(BOOL)animated
 {
 	[self refreshLatestSearchHistory];
-    [self addBlankView:keywordSearchBar];
+    
+    int top = searchBackgroundView.frame.size.height + searchBackgroundView.frame.origin.y;
+    [self addBlankView:top currentResponder:searchTextField];
 	
     [super viewDidAppear:animated];
 }
@@ -170,7 +180,9 @@
 	searchResultController.dataLoader = [[ProductKeywordDataLoader alloc] initWithKeyword:keyword];
     
 	searchResultController.navigationItem.title = [NSString stringWithFormat:@"团购列表 － %@", keyword]; 
-    [searchResultController setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
+    [searchResultController setGroupBuyNavigationBackButton];
+    [searchResultController setGroupBuyNavigationTitle:searchResultController.navigationItem.title];
+    [searchResultController setBackgroundImageName:@"background.png"];
 	[self.navigationController pushViewController:searchResultController animated:NO];
 	[searchResultController release];
 }
@@ -198,11 +210,26 @@
 #pragma mark -
 #pragma mark do Search
 
+- (IBAction)clickSearchButton:(id)sender
+{
+    if ([searchTextField.text length] == 0){
+        [UIUtils alert:@"搜索关键字不能为空"];
+        return;
+    }
+    
+	[searchTextField resignFirstResponder];
+    
+	[SearchHistoryManager createSearchHistory:searchTextField.text];	
+	[self refreshLatestSearchHistory];
+    
+	[self search:searchTextField.text];    
+}
 
 - (IBAction) doSearch:(id)sender
 {
 	UIButton *button = (UIButton *)sender;    
-    keywordSearchBar.text = button.currentTitle;    
+    keywordSearchBar.text = button.currentTitle;  
+    searchTextField.text = button.currentTitle;
     [self search:button.currentTitle];	
 }
 
