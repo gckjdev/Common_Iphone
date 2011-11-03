@@ -44,16 +44,20 @@ typedef enum{
 	EGOPullRefreshState _state;
 	UIColor *bottomBorderColor;
 	CGFloat bottomBorderThickness;
+    CALayer *_backgroundImage;
 
 }
 
 @property(nonatomic,assign) EGOPullRefreshState state;
 @property(nonatomic,retain) UIColor *bottomBorderColor;
 @property(nonatomic,assign) CGFloat bottomBorderThickness;
+@property(nonatomic,retain) CALayer *_backgroundImage;
 
 - (id)initWithFrameRelativeToFrame:(CGRect)originalFrame;
 - (void)setLastRefreshDate:(NSDate*)date;
 - (void)setCurrentDate;
 - (void)setState:(EGOPullRefreshState)aState;
 - (void)setFontColor:(UIColor *)color;
+- (void)setBackgroundImage:(UIImage *)image;
+
 @end

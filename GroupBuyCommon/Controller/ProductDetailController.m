@@ -102,11 +102,41 @@ enum {
 - (void)viewDidLoad
 {
     [GroupBuyReport reportEnterProductDetail:product];
+
+    CGFloat height = self.navigationController.navigationBar.frame.size.height;
+
     
-    self.navigationItem.title = @"商品详情";
-    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
-    [self setNavigationRightButton:@"淘宝比价" action:@selector(clickTaobaoSearch:)];
+    [self setNavigationTitleWithTitle:@"商品详细" fontSize:18.0 textColor:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1] yOffset:20];
     
+    //set left button item
+    UIImage *leftButtonImage = [UIImage imageNamed:@"tu_63.png"];
+    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 8, leftButtonImage.size.width, leftButtonImage.size.height)];
+    [leftButton setImage:leftButtonImage forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
+    UIView *leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, height, height)];
+    [leftView addSubview:leftButton];
+    [leftButton release];
+    [self setNavigationLeftButtonWithCustomView:leftView];
+    
+    [leftView release];
+    
+    
+    //set right button item
+    UIButton *rightButton = [[UIButton alloc]initWithFrame:CGRectMake(-11, 11, 48, 28)];
+    UIImage *rightImage = [[UIImage imageNamed:@"tu_40.png"]stretchableImageWithLeftCapWidth:6.5 topCapHeight:2];
+    [rightButton setBackgroundImage:rightImage forState:UIControlStateNormal];
+    [rightButton setBackgroundColor:[UIColor clearColor]];
+    [rightButton setTitle:@"比价" forState:UIControlStateNormal];
+    [rightButton setTitleColor:[UIColor colorWithRed:134/255.0 green:148/255.0 blue:67/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [rightButton.titleLabel setTextAlignment:UITextAlignmentCenter];
+    [rightButton.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
+    [rightButton addTarget:self action:@selector(clickTaobaoSearch:) forControlEvents:UIControlEventTouchUpInside];
+    UIView *rightView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, height, height)];
+    [rightView addSubview:rightButton];
+    [rightButton release];
+    [self setNavigationRightButtonWithCustomView:rightView];
+    [rightView release];
+        
     self.boughtLabel.text = [product.bought description];
     self.rebateLabel.text = [product.rebate description];
     self.priceLabel.text = [product.price description];
@@ -349,7 +379,7 @@ enum {
 
         self.imageView = [[[HJManagedImageV alloc] init] autorelease];
 //        CGRect frame = CGRectMake(10, 10, cell.contentView.frame.size.width - 10, cell.contentView.frame.size.height-10);
-        CGRect frame = CGRectMake(5, 5, cell.contentView.frame.size.width - 10, cell.contentView.frame.size.height - 10);
+        CGRect frame = CGRectMake(5, 5, cell.contentView.frame.size.width - 100, cell.contentView.frame.size.height );
         imageView.frame = frame;
         imageView.tag = IMAGE_VIEW_TAG;
         imageView.backgroundColor = [UIColor clearColor];
