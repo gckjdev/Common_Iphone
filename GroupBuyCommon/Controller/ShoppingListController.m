@@ -46,6 +46,8 @@
     [self setNavigationLeftButton:nil imageName:@"tu_66.png" action:@selector(clickRefresh:) hasEdgeInSet:YES];
     [self setNavigationRightButton:nil imageName:@"tu_80.png" action:@selector(clickAdd:) hasEdgeInSet:YES];
     
+    [self setGroupBuyNavigationTitle:self.tabBarItem.title];
+    
     [self setBackgroundImageName:@"background.png"];
 
     self.helpLabel.hidden = YES;

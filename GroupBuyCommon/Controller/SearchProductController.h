@@ -35,5 +35,5 @@
 
 - (IBAction) doSearch:(id)sender;
 - (IBAction) speechSearch:(id)sender;
-
+- (IBAction) clickSearchButton:(id)sender;
 @end

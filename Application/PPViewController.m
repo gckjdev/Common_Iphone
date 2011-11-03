@@ -107,7 +107,7 @@
 	
 }
 
-#define INSET_TOP 10
+#define INSET_TOP 12
 #define INSET_LEFT 10
 
 - (UIButton *)createButtonWithTitle:(NSString*)title imageName:(NSString*)imageName target:(id)target action:(SEL)action
@@ -825,6 +825,74 @@
 - (void)removeBlankView
 {
     [self.blankView deregsiterKeyboardNotification];
+}
+
+// for groupbuy
+- (void)setGroupBuyNavigationBackButton
+{
+    [self setNavigationLeftButton:nil 
+                              imageName:@"tu_63.png" 
+                                 action:@selector(clickBack:)
+                           hasEdgeInSet:YES];
+}
+
+- (void)setGroupBuyNavigationTitle:(NSString*)titleString
+{
+    UILabel* label = [[UILabel alloc] init];
+    label.text = titleString;
+    label.textColor = [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
+    label.font = [UIFont boldSystemFontOfSize:18];
+    label.textAlignment = UITextAlignmentCenter;
+    label.backgroundColor = [UIColor clearColor];
+    
+    UIView* view = [[UIView alloc] init];
+    [view addSubview:label]; 
+    view.backgroundColor = [UIColor clearColor];
+    view.frame = CGRectMake(0, 0, 200, 44);
+    
+    // adjust Y of label    
+    CGRect frame = CGRectMake(0, INSET_TOP, 200, 44 - INSET_TOP);
+    frame.origin.y = INSET_TOP;
+    label.frame = frame;
+    
+    self.navigationItem.titleView = view;
+    
+    [view release];
+    [label release];
+}
+
+- (void)setGroupBuyNavigationRightButton:(NSString*)buttonTitle action:(SEL)action
+{
+    int extraWidth = 20;
+    int width = 15/2;
+    
+    // TODO cache the image for better performance
+    UIImage* buttonImage1 = [[UIImage imageNamed:@"tu_72.png"] stretchableImageWithLeftCapWidth:width topCapHeight:0];
+    UIImage* buttonImage2 = [[UIImage imageNamed:@"tu_82.png"] stretchableImageWithLeftCapWidth:width topCapHeight:0];    
+    
+    int fontSize = 12;
+    UIFont* font = [UIFont systemFontOfSize:fontSize];
+    
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:buttonTitle forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setBackgroundImage:buttonImage1 forState:UIControlStateNormal];
+    [button setBackgroundImage:buttonImage2 forState:UIControlStateSelected];
+    [button.titleLabel setFont:font];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    
+    CGSize size = [buttonTitle sizeWithFont:font];
+    button.frame = CGRectMake(0, INSET_TOP, size.width + extraWidth, 44 - INSET_TOP);
+    
+    UIView* view = [[UIView alloc] init];
+    [view addSubview:button];
+    view.frame = CGRectMake(0, 0, size.width + extraWidth + INSET_LEFT, 44);
+            
+    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithCustomView:view];
+    self.navigationItem.rightBarButtonItem = item;
+
+    [item release];    
+    [view release];
 }
 
 @end

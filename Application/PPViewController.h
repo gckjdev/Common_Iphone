@@ -126,4 +126,8 @@
 - (void)addBlankView:(CGFloat)top currentResponder:(UIView*)currentResponder;
 - (void)removeBlankView;
 
+- (void)setGroupBuyNavigationBackButton;
+- (void)setGroupBuyNavigationTitle:(NSString*)titleString;
+- (void)setGroupBuyNavigationRightButton:(NSString*)buttonTitle action:(SEL)action;
+
 @end
