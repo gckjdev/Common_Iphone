@@ -76,7 +76,7 @@
 	
 	self.width = numberSize.width + 16;
 	
-	CGRect bounds = CGRectMake(0 , 0, numberSize.width + 8 , 12);//13,21
+	CGRect bounds = CGRectMake(0 , 0, numberSize.width + 7 , 12);//13,21
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
@@ -133,12 +133,12 @@
 	// Draw background
 	
 	CGFloat backOffset = -0.5;//org--2
-	CGRect backRect = CGRectMake(bounds.origin.x + backOffset+0.5, 
-								 bounds.origin.y + backOffset, 
+	CGRect backRect = CGRectMake(bounds.origin.x + backOffset+1, 
+								 bounds.origin.y + backOffset+0.5, 
 								 bounds.size.width - backOffset*2, 
 								 bounds.size.height - backOffset*2);
 	
-	[self drawRoundedRect:backRect inContext:context withRadius:7];
+	[self drawRoundedRect:backRect inContext:context withRadius:6.5];
 
 	CGContextDrawPath(context, kCGPathFillStroke);
 	/*
