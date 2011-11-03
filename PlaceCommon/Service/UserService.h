@@ -13,7 +13,7 @@
 @class PPViewController;
 
 #define AVATAR_SIZE         CGSizeMake(180, 180)
-#define DEFAULT_AVATAR      @"touxiang.png"
+#define DEFAULT_AVATAR      @"user_bg@2x.png"
 #define FEMALE_AVATAR       @"girl1.png"
 #define MALE_AVATAR         @"boy1.png"
 #define TEMP_AVATAR_DIR     @"avatar_temp"
