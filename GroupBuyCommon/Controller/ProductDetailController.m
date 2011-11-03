@@ -20,22 +20,22 @@
 #import "ProductManager.h"
 #import "ProductCommentsController.h"
 #import "TaobaoSearchController.h"
+#import "ProductDetailCell.h"
 
 enum {
     SECTION_IMAGE,
     SECTION_TITLE,
-    SECTION_PRICE,
-
     SECTION_DATE,
     SECTION_SHOP_ADDRESS,
     SECTION_TEL,    
     SECTION_MORE,
     SECTION_NUM,    
-
+    
+    SECTION_PRICE, //not used
     SECTION_DESC,   // not used
 };
 
-#define INFO_FONT       ([UIFont systemFontOfSize:14])
+#define INFO_FONT       ([UIFont systemFontOfSize:12])
 #define INFO_WIDTH      305
 #define INFO_MAX_SIZE   (CGSizeMake(INFO_WIDTH, 3000))
 #define EXTRA_HEIGHT    40
@@ -47,10 +47,12 @@ enum {
 @synthesize rebateLabel;
 @synthesize saveLabel;
 @synthesize boughtLabel;
+@synthesize buyButton;
+@synthesize savaButton;
+@synthesize forwardButton;
+@synthesize commetButton;
 @synthesize imageView;
 
-@synthesize upLabel;
-@synthesize downLabel;
 
 + (void)showProductDetail:(Product*)product navigationController:(UINavigationController*)navigationController isCreateHistory:(BOOL)isCreateHistory
 {
@@ -64,7 +66,7 @@ enum {
     
     ProductDetailController* vc = [[ProductDetailController alloc] init];
     vc.product = product;
-    vc.hidesBottomBarWhenPushed = YES;
+//    vc.hidesBottomBarWhenPushed = YES;
     [navigationController pushViewController:vc animated:YES];
     [vc release];
 }
@@ -86,6 +88,10 @@ enum {
     [saveLabel release];
     [boughtLabel release];
     [imageView release];
+    [buyButton release];
+    [savaButton release];
+    [forwardButton release];
+    [commetButton release];
     [super dealloc];
 }
 
@@ -140,8 +146,7 @@ enum {
     self.boughtLabel.text = [product.bought description];
     self.rebateLabel.text = [product.rebate description];
     self.priceLabel.text = [product.price description];
-    self.upLabel.text = [product.up description];
-    self.downLabel.text = [product.down description];
+
     
     int saveValue = [product.value doubleValue] - [product.price doubleValue];
     if (saveValue < 0.0f)
@@ -150,6 +155,16 @@ enum {
     self.saveLabel.text = [[NSNumber numberWithDouble:saveValue] description];
     
     [self setBackgroundImageName:@"background.png"];
+
+//    int buttonImageWidth = 31;
+//    int buttonTitleWidth = 24;
+//    CGSize size = buyButton.titleLabel.frame.size;
+//    //    int buttonWidth = 31 + 24; // align with cell xib
+//    
+//    [self.buyButton setTitleEdgeInsets:UIEdgeInsetsMake(0, buttonImageWidth, 0, 0)];
+//    [self.buyButton setImageEdgeInsets:UIEdgeInsetsMake(0, size.width, 0, size.width)];
+//    [self.buyButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [self.buyButton 
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -161,6 +176,10 @@ enum {
     [self setRebateLabel:nil];
     [self setSaveLabel:nil];
     [self setBoughtLabel:nil];
+    [self setBuyButton:nil];
+    [self setSavaButton:nil];
+    [self setForwardButton:nil];
+    [self setCommetButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -230,10 +249,10 @@ enum {
     NSArray* array = [product telArray];
     
     if ([array count] == 0){
-        return @"商家联系电话：暂无";
+        return @"商家电话：暂无";
     }
     
-    NSString* str = @"商家联系电话：\n";
+    NSString* str = @"商家电话：\n";
     int i=0;
     for (NSString* tel in array){
         str = [str stringByAppendingString:tel];
@@ -301,7 +320,7 @@ enum {
             return 60;
             
         case SECTION_IMAGE:
-            return 160;
+            return [ProductDetailCell getCellHeight];
             
         case SECTION_DESC:
         {
@@ -360,36 +379,36 @@ enum {
     return 1;
 }
 
-
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	//return [self getFooterView:tableView section:section];
+    UIImage *image = [UIImage imageNamed:@"tu_179.png"];
+    UIImageView *footerImageView = [[UIImageView alloc] initWithImage:image];
+    [footerImageView setFrame:CGRectMake(7, 0, 320-14, 2)];
+    UIView *view = [[[UIView alloc]init]autorelease];
+    [view addSubview:footerImageView];
+    [footerImageView release];
+    return view;
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    const int IMAGE_VIEW_TAG = 1299;
+//    const int IMAGE_VIEW_TAG = 1299;
     
     UITableViewCell *cell = nil;
     if (indexPath.section == SECTION_IMAGE){
-        static NSString *CellIdentifier = @"ImageCell";
-        cell = [theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];				
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;	
-            
+        
+         NSString *CellIdentifier = [ProductDetailCell getCellIdentifier];
+         ProductDetailCell* productCell = (ProductDetailCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (productCell == nil) {
+            productCell = [ProductDetailCell createCell:self];
         }
 
-        self.imageView = [[[HJManagedImageV alloc] init] autorelease];
-//        CGRect frame = CGRectMake(10, 10, cell.contentView.frame.size.width - 10, cell.contentView.frame.size.height-10);
-        CGRect frame = CGRectMake(5, 5, cell.contentView.frame.size.width - 100, cell.contentView.frame.size.height );
-        imageView.frame = frame;
-        imageView.tag = IMAGE_VIEW_TAG;
-        imageView.backgroundColor = [UIColor clearColor];
-        imageView.callbackOnSetImage = self;
-        [cell.contentView addSubview:imageView];
-        cell.contentView.backgroundColor = [UIColor clearColor];
+        [productCell setCellInfo:product];
+        productCell.productDetailCellDelegate = self;
+        cell = productCell;
 
-        [imageView clear];
-        imageView.url = [NSURL URLWithString:product.image];
-        [GlobalGetImageCache() manage:imageView];
 
     }
     else{
@@ -398,44 +417,26 @@ enum {
         if (cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];				
             cell.selectionStyle = UITableViewCellSelectionStyleNone;	
-            
         }
+        [cell.textLabel setTextColor:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0]];
+        [cell.textLabel setFont:[UIFont systemFontOfSize:12]];
     }
 
-    cell.textLabel.font = INFO_FONT;
     cell.textLabel.numberOfLines = 100;
     cell.accessoryType = UITableViewCellAccessoryNone;
     
 	switch (indexPath.section) {
         case SECTION_TITLE:
         {            
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", product.siteName, product.title];
+            cell.textLabel.text = [NSString stringWithFormat:@"%@\n来自: %@", product.title, product.siteName];
+
         }
             break;
-            
-        case SECTION_IMAGE:
-        {
-            
-        }
-            break;
-            
-        case SECTION_PRICE:
-        {
-            cell.textLabel.text = [NSString stringWithFormat:@"价格 %@  折扣 %@  原价 %@  销量 %@", 
-                                   [product.price description], [product.rebate description],
-                                   [product.value description], [product.bought description]];
-        }
-            break;
-            
-        case SECTION_DESC:
-        {
-            cell.textLabel.text = [self getDesc];
-        }
-            break;
+
             
         case SECTION_DATE:
         {
-            cell.textLabel.text = [NSString stringWithFormat:@"开始时间 : %@\n结束时间 : %@", 
+            cell.textLabel.text = [NSString stringWithFormat:@"从 %@ 至 %@", 
                                    dateToStringByFormat(product.startDate, @"YYYY-MM-dd HH:mm:ss"), dateToStringByFormat(product.endDate, @"YYYY-MM-dd HH:mm:ss")];
         }
             break;
@@ -467,7 +468,8 @@ enum {
         default:
             break;
     }
-    
+    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor clearColor];
     
     return cell;
 	
@@ -510,9 +512,7 @@ enum {
         ShowAddressViewController *savc = [[ShowAddressViewController alloc]initWithLocationArray:locationArray addressList:addressArray];
         [self.navigationController pushViewController:savc animated:YES];
         [savc release];
-////        AddressListViewController *avc = [[AddressListViewController alloc]initWithLocationArray:locationArray aAddressList:addressArray];
-//        [self.navigationController pushViewController:avc animated:YES];
-//        [avc release];
+
     }
     
 }
@@ -521,10 +521,8 @@ enum {
 
 - (IBAction)clickBuy:(id)sender
 {
-//    TTWebController* webController = GlobalGetWebController();
-//    [self.navigationController pushViewController:webController animated:YES];
-//    [webController openURL:[NSURL URLWithString:product.loc]];
-    
+
+    [self.buyButton setSelected:YES];
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_BUY actionValue:1];
     [GroupBuyReport reportClickBuyProduct:product];
     [self gotoBuy];
@@ -532,6 +530,7 @@ enum {
 
 - (IBAction)clickSave:(id)sender
 {
+    [self.savaButton setSelected:YES];
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
     [GroupBuyReport reportClickSaveProduct:product];
     if ([ProductManager createProductForFavorite:product]){
@@ -542,28 +541,28 @@ enum {
 - (IBAction)clickForward:(id)sender
 {
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_FORWARD actionValue:1];
-//    [GroupBuyReport reportClickForwardProduct:product];
-    
+    [self.forwardButton setSelected:YES];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLS(@"取消") destructiveButtonTitle:nil otherButtonTitles:NSLS(@"短信转发"), NSLS(@"邮件转发"), nil];
     
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
     [actionSheet release];
-
+    
     
 }
 
-- (IBAction)clickUp:(id)sender
+- (void)clickUp:(id)sender
 {
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_UP actionValue:1 viewController:self];
 }
 
-- (IBAction)clickDown:(id)sender
+- (void)clickDown:(id)sender
 {
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_DOWN actionValue:1 viewController:self];
 }
 
 - (IBAction)clickComment:(id)sender
 {
+    [self.commetButton setSelected:YES];
     ProductCommentsController *controller = [[ProductCommentsController alloc] init];
     controller.productId = self.product.productId;
     [self.navigationController pushViewController:controller animated:YES];
@@ -572,12 +571,18 @@ enum {
 
 - (void)actionOnProductFinish:(int)result actionName:(NSString *)actionName count:(long)count
 {
-    if ([PRODUCT_ACTION_UP isEqualToString:actionName]) {
-        self.upLabel.text = [NSString stringWithFormat:@"%i", count];
-        self.product.up = [NSNumber numberWithLong:count];
-    } else if ([PRODUCT_ACTION_DOWN isEqualToString:actionName]) {
-        self.downLabel.text = [NSString stringWithFormat:@"%i", count];
-        self.product.down = [NSNumber numberWithLong:count];
+
+    
+    if ([PRODUCT_ACTION_UP isEqualToString:actionName] || [PRODUCT_ACTION_DOWN isEqualToString:actionName]) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:SECTION_IMAGE];
+        ProductDetailCell *cell = (ProductDetailCell *)[self.dataTableView cellForRowAtIndexPath:indexPath];
+        if ([PRODUCT_ACTION_UP isEqualToString:actionName] ) {
+            cell.upLabel.text = [NSString stringWithFormat:@"%i", count];
+            self.product.up = [NSNumber numberWithLong:count];
+        }else{
+            cell.downLabel.text = [NSString stringWithFormat:@"%i", count];
+            self.product.down = [NSNumber numberWithLong:count];
+        }
     }
 }
 

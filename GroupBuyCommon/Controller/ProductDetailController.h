@@ -10,10 +10,11 @@
 #import "PPTableViewController.h"
 #import "HJManagedImageV.h"
 #import "ProductService.h"
+#import "ProductDetailCell.h"
 
 @class Product;
 
-@interface ProductDetailController : PPTableViewController <HJManagedImageVDelegate, UIActionSheetDelegate, ProductServiceDelegate> {
+@interface ProductDetailController : PPTableViewController <HJManagedImageVDelegate, UIActionSheetDelegate, ProductServiceDelegate, ProductDetailCellDelegate> {
     Product *product;
     UILabel *priceLabel;
     UILabel *rebateLabel;
@@ -22,7 +23,6 @@
     
     UILabel *upLabel;
     UILabel *downLabel;
-    
     HJManagedImageV *imageView;
 }
 
@@ -31,9 +31,12 @@
 @property (nonatomic, retain) IBOutlet UILabel *rebateLabel;
 @property (nonatomic, retain) IBOutlet UILabel *saveLabel;
 @property (nonatomic, retain) IBOutlet UILabel *boughtLabel;
+@property (retain, nonatomic) IBOutlet UIButton *buyButton;
 
-@property (nonatomic, retain) IBOutlet UILabel *upLabel;
-@property (nonatomic, retain) IBOutlet UILabel *downLabel;
+@property (retain, nonatomic) IBOutlet UIButton *savaButton;
+@property (retain, nonatomic) IBOutlet UIButton *forwardButton;
+@property (retain, nonatomic) IBOutlet UIButton *commetButton;
+
 
 @property (nonatomic, retain) HJManagedImageV *imageView;
 
@@ -41,8 +44,6 @@
 - (IBAction)clickSave:(id)sender;
 - (IBAction)clickForward:(id)sender;
 
-- (IBAction)clickUp:(id)sender;
-- (IBAction)clickDown:(id)sender;
 - (IBAction)clickComment:(id)sender;
 
 + (void)showProductDetail:(Product*)product navigationController:(UINavigationController*)navigationController isCreateHistory:(BOOL)isCreateHistory;
