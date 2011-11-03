@@ -113,7 +113,7 @@
         
         // add badge view
         if ([v.tabBarItem.badgeValue length] > 0){
-            UIBadgeView *badgeView = [[UIBadgeView alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+            UIBadgeView *badgeView = [[UIBadgeView alloc] initWithFrame:CGRectMake(40, 0, 30, 20)];
             badgeView.badgeString = v.tabBarItem.badgeValue;
             badgeView.badgeColor = [UIColor redColor];
             badgeView.tag = btn.tag + TAB_BADGEVIEW_OFFSET;
@@ -203,7 +203,7 @@
         if (b.tag == tag) {
             UIBadgeView *view = (UIBadgeView*)[b viewWithTag:(tag + TAB_BADGEVIEW_OFFSET)];
             if (view == nil) {
-                view = [[UIBadgeView alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+                view = [[UIBadgeView alloc] initWithFrame:CGRectMake(40, 0, 30, 20)];
                 view.tag = tag + TAB_BADGEVIEW_OFFSET;
                 [view setBadgeString:value];
                 view.badgeColor = [UIColor redColor];
