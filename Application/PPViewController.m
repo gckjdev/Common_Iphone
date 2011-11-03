@@ -148,6 +148,29 @@
 	[barButtonItem release];
 }
 
+- (void)setNavigationRightButton:(NSString*)title imageName:(NSString*)imageName action:(SEL)action hasEdgeInSet:(BOOL)hasEdgeInSet
+{
+    UIButton* button = [self createButtonWithTitle:title imageName:imageName target:self action:action];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(INSET_TOP, 0, 0, INSET_LEFT)];
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(INSET_TOP, 0, 0, INSET_LEFT)];
+    
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];	
+	self.navigationItem.rightBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
+- (void)setNavigationRightButton:(NSString*)title image:(UIImage*)strectableImage action:(SEL)action hasEdgeInSet:(BOOL)hasEdgeInSet
+{
+    UIButton* button = [self createButtonWithTitle:title imageName:nil target:self action:action];    
+    [button setContentEdgeInsets:UIEdgeInsetsMake(INSET_TOP, 0, 0, INSET_LEFT)];
+    [button setBackgroundImage:strectableImage forState:UIControlStateNormal];
+    
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];	
+	self.navigationItem.rightBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
+
 - (void)setNavigationRightButton:(NSString*)title action:(SEL)action
 {
 	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:action];

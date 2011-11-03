@@ -75,7 +75,7 @@
     [self setBackgroundImageName:@"background.png"];
     [super viewDidLoad];
 
-    UIImage* buttonImage = [[UIImage imageNamed:@"tu_48.png"] stretchableImageWithLeftCapWidth:1 
+    UIImage* buttonImage = [[UIImage imageNamed:@"tu_188.png"] stretchableImageWithLeftCapWidth:1 
                                                                                   topCapHeight:0];
     [self.searchButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     

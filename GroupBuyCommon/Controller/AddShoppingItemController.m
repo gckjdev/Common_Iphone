@@ -214,10 +214,16 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    
+    [self setBackgroundImageName:@"background.png"];
+    
     [super viewDidLoad];
     
-    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
-    [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
+//    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
+    [self setNavigationLeftButton:nil imageName:@"tu_63.png" action:@selector(clickBack:) hasEdgeInSet:YES];
+    UIImage* barButtonImage = [[UIImage imageNamed:@"tu_72.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:0];
+    [self setNavigationRightButton:@"保存" image:barButtonImage action:@selector(clickSave:) hasEdgeInSet:YES];
+//    [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
     
     [self activateKeyboardNumberPadReturn];
     
