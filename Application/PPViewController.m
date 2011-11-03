@@ -148,6 +148,39 @@
 	[barButtonItem release];
 }
 
+- (void)setNavigationTitleWithTitle:(NSString *)title fontSize:(CGFloat)fontSize 
+                          textColor:(UIColor *)textColor yOffset:(CGFloat)offset
+{
+    CGFloat width = self.navigationController.navigationBar.frame.size.width;
+    CGFloat height = self.navigationController.navigationBar.frame.size.height;
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, offset, width, height)];
+    
+    [titleLabel setBackgroundColor:[UIColor clearColor]];
+    [titleLabel setTextAlignment:UITextAlignmentCenter];
+    [titleLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    [titleLabel setText:title];
+    [titleLabel setTextColor:textColor];
+    [self.navigationItem setTitleView:titleLabel];
+    [titleLabel release];
+ 
+}
+
+- (void)setNavigationLeftButtonWithCustomView:(UIView *)customView
+{
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customView];
+	self.navigationItem.leftBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
+- (void)setNavigationRightButtonWithCustomView:(UIView *)customView
+{
+	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customView];
+	self.navigationItem.rightBarButtonItem = barButtonItem;
+	[barButtonItem release];
+}
+
+
 - (void)setNavigationRightButton:(NSString*)title action:(SEL)action
 {
 	UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:action];
