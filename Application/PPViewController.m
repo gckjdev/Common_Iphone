@@ -15,6 +15,8 @@
 #import "StringUtil.h"
 #import "TKAlertCenter.h"
 #import "UIBlankView.h"
+#import "UIImageUtil.h"
+
 //#import "PPSegmentControl.h"
 @implementation PPViewController
 
@@ -864,11 +866,11 @@
 - (void)setGroupBuyNavigationRightButton:(NSString*)buttonTitle action:(SEL)action
 {
     int extraWidth = 20;
-    int width = 15/2;
+//    int width = 15/2;
     
     // TODO cache the image for better performance
-    UIImage* buttonImage1 = [[UIImage imageNamed:@"tu_72.png"] stretchableImageWithLeftCapWidth:width topCapHeight:0];
-    UIImage* buttonImage2 = [[UIImage imageNamed:@"tu_82.png"] stretchableImageWithLeftCapWidth:width topCapHeight:0];    
+    UIImage* buttonImage1 = [UIImage strectchableImageName:@"tu_72.png"];
+    UIImage* buttonImage2 = [UIImage strectchableImageName:@"tu_82.png"];    
     
     int fontSize = 12;
     UIFont* font = [UIFont systemFontOfSize:fontSize];

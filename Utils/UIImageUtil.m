@@ -11,6 +11,23 @@
 
 @implementation UIImage (UIImageUtil)
 
+- (UIImage*)defaultStretchableImage
+{
+    return [self stretchableImageWithLeftCapWidth:self.size.width/2 topCapHeight:0];
+}
+
++ (UIImage*)strectchableImageName:(NSString*)name
+{
+    UIImage* image = [UIImage imageNamed:name];
+    return [image defaultStretchableImage];
+}
+
++ (UIImage*)strectchableImageName:(NSString*)name leftCapWidth:(int)leftCapWidth
+{
+    UIImage* image = [UIImage imageNamed:name];
+    return [image stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:0];
+}
+
 - (BOOL)saveImageToFile:(NSString*)fileName
 {
 	// Create paths to output images
