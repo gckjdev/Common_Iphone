@@ -11,6 +11,6 @@
 
 @interface PPViewController (GroupBuyControllerExt) 
 
-
++ (UIView*)groupbuyAccessoryView;
 
 @end
