@@ -173,7 +173,7 @@
         case ShoppingItemCountNew:
         {    
             [cell.loadingIndicator stopAnimating];
-            cell.matchCountLabel.text = [NSString stringWithFormat:@"团 (%d)",matchCount];
+            cell.matchCountLabel.text = [NSString stringWithFormat:@"%d",matchCount];
             cell.matchCountLabel.textColor = [UIColor redColor];
             [cell.matchCountLabel setHidden:NO];
             
@@ -183,7 +183,7 @@
         case ShoppingItemCountOld:
         {
             [cell.loadingIndicator stopAnimating];
-            cell.matchCountLabel.text = [NSString stringWithFormat:@"团 (%d)",matchCount];
+            cell.matchCountLabel.text = [NSString stringWithFormat:@"%d",matchCount];
             cell.matchCountLabel.textColor = [UIColor blackColor];
             [cell.matchCountLabel setHidden:NO];
             
@@ -290,7 +290,7 @@
     }else{
         [self.addShoppingItemController updateCellWithItem:nil];
     }
-    self.addShoppingItemController.navigationItem.title = @"添加感兴趣的团购";
+    [self.addShoppingItemController setGroupBuyNavigationTitle:@"添加感兴趣的团购"];
     [self.navigationController pushViewController:self.addShoppingItemController animated:YES];
 }
 
@@ -304,7 +304,7 @@
     }else{
         [self.addShoppingItemController updateCellWithItem:item];
     }
-    self.addShoppingItemController.navigationItem.title = @"编辑团购项";
+    [self.addShoppingItemController setGroupBuyNavigationTitle:@"编辑团购项"];
     [self.navigationController pushViewController:self.addShoppingItemController animated:YES];
 }
 

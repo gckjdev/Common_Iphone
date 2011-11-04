@@ -31,32 +31,30 @@ CategoryManager*    manager;
 - (void)initData
 {
 	NSArray* food = [NSArray arrayWithObjects:
-                     @"粤菜", @"川菜", @"东北菜",
-                     @"湘菜", @"寿司", @"韩国料理",
-                     @"火锅", @"西餐", @"自助餐", nil];
+                     @"粤菜", @"东北菜", @"川菜", @"湘菜", 
+                     @"寿司", @"自助餐", @"韩国料理",@"火锅", @"西餐", 
+                     nil];
     
 	NSArray* shopping = [NSArray arrayWithObjects:
-                         @"代金券", @"抽奖秒杀", @"食品",
-                         @"酒",@"茶",@"相机",
-                         @"家电",@"电脑",@"手机",                         
-                         nil];
+                                @"食品", @"代金券",@"酒",
+                         @"电脑", @"相机",@"抽奖秒杀", @"茶",
+                         @"手机",@"家电",nil];
     
 	NSArray* fun = [NSArray arrayWithObjects:
-                    @"KTV",@"电影票",@"游戏币",
-                    @"咖啡厅",@"酒吧",@"桌游",
-                    @"棋牌", @"足疗按摩", @"桑拿水疗",
+                           @"电影票",@"桑拿水疗",@"KTV", 
+                    @"桌游",@"游戏币",@"足疗按摩",@"酒吧",  
+                    @"棋牌",@"咖啡厅",
                     nil];
     
 	NSArray* travel = [NSArray arrayWithObjects:
-                       @"北京游",@"云南游",@"九寨沟",
-                       @"海南游",@"香港游",@"欧洲游",
-                       @"日本游",@"澳大利亚",@"马尔代夫",
+                       @"北京游",@"澳大利亚",@"云南游",@"九寨沟",
+                       @"海南游",@"马尔代夫",@"香港游",@"欧洲游",
+                       @"日本游",
                        nil];
     
 	NSArray* hotel = [NSArray arrayWithObjects:
-                      @"经济型",@"公寓",@"度假村",
-                      @"三星级",@"四星级",@"五星级",
-                      @"七天",nil];
+                             @"三星级",@"四星级",@"五星级",
+                      @"七天",@"经济型",@"度假村",@"公寓",nil];
     
 //	NSArray* luckyDraw = [NSArray arrayWithObjects:
 //                          @"iPhone",@"iPad",@"小米手机",
@@ -64,35 +62,35 @@ CategoryManager*    manager;
 //                          nil];
     
 	NSArray* sport = [NSArray arrayWithObjects:
-                      @"健身",@"游泳",@"瑜伽",
-                      @"羽毛球",@"乒乓球",@"网球",
-                      @"桌球",@"保龄球", @"篮球",
+                               @"羽毛球",@"健身",@"游泳",
+                      @"瑜伽", @"乒乓球",@"网球",@"桌球",
+                      @"篮球", @"保龄球", 
                       nil];
 	
 	NSArray* life = [NSArray arrayWithObjects:
-                     @"美发", @"照片冲印", @"洗车",
-                     @"摄影写真", @"儿童写真", @"口腔护理",
-                     @"体检", @"培训", @"报刊杂志",
+                            @"摄影写真", @"照片冲印", @"体检",  
+                     @"洗车",@"口腔护理",@"报刊杂志", @"美发", 
+                     @"培训",@"儿童写真",
                      nil];
     
     NSArray* face = [NSArray arrayWithObjects:
-                     @"化妆品", @"美发", @"美容SPA", 
-                     @"瘦身纤体", @"美甲", @"艺术写真",
-                     @"瑜伽", @"舞蹈",
+                            @"美容SPA", @"化妆品", @"美发",
+                     @"瑜伽", @"瘦身纤体",  @"艺术写真",@"美甲", 
+                     @"舞蹈",
                      nil];
     
     NSArray* buy2 = [NSArray arrayWithObjects:
-                     @"T恤", @"衬衫", @"裤子",
-                     @"内裤", @"文胸", @"裙子", 
-                     @"连衣裙", @"鞋", @"袜子", 
+                            @"T恤", @"衬衫", @"裤子",
+                     @"内裤", @"文胸", @"裙子", @"连衣裙",
+                     @"袜子", @"鞋", 
                      nil];
     
 	//self.subCategories = [[NSArray alloc] initWithObjects:foods,nil];
 	//[NSDictionary alloc] initWithObjects:
 	categories = [[NSArray alloc] initWithObjects:
-                       FOOD, BUY2, FUN,
-                       TRAVEL, HOTEL, SPORTS,
-                       FACE, SHOPPING, LIFE,
+                       FOOD, BUY2, FUN, HOTEL,
+                       TRAVEL,  SPORTS,LIFE,
+                       FACE, SHOPPING, 
                        nil ];
 	
 	subCateogriesDict = [[NSDictionary alloc] initWithObjectsAndKeys:

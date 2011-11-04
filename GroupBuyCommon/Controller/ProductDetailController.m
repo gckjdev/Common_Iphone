@@ -415,7 +415,7 @@ enum {
         case SECTION_SHOP_ADDRESS:
         {
             cell.textLabel.text = [self getAddress];           
-            if ([cell.textLabel.text length] > 0)
+            if ([[self.product addressArray] count] > 0)
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
             break;
@@ -432,7 +432,7 @@ enum {
         case SECTION_TEL:
         {
             cell.textLabel.text = [self getTel]; 
-            if ([cell.textLabel.text length] > 0)
+            if ([[self.product telArray] count] > 0)
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
             
@@ -470,19 +470,14 @@ enum {
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-    if (indexPath.section == SECTION_MORE || 
-        indexPath.section == SECTION_TITLE || 
-        indexPath.section == SECTION_IMAGE){
+    
+    if (indexPath.section == SECTION_MORE) {
         [GroupBuyReport reportClickShowProductMore:product];
         [self gotoBuy];
     }else if(indexPath.section == SECTION_TEL){
         NSArray *telArr = [product telArray];
-        if(telArr == nil || [telArr count] == 0)
+        if(telArr && [telArr count] > 0)
         {
-            [GroupBuyReport reportClickShowProductMore:product];
-            [self gotoBuy];
-        }else{
             TelPickerViewController *tvc = [[TelPickerViewController alloc] initWithTelArray:telArr];
             [tvc enableGroupBuySettings];
             [self.navigationController pushViewController:tvc animated:YES];
@@ -492,12 +487,41 @@ enum {
     {
         NSArray *locationArray = [product gpsArray];
         NSArray *addressArray = [product addressArray];
-        ShowAddressViewController *savc = [[ShowAddressViewController alloc]initWithLocationArray:locationArray addressList:addressArray];
-        [savc enableGroupBuySettings];
-        [self.navigationController pushViewController:savc animated:YES];
-        [savc release];
-
+        if (addressArray && [addressArray count] > 0) {
+            ShowAddressViewController *savc = [[ShowAddressViewController alloc]initWithLocationArray:locationArray addressList:addressArray];
+            [savc enableGroupBuySettings];
+            [self.navigationController pushViewController:savc animated:YES];
+            [savc release];            
+        }
     }
+	
+//    if (indexPath.section == SECTION_MORE || 
+//        indexPath.section == SECTION_TITLE || 
+//        indexPath.section == SECTION_IMAGE){
+//        [GroupBuyReport reportClickShowProductMore:product];
+//        [self gotoBuy];
+//    }else if(indexPath.section == SECTION_TEL){
+//        NSArray *telArr = [product telArray];
+//        if(telArr == nil || [telArr count] == 0)
+//        {
+//            [GroupBuyReport reportClickShowProductMore:product];
+//            [self gotoBuy];
+//        }else{
+//            TelPickerViewController *tvc = [[TelPickerViewController alloc] initWithTelArray:telArr];
+//            [self.navigationController pushViewController:tvc animated:YES];
+//            [tvc release];
+//        }
+//    }else if(indexPath.section == SECTION_SHOP_ADDRESS)
+//    {
+//        NSArray *locationArray = [product gpsArray];
+//        NSArray *addressArray = [product addressArray];
+//        if (addressArray && [addressArray count] > 0) {
+//            ShowAddressViewController *savc = [[ShowAddressViewController alloc]initWithLocationArray:locationArray addressList:addressArray];
+//            [self.navigationController pushViewController:savc animated:YES];
+//            [savc release];
+//        }
+//
+//    }
     
 }
 
@@ -506,7 +530,7 @@ enum {
 - (IBAction)clickBuy:(id)sender
 {
 
-    [self.buyButton setSelected:YES];
+
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_BUY actionValue:1];
     [GroupBuyReport reportClickBuyProduct:product];
     [self gotoBuy];
@@ -514,7 +538,7 @@ enum {
 
 - (IBAction)clickSave:(id)sender
 {
-    [self.savaButton setSelected:YES];
+
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
     [GroupBuyReport reportClickSaveProduct:product];
     if ([ProductManager createProductForFavorite:product]){
@@ -525,7 +549,6 @@ enum {
 - (IBAction)clickForward:(id)sender
 {
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_FORWARD actionValue:1];
-    [self.forwardButton setSelected:YES];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLS(@"取消") destructiveButtonTitle:nil otherButtonTitles:NSLS(@"短信转发"), NSLS(@"邮件转发"), nil];
     
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
@@ -546,7 +569,6 @@ enum {
 
 - (IBAction)clickComment:(id)sender
 {
-    [self.commetButton setSelected:YES];
     ProductCommentsController *controller = [[ProductCommentsController alloc] init];
     controller.productId = self.product.productId;
     [self.navigationController pushViewController:controller animated:YES];
