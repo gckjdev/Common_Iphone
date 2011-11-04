@@ -40,9 +40,11 @@
         return nil;
     }
     
-    ((ShoppingListCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
-    
-    return (ShoppingListCell*)[topLevelObjects objectAtIndex:0];
+    ShoppingListCell *cell = ((ShoppingListCell*)[topLevelObjects objectAtIndex:0]);
+    cell.delegate = delegate;
+    UIImage *bgImage = [[UIImage imageNamed:@"tu_126-53.png"]stretchableImageWithLeftCapWidth:7.5 topCapHeight:0];
+    [cell.editButton setBackgroundImage:bgImage forState:UIControlStateNormal];
+    return cell;
 }
 
 

@@ -35,6 +35,8 @@
     
     ShoppingKeywordCell* cell = (ShoppingKeywordCell*)[topLevelObjects objectAtIndex:0]; 
     cell.delegate = delegate;
+    UIImage *image = [[UIImage imageNamed:@"tu_39.png"]stretchableImageWithLeftCapWidth:8.5 topCapHeight:0];
+    [cell.keywordTextField setBackground:image];
     return cell;
 }
 

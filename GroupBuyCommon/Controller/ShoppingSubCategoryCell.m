@@ -8,6 +8,9 @@
 
 #import "ShoppingSubCategoryCell.h"
 
+#ifndef DEFAULT_COLOR
+#define DEFAULT_COLOR ([UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0])
+#endif
 
 @implementation ShoppingSubCategoryCell
 
@@ -46,7 +49,7 @@
 
 + (CGFloat)getCellHeight
 {
-    return 90.0f;
+    return 130.0f;
 }
 
 - (void) updateAllButtonLabelsWithArray:(NSArray*)labels
@@ -82,11 +85,13 @@
 		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
 		if([button.currentTitle isEqualToString:selectedLabel])
 		{
-			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            UIImage *bgImage = [[UIImage imageNamed:@"tu_126-53.png"]stretchableImageWithLeftCapWidth:7.5 topCapHeight:0];
+            [button setBackgroundImage:bgImage forState:UIControlStateNormal];
 		}
         else{
-			[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
-			
+			[button setTitleColor:DEFAULT_COLOR forState:UIControlStateNormal]; 
+            [button setBackgroundImage:nil forState:UIControlStateNormal];   
 		}
 	}    
 }
@@ -100,11 +105,13 @@
 		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
 		if([selectedLabels containsObject:button.currentTitle])
 		{
-			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            UIImage *bgImage = [[UIImage imageNamed:@"tu_126-53.png"]stretchableImageWithLeftCapWidth:7.5 topCapHeight:0];
+            [button setBackgroundImage:bgImage forState:UIControlStateNormal];
 		}
         else{
-			[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
-			
+			[button setTitleColor:DEFAULT_COLOR forState:UIControlStateNormal]; 
+            [button setBackgroundImage:nil forState:UIControlStateNormal];   
 		}
 	}    
 
@@ -119,11 +126,13 @@
 		UIButton* button = (UIButton*)[self viewWithTag:i+START_TAG];
 		if([button.currentTitle isEqualToString:selectedLabel])
 		{
-			[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal]; 
-		}else
-		{
-			[button setTitleColor:[UIColor colorWithRed:0.196 green:0.3098 blue:0.52 alpha:1.0] forState:UIControlStateNormal]; 
-			
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            UIImage *bgImage = [[UIImage imageNamed:@"tu_126-53.png"]stretchableImageWithLeftCapWidth:7.5 topCapHeight:0];
+            [button setBackgroundImage:bgImage forState:UIControlStateNormal];
+		}
+        else{
+			[button setTitleColor:DEFAULT_COLOR forState:UIControlStateNormal]; 
+            [button setBackgroundImage:nil forState:UIControlStateNormal];   
 		}
 		
 		[button addTarget:self.delegate action:selector forControlEvents:UIControlEventTouchUpInside];
