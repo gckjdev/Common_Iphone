@@ -24,4 +24,12 @@
 - (UIToolbar*)addToolbar:(NSArray*)barButtons autoAddSpaceButton:(BOOL)autoAddSpaceButton;
 - (void)removeToolbar;
 
+- (void)setCellBackgroundForRow:(int)row 
+                       rowCount:(int)count 
+                singleCellImage:(NSString*)singleCellImageName
+                 firstCellImage:(NSString*)firstCellImageName
+                middleCellImage:(NSString*)middleCellImageName
+                  lastCellImage:(NSString*)lastCellImageName
+                      cellWidth:(int)cellWidth;
+
 @end

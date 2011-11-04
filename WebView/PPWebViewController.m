@@ -10,6 +10,9 @@
 @synthesize reloadButton;
 @synthesize loadActivityIndicator;
 @synthesize request;
+@synthesize backAction;
+@synthesize superViewController;
+
 -(id)init
 {
     self = [super init];
@@ -23,6 +26,7 @@
 
 - (void)dealloc
 {
+    [superViewController release];
     [webView release];
     [toolbar release];
     [forwardButton release];
@@ -47,6 +51,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    self.view.backgroundColor = [UIColor clearColor];
     
     [super viewDidLoad];
     [self.webView setScalesPageToFit:YES];
@@ -80,6 +85,7 @@
 
 - (void)viewDidUnload
 {
+    [self setSuperViewController:nil];
     [self setWebView:nil];
     [self setToolbar:nil];
     [self setForwardButton:nil];
@@ -114,8 +120,12 @@
     [self.webView reload];
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)requestURL navigationType:(UIWebViewNavigationType)navigationType{
 
+//    if ([[[requestURL URL] description] rangeOfString:@"tel"].location != NSNotFound){
+//        [UIUtils makeCall:[[requestURL URL] description]];
+//        return NO;
+//    }
     
     return YES;
 }
@@ -156,6 +166,7 @@
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    NSLog(@"web view didFailLoadWithError error = %@ ", [error description]);
     [self hideActivity];
     if (loadActivityIndicator.superview)
         [loadActivityIndicator removeFromSuperview];
@@ -166,6 +177,25 @@
     PPWebViewController *webController = [[[PPWebViewController alloc] init] autorelease];
     [superController.navigationController pushViewController:webController animated:YES];    
     [webController openURL:url];
+}
+
+#define WEB_VIEW_FRAME   CGRectMake(8, 8, 304, 480-44-20-8-55-5)
+
+- (void)enableGroupBuySettings
+{
+    webView.frame = WEB_VIEW_FRAME;
+    webView.backgroundColor = [UIColor clearColor];
+    
+    [self setGroupBuyNavigationBackButton];
+    [self setBackgroundImageName:@"background.png"];
+    [self setGroupBuyNavigationTitle:@"商品主页"];
+}
+
+- (IBAction)clickBack:(id)sender
+{
+    if (self.backAction){
+        self.backAction(superViewController);
+    }
 }
 
 @end

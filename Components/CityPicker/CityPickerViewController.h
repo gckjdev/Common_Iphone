@@ -11,6 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CityPickerManager.h"
+#import "PPTableViewController.h"
 
 @protocol CityPickerDelegate <NSObject>
 
@@ -19,7 +20,7 @@
 @end
 
 
-@interface CityPickerViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>{
+@interface CityPickerViewController : PPTableViewController <UITableViewDelegate,UITableViewDataSource>{
     UITableView *cityTableView;
     CityPickerManager *cityPickerManager;
     UIBarButtonItem *leftButton;
@@ -35,10 +36,13 @@
 @property (nonatomic, retain) NSString *selectedCity;
 @property (nonatomic, retain) NSString *defaultCity;
 @property (nonatomic, retain) id<CityPickerDelegate>delegate;
-
+@property (nonatomic, assign) BOOL useForGroupBuy;
 
 - (id)initWithCityName:(NSString *)cityName hasLeftButton:(BOOL) hasLeftButton;
 - (NSIndexPath *)indexPathForCity:(NSString *)cityName;
 - (void)onclickBack:(id)sender;
 - (void)onclickConfirm:(id)sender;
+
+- (void)enableGroupBuySettings;
+
 @end

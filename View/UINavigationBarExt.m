@@ -8,12 +8,35 @@
 
 #import "UINavigationBarExt.h"
 #import "StringUtil.h"
+#import "DeviceDetection.h"
 
 NSMutableDictionary* barBackgroundName;
 NSString* navigationBarBackgroundName;
 
+void clearNavBarBackground()
+{
+    if ([DeviceDetection isOS5]){
+        [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+        return;
+    }
+    else{
+        
+    }
+}
+
+void activateNavBarBackground()
+{
+    
+}
+
 void GlobalSetNavBarBackground(NSString* imageName)
 {
+    if ([DeviceDetection isOS5]){
+        UIImage* image = [UIImage imageNamed:imageName];
+        [[UINavigationBar appearance] setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        return;
+    }
+    
 	if (navigationBarBackgroundName == imageName)
 		return;
 	

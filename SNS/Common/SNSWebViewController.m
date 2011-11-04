@@ -43,9 +43,21 @@
 
 #pragma mark - View lifecycle
 
+#define WEB_VIEW_FRAME   CGRectMake(7, 8, 320-7*2, 480-44-20-8-55-8)
+
+- (void)enableGroupBuySettings
+{
+    webView.frame = WEB_VIEW_FRAME;
+    webView.backgroundColor = [UIColor clearColor];
+    
+    [self setGroupBuyNavigationBackButton];
+    [self setBackgroundImageName:@"background.png"];
+    [self setGroupBuyNavigationTitle:@"微博授权"];
+}
+
 - (void)viewDidLoad
 {
-    
+    [self enableGroupBuySettings];
     [super viewDidLoad];
     [webView loadRequest:[NSURLRequest requestWithURL:url]];
     

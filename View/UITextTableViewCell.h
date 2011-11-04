@@ -10,7 +10,7 @@
 
 #define kUITextTableViewCellReduceLength 12
 
-#define kLeftLabelWidth				1				// The indent between table and text field
+#define kLeftLabelWidth				5				// The indent between table and text field
 
 #define kUITextTableViewFontSize	14				// font size in TEXT FIELD
 

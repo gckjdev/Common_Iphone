@@ -39,5 +39,6 @@
 @property (nonatomic, assign) BOOL		isNumber;
 @property (nonatomic, assign) BOOL      allowNull;
 @property (nonatomic, assign) BOOL      hasSendButton;
+@property (nonatomic, assign) BOOL      noRoundRect;
 
 @end

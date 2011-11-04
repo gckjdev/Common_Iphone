@@ -20,6 +20,7 @@
 @synthesize textView;
 @synthesize hasSendButton;
 @synthesize allowNull;
+@synthesize noRoundRect;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -37,17 +38,26 @@
 	
 	if (isSingleLine){
 		CGRect rect = textView.frame;
-		rect.size.height = 135;
+		rect.size.height = 150;
 		textView.frame = rect;
 	}
+    
 	if (isNumber){
 		textView.keyboardType = UIKeyboardTypeNumberPad;
 	}
-	[textView setRoundRectStyle];	
+    
+    if (noRoundRect == NO){
+        [textView setRoundRectStyle];	
+    }
+    else{
+        textView.backgroundColor = [UIColor clearColor];
+    }
 	
     [super viewDidLoad];
 	
-    [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
+    if (self.navigationItem.leftBarButtonItem == nil){
+        [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
+    }
     
     if (hasSendButton){
         [self setNavigationRightButton:NSLS(@"Send") action:@selector(clickSend:)];

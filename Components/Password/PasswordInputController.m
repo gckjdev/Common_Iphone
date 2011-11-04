@@ -9,6 +9,8 @@
 #import "PasswordInputController.h"
 #import "UITextTableViewCell.h"
 #import "PPApplication.h"
+#import "UIImageUtil.h"
+#import "UITableViewCellUtil.h"
 
 #define kRowPasswordOne		0
 #define kRowPasswordTwo		1
@@ -27,7 +29,7 @@
 @synthesize password;
 @synthesize oldPassword;
 @synthesize delegate;
-
+@synthesize buttonBackgroundImage;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -77,6 +79,16 @@
 		[self.button2 addTarget:self action:@selector(clickHelp:) forControlEvents:UIControlEventTouchUpInside];
 	}
 				
+    if (buttonBackgroundImage){
+        UIImage* image = [UIImage strectchableImageName:buttonBackgroundImage];
+        [self.button1 setBackgroundImage:image forState:UIControlStateNormal];
+        [self.button2 setBackgroundImage:image forState:UIControlStateNormal];
+    }
+    
+    if (!CGRectIsEmpty(self.tableViewFrame)){
+        self.dataTableView.frame = self.tableViewFrame;
+    }
+    
     [super viewDidLoad];
 }
 
@@ -109,6 +121,7 @@
 
 
 - (void)dealloc {
+    [buttonBackgroundImage release];
     [oldPasswordTextField release];
     [oldPassword release];
 	[passwordTextField release];
@@ -121,6 +134,18 @@
 
 #pragma mark Table View Delegate
 
+- (void)setCellBackgroundFirstCellImage:(NSString*)firstCellImageName
+                        middleCellImage:(NSString*)middleCellImageName
+                          lastCellImage:(NSString*)lastCellImageName
+{
+    self.firstCellImageName = firstCellImageName;    
+    self.middleCellImageName = middleCellImageName;    
+    self.lastCellImageName = lastCellImageName;
+    
+    cellImageHeight = [UIImage strectchableImageName:firstCellImageName].size.height;
+}
+
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
 	NSString *sectionHeader = @"";		
@@ -129,7 +154,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 45;
+    if (cellImageHeight > 0.0f)
+        return cellImageHeight;
+    else
+        return 44;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -154,7 +182,7 @@
     }
 }
 
-- (UITextTableViewCell*)createPasswordCell:(NSString*)CellIdentifier
+- (UITextTableViewCell*)createPasswordCell:(NSString*)CellIdentifier row:(int)row
 {
     UITextTableViewCell* cell = (UITextTableViewCell*)[dataTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
@@ -177,7 +205,9 @@
         
         cell.textField.secureTextEntry = YES;
     }    
-
+    
+    [cell setCellBackgroundForRow:row rowCount:totalRow singleCellImage:nil firstCellImage:self.firstCellImageName middleCellImage:self.middleCellImageName lastCellImage:self.lastCellImageName cellWidth:300];    
+    
     return cell;
 }
 
@@ -186,7 +216,7 @@
     
 	int row = indexPath.row;	
     if (row == rowOldPassword){
-        UITextTableViewCell* cell = [self createPasswordCell:@"PasswordCell0"];
+        UITextTableViewCell* cell = [self createPasswordCell:@"PasswordCell0" row:row];
         cell.textField.placeholder = NSLS(@"请输入当前密码");
         if (oldPasswordTextField == nil){
             self.oldPasswordTextField = cell.textField;        
@@ -195,19 +225,20 @@
         return cell;
     }
 	else if (row == rowNewPassword){
-        UITextTableViewCell* cell = [self createPasswordCell:@"PasswordCell1"];
+        UITextTableViewCell* cell = [self createPasswordCell:@"PasswordCell1" row:row];
         cell.textField.placeholder = NSLS(@"请输入新密码");
         self.passwordTextField = cell.textField;								
 		return cell;
 	}
 	else if (indexPath.row == rowNewPasswordConfirm) {
-        UITextTableViewCell* cell = [self createPasswordCell:@"PasswordCell2"];            
+        UITextTableViewCell* cell = [self createPasswordCell:@"PasswordCell2" row:row];            
         cell.textField.placeholder = NSLS(@"请再次输入新密码");
         self.confirmPasswordTextField = cell.textField;		
 		return cell;
 	}
 	
 //		[self setCellBackground:cell row:row count:kTotalRow];
+
 
 	return nil;
 }

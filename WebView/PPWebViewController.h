@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PPViewController.h"
 
+typedef void (^WebViewBackHandler)(UIViewController*);
 
 @interface PPWebViewController : PPViewController <UIWebViewDelegate> {
     
@@ -19,6 +20,7 @@
     UIBarButtonItem *reloadButton;
     UIActivityIndicatorView *loadActivityIndicator;
     NSURLRequest *request;
+    
 }
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 @property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
@@ -26,6 +28,8 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *backButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *reloadButton;
 @property (nonatomic, retain) UIActivityIndicatorView *loadActivityIndicator;
+@property (nonatomic, assign) WebViewBackHandler backAction;
+@property (nonatomic, retain) UIViewController* superViewController;
 
 @property (nonatomic, retain) NSURLRequest *request;
 
@@ -42,6 +46,10 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView;
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error;
 + (void)show:(UIViewController*)superController url:(NSString*)url;
+
+- (void)enableGroupBuySettings;
+
+- (IBAction)clickBack:(id)sender;
 
 @end
 

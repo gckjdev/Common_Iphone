@@ -12,6 +12,7 @@
 #import "VariableConstants.h"
 #import "NetworkUtil.h"
 #import "StringUtil.h"
+#import "UINavigationBarExt.h"
 
 
 #define SINA_APP_KEY                    @"1528146353"

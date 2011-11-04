@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 void GlobalSetNavBarBackground(NSString* imageName);
+void clearNavBarBackground();
+void activateNavBarBackground();
 NSString* GlobalGetNavBarBackground();
 
 @interface UINavigationBar (UINavigationBarExt)

@@ -9,12 +9,14 @@
 #import "ShowAddressViewController.h"
 #import "AnnotationPin.h"
 #import "MapViewUtil.h"
+#import "UITableViewCellUtil.h"
 
 @implementation ShowAddressViewController
 @synthesize mapView;
 @synthesize tableView;
 @synthesize locationArray;
 @synthesize addressList;
+@synthesize useForGroupBuy;
 
 - (id)initWithLocationArray:(NSArray *)aLocationArray addressList: (NSArray *)aAddressList{
     self = [super init];
@@ -50,7 +52,19 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
+    
+    if (self.useForGroupBuy){                
+        if (!CGRectIsEmpty(self.tableViewFrame)){
+            self.tableView.frame = self.tableViewFrame;
+            self.mapView.frame = self.tableViewFrame;
+        }
+        
+        self.tableView.backgroundColor = [UIColor clearColor];
+    }
+    else{
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
+    }
+    
     
     
     
@@ -59,16 +73,19 @@
     
     
     if (!locationFlag && !addressFlag) {
+        [self popupUnhappyMessage:@"当前没有任何商家地址信息" title:nil];
         return;
     }
     
-    if ([locationArray count] == 0)
-        return;
+//    if ([locationArray count] == 0){
+//        [self popupUnhappyMessage:@"当前没有任何商家地址信息" title:nil];
+//        return;
+//    }
     
     if (locationFlag) {
         //[self.tableView setHidden:YES];
         self.mapView.delegate = self;
-        [mapView setShowsUserLocation:YES];
+//        [mapView setShowsUserLocation:YES];
         MKCoordinateRegion theRegion = { {0.0, 0.0 }, { 0.0, 0.0 } }; 
         theRegion.center = [[locationArray objectAtIndex:0] coordinate];
         [self.mapView setZoomEnabled:YES]; 
@@ -78,6 +95,7 @@
     
 //        [self.mapView setRegion:theRegion animated:NO];
         
+//        NSLog(@"locationArray = %@", [[locationArray objectAtIndex:0] description]);
         [self.mapView setCenterCoordinate:[[locationArray objectAtIndex:0] coordinate] 
                                 zoomLevel:15 animated:YES];
         
@@ -98,30 +116,34 @@
     }
     
     if (locationFlag) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"列表" style:UIBarButtonItemStylePlain target:self action:@selector(clickRightButton:)];
+        [self setGroupBuyNavigationRightButton:@"列表" action:@selector(clickRightButton:)];
         self.navigationItem.title = @"地图";
         [self.mapView setHidden:NO];
         [self.tableView setHidden:YES];
     }else{
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"地图" style:UIBarButtonItemStylePlain target:self action:@selector(clickRightButton:)];
+        [self setGroupBuyNavigationRightButton:@"底图" action:@selector(clickRightButton:)];
         self.navigationItem.title = @"地址列表";
         [self.mapView setHidden:YES];
         [self.tableView setHidden:NO];
     }
+    
+    [self enableGroupBuySettings];
 }
 
 - (void) clickRightButton:(id)sender
 {
-    if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"列表"]) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"地图" style:UIBarButtonItemStylePlain target:self action:@selector(clickRightButton:)];
+    if ([self.navigationItem.title isEqualToString:@"地址列表"]) {
+        [self setGroupBuyNavigationRightButton:@"地图" action:@selector(clickRightButton:)];
         self.navigationItem.title = @"地址列表";
+        [self setGroupBuyNavigationTitle:self.navigationItem.title];
         [tableView setHidden:NO];
         [mapView setHidden:YES];
     }else if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"地图"]) {
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"列表" style:UIBarButtonItemStylePlain target:self action:@selector(clickRightButton:)];
-            self.navigationItem.title = @"地图";
-            [tableView setHidden:YES];
-            [mapView setHidden:NO];
+        [self setGroupBuyNavigationRightButton:@"列表" action:@selector(clickRightButton:)];
+        self.navigationItem.title = @"地图";
+        [self setGroupBuyNavigationTitle:self.navigationItem.title];
+        [tableView setHidden:YES];
+        [mapView setHidden:NO];
     }
 }
 
@@ -144,7 +166,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 55;
+    return 74/2;    // the height of background image
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -154,6 +176,11 @@
     }
     return 0;
 }
+
+#define FIRST_CELL_IMAGE    @"tu_56.png"
+#define MIDDLE_CELL_IMAGE   @"tu_69.png"
+#define LAST_CELL_IMAGE     @"tu_86.png"
+#define SINGLE_CELL_IMAGE   @"tu_60.png"
 
 - (UITableViewCell *)tableView:(UITableView *)tbView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -165,9 +192,22 @@
     cell.textLabel.text = [self.addressList objectAtIndex:indexPath.row];
     cell.textLabel.numberOfLines = 3;
     cell.textLabel.font = [UIFont systemFontOfSize:13];
+    
+    cell.textLabel.textColor = [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+    cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:163/255.0 green:155/255.0 blue:143/255.0 alpha:1.0];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:14];
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+    
+    int count = [self tableView:tableView numberOfRowsInSection:indexPath.section];
+    [cell setCellBackgroundForRow:indexPath.row rowCount:count singleCellImage:SINGLE_CELL_IMAGE firstCellImage:FIRST_CELL_IMAGE  middleCellImage:MIDDLE_CELL_IMAGE lastCellImage:LAST_CELL_IMAGE cellWidth:300];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    
     return cell;
 }
-
 
 #pragma -mark mkmapview delegate
 
@@ -177,7 +217,8 @@
     
     static NSString *defaultPinID = DEFAULT_PIN_ID; 
     pinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID]; 
-    if ( pinView == nil ) pinView = [[[MKPinAnnotationView alloc] 
+    if ( pinView == nil ) 
+        pinView = [[[MKPinAnnotationView alloc] 
                                       initWithAnnotation:annotation reuseIdentifier:defaultPinID] autorelease]; 
     pinView.pinColor = MKPinAnnotationColorRed; 
     pinView.canShowCallout = YES; 
@@ -195,6 +236,18 @@
         vc.hidesBottomBarWhenPushed = NO;
     }
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#define CITY_TABLE_VIEW_FRAME   CGRectMake(8, 8, 304, 480-44-20-8-55-5)
+
+- (void)enableGroupBuySettings
+{
+    self.useForGroupBuy = YES;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    [self setBackgroundImageName:@"background.png"];
+    [self setTableViewFrame:CITY_TABLE_VIEW_FRAME];
+    [self setGroupBuyNavigationTitle:self.navigationItem.title];
+    [self setGroupBuyNavigationBackButton];
 }
 
 @end

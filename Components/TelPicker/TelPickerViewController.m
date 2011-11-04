@@ -8,13 +8,14 @@
 
 #import "TelPickerViewController.h"
 #import "UIUtils.h"
+#import "UITableViewCellUtil.h"
 
 @implementation TelPickerViewController
 
 @synthesize telArray;
 @synthesize telPickerTable;
 @synthesize selectedTelNumber;
-
+@synthesize useForGroupBuy;
 
 - (id)initWithTelArray:(NSArray *)telArr{
     self = [super init];
@@ -46,11 +47,24 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+
+    
     [super viewDidLoad];
+
+    self.navigationItem.title = @"商家电话列表";        
+    
+    if (self.useForGroupBuy){
+        [self enableGroupBuySettings];        
+        if (!CGRectIsEmpty(self.tableViewFrame)){
+            self.telPickerTable.frame = self.tableViewFrame;
+        }
+    }
+    else{
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
+    }
+    
     self.telPickerTable.delegate = self;
     self.telPickerTable.dataSource = self;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
-    self.navigationItem.title = @"商家电话列表";
 }
 
 
@@ -123,6 +137,11 @@
     return [self.telArray count];
 }
 
+#define FIRST_CELL_IMAGE    @"tu_56.png"
+#define MIDDLE_CELL_IMAGE   @"tu_69.png"
+#define LAST_CELL_IMAGE     @"tu_86.png"
+#define SINGLE_CELL_IMAGE   @"tu_60.png"
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -132,8 +151,28 @@
     }    
     cell.textLabel.text = [self.telArray objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont systemFontOfSize:14];
+    
+    cell.textLabel.textColor = [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+    cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:163/255.0 green:155/255.0 blue:143/255.0 alpha:1.0];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:14];
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+    
+    int count = [self tableView:tableView numberOfRowsInSection:indexPath.section];
+    [cell setCellBackgroundForRow:indexPath.row rowCount:count singleCellImage:SINGLE_CELL_IMAGE firstCellImage:FIRST_CELL_IMAGE  middleCellImage:MIDDLE_CELL_IMAGE lastCellImage:LAST_CELL_IMAGE cellWidth:300];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    
     return cell;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{    
+    return 74/2;    // the height of background image
+}
+
 
 - (void)onclickBack:(id)sender
 {
@@ -144,4 +183,17 @@
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+#define CITY_TABLE_VIEW_FRAME   CGRectMake(8, 8, 304, 480-44-20-8-55-5)
+
+- (void)enableGroupBuySettings
+{
+    self.useForGroupBuy = YES;
+    self.telPickerTable.backgroundColor = [UIColor clearColor];
+    [self setBackgroundImageName:@"background.png"];
+    [self setTableViewFrame:CITY_TABLE_VIEW_FRAME];
+    [self setGroupBuyNavigationTitle:self.navigationItem.title];
+    [self setGroupBuyNavigationBackButton];
+}
+
 @end

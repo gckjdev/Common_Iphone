@@ -49,11 +49,16 @@
 @property (nonatomic, retain) IBOutlet UIButton	*button2;
 @property (nonatomic, assign) id<PasswordInputControllerDelegate> delegate;
 @property (nonatomic, retain) NSString            *oldPassword;
+@property (nonatomic, retain) NSString          *buttonBackgroundImage;
 
 - (id)initWithPassword:(NSString*)oldPasswordValue delegate:(id<PasswordInputControllerDelegate>)delegateValue;
 
 - (void)clickHelp:(id)sender;
 - (void)clickOK:(id)sender;
 - (void)clickReturn:(id)sender;
+
+- (void)setCellBackgroundFirstCellImage:(NSString*)firstCellImageName
+                        middleCellImage:(NSString*)middleCellImageName
+                          lastCellImage:(NSString*)lastCellImageName;
 
 @end

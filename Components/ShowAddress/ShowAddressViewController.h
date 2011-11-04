@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "PPTableViewController.h"
 
 #define LATITUDEDELTA 0.1f
 #define LONGITUDEDELTA 0.1f
 #define DEFAULT_PIN_ID @"com.orange.pinid"
 
-@interface ShowAddressViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface ShowAddressViewController : PPTableViewController <MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource> {
     
     MKMapView *mapView;
     UITableView *tableView;
@@ -25,7 +26,11 @@
 
 @property (nonatomic, retain) NSArray *locationArray;
 @property (nonatomic, retain) NSArray *addressList;
+@property (nonatomic, assign) BOOL useForGroupBuy;
 
 - (id)initWithLocationArray:(NSArray *)aLocationArray addressList: (NSArray *)aAddressList;
 - (void)onclickBack:(id)sender;
+- (void)enableGroupBuySettings;
+
+
 @end

@@ -16,7 +16,12 @@
 
 
 + (UIImage*)strectchableImageName:(NSString*)name;
++ (UIImage*)strectchableTopImageName:(NSString*)name;
++ (UIImageView*)strectchableImageView:(NSString*)name viewWidth:(int)viewWidth;
 + (UIImage*)strectchableImageName:(NSString*)name leftCapWidth:(int)leftCapWidth;
++ (UIImage*)strectchableImageName:(NSString*)name topCapHeight:(int)topCapHeight;
++ (UIImage*)strectchableTopImageName:(NSString*)name;
+
 - (UIImage*)defaultStretchableImage;
 
 @end

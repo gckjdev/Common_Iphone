@@ -82,6 +82,9 @@
 				  zoomLevel:(NSUInteger)zoomLevel
 				   animated:(BOOL)animated
 {
+    centerCoordinate.longitude = 23.10163f;
+    centerCoordinate.latitude = 113.27282f;
+    
     // clamp large numbers to 28
     zoomLevel = MIN(zoomLevel, 28);
     

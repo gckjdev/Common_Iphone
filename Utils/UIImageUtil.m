@@ -22,10 +22,31 @@
     return [image defaultStretchableImage];
 }
 
++ (UIImage*)strectchableTopImageName:(NSString*)name
+{
+    UIImage* image = [UIImage imageNamed:name];
+    int topCapHeight = image.size.height/2;
+    return [image stretchableImageWithLeftCapWidth:0 topCapHeight:topCapHeight];
+}
+
 + (UIImage*)strectchableImageName:(NSString*)name leftCapWidth:(int)leftCapWidth
 {
     UIImage* image = [UIImage imageNamed:name];
     return [image stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:0];
+}
+
++ (UIImage*)strectchableImageName:(NSString*)name topCapHeight:(int)topCapHeight
+{
+    UIImage* image = [UIImage imageNamed:name];
+    return [image stretchableImageWithLeftCapWidth:0 topCapHeight:topCapHeight];    
+}
+
++ (UIImageView*)strectchableImageView:(NSString*)name viewWidth:(int)viewWidth
+{
+    UIImage* image = [UIImage strectchableImageName:name];
+    UIImageView* view = [[[UIImageView alloc] initWithImage:image] autorelease];
+    view.frame = CGRectMake(0, 0, viewWidth, image.size.height);
+    return view;
 }
 
 - (BOOL)saveImageToFile:(NSString*)fileName

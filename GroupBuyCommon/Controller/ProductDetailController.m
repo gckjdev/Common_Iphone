@@ -21,6 +21,7 @@
 #import "ProductCommentsController.h"
 #import "TaobaoSearchController.h"
 #import "ProductDetailCell.h"
+#import "UINavigationBarExt.h"
 
 enum {
     SECTION_IMAGE,
@@ -447,8 +448,19 @@ enum {
 
 - (void)gotoBuy
 {
+//    GlobalSetNavBarBackground(@"tu_209.png");
+    
     PPWebViewController *webController = GlobalGetPPWebViewController();
-    [self.navigationController pushViewController:webController animated:YES];
+//    webController.view.frame = self.view.bounds;
+//    [webController enableGroupBuySettings];
+//    [self.navigationController pushViewController:webController animated:YES];
+    
+    [webController setSuperViewController:self];
+    [webController setBackAction:^(UIViewController* viewController){
+        [viewController dismissModalViewControllerAnimated:YES];        
+    }];
+    
+    [self.navigationController presentModalViewController:webController animated:YES];
     
     if ([product.wapURL length] > 0)
         [webController openURL:product.wapURL];
@@ -472,6 +484,7 @@ enum {
             [self gotoBuy];
         }else{
             TelPickerViewController *tvc = [[TelPickerViewController alloc] initWithTelArray:telArr];
+            [tvc enableGroupBuySettings];
             [self.navigationController pushViewController:tvc animated:YES];
             [tvc release];
         }
@@ -480,6 +493,7 @@ enum {
         NSArray *locationArray = [product gpsArray];
         NSArray *addressArray = [product addressArray];
         ShowAddressViewController *savc = [[ShowAddressViewController alloc]initWithLocationArray:locationArray addressList:addressArray];
+        [savc enableGroupBuySettings];
         [self.navigationController pushViewController:savc animated:YES];
         [savc release];
 

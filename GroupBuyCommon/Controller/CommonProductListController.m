@@ -120,9 +120,9 @@
         supportRefreshHeader = YES;
     
     if ([dataLoader canDelete]){
-        [self setNavigationRightButton:@"全部删除" action:@selector(clickDeleteAll:)];
+        [self setGroupBuyNavigationRightButton:@"全部删除" action:@selector(clickDeleteAll:)];
     }
-    
+        
     [self requestProductListFromServer:YES];    
     [super viewDidLoad];
     

@@ -76,6 +76,12 @@
 @property (nonatomic, retain) UIImageView		*sectionImage;
 @property (nonatomic, retain) UIImageView		*footerImage;
 
+@property (nonatomic, retain) NSString          *singleCellImageName;
+@property (nonatomic, retain) NSString          *firstCellImageName;
+@property (nonatomic, retain) NSString          *middleCellImageName;
+@property (nonatomic, retain) NSString          *lastCellImageName;
+
+
 @property (nonatomic, retain) UILabel			*sectionLabel;
 @property (nonatomic, retain) GroupDataAZ		*groupData;
 @property (nonatomic, retain) UIColor			*cellTextLabelColor;
@@ -86,6 +92,7 @@
 
 @property (nonatomic, retain) NSIndexPath          *tappedIndexPath;
 @property (nonatomic, retain) NSIndexPath          *controlRowIndexPath;
+@property (nonatomic, assign) CGRect            tableViewFrame;
 
 
 
@@ -98,6 +105,10 @@
 - (void)setCellImageByName:(NSString*)imageName;
 - (void)setSectionImageByName:(NSString*)imageName;
 - (void)setFooterImageByName:(NSString*)imageName;
+
+- (void)setLastCellImageByView:(UIImageView*)imageView;
+- (void)setMiddleCellImageByView:(UIImageView*)imageView;
+- (void)setFirstCellImageByView:(UIImageView*)imageView;
 
 - (void)setCellBackground:(UITableViewCell*)cell row:(int)row count:(int)count;
 - (CGFloat)getRowHeight:(int)row totalRow:(int)totalRow;

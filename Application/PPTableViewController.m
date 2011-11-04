@@ -20,6 +20,13 @@
 @synthesize firstCellImage;
 @synthesize middleCellImage;
 @synthesize lastCellImage;
+
+
+@synthesize singleCellImageName;
+@synthesize firstCellImageName;
+@synthesize middleCellImageName;
+@synthesize lastCellImageName;
+
 @synthesize cellImage;
 @synthesize groupData;
 @synthesize cellTextLabelColor;
@@ -35,6 +42,8 @@
 @synthesize supportRefreshHeader;
 @synthesize moreLoadingView;
 @synthesize moreRowIndexPath;
+
+@synthesize tableViewFrame;
 
 @synthesize tappedIndexPath;
 @synthesize controlRowIndexPath;
@@ -237,6 +246,11 @@
 
 - (void)dealloc
 {
+	[firstCellImageName release];
+	[middleCellImageName release];
+	[lastCellImageName release];
+	[singleCellImageName release];
+
     [refreshHeaderView release];
     [tappedIndexPath release];
     [controlRowIndexPath release];
@@ -268,6 +282,12 @@
 	singleImageHeight = image.size.height;
 }
 
+- (void)setFirstCellImageByView:(UIImageView*)imageView
+{
+	self.firstCellImage = imageView;
+	firstImageHeight = imageView.image.size.height;
+}
+
 - (void)setFirstCellImageByName:(NSString*)imageName
 {
 	UIImage* image = [UIImage imageNamed:imageName];
@@ -275,11 +295,23 @@
 	firstImageHeight = image.size.height;
 }
 
+- (void)setMiddleCellImageByView:(UIImageView*)imageView
+{
+	self.middleCellImage = imageView;
+	middleImageHeight = imageView.image.size.height;
+}
+
 - (void)setMiddleCellImageByName:(NSString*)imageName;
 {
 	UIImage* image = [UIImage imageNamed:imageName];
 	self.middleCellImage = [[[UIImageView alloc] initWithImage:image] autorelease];
 	middleImageHeight = image.size.height;
+}
+
+- (void)setLastCellImageByView:(UIImageView*)imageView
+{
+	self.lastCellImage = imageView;
+	lastImageHeight = imageView.image.size.height;
 }
 
 - (void)setLastCellImageByName:(NSString*)imageName;

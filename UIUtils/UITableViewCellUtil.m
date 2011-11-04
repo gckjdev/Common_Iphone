@@ -11,6 +11,7 @@
 #import "UICheckAndDetailView.h"
 #import "UIBarButtonItemExt.h"
 #import "UIViewUtils.h"
+#import "UIImageUtil.h"
 
 @implementation UITableViewCell (UITableViewCellUtil)
 
@@ -54,6 +55,42 @@
 		return nil;
 	}
 
+}
+
+- (void)setCellBackgroundForRow:(int)row 
+                       rowCount:(int)count 
+                singleCellImage:(NSString*)singleCellImageName
+                 firstCellImage:(NSString*)firstCellImageName
+                middleCellImage:(NSString*)middleCellImageName
+                  lastCellImage:(NSString*)lastCellImageName
+                      cellWidth:(int)cellWidth
+{	    
+	// set background image
+	if (row == 0 && count == 1){
+        UIImageView* singleCellImageView = [UIImage strectchableImageView:singleCellImageName viewWidth:cellWidth];
+//        singleCellImageView.contentMode = UIViewContentMode;
+        [self setBackgroundView:singleCellImageView];
+    }
+	else if (row == 0){
+        UIImageView* firstCellImageView  = [UIImage strectchableImageView:firstCellImageName viewWidth:cellWidth];
+//        UIView* view = [[UIView alloc] init];
+//        [view addSubview:firstCellImageView];
+//        CGRect frame = self.contentView.frame;
+//        frame.size.width =         
+//        view.frame = CGRectMake(100, 0, cellWidth, firstCellImageView.image.size.height);
+        [self setBackgroundView:firstCellImageView];
+//        [view release];
+    }
+	else if (row == (count - 1)){
+        UIImageView* lastCellImageView   = [UIImage strectchableImageView:lastCellImageName viewWidth:cellWidth];
+//        lastCellImageView.contentMode = UIViewContentModeCenter;
+        [self setBackgroundView:lastCellImageView];
+    }
+	else{
+        UIImageView* middleCellImageView = [UIImage strectchableImageView:middleCellImageName viewWidth:cellWidth];
+//        middleCellImageView.contentMode = UIViewContentModeCenter;
+        [self setBackgroundView:middleCellImageView];
+    }
 }
 
 - (void)setBackgroundImage:(UIImage*)image
