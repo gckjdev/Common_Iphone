@@ -11,6 +11,7 @@
 #define STATUS_VIEW_TEXT_TAG                20
 #define DEFAULT_STATUS_DISPLAY_DURATION     10
 #define STATUS_VIEW_ANIMATION_DURATION      0.5
+#define STATUS_WINDOW_LEVEL                 2010
 
 StatusView *globalStatusView;
 
@@ -65,7 +66,7 @@ StatusView *globalStatusView;
     
     [statusWindow setFrame:frame];
     [statusWindow setBackgroundColor:[UIColor blackColor]];
-    [statusWindow setWindowLevel:UIWindowLevelStatusBar];
+    [statusWindow setWindowLevel:STATUS_WINDOW_LEVEL];
     [statusWindow makeKeyAndVisible];
     
     [UIView beginAnimations:@"" context:nil];
