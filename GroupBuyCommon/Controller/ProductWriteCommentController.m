@@ -48,8 +48,9 @@
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"撰写评论";
     
-    [self setNavigationRightButton:@"提交" action:@selector(submit)];
-    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
+    [self setGroupBuyNavigationBackButton];
+    [self setGroupBuyNavigationRightButton:@"提交" action:@selector(submit)];
+    [self setGroupBuyNavigationTitle:self.navigationItem.title];
     [self.contentTextView setRoundRectStyle];
     
     groupbuyAppDelegate *delegate = (groupbuyAppDelegate *)[UIApplication sharedApplication].delegate;

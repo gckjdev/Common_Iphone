@@ -629,11 +629,17 @@ enum {
     
     switch (buttonIndex) {
         case BUTTON_SEND_BY_SMS:
+        {
+            GlobalSetNavBarBackground(nil);
             [self sendSms:@"" body:smsBody];
+        }
             break;
             
         case BUTTON_SEND_BY_EMAIL:
+        {
+            GlobalSetNavBarBackground(nil);
             [self sendEmailTo:nil ccRecipients:nil bccRecipients:nil subject:subject body:htmlBody isHTML:NO delegate:self];
+        }
             break;
             
         default:
@@ -650,5 +656,44 @@ enum {
 {
     [TaobaoSearchController showController:self text:product.title price:[product.price doubleValue] value:[product.value doubleValue]];    
 }
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{		
+	NSLog(@"<sendSms> result=%d", result);	
+    GlobalSetNavBarBackground(@"navigationbar.png");
+	[self dismissModalViewControllerAnimated:YES];
+    
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+{	
+	NSString* text = nil;
+	
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: canceled";
+			break;
+		case MFMailComposeResultSaved:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: saved";
+			break;
+		case MFMailComposeResultSent:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: sent";
+			break;
+		case MFMailComposeResultFailed:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: failed";
+			break;
+		default:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: not sent";
+			break;
+	}
+	
+	NSLog(@"%@", text);
+    GlobalSetNavBarBackground(@"navigationbar.png");    
+	[self dismissModalViewControllerAnimated:YES];
+    
+}
+
 
 @end

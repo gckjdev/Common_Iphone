@@ -22,4 +22,15 @@ UIView* _groupbuyAccessoryView;
     return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tu_105-51.png"]];
 }
 
++ (UIView*)getFooterView
+{
+    UIImage *image = [UIImage imageNamed:@"tu_179.png"];
+    UIImageView *footerImageView = [[UIImageView alloc] initWithImage:image];
+    [footerImageView setFrame:CGRectMake(7, 0, 320-7*2, 2)];
+    UIView *view = [[[UIView alloc] init] autorelease];
+    [view addSubview:footerImageView];
+    [footerImageView release];
+    return view;
+}
+
 @end

@@ -75,6 +75,8 @@
 
 - (void)setCellInfoWithContent:(NSString *)content nickName:(NSString *)nickName createDate:(NSDate *)createDate
 {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     self.nickNameLabel.text = nickName;
     self.createDateLabel.text = [self getDateDisplayText:createDate];
     

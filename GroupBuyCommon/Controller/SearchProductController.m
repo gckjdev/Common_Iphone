@@ -14,6 +14,7 @@
 #import "HotKeyword.h"
 #import "HotKeywordManager.h"
 #import "ProductManager.h"
+#import "UIImageUtil.h"
 
 //private methods
 @interface SearchProductController()
@@ -78,16 +79,12 @@
     [self setGroupBuyNavigationTitle:self.tabBarItem.title];
 
     [super viewDidLoad];
-
-//    UIImage* buttonImage = [[UIImage imageNamed:@"tu_188.png"] stretchableImageWithLeftCapWidth:1 
-//                                                                                  topCapHeight:0];
-//    [self.searchButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     
-    UIImage* searchTextFieldImage = [[UIImage imageNamed:@"tu_46-18.png"] stretchableImageWithLeftCapWidth:57/2 topCapHeight:0];
+    UIImage* searchTextFieldImage = [UIImage strectchableImageName:@"tu_46-18.png"];
     [self.searchTextFieldBackgroundView setImage:searchTextFieldImage];
     
     // set search button background
-    UIImage* buttonBgImage = [[UIImage imageNamed:@"tu_48.png"] stretchableImageWithLeftCapWidth:23 topCapHeight:0];
+    UIImage* buttonBgImage = [UIImage strectchableImageName:@"tu_48.png"];
     [searchButton setBackgroundImage:buttonBgImage forState:UIControlStateNormal];
     
 //    [self setNavigationRightButton:@"语音搜索" action:@selector(speechSearch:)];

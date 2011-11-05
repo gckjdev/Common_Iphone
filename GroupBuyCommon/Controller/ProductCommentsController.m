@@ -11,7 +11,7 @@
 #import "GroupBuyNetworkConstants.h"
 #import "TimeUtils.h"
 #import "CommentTableViewCell.h"
-
+#import "GroupBuyControllerExt.h"
 
 @implementation ProductCommentsController
 
@@ -44,17 +44,19 @@
 - (void)viewDidLoad
 {
 //    [self setBackgroundImageName:@"background.png"];
+    [self setBackgroundImageName:@"background.png"];
+    self.dataTableView.backgroundColor = [UIColor clearColor];
+    self.dataTableView.frame = CGRectMake(8, 8, 304, 480-44-20-8-55-5);
     
     supportRefreshHeader = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"所有评论";
+        
+    [self setGroupBuyNavigationBackButton];
+    [self setGroupBuyNavigationRightButton:@"撰写评论" action:@selector(writeComment)];
+    [self setGroupBuyNavigationTitle:self.navigationItem.title];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(writeComment)];
-    self.navigationItem.rightBarButtonItem = rightItem;
-    [rightItem release];
-    
-    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
     
     //[GlobalGetProductService() getCommentsWithProductId:productId viewController:self];
 }
