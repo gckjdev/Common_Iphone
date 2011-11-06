@@ -22,7 +22,6 @@
 
 - (NSString *)getAreaDesc:(CLLocationDistance)r
 {
-    self.areaLabel.textColor = [UIColor redColor];
     NSString *str = nil;
     if (r > 1000) {
         str = [NSString stringWithFormat:@"半径 %.1f 公里",r/1000];
@@ -101,6 +100,7 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+        
     [super viewDidLoad];
 
     self.mapView.delegate=self; 
@@ -119,8 +119,9 @@
     [mapView setCenterCoordinate:self.currentCoordinate zoomLevel:12 animated:NO];
     
     self.navigationItem.title = @"选择位置";
-    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
-    [self setNavigationRightButton:@"保存" action:@selector(clickSave:)];
+    [self setGroupBuyNavigationBackButton];
+    [self setGroupBuyNavigationRightButton:@"保存" action:@selector(clickSave:)];
+    [self setGroupBuyNavigationTitle:self.navigationItem.title];
     
 //    [self.mapView set
 
