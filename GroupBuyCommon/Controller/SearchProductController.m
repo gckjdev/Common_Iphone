@@ -15,6 +15,7 @@
 #import "HotKeywordManager.h"
 #import "ProductManager.h"
 #import "UIImageUtil.h"
+#import "UIButtonExt.h"
 
 //private methods
 @interface SearchProductController()
@@ -25,6 +26,7 @@
 
 @implementation SearchProductController
 
+@synthesize testButton;
 @synthesize searchTextFieldBackgroundView;
 @synthesize searchButton;
 @synthesize searchTextField;
@@ -54,6 +56,7 @@
     [searchButton release];
     [searchBackgroundView release];
     [searchTextFieldBackgroundView release];
+    [testButton release];
     [super dealloc];
 }
 
@@ -69,7 +72,10 @@
 
 - (void)viewDidLoad
 {
-    keywordSearchBar.hidden = YES;
+    keywordSearchBar.hidden = YES;    
+    
+//    [self.testButton setImageEdgeInsets:UIEdgeInsetsMake(0, 30, 30, 0)];
+//    [self.testButton setTitleEdgeInsets:UIEdgeInsetsMake(30, 0, 0, 30)];
     
     [self setBackgroundImageName:@"background.png"];
     [self setGroupBuyNavigationTitle:self.tabBarItem.title];
@@ -92,6 +98,7 @@
     [self setSearchButton:nil];
     [self setSearchBackgroundView:nil];
     [self setSearchTextFieldBackgroundView:nil];
+    [self setTestButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

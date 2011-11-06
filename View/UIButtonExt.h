@@ -13,6 +13,9 @@
 
 - (void)setBackgroundImage:(UIImage*)image;
 - (void)setBackgroundImageByName:(NSString*)imageName;
+- (void)centerImageAndTitle:(float)space;
+- (void)centerImageAndTitle;
+
 
 
 @end

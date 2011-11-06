@@ -23,6 +23,7 @@
 
 //    ASREngine   *asrEngine;
 }
+@property (retain, nonatomic) IBOutlet UIButton *testButton;
 @property (retain, nonatomic) IBOutlet UIImageView *searchTextFieldBackgroundView;
 @property (retain, nonatomic) IBOutlet UIButton *searchButton;
 @property (retain, nonatomic) IBOutlet UITextField *searchTextField;
