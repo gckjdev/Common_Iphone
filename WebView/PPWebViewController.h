@@ -47,6 +47,8 @@ typedef void (^WebViewBackHandler)(UIViewController*);
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error;
 + (void)show:(UIViewController*)superController url:(NSString*)url;
 
+//for groupbuy
++ (void)showForGroupBuy:(UIViewController*)superController url:(NSString*)url;
 - (void)enableGroupBuySettings;
 
 - (IBAction)clickBack:(id)sender;

@@ -85,7 +85,9 @@
 - (void)viewDidLoad
 {
     self.navigationItem.title = @"淘宝比价结果";
-    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
+    [self setGroupBuyNavigationTitle:self.navigationItem.title];
+    [self setGroupBuyNavigationBackButton];    
+    
     [self setBackgroundImageName:@"background.png"];
     [super viewDidLoad];
     
@@ -132,8 +134,9 @@
 {
     NSDictionary *taobaoProduct = [self.dataList objectAtIndex:indexPath.row];
     NSString* url = [taobaoProduct objectForKey:@"product_site"];
-    [self.navigationController pushViewController:GlobalGetPPWebViewController() animated:YES];
-    [GlobalGetPPWebViewController() openURL:url];
+//    [self.navigationController pushViewController:GlobalGetPPWebViewController() animated:YES];
+//    [GlobalGetPPWebViewController() openURL:url];
+    [PPWebViewController showForGroupBuy:self url:url];
 }
 
 

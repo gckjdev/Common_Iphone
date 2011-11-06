@@ -54,10 +54,6 @@
     [searchButton release];
     [searchBackgroundView release];
     [searchTextFieldBackgroundView release];
-    [searchButton release];
-    [searchTextField release];
-    [searchTextFieldBackground release];
-    [searchBackgroundView release];
     [super dealloc];
 }
 
@@ -92,21 +88,10 @@
 
 - (void)viewDidUnload
 {        
-    [keywordSearchBar release];
-    keywordSearchBar = nil;
     [self setSearchTextField:nil];
     [self setSearchButton:nil];
-    [searchBackgroundView release];
-    searchBackgroundView = nil;
+    [self setSearchBackgroundView:nil];
     [self setSearchTextFieldBackgroundView:nil];
-    [searchButton release];
-    searchButton = nil;
-    [searchTextField release];
-    searchTextField = nil;
-    [searchTextFieldBackground release];
-    searchTextFieldBackground = nil;
-    [searchBackgroundView release];
-    searchBackgroundView = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -115,7 +100,7 @@
 	self.latestSearchButton3 = nil;
 }
 
--(void) viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
 	[self refreshLatestSearchHistory];
     

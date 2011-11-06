@@ -259,6 +259,7 @@
     self.cityTableView.backgroundColor = [UIColor clearColor];
     [self setBackgroundImageName:@"background.png"];
     [self setTableViewFrame:CITY_TABLE_VIEW_FRAME];
+    [self setGroupBuyNavigationTitle:@"请选择城市"];
 }
 
 @end

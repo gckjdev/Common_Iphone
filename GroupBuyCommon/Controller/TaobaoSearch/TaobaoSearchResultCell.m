@@ -8,6 +8,7 @@
 
 #import "TaobaoSearchResultCell.h"
 #import "PPApplication.h"
+#import "GroupBuyControllerExt.h"
 
 @implementation TaobaoSearchResultCell
 @synthesize imageView;
@@ -54,22 +55,25 @@
                          value:(double)value
 
 {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.accessoryView = [PPViewController groupbuyAccessoryView];
+    
     NSString *name = [taobaoProduct objectForKey:@"title"];    
     NSString *taobaoPrice = [taobaoProduct objectForKey:@"price"];
     NSString *shop = [taobaoProduct objectForKey:@"nick"];
 //    NSString *image = [taobaoProduct objectForKey:@"pic_url"];
     double   taobaoDoublePrice = [taobaoPrice doubleValue];
     
-    self.titleLabel.text = [NSString stringWithFormat:@"【%@】 %@", shop, name];
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", shop, name];
     self.titleLabel.numberOfLines = 3;
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ 元", taobaoPrice];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@", taobaoPrice];
     if ( taobaoDoublePrice > price ){
-        self.priceGapLabel.text = [NSString stringWithFormat:@"[ +%.2f ]", taobaoDoublePrice - price];
-        self.priceGapLabel.textColor = [UIColor blueColor];
+        self.priceGapLabel.text = [NSString stringWithFormat:@"+%.2f", taobaoDoublePrice - price];
+//        self.priceGapLabel.textColor = [UIColor blueColor];
     }
     else{
-        self.priceGapLabel.text = [NSString stringWithFormat:@"[ %.2f ]", taobaoDoublePrice - price];
-        self.priceGapLabel.textColor = [UIColor redColor];
+        self.priceGapLabel.text = [NSString stringWithFormat:@"%.2f", taobaoDoublePrice - price];
+//        self.priceGapLabel.textColor = [UIColor redColor];
     }
 
     self.valueGapLabel.text = @"";

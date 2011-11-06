@@ -9,6 +9,7 @@
 #import "TaobaoSearchController.h"
 #import "ProductService.h"
 #import "TaobaoSearchResultController.h"
+#import "UIImageUtil.h"
 
 @implementation TaobaoSearchController
 
@@ -16,7 +17,11 @@
 @synthesize price;
 @synthesize value;
 @synthesize keywordBackgroundView;
-@synthesize searchBar;
+//@synthesize searchBar;
+@synthesize searchTextFieldBackgroundView;
+@synthesize searchButton;
+@synthesize searchTextField;
+@synthesize searchBackgroundView;
 
 + (TaobaoSearchController*)showController:(UIViewController*)superController 
                                      text:(NSString*)text
@@ -24,12 +29,13 @@
                                     value:(double)value
 
 {
-    TaobaoSearchController* vc = [[[TaobaoSearchController alloc] init] autorelease];
+    TaobaoSearchController* vc = [[TaobaoSearchController alloc] init];
     vc.text = text;
     vc.price = price;
     vc.value = value;
-    vc.searchBar.delegate = vc;
+//    vc.searchBar.delegate = vc;
     [superController.navigationController pushViewController:vc animated:YES];
+    [vc release];
     return vc;
 }
 
@@ -46,7 +52,12 @@
 {
     [text release];
     [keywordBackgroundView release];
-    [searchBar release];
+//    [searchBar release];
+    [searchTextField release];
+    [searchButton release];
+    [searchBackgroundView release];
+    [searchTextFieldBackgroundView release];
+
     [super dealloc];
 }
 
@@ -71,26 +82,44 @@
 {
     
     [self setBackgroundImageName:@"background.png"];
+    
     [self createKeywordView:text];    
+    
     self.navigationItem.title = @"比价搜索";
-    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
-    [self setNavigationRightButton:@"搜索" action:@selector(clickSearch:)];
+    [self setGroupBuyNavigationTitle:self.navigationItem.title];
+    [self setGroupBuyNavigationBackButton];
+    
+    UIImage* searchTextFieldImage = [UIImage strectchableImageName:@"tu_46-18.png"];
+    [self.searchTextFieldBackgroundView setImage:searchTextFieldImage];
+    
+    // set search button background
+    UIImage* buttonBgImage = [UIImage strectchableImageName:@"tu_48.png"];
+    [searchButton setBackgroundImage:buttonBgImage forState:UIControlStateNormal];
+    
+//    [self setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
+//    [self setNavigationRightButton:@"搜索" action:@selector(clickSearch:)];
+        
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
-    CGFloat top = searchBar.frame.origin.y + searchBar.frame.size.height;
-    [self addBlankView:top currentResponder:searchBar];
+    int top = searchBackgroundView.frame.size.height + searchBackgroundView.frame.origin.y;
+    [self addBlankView:top currentResponder:searchTextField];
 
     [super viewDidAppear:animated];
 }
 
 - (void)viewDidUnload
 {
+    [self setSearchTextField:nil];
+    [self setSearchButton:nil];
+    [self setSearchBackgroundView:nil];
+    [self setSearchTextFieldBackgroundView:nil];
+
     [self setKeywordBackgroundView:nil];
-    [self setSearchBar:nil];
+//    [self setSearchBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -101,6 +130,9 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+#define UNSELECTED_COLOR [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0]
+#define SELECTED_COLOR [UIColor colorWithRed:164/255.0 green:174/255.0 blue:67/255.0 alpha:1.0]
 
 - (void)segmentTextFinish:(int)result jsonArray:(NSArray *)jsonArray
 {
@@ -120,6 +152,8 @@
     NSLog(@"text number in array : %d", [jsonArray count]);
     int count = [jsonArray count];
     
+    UIImage* bgImage = [UIImage strectchableImageName:@"tu_60.png"];
+    
     const int START_X = 0;
     const int START_Y = 0;
 
@@ -131,11 +165,18 @@
         CGSize size = [word sizeWithFont:font];
         int buttonWidth = size.width + BUTTON_WIDTH_EXTEND;    
         
+        
+        
         if (buttonHeight + buttonTop <= bottom){
-            UIButton* button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.frame = CGRectMake(buttonLeft, buttonTop, buttonWidth, buttonHeight);        
             [button setTitle:word forState:UIControlStateNormal];
             [button addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
+            [button setTitleColor:UNSELECTED_COLOR forState:UIControlStateNormal];
+            [button setTitleColor:SELECTED_COLOR forState:UIControlStateSelected];
+            [button setTitleColor:SELECTED_COLOR forState:UIControlStateHighlighted];
+            [button.titleLabel setFont:[UIFont boldSystemFontOfSize:12]];
+            [button setBackgroundImage:bgImage forState:UIControlStateNormal];
             [keywordBackgroundView addSubview:button];
         }
         else{
@@ -160,36 +201,53 @@
 {
 }
 
+- (void)updateSearchTextField:(NSString*)titleAfterTrim
+{
+    if (searchTextField.text == nil){
+        searchTextField.text = titleAfterTrim;
+    }
+    else{
+        searchTextField.text = [searchTextField.text stringByAppendingString:titleAfterTrim];
+    }    
+}
+
 - (void)clickButton:(id)sender
 {
     UIButton* button = (UIButton*)sender;
     NSString* title = [button titleForState:UIControlStateNormal];
     NSString* titleAfterTrim = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if (searchBar.text == nil){
-        searchBar.text = titleAfterTrim;
-    }
-    else{
-        searchBar.text = [searchBar.text stringByAppendingString:titleAfterTrim];
-    }
+    [self updateSearchTextField:titleAfterTrim];
 }
 
 - (void)clickSearch:(id)sender
 {
-    if ([searchBar.text length] == 0){
+    if ([searchTextField.text length] == 0){
         [self popupUnhappyMessage:@"还没选择或者输入关键字呢..." title:nil];        
         return;
     }        
     
     [TaobaoSearchResultController showController:self 
-                                         keyword:searchBar.text
+                                         keyword:searchTextField.text
                                            price:price
                                            value:value];
 }
 
--(void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
+//-(void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
+//{
+//    [self.searchBar resignFirstResponder];
+//    [self clickSearch:theSearchBar];
+//}
+
+- (IBAction)clickSearchButton:(id)sender
 {
-    [self.searchBar resignFirstResponder];
-    [self clickSearch:theSearchBar];
+    [searchTextField resignFirstResponder];
+    [self clickSearch:sender];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self clickSearchButton:textField];
+    return YES;
 }
 
 @end

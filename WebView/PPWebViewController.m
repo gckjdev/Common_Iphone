@@ -198,6 +198,19 @@
     }
 }
 
++ (void)showForGroupBuy:(UIViewController*)superController url:(NSString*)url
+{
+    PPWebViewController* webController = GlobalGetPPWebViewController();
+    
+    [webController setSuperViewController:superController];
+    [webController setBackAction:^(UIViewController* viewController){
+        [viewController dismissModalViewControllerAnimated:YES];        
+    }];
+    
+    [superController.navigationController presentModalViewController:webController animated:YES];
+    [webController openURL:url];    
+}
+
 @end
 
 PPWebViewController *ppWebViewController;
