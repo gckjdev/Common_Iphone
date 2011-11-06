@@ -450,23 +450,25 @@ enum {
 {
 //    GlobalSetNavBarBackground(@"tu_209.png");
     
-    PPWebViewController *webController = GlobalGetPPWebViewController();
+//    PPWebViewController *webController = GlobalGetPPWebViewController();
 //    webController.view.frame = self.view.bounds;
 //    [webController enableGroupBuySettings];
 //    [self.navigationController pushViewController:webController animated:YES];
     
-    [webController setSuperViewController:self];
-    [webController setBackAction:^(UIViewController* viewController){
-        [viewController dismissModalViewControllerAnimated:YES];        
-    }];
+//    [webController setSuperViewController:self];
+//    [webController setBackAction:^(UIViewController* viewController){
+//        [viewController dismissModalViewControllerAnimated:YES];        
+//    }];
+//    
+//    [self.navigationController presentModalViewController:webController animated:YES];
     
-    [self.navigationController presentModalViewController:webController animated:YES];
-    
+    NSString* url = nil;
     if ([product.wapURL length] > 0)
-        [webController openURL:product.wapURL];
+        url = product.wapURL;
     else
-        [webController openURL:product.loc];
+        url = product.loc;
 
+    [PPWebViewController showForGroupBuy:self url:url];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

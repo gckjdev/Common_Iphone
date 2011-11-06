@@ -12,6 +12,8 @@
 #import "GroupBuyUserService.h"
 #import "StringUtil.h"
 #import "MyInfoController.h"
+#import "GroupBuyControllerExt.h"
+#import "UIImageUtil.h"
 
 enum {
     ROW_EMAIL,
@@ -22,6 +24,7 @@ enum {
 
 @implementation NewUserRegisterController
 
+@synthesize submitButton;
 @synthesize email;
 @synthesize password;
 @synthesize confirmPassword;
@@ -50,6 +53,7 @@ enum {
     [email release];
     [password release];
     [confirmPassword release];
+    [submitButton release];
     [super dealloc];
 }
 
@@ -66,7 +70,11 @@ enum {
 - (void)viewDidLoad
 {
     self.navigationItem.title = @"注册";
-    [self setBackgroundImageName:@"background.png"];
+    [self setGroupBuyNavigationTitle:self.navigationItem.title];
+    [self setGroupBuyNavigationBackButton];
+    
+    [self.submitButton setBackgroundImage:[UIImage strectchableImageName:@"tu_129.png"] forState:UIControlStateNormal];
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -80,6 +88,7 @@ enum {
 
 - (void)viewDidUnload
 {
+    [self setSubmitButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -133,7 +142,8 @@ enum {
         UITextField* textField = ((UITextTableViewCell*)cell).textField;    
         ((UITextTableViewCell*)cell).delegate = self;
         
-        textField.autocapitalizationType = UITextAutocapitalizationTypeNone;    
+        textField.autocapitalizationType = UITextAutocapitalizationTypeNone;  
+        textField.textColor = [self getDefaultTextColor];
         switch (indexPath.row) {
             case ROW_EMAIL:
             {
@@ -172,6 +182,10 @@ enum {
 	}
     
     ((UITextTableViewCell*)cell).indexPath = indexPath;
+    
+    int count = [self tableView:theTableView numberOfRowsInSection:indexPath.section];
+    [cell setCellBackgroundForRow:indexPath.row rowCount:count singleCellImage:SINGLE_CELL_IMAGE firstCellImage:FIRST_CELL_IMAGE  middleCellImage:MIDDLE_CELL_IMAGE lastCellImage:LAST_CELL_IMAGE cellWidth:300];
+    
 	return cell;
 	
 }
@@ -292,6 +306,12 @@ enum {
     if (result == 0){
         [MyInfoController show:self.navigationController];
     }
+}
+
+- (void)clickBack:(id)sender
+{
+    [self.view endEditing:YES];
+    [self.navigationController popViewControllerAnimated:YES];    
 }
 
 @end

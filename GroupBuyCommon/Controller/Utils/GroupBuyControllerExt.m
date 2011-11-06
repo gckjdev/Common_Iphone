@@ -33,4 +33,9 @@ UIView* _groupbuyAccessoryView;
     return view;
 }
 
+- (UIColor*)getDefaultTextColor
+{
+    return [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
+}
+
 @end

@@ -20,6 +20,7 @@
     UITextField *passwordTextField;
     UITextField *confirmPasswordTextField;
 }
+@property (retain, nonatomic) IBOutlet UIButton *submitButton;
 
 @property (nonatomic, retain) NSString    *email;
 @property (nonatomic, retain) NSString    *password;
