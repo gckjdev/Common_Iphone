@@ -66,7 +66,16 @@
     
     self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", shop, name];
     self.titleLabel.numberOfLines = 3;
-    self.priceLabel.text = [NSString stringWithFormat:@"%@", taobaoPrice];
+    
+    NSString* priceText = [NSString stringWithFormat:@"%@元", [taobaoPrice description]];
+    NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:priceText];
+    [attrStr setFont:[UIFont systemFontOfSize:18]];
+	[attrStr setTextColor:[UIColor colorWithRed:245/255.0 green:109/255.0 blue:42/255.0 alpha:1.0f]];    
+	[attrStr setTextColor:[UIColor colorWithRed:111/255.0f green:104/255.0f blue:94/255.0f alpha:1.f] range:[priceText rangeOfString:@"元"]];
+	[attrStr setFont:[UIFont systemFontOfSize:12] range:[priceText rangeOfString:@"元"]];
+    self.priceLabel.attributedText = attrStr;
+    self.priceLabel.backgroundColor = [UIColor clearColor];        
+    
     if ( taobaoDoublePrice > price ){
         self.priceGapLabel.text = [NSString stringWithFormat:@"+%.2f", taobaoDoublePrice - price];
 //        self.priceGapLabel.textColor = [UIColor blueColor];

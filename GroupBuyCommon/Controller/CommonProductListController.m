@@ -22,6 +22,7 @@
 #import "CoreDataUtil.h"
 #import "GroupBuyReport.h"
 #import "UITableViewCellUtil.h"
+#import "GroupBuyControllerExt.h"
 
 @implementation CommonProductListController
 
@@ -241,7 +242,8 @@
         // check if it's last row - to load more
         MoreTableViewCell* moreCell = [MoreTableViewCell createCell:theTableView];
         self.moreLoadingView = moreCell.loadingView;
-//        [moreCell setBackgroundImageByName:@"切图_195.png"];
+        moreCell.textLabel.textColor = [self getDefaultTextColor];
+        moreCell.selectionStyle = UITableViewCellSelectionStyleNone;
         return moreCell;
     }
     
@@ -250,7 +252,6 @@
 	ProductTextCell *cell = (ProductTextCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
         cell = [ProductTextCell createCell:self];
-//        [cell setBackgroundImageByName:@"切图_197.png"];
 	}
 
     cell.indexPath = indexPath;
@@ -262,8 +263,6 @@
 		NSLog(@"[WARN] cellForRowAtIndexPath, row(%d) > data list total number(%d)", row, count);
 		return cell;
 	}
-	
-    //	[self setCellBackground:cell row:row count:count];        
 	
 	Product* product = [dataList objectAtIndex:row];
     [cell setCellInfoWithProduct:product indexPath:indexPath];    

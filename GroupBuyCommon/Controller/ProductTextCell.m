@@ -15,6 +15,7 @@
 #import "GroupBuyNetworkConstants.h"
 #import "PPApplication.h"
 #import "Reachability.h"
+#import "NSAttributedString+Attributes.h"
 
 @implementation ProductTextCell
 
@@ -147,9 +148,21 @@
     boughtLabel.textColor = textColor2;
     
     
-    self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];
-    self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [self getValue:value]];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@元", [price description]];
+    self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];    
+    self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [self getValue:value]];        
+    
+    NSString* priceText = [NSString stringWithFormat:@"%@元", [price description]];
+    NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:priceText];
+    [attrStr setFont:[UIFont systemFontOfSize:24]];
+	[attrStr setTextColor:[UIColor colorWithRed:245/255.0 green:109/255.0 blue:42/255.0 alpha:1.0f]];    
+	[attrStr setTextColor:[UIColor colorWithRed:111/255.0f green:104/255.0f blue:94/255.0f alpha:1.f] range:[priceText rangeOfString:@"元"]];
+	[attrStr setFont:[UIFont systemFontOfSize:12] range:[priceText rangeOfString:@"元"]];
+    self.priceLabel.attributedText = attrStr;
+    self.priceLabel.backgroundColor = [UIColor clearColor];
+    
+//	[attrStr setTextBold:YES range:[txt rangeOfString:@TXT_BOLD]];
+    
+    
     self.leftTimeLabel.text = [NSString stringWithFormat:@"时间: %@", timeInfo];
     
     if (distance < MAXFLOAT){

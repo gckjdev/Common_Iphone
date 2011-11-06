@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
 #import "HJManagedImageV.h"
+#import "OHAttributedLabel.h"
 
 @class Product;
 
@@ -17,7 +18,7 @@
     IBOutlet UILabel *siteNameLabel;
     UILabel *productDescLabel;
     UILabel *valueLabel;
-    UILabel *priceLabel;
+    OHAttributedLabel *priceLabel;
     UILabel *rebateLabel;
     UILabel *leftTimeLabel;
     UILabel *distanceLabel;
@@ -34,7 +35,7 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *productDescLabel;
 @property (nonatomic, retain) IBOutlet UILabel *valueLabel;
-@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
+@property (nonatomic, retain) IBOutlet OHAttributedLabel *priceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rebateLabel;
 @property (nonatomic, retain) IBOutlet UILabel *leftTimeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *distanceLabel;

@@ -74,9 +74,6 @@
 {
     keywordSearchBar.hidden = YES;    
     
-//    [self.testButton setImageEdgeInsets:UIEdgeInsetsMake(0, 30, 30, 0)];
-//    [self.testButton setTitleEdgeInsets:UIEdgeInsetsMake(30, 0, 0, 30)];
-    
     [self setBackgroundImageName:@"background.png"];
     [self setGroupBuyNavigationTitle:self.tabBarItem.title];
 

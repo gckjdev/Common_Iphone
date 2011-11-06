@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
 #import "HJManagedImageV.h"
+#import "OHAttributedLabel.h"
+#import "NSAttributedString+Attributes.h"
 
 @interface TaobaoSearchResultCell : PPTableViewCell {
     
     UILabel *titleLabel;
-    UILabel *priceLabel;
+    OHAttributedLabel *priceLabel;
     UILabel *priceGapLabel;
     UILabel *valueGapLabel;
     HJManagedImageV *imageView;
@@ -32,6 +34,6 @@
 @property (nonatomic, retain) IBOutlet UILabel *priceGapLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
+@property (nonatomic, retain) IBOutlet OHAttributedLabel *priceLabel;
 
 @end

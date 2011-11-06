@@ -39,7 +39,7 @@ enum {
 #define INFO_FONT       ([UIFont systemFontOfSize:12])
 #define INFO_WIDTH      305
 #define INFO_MAX_SIZE   (CGSizeMake(INFO_WIDTH, 3000))
-#define EXTRA_HEIGHT    40
+#define EXTRA_HEIGHT    30
 
 @implementation ProductDetailController
 
@@ -245,34 +245,14 @@ enum {
 
 #pragma mark Table View Delegate
 
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
-//{
-//	NSMutableArray* array = [NSMutableArray arrayWithArray:[ArrayOfCharacters getArray]];
-//	[array addObject:kSectionNull];
-//	return array;
-//	
-////		NSMutableArray *indices = [NSMutableArray arrayWithObject:UITableViewIndexSearch];
-////		return nil;
-//}
-//
-//
-//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-//{
-//	return [groupData sectionForLetter:title];
-//}
+- (NSString*)getTitle:(Product*)productValue
+{
+    return [NSString stringWithFormat:@"%@\n\n来自: %@", productValue.title, productValue.siteName];
+}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
-	NSString *sectionHeader = [groupData titleForSection:section];	
-	
-    //	switch (section) {
-    //		case <#constant#>:
-    //			<#statements#>
-    //			break;
-    //		default:
-    //			break;
-    //	}
-	
+	NSString *sectionHeader = [groupData titleForSection:section];	    
 	return sectionHeader;
 }
 
@@ -281,7 +261,7 @@ enum {
     switch (indexPath.section) {
         case SECTION_TITLE:
         {
-            NSString* text = product.title;     
+            NSString* text = [self getTitle:product];     
             CGSize size = [text sizeWithFont:INFO_FONT constrainedToSize:INFO_MAX_SIZE lineBreakMode:UILineBreakModeCharacterWrap];
                            
             return size.height + EXTRA_HEIGHT;
@@ -399,7 +379,7 @@ enum {
 	switch (indexPath.section) {
         case SECTION_TITLE:
         {            
-            cell.textLabel.text = [NSString stringWithFormat:@"%@\n\n来自: %@", product.title, product.siteName];
+            cell.textLabel.text = [self getTitle:product];
 
         }
             break;
@@ -447,21 +427,7 @@ enum {
 }
 
 - (void)gotoBuy
-{
-//    GlobalSetNavBarBackground(@"tu_209.png");
-    
-//    PPWebViewController *webController = GlobalGetPPWebViewController();
-//    webController.view.frame = self.view.bounds;
-//    [webController enableGroupBuySettings];
-//    [self.navigationController pushViewController:webController animated:YES];
-    
-//    [webController setSuperViewController:self];
-//    [webController setBackAction:^(UIViewController* viewController){
-//        [viewController dismissModalViewControllerAnimated:YES];        
-//    }];
-//    
-//    [self.navigationController presentModalViewController:webController animated:YES];
-    
+{    
     NSString* url = nil;
     if ([product.wapURL length] > 0)
         url = product.wapURL;
