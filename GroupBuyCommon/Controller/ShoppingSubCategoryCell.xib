@@ -71,14 +71,12 @@
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="518044881">
-									<string key="name">STHeitiSC-Medium</string>
-									<string key="family">Heiti SC</string>
-									<int key="traits">2</int>
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="410061891">
+									<int key="type">2</int>
 									<double key="pointSize">12</double>
 								</object>
-								<object class="NSFont" key="IBUIFont" id="391456192">
-									<string key="NSName">STHeitiSC-Medium</string>
+								<object class="NSFont" key="IBUIFont" id="733069399">
+									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">12</double>
 									<int key="NSfFlags">16</int>
 								</object>
@@ -104,8 +102,8 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1014388059"/>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 							<object class="IBUIButton" id="723569747">
 								<reference key="NSNextResponder" ref="780414080"/>
@@ -128,8 +126,8 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1014388059"/>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 							<object class="IBUIButton" id="1011635621">
 								<reference key="NSNextResponder" ref="780414080"/>
@@ -152,8 +150,8 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1014388059"/>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 							<object class="IBUIButton" id="1009545268">
 								<reference key="NSNextResponder" ref="780414080"/>
@@ -176,8 +174,8 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1014388059"/>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 							<object class="IBUIButton" id="1044525032">
 								<reference key="NSNextResponder" ref="780414080"/>
@@ -200,8 +198,8 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1014388059"/>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 							<object class="IBUIButton" id="424247935">
 								<reference key="NSNextResponder" ref="780414080"/>
@@ -209,7 +207,7 @@
 								<string key="NSFrame">{{16, 97}, {60, 22}}</string>
 								<reference key="NSSuperview" ref="780414080"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="689098327"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 								<int key="IBUITag">18</int>
@@ -224,8 +222,8 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1014388059"/>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 							<object class="IBUIButton" id="689098327">
 								<reference key="NSNextResponder" ref="780414080"/>
@@ -233,7 +231,7 @@
 								<string key="NSFrame">{{92, 97}, {60, 22}}</string>
 								<reference key="NSSuperview" ref="780414080"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="424247935"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 								<int key="IBUITag">19</int>
@@ -248,8 +246,8 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1014388059"/>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 							<object class="IBUIButton" id="929238710">
 								<reference key="NSNextResponder" ref="780414080"/>
@@ -257,7 +255,7 @@
 								<string key="NSFrame">{{244, 67}, {60, 22}}</string>
 								<reference key="NSSuperview" ref="780414080"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="689098327"/>
+								<reference key="NSNextKeyView" ref="424247935"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 								<int key="IBUITag">17</int>
@@ -272,8 +270,8 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1014388059"/>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 							<object class="IBUIButton" id="882764200">
 								<reference key="NSNextResponder" ref="780414080"/>
@@ -296,13 +294,13 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1014388059"/>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 							<object class="IBUIButton" id="427139277">
 								<reference key="NSNextResponder" ref="780414080"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{33, 12}, {60, 22}}</string>
+								<string key="NSFrame">{{20, 9}, {60, 22}}</string>
 								<reference key="NSSuperview" ref="780414080"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="882764200"/>
@@ -324,8 +322,8 @@
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC43NDUwOTgwMzkyIDAuNzIxNTY4NjI3NSAwLjY4NjI3NDUwOTgAA</bytes>
 								</object>
-								<reference key="IBUIFontDescription" ref="518044881"/>
-								<reference key="IBUIFont" ref="391456192"/>
+								<reference key="IBUIFontDescription" ref="410061891"/>
+								<reference key="IBUIFont" ref="733069399"/>
 							</object>
 						</object>
 						<string key="NSFrameSize">{324, 129}</string>

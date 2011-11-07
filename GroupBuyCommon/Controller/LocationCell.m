@@ -10,7 +10,6 @@
 #import "PPMKMapViewController.h"
 #import "LocationService.h"
 @implementation LocationCell
-@synthesize locationSwitch;
 @synthesize locationLabel;
 @synthesize areaLabel;
 @synthesize coordinate;
@@ -20,7 +19,6 @@
 
 - (void)dealloc
 {
-    [locationSwitch release];
     [locationLabel release];
     [areaLabel release];
 //    [mapViewController release];
@@ -45,9 +43,7 @@
     cell.areaLabel.text = nil;
     cell.locationLabel.text = nil;
     cell.delegate = delegate;
-    
-    cell.locationSwitch.hidden = YES; 
-    cell.locationSwitch.enabled = NO; 
+
     
     return cell;
 }
@@ -60,7 +56,7 @@
 
 + (CGFloat)getCellHeight
 {
-    return 60;
+    return 77;
 }
 
 - (void)setLabelText:(CLLocationDistance)r
@@ -91,11 +87,9 @@
     if (latitude == nil || longitude == nil || r == nil || [r intValue] < MIN_RADIUS) {
         coorinate = CLLocationCoordinate2DMake(DEGREE_NOT_SET, DEGREE_NOT_SET);
         distance = -1;
-        self.locationSwitch.on = NO;
     }else{
         coorinate = CLLocationCoordinate2DMake([latitude doubleValue], [longitude doubleValue]);
         distance = [r doubleValue];
-        self.locationSwitch.on = YES;
     }
     [self setCoordinate:coorinate radius:distance];
 }
@@ -103,28 +97,14 @@
 -(void)didChangeLocation:(CLLocationCoordinate2D)c radius:(CLLocationDistance)r
 {
     if (r > 0.0f){
-        [self.locationSwitch setOn:YES];
         [self setCoordinate:c radius:r];
     }
     else{
-        [self.locationSwitch setOn:NO];      
         [self setLatitude:nil longitude:nil radius:nil];
     }
 }
 
-- (IBAction)didChangeSwitch:(id)sender {
 
-    if (self.locationSwitch.on) {
-        [self setLatitude:nil longitude:nil radius:nil];
-        if ([self.locationCellDelegate respondsToSelector:@selector(didSwitchOn)]) {
-            [self.locationCellDelegate didSwitchOn];
-        }
-    }else{
-        [self setLatitude:nil longitude:nil radius:nil];
-        self.locationLabel.text = @"不限";
-    }
-    [self.locationSwitch setOn:NO];
-}
 
 
 - (NSNumber *)getLatitude

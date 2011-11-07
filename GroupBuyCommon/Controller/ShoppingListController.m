@@ -161,12 +161,17 @@
                 
     cell.keyWordsLabel.text = [NSString stringWithFormat:@"%@ %@ %@",keywords,category,subCategoryName];
 
+    
+#define TUAN_LABEL 100
+    [[cell viewWithTag:TUAN_LABEL] setHidden:NO];
+
     switch ([item.status intValue]) {
         case ShoppingItemCountLoading:
         {
             [cell.loadingIndicator setHidden:NO];
             [cell.loadingIndicator startAnimating];
             [cell.matchCountLabel setHidden:YES];
+            [[cell viewWithTag:TUAN_LABEL] setHidden:YES];
         }
             break;
             

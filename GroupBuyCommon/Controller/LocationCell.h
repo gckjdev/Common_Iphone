@@ -29,7 +29,6 @@
 
 @interface LocationCell : PPTableViewCell <PPMKMapViewControllerDelegate>{
     
-    UISwitch *locationSwitch;
     UILabel *locationLabel;
     UILabel *areaLabel;
     CLLocationCoordinate2D coordinate;
@@ -38,7 +37,6 @@
     id<LocationCellDelegate> locationCellDelegate;
     
 }
-@property (nonatomic, retain) IBOutlet UISwitch *locationSwitch;
 @property (nonatomic, retain) IBOutlet UILabel *locationLabel;
 @property (nonatomic, retain) IBOutlet UILabel *areaLabel;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
@@ -56,7 +54,6 @@
 
 -(void)didChangeLocation:(CLLocationCoordinate2D)coordinate radius:(CLLocationDistance)radius;
 
-- (IBAction)didChangeSwitch:(id)sender;
 - (NSNumber *)getLatitude;
 - (NSNumber *)getLongtitude;
 - (NSNumber *)getRadius;

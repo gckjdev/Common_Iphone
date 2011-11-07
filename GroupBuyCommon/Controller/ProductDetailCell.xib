@@ -159,6 +159,7 @@
 								<reference key="IBUITextColor" ref="700181287"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
+								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 								<float key="IBUIMinimumFontSize">10</float>
 								<int key="IBUITextAlignment">1</int>
 								<reference key="IBUIFontDescription" ref="641217033"/>
@@ -297,7 +298,7 @@
 								<string key="NSFrame">{{5, 5}, {210, 150}}</string>
 								<reference key="NSSuperview" ref="607820768"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="12069917"/>
+								<reference key="NSNextKeyView" ref="974199096"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
@@ -307,7 +308,7 @@
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
-							<object class="IBUILabel" id="12069917">
+							<object class="IBUILabel" id="974199096">
 								<reference key="NSNextResponder" ref="607820768"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{216, 9}, {85, 36}}</string>
@@ -417,7 +418,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">priceLabel</string>
 						<reference key="source" ref="135263363"/>
-						<reference key="destination" ref="12069917"/>
+						<reference key="destination" ref="974199096"/>
 					</object>
 					<int key="connectionID">39</int>
 				</object>
@@ -474,7 +475,7 @@
 							<reference ref="702654709"/>
 							<reference ref="275034547"/>
 							<reference ref="221392023"/>
-							<reference ref="12069917"/>
+							<reference ref="974199096"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -536,7 +537,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">38</int>
-						<reference key="object" ref="12069917"/>
+						<reference key="object" ref="974199096"/>
 						<reference key="parent" ref="135263363"/>
 					</object>
 				</array>

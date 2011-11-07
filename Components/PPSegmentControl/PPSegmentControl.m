@@ -14,7 +14,6 @@
 
 @implementation PPSegmentControl
 
-@synthesize clickActionBlock;
 @synthesize selectedIndex;
 @synthesize buttonWidth;
 @synthesize buttonHeight;
@@ -25,7 +24,8 @@
 @synthesize selectedSegmentColor;
 @synthesize unSelectedSegmentFont;
 @synthesize unSelectedSegmentColor;
-@synthesize viewController;
+@synthesize delegate;
+
 
 - (void)setDefaultSetting
 {
@@ -252,10 +252,8 @@
         [oldButton.titleLabel setFont:unSelectedSegmentFont];
         [oldButton setTitleColor:unSelectedSegmentColor forState:UIControlStateNormal];
     }
-
-    
-    if (self.clickActionBlock != NULL) {
-        clickActionBlock(self, viewController);    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didSegmentValueChange:)]) {
+        [self.delegate didSegmentValueChange:self];
     }
 }
 
@@ -280,7 +278,6 @@
 
 - (void)dealloc
 {
-    [viewController release];
     [selectedImageView release];
     [buttonItems release];
     [segmentBgImageView release];

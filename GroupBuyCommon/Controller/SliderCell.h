@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
+#import "PPSegmentControl.h"
+
 
 @protocol PriceCellDelegate <NSObject>
 @required
@@ -20,26 +22,29 @@
 #define PRICE_UNLIMIT_INDEX 6
 
 
-@interface SliderCell : PPTableViewCell {
+@interface SliderCell : PPTableViewCell<PPSegmentControlDelegate> {
     UITextField *priceTextField;
-    UISegmentedControl *priceSegment;
+    PPSegmentControl *priceSeg;
     id<PriceCellDelegate>priceCellDelegate;
+    NSArray *_priceArray;
 }
 
-@property (nonatomic, retain) IBOutlet UISegmentedControl *priceSegment;
 @property (nonatomic, retain) IBOutlet UITextField *priceTextField;
 @property (nonatomic, retain) id<PriceCellDelegate>priceCellDelegate;
+@property (nonatomic, retain) PPSegmentControl *priceSeg;
+@property (nonatomic, retain) NSArray *_priceArray;
 
 + (SliderCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
 - (NSInteger)segmentIndexForPrice:(NSNumber *)price;
+
 - (void)setPrice:(NSNumber *)price;
 - (NSNumber *)getPrice;
+- (NSArray *)getPriceArray;
 
 - (IBAction)textFieldDidBeginEditing:(id)sender;
 - (IBAction)textFieldDidEndEditing:(id)sender;
-
-- (IBAction)selectSegment:(id)sender;
+- (void)setCellInfo:(NSNumber *)price;
 
 @end

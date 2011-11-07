@@ -757,10 +757,13 @@
 
 #pragma PPSegmentControl delegate
 
-- (void)clickedSegment:(PPSegmentControl *)segControl
+-(void)didSegmentValueChange:(PPSegmentControl *)seg
 {
-    [self clickSegControl:segControl];
+    [self clickSegControl:seg];
+
 }
+
+
 
 
 #pragma Image Picker Related

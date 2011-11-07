@@ -137,10 +137,10 @@
         [self.keywordCell setkeyword:item.keywords];
         
         //expireDate
-        [self.validPeriodCell setAndCalculateExpireDate:item.expireDate];
-        
+        //[self.validPeriodCell setAndCalculateExpireDate:item.expireDate];
+        [self.validPeriodCell setCellInfo:item.expireDate];
         //price
-        [self.priceCell setPrice:item.maxPrice];
+        [self.priceCell setCellInfo:item.maxPrice];
         
         [self.locationCell setLatitude:item.latitude longitude:item.longitude radius:item.radius];
     }else{
@@ -149,8 +149,9 @@
         [self.categoryCell setAndHighlightSelectedCategory:nil];
         [self.subCategoryCell setAndHighlightSelectedSubCategories:nil];
         [self.keywordCell setkeyword:nil];
-        [self.validPeriodCell setAndCalculateExpireDate:nil];
-        [self.priceCell setPrice:nil];
+//        [self.validPeriodCell setAndCalculateExpireDate:nil];
+        [self.validPeriodCell setCellInfo:nil];
+        [self.priceCell setCellInfo:nil];
         [self.locationCell setLatitude:nil longitude:nil radius:nil];
     }
         [self hideActivity];
@@ -229,6 +230,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self updateRowIndex];
+    
+    int top = [ShoppingKeywordCell getCellHeight];
+    [self addBlankView:top currentResponder:self.keywordCell.keywordTextField];
+	
+    
     [super viewDidAppear:animated];
 }
 

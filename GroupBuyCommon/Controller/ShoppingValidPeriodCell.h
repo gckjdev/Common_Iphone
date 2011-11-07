@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
+#import "PPSegmentControl.h"
 
 #define ONE_WEEK 7
 #define ONE_MONTH 30
@@ -20,15 +21,15 @@
 #define TIME_ZONE @"Asia/Shanghai"
 
 
-@interface ShoppingValidPeriodCell : PPTableViewCell {
+@interface ShoppingValidPeriodCell : PPTableViewCell<PPSegmentControlDelegate> {
 
-    UISegmentedControl *periodSegmented;
     UIButton *validPeriod;
     NSDate *expireDate;
+    PPSegmentControl *periodSeg;
 }
-@property (nonatomic, retain) IBOutlet UISegmentedControl *periodSegmented;
 @property (nonatomic, retain) IBOutlet UIButton *validPeriod;
 @property (nonatomic, retain) NSDate *exipireDate;
+@property (nonatomic, retain) PPSegmentControl * periodSeg;
 
 + (ShoppingValidPeriodCell*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
@@ -43,9 +44,7 @@
 
 - (NSInteger)segmentIndexForDate:(NSDate *)date;
 
-- (IBAction)didSelectPeriod:(id)sender;
-
-- (void)setAndCalculateExpireDate:(NSDate *)date;
+- (void)setCellInfo:(NSDate *)date;
 
 - (NSDate *)getExpireDate;
 

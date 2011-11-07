@@ -8,18 +8,18 @@
 
 #import "ShoppingValidPeriodCell.h"
 #import "TimeUtils.h"
-
+#import "PPSegmentControl.h"
 
 @implementation ShoppingValidPeriodCell
-@synthesize periodSegmented;
 @synthesize validPeriod;
 @synthesize exipireDate;
+@synthesize periodSeg;
+
 
 - (void)dealloc {
-    [periodSegmented release];
     [validPeriod release];
     [expireDate release];
-    
+    [periodSeg release];
     [super dealloc];
 }
 
@@ -60,6 +60,40 @@
 
 }
 
+#pragma ppSegmentControl delegate
+-(void)didSegmentValueChange:(PPSegmentControl *)seg
+{
+    NSInteger index = [self.periodSeg selectedSegmentIndex];
+    
+    if (index == UISegmentedControlNoSegment) {
+        return;
+    }
+    self.exipireDate = [ShoppingValidPeriodCell calculateValidPeriodWithSegmentIndex:index];
+    if (self.exipireDate) {
+        self.validPeriod.titleLabel.text = dateToString(self.exipireDate);
+    }else{
+        self.validPeriod.titleLabel.text = NOT_LIMIT;
+    }
+}
+
+
+- (void)SetPeriodPPSeg
+{
+    NSArray *array = [NSArray arrayWithObjects:@"一周内",@"一月内", @"三月内", @"半年内", @"不限", nil];
+    UIImage *bgImage = [[UIImage imageNamed:@"tu_39.png"]stretchableImageWithLeftCapWidth:8.5 topCapHeight:0];
+    UIImage *selectedImage = [[UIImage imageNamed:@"tu_126-53.png"]stretchableImageWithLeftCapWidth:7.5 topCapHeight:0];
+
+    self.periodSeg = [[PPSegmentControl alloc] initWithItems:array defaultSelectIndex:1 bgImage:bgImage selectedImage:selectedImage];
+    [self.periodSeg  setSegmentFrame:CGRectMake(20, 38, 280, 28)];
+    [self.periodSeg  setSelectedTextFont:[UIFont boldSystemFontOfSize:12] color:[UIColor whiteColor]];
+    [self.periodSeg  setUnselectedTextFont:[UIFont boldSystemFontOfSize:12] color:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1]];
+    [self.periodSeg  setSelectedSegmentFrame:CGRectMake(0, 0, self.periodSeg.buttonWidth, 35) image:selectedImage];
+    [self.periodSeg setDelegate:self];
+    [self addSubview:self.periodSeg];
+
+}
+
+
 // just replace PPTableViewCell by the new Cell Class Name
 + (ShoppingValidPeriodCell*)createCell:(id)delegate
 {
@@ -74,6 +108,7 @@
     ShoppingValidPeriodCell *cell = [topLevelObjects objectAtIndex:0];
     cell.delegate = delegate;
     cell.validPeriod.titleLabel.text = NOT_LIMIT;
+    [cell SetPeriodPPSeg];
     
     return cell;
     
@@ -89,6 +124,8 @@
 {
     return 80;
 }
+
+
 
 - (NSInteger)segmentIndexForDate:(NSDate *)date
 {
@@ -106,34 +143,20 @@
     return UISegmentedControlNoSegment;
 }
 
-- (IBAction)didSelectPeriod:(id)sender {
-    
-    NSInteger index = self.periodSegmented.selectedSegmentIndex;
-    
-    if (index == UISegmentedControlNoSegment) {
-        return;
-    }
-    self.exipireDate = [ShoppingValidPeriodCell calculateValidPeriodWithSegmentIndex:index];
-    if (self.exipireDate) {
-        self.validPeriod.titleLabel.text = dateToString(self.exipireDate);
-    }else{
-        self.validPeriod.titleLabel.text = NOT_LIMIT;
-    }
-}
 
-
-- (void)setAndCalculateExpireDate:(NSDate *)date
+- (void)setCellInfo:(NSDate *)date
 {
     if (date == nil) {
         self.validPeriod.titleLabel.text = NOT_LIMIT;
-        [self.periodSegmented setSelectedSegmentIndex:PERIOD_UNLIMIT_INDEX];
+        [self.periodSeg setSelectedSegmentIndex:PERIOD_UNLIMIT_INDEX];
     }else
     {
         self.validPeriod.titleLabel.text = dateToString(date);
         int index = [self segmentIndexForDate:date];
-        [self.periodSegmented setSelectedSegmentIndex: index];
+        [self.periodSeg setSelectedSegmentIndex:index];
     }
 }
+
 - (NSDate *)getExpireDate
 {
     return self.exipireDate;

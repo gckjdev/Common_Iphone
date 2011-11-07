@@ -8,20 +8,49 @@
 
 #import "SliderCell.h"
 #import "AddShoppingItemController.h"
-NSArray* priceArray;
 
 @implementation SliderCell
-@synthesize priceSegment;
 @synthesize priceTextField;
 @synthesize priceCellDelegate;
+@synthesize priceSeg;
+@synthesize _priceArray;
+
 #define NOT_LIMIT @"不限"
 
 - (void)dealloc {
 
     [priceTextField release];
-    [priceSegment release];
     [priceCellDelegate release];
+    [priceSeg release];
+    [_priceArray release];
+    
     [super dealloc];
+}
+
+- (NSArray *)getPriceArray
+{
+    if (self._priceArray == nil || 
+        [self._priceArray count] != PRICE_UNLIMIT_INDEX + 1) {
+        self._priceArray = [NSArray arrayWithObjects:@"20",@"50", @"100", 
+                            @"150", @"300", @"500", NOT_LIMIT, nil];
+    }
+    return self._priceArray;
+}
+
+- (void)SetPricePPSeg
+{
+    NSArray *array = [self getPriceArray];
+    UIImage *bgImage = [[UIImage imageNamed:@"tu_39.png"]stretchableImageWithLeftCapWidth:8.5 topCapHeight:0];
+    UIImage *selectedImage = [[UIImage imageNamed:@"tu_126-53.png"]stretchableImageWithLeftCapWidth:7.5 topCapHeight:0];
+    
+    self.priceSeg = [[PPSegmentControl alloc] initWithItems:array defaultSelectIndex:PRICE_UNLIMIT_INDEX bgImage:bgImage selectedImage:selectedImage];
+    [self.priceSeg  setSegmentFrame:CGRectMake(20, 38, 280, 28)];
+    [self.priceSeg  setSelectedTextFont:[UIFont boldSystemFontOfSize:12] color:[UIColor whiteColor]];
+    [self.priceSeg  setUnselectedTextFont:[UIFont boldSystemFontOfSize:12] color:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1]];
+    [self.priceSeg  setSelectedSegmentFrame:CGRectMake(0, 0, self.priceSeg.buttonWidth, 35) image:selectedImage];
+    [self.priceSeg setDelegate:self];
+    [self addSubview:self.priceSeg];
+    
 }
 
 // just replace PPTableViewCell by the new Cell Class Name
@@ -37,14 +66,30 @@ NSArray* priceArray;
     
     SliderCell *cell = (SliderCell *)[topLevelObjects objectAtIndex:0];
     cell.delegate = delegate;
-    
-    cell.priceTextField.text = NOT_LIMIT;
-    
+    [cell SetPricePPSeg];
+    [cell setPrice:nil];
     return cell;
     
-//    ((SliderCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
-//    
-//    return (SliderCell*)[topLevelObjects objectAtIndex:0];
+}
+
+#pragma ppSegmentControl delegate
+-(void)didSegmentValueChange:(PPSegmentControl *)seg
+{
+
+    NSInteger index = [self.priceSeg selectedSegmentIndex];
+    
+    if (index == UISegmentedControlNoSegment) {
+        return;
+    }
+    
+    NSString *value = [self.priceSeg titleForSegmentAtIndex:index];
+    NSNumber *price = nil;
+    
+    if (![value isEqualToString:NOT_LIMIT]) {
+        price = [NSNumber numberWithInt:[value intValue]];
+    }
+    [self setPrice:price];
+
 }
 
 
@@ -63,13 +108,12 @@ NSArray* priceArray;
 {
     
     if (price == nil) {
-        return UISegmentedControlNoSegment;
+        return PRICE_UNLIMIT_INDEX;
     }
-    NSString *text = [price stringValue];
-    for (int i = 0; i < self.priceSegment.numberOfSegments; ++ i) {
-        if ([text isEqualToString:[self.priceSegment titleForSegmentAtIndex:i]]) {
-            return i;
-        }
+    NSString *priceString = [NSString stringWithFormat:@"%d",[price integerValue]];
+    NSArray *array = [self getPriceArray];
+    if ([array containsObject:priceString]) {
+        return [array indexOfObject:priceString];
     }
     return UISegmentedControlNoSegment;
 }
@@ -79,24 +123,23 @@ NSArray* priceArray;
 {
     if (price == nil || [price intValue] < 0) {
         self.priceTextField.text = NOT_LIMIT;
-        [self.priceSegment setSelectedSegmentIndex:PRICE_UNLIMIT_INDEX];
     }else
     {
-        [self.priceSegment setSelectedSegmentIndex:[self segmentIndexForPrice:price]];
         self.priceTextField.text = [price stringValue];
     }
 }
 
-- (void) setPrice:(NSNumber *)price segmentIndex:(NSInteger)index
-{
-    if (price == nil || [price intValue] < 0) {
-        self.priceTextField.text = NOT_LIMIT;
-    }else{
-        self.priceTextField.text = [price stringValue];
-    }
-    
-    [self.priceSegment setSelectedSegmentIndex:index];
-}
+
+//- (void) setPrice:(NSNumber *)price segmentIndex:(NSInteger)index
+//{
+//    if (price == nil || [price intValue] < 0) {
+//        self.priceTextField.text = NOT_LIMIT;
+//    }else{
+//        self.priceTextField.text = [price stringValue];
+//    }
+//    
+//    [self.priceSeg setSelectedSegmentIndex:index];
+//}
 
 - (NSNumber *)getPrice
 {
@@ -110,27 +153,17 @@ NSArray* priceArray;
 }
 
 
-- (IBAction)selectSegment:(id)sender {
-    if (sender == self.priceSegment) {
-        NSInteger index = self.priceSegment.selectedSegmentIndex;
-        
-        if (index == UISegmentedControlNoSegment) {
-            return;
-        }
-        
-        NSString *value = [self.priceSegment titleForSegmentAtIndex:index];
-        NSNumber *price = nil;
-        
-        if (![value isEqualToString:NOT_LIMIT]) {
-            price = [NSNumber numberWithInt:[value intValue]];
-        }
-        
-        [self setPrice:price segmentIndex:index];
-    } 
-    
+
+- (void)setCellInfo:(NSNumber *)price
+{
+
+    [self setPrice:price];
+    NSInteger index = [self segmentIndexForPrice:price];
+    [self.priceSeg setSelectedSegmentIndex:index];
 }
+
 - (IBAction)textFieldDidBeginEditing:(id)sender {
-    [self.priceSegment setSelectedSegmentIndex:UISegmentedControlNoSegment];
+    [self.priceSeg setSelectedSegmentIndex:UISegmentedControlNoSegment];
     if ([self.priceCellDelegate respondsToSelector:@selector(textFieldDidBeginEditing:)]) {
         [self.priceCellDelegate textFieldDidBeginEditing:sender];
     }
@@ -138,7 +171,7 @@ NSArray* priceArray;
 
 - (IBAction)textFieldDidEndEditing:(id)sender {
     NSNumber *price = [self getPrice];
-    [self.priceSegment setSelectedSegmentIndex:[self segmentIndexForPrice:price]];
+    [self.priceSeg setSelectedSegmentIndex:[self segmentIndexForPrice:price]];
     
     if ([self.priceCellDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
         [self.priceCellDelegate textFieldDidEndEditing:sender];

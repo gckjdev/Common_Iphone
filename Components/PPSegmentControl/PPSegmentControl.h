@@ -11,9 +11,10 @@
 @class PPSegmentControl;
 @class PPViewController;
 
-typedef void (^PPSegmentControlActionBlock)(PPSegmentControl* segControl, UIViewController* viewController);
 
-
+@protocol PPSegmentControlDelegate <NSObject>
+-(void)didSegmentValueChange:(PPSegmentControl *)seg;
+@end
 
 @interface PPSegmentControl : UIView {
     
@@ -28,7 +29,8 @@ typedef void (^PPSegmentControlActionBlock)(PPSegmentControl* segControl, UIView
     
 }
 
-@property (nonatomic, assign) PPSegmentControlActionBlock clickActionBlock;
+
+@property (nonatomic, assign) id<PPSegmentControlDelegate> delegate;
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, assign) int buttonWidth;
 @property (nonatomic, assign) int buttonHeight;
@@ -39,7 +41,6 @@ typedef void (^PPSegmentControlActionBlock)(PPSegmentControl* segControl, UIView
 @property (nonatomic, retain) UIFont *selectedSegmentFont;
 @property (nonatomic, retain) UIColor *unSelectedSegmentColor;
 @property (nonatomic, retain) UIFont *unSelectedSegmentFont;
-@property (nonatomic, retain) UIViewController *viewController;
 
 - (id)initWithItems:(NSArray*)titleArray 
  defaultSelectIndex:(int)defaultSelectIndex 

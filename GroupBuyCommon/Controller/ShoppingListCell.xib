@@ -197,6 +197,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
+								<int key="IBUITag">100</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">团</string>
@@ -226,7 +227,6 @@
 								<string key="NSFrame">{{209, 40}, {94, 27}}</string>
 								<reference key="NSSuperview" ref="9375429"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>

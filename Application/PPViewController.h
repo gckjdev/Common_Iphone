@@ -24,7 +24,7 @@
 @class UIBlankView;
 @class PPSegmentControl;
 
-@interface PPViewController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate, MKReverseGeocoderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface PPViewController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate, MKReverseGeocoderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PPSegmentControlDelegate> {
 
 	NSString*				backgroundImageName;
 	
