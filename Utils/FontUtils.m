@@ -32,4 +32,9 @@
 	[familyNames release];
 }
 
++ (UIFont *)HeitiSC:(CGFloat)size
+{
+    return [UIFont fontWithName:@"Heiti SC" size:size];
+}
+
 @end

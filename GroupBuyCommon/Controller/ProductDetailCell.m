@@ -12,6 +12,10 @@
 #import "Product.h"
 #import "PPApplication.h"
 #import "ProductService.h"
+#import "NumberUtil.h"
+#import "NSAttributedString+Attributes.h"
+#import "FontUtils.h"
+#import "OHAttributedLabel.h"
 
 
 @implementation ProductDetailCell
@@ -21,10 +25,7 @@
 @synthesize boughtLabel;
 @synthesize upLabel;
 @synthesize downLabel;
-@synthesize priceIntegerLabel;
-@synthesize priceDecimalLabel;
-@synthesize yuanLabel;
-@synthesize productInfo;
+@synthesize priceLabel;
 @synthesize productDetailCellDelegate;
 
 
@@ -62,45 +63,10 @@
     return 160.0f;
 }
 
-- (BOOL)isInteger:(CGFloat)number
-{
-    NSInteger integer = number;
-    if (number - integer == 0.0) {
-        return YES;
-    }
-    return NO;
-}
 
-- (NSInteger)getDecimal:(CGFloat)number
-{
-//    const int W = 3;
-    NSString *str = [NSString stringWithFormat:@"%0.2f",number];
-    NSRange range = [str rangeOfString:@"."];
-    NSInteger start = range.location + 1;
-    int i = [str length] - 1;
-    for (; i >= start; --i) {
-        if ([str characterAtIndex:i] != '0') {
-            break;
-        }
-    }
-    int sum = 0;
-    for (int j = start; j <= i; j++) {
-        sum *= 10;
-        sum += [str characterAtIndex:j] - '0';
-    }
-    return sum;
-//    str = [str substringFromIndex:]
-}
-
-- (void)setYuanXOffset:(NSInteger)x
-{
-    [self.yuanLabel setFrame:CGRectMake(x, yuanLabel.frame.origin.y, 
-                                        yuanLabel.frame.size.width, yuanLabel.frame.size.height)];
-}
 
 - (void)setCellInfo:(Product *)product
 {
-    self.productInfo = product;
     //set product image
     #define IMAGE_VIEW_TAG 1299
     self.productImage.tag = IMAGE_VIEW_TAG;
@@ -113,29 +79,34 @@
     //set product price
 
     if (product.price) {
-        CGFloat price = [product.price floatValue];
-        NSInteger integer = price;
-        NSInteger decimal = [self getDecimal:price];
-        if (decimal == 0) {
-            self.priceIntegerLabel.text = [NSString stringWithFormat:@"%d",integer];
-            self.priceDecimalLabel.text = nil;
-            [self setYuanXOffset:261];
-        }else{
-            self.priceIntegerLabel.text = [NSString stringWithFormat:@"%d.",integer];
-            self.priceDecimalLabel.text = [NSString stringWithFormat:@"%d",decimal];
-            if (decimal > 10) {
-                [self setYuanXOffset:281];
-            }else{
-                [self setYuanXOffset:273];
-            }
-        }
-        [self.yuanLabel setHidden:NO];
-    }else{
-        self.priceIntegerLabel.text = nil;
-        self.priceDecimalLabel.text = nil;
-        [self.yuanLabel setHidden:YES];
-    }
         
+        NSInteger priceInteger = [product.price integerValue];
+        NSInteger priceDecimal = getDecimal([product.price floatValue]);
+        NSString* priceText = nil;
+        if (priceDecimal == 0) {
+            priceText = [NSString stringWithFormat:@"%d元", priceInteger];
+        }else{
+            priceText = [NSString stringWithFormat:@"%d.%d元", priceInteger,priceDecimal];
+        }
+        
+        NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:priceText];
+        
+        [attrStr setFont:[FontUtils HeitiSC:24]];
+        [attrStr setTextColor:[UIColor colorWithRed:245/255.0 green:109/255.0 blue:42/255.0 alpha:1.0f]];    
+        [attrStr setTextColor:[UIColor colorWithRed:111/255.0f green:104/255.0f blue:94/255.0f alpha:1.f] range:[priceText rangeOfString:@"元"]];
+        [attrStr setFont:[FontUtils HeitiSC:12] range:[priceText rangeOfString:@"元"]];
+        
+        if (priceDecimal != 0) {
+            NSString *text = [NSString stringWithFormat:@".%d",priceDecimal];
+            [attrStr setFont:[FontUtils HeitiSC:18] range:[priceText rangeOfString:text]];
+        }
+
+        self.priceLabel.attributedText = attrStr;
+        self.priceLabel.backgroundColor = [UIColor clearColor];
+        [self.priceLabel setTextAlignment:UITextAlignmentCenter];
+    }
+    
+    
     //other vars
     if (product.rebate) {
         NSString *rebate = [NSString stringWithFormat:@"%@折",[product.rebate description]];
@@ -193,10 +164,7 @@
     [boughtLabel release];
     [upLabel release];
     [downLabel release];
-    [priceIntegerLabel release];
-    [priceDecimalLabel release];
-    [yuanLabel release];
-    [productInfo release];
+    [priceLabel release];
     [super dealloc];
 }
 @end

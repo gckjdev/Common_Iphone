@@ -239,7 +239,7 @@
 								<string key="NSFrame">{{224, 75}, {79, 21}}</string>
 								<reference key="NSSuperview" ref="212723496"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="769429283"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -270,7 +270,7 @@
 							<object class="IBUILabel" id="584877531">
 								<reference key="NSNextResponder" ref="212723496"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{224, 3}, {86, 38}}</string>
+								<string key="NSFrame">{{224, 8}, {86, 38}}</string>
 								<reference key="NSSuperview" ref="212723496"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="202736684"/>
@@ -286,12 +286,14 @@
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 								<float key="IBUIMinimumFontSize">10</float>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
-									<int key="type">1</int>
-									<double key="pointSize">17</double>
+									<string key="name">STHeitiSC-Light</string>
+									<string key="family">Heiti SC</string>
+									<int key="traits">0</int>
+									<double key="pointSize">23</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
-									<string key="NSName">Helvetica</string>
-									<double key="NSSize">17</double>
+									<string key="NSName">STHeitiSC-Light</string>
+									<double key="NSSize">23</double>
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>

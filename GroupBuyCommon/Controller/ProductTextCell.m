@@ -16,6 +16,9 @@
 #import "PPApplication.h"
 #import "Reachability.h"
 #import "NSAttributedString+Attributes.h"
+#import "NumberUtil.h"
+#import "FontUtils.h"
+
 
 @implementation ProductTextCell
 
@@ -28,6 +31,8 @@
 @synthesize distanceLabel;
 @synthesize boughtLabel;
 @synthesize siteNameLabel;
+
+
 
 // just replace PPTableViewCell by the new Cell Class Name
 + (ProductTextCell*)createCell:(id)delegate
@@ -151,12 +156,26 @@
     self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];    
     self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [self getValue:value]];        
     
-    NSString* priceText = [NSString stringWithFormat:@"%@元", [price description]];
+    NSInteger priceInteger = [price integerValue];
+    NSInteger priceDecimal = getDecimal([price floatValue]);
+    NSString* priceText = nil;
+    if (priceDecimal == 0) {
+        priceText = [NSString stringWithFormat:@"%d元", priceInteger];
+    }else{
+        priceText = [NSString stringWithFormat:@"%d.%d元", priceInteger,priceDecimal];
+    }
+
     NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:priceText];
-    [attrStr setFont:[UIFont systemFontOfSize:24]];
+
+    [attrStr setFont:[FontUtils HeitiSC:24]];
 	[attrStr setTextColor:[UIColor colorWithRed:245/255.0 green:109/255.0 blue:42/255.0 alpha:1.0f]];    
 	[attrStr setTextColor:[UIColor colorWithRed:111/255.0f green:104/255.0f blue:94/255.0f alpha:1.f] range:[priceText rangeOfString:@"元"]];
-	[attrStr setFont:[UIFont systemFontOfSize:12] range:[priceText rangeOfString:@"元"]];
+	[attrStr setFont:[FontUtils HeitiSC:12] range:[priceText rangeOfString:@"元"]];
+        
+    if (priceDecimal != 0) {
+        NSString *text = [NSString stringWithFormat:@".%d",priceDecimal];
+        [attrStr setFont:[FontUtils HeitiSC:18] range:[priceText rangeOfString:text]];
+    }
     self.priceLabel.attributedText = attrStr;
     self.priceLabel.backgroundColor = [UIColor clearColor];
     

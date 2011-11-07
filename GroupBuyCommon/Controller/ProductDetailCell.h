@@ -9,7 +9,7 @@
 #import "PPTableViewCell.h"
 #import "HJManagedImageV.h"
 @class Product;
-//@class HJManagedImageV;
+@class OHAttributedLabel;
 
 @protocol ProductDetailCellDelegate <NSObject>
 
@@ -20,20 +20,17 @@
 
 @interface ProductDetailCell : PPTableViewCell<HJManagedImageVDelegate>
 {
-    Product *productInfo;
     id<ProductDetailCellDelegate>productDetailCellDelegate;
 }
 @property (retain, nonatomic) IBOutlet HJManagedImageV *productImage;
-@property (retain, nonatomic) IBOutlet Product *productInfo;
 @property (retain, nonatomic) IBOutlet UILabel *rebateLabel;
 @property (retain, nonatomic) IBOutlet UILabel *valueLabel;
 @property (retain, nonatomic) IBOutlet UILabel *boughtLabel;
 @property (retain, nonatomic) IBOutlet UILabel *upLabel;
 @property (retain, nonatomic) IBOutlet UILabel *downLabel;
+@property (retain, nonatomic) IBOutlet OHAttributedLabel *priceLabel;
 
-@property (retain, nonatomic) IBOutlet UILabel *priceIntegerLabel;
-@property (retain, nonatomic) IBOutlet UILabel *priceDecimalLabel;
-@property (retain, nonatomic) IBOutlet UILabel *yuanLabel;
+
 @property (nonatomic, assign) id<ProductDetailCellDelegate>productDetailCellDelegate;
 
 + (ProductDetailCell*) createCell:(id)delegate;

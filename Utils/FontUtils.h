@@ -14,5 +14,5 @@
 }
 
 + (void)logFontName;
-
++ (UIFont *)HeitiSC:(CGFloat)size;
 @end
