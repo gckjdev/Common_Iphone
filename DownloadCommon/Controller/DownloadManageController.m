@@ -7,6 +7,7 @@
 //
 
 #import "DownloadManageController.h"
+#import "DownloadItemCell.h"
 
 @implementation DownloadManageController
 
@@ -47,5 +48,71 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
+	return @"";
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 0.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return [DownloadItemCell getCellHeight];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;		// default implementation
+}
+
+// Customize the number of rows in the table view.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.dataList count];
+}
+
+
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSString *CellIdentifier = [DownloadItemCell getCellIdentifier];
+	DownloadItemCell *cell = (DownloadItemCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+        cell = [DownloadItemCell createCell:self];
+	}
+    
+    cell.indexPath = indexPath;
+	
+	// set text label
+	int row = [indexPath row];	
+	int count = [dataList count];
+	if (row >= count){
+		NSLog(@"[WARN] cellForRowAtIndexPath, row(%d) > data list total number(%d)", row, count);
+		return cell;
+	}
+	
+//    [cell setCellInfoWithProduct:product indexPath:indexPath];    
+	
+	return cell;
+	
+}
+
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+        
+	if (indexPath.row > [dataList count] - 1)
+		return;
+}
+
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (editingStyle == UITableViewCellEditingStyleDelete) {		
+	}	
+}
+
 
 @end

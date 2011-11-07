@@ -78,7 +78,7 @@
         [button setTitleEdgeInsets:UIEdgeInsetsMake(30, 0, 0, 0)];
     }
     else{
-        [button centerImageAndTitle:3.0f];
+        [button centerImageAndTitle:1.0f];
     }
 }
 
@@ -101,7 +101,7 @@
 	self.buttons = [NSMutableArray arrayWithCapacity:viewCount];
     
     // set button width & height
-	double _width = 320 / viewCount;
+	double _width = 320.0f / viewCount;
 	double _height = self.tabBar.frame.size.height;
     
 	for (int i = 0; i < viewCount; i++) {
@@ -115,30 +115,6 @@
         
         [self setButtonImage:btn image:v.tabBarItem.image];
         [self setButtonTitle:btn title:v.tabBarItem.title];
-        
-        
-//        NSLog(@"button frame : %@", NSStringFromCGRect(btn.frame));
-
-                
-        
-        // add title label
-//		UILabel *titleLabel;
-//        if (buttonStyle == TAB_BUTTON_STYLE_FILL){
-//            titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _height-20, _width, _height-30)];
-//            titleLabel.textColor = [UIColor whiteColor];
-//        }
-//        else{
-//            int leftIndent = -((_width - TAB_BUTTON_FIX_WIDTH)/2);
-//            titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftIndent, _height-22, _width, _height-30)];                        
-//        }
-//        titleLabel.tag = TITLE_TAG + i;
-//		titleLabel.backgroundColor = [UIColor clearColor];
-//		titleLabel.text = v.tabBarItem.title;
-//		titleLabel.textAlignment = UITextAlignmentCenter;
-//        titleLabel.font = [UIFont boldSystemFontOfSize:10];        
-//		[btn addSubview:titleLabel];        
-//		[titleLabel release];
-        
         
         // add badge view
         if ([v.tabBarItem.badgeValue length] > 0){

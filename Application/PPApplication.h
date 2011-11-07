@@ -24,7 +24,7 @@ extern dispatch_queue_t GlobalGetWorkingQueue();
 extern HJObjManager* GlobalGetImageCache();
 extern BOOL isFree();
 
-@interface PPApplication : NSObject <CLLocationManagerDelegate, MKReverseGeocoderDelegate> {
+@interface PPApplication : UIResponder <CLLocationManagerDelegate, MKReverseGeocoderDelegate> {
 
 	dispatch_queue_t	workingQueue;
 	ABAddressBookRef	addressBook;

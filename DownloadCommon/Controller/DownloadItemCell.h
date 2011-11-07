@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPTableViewCell.h"
 
-@interface DownloadItemCell : UIViewController
+@interface DownloadItemCell : PPTableViewCell
+
++ (DownloadItemCell*) createCell:(id)delegate;
++ (NSString*)getCellIdentifier;
++ (CGFloat)getCellHeight;
 
 @end

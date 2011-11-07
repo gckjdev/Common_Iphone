@@ -10,42 +10,38 @@
 
 @implementation DownloadItemCell
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)setCellStyle
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    self.selectionStyle = UITableViewCellSelectionStyleNone;		   
+}
+
+- (void)awakeFromNib{
+    [self setCellStyle];
+}
+
+// just replace ProductDetailCell by the new Cell Class Name
++ (DownloadItemCell*) createCell:(id)delegate
+{
+    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DownloadItemCell" owner:self options:nil];
+    // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).  
+    if (topLevelObjects == nil || [topLevelObjects count] <= 0){
+        NSLog(@"create <DownloadItemCell> but cannot find cell object from Nib");
+        return nil;
     }
-    return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
     
-    // Release any cached data, images, etc that aren't in use.
+    ((DownloadItemCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    
+    return (DownloadItemCell*)[topLevelObjects objectAtIndex:0];
 }
 
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
++ (NSString*)getCellIdentifier
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    return @"DownloadItemCell";
 }
 
-- (void)viewDidUnload
++ (CGFloat)getCellHeight
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return 160.0f;
 }
 
 @end
