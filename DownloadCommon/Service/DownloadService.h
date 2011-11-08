@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CommonService.h"
+#import "ASIHTTPRequestDelegate.h"
 
-@interface DownloadService : NSObject
+@interface DownloadService : CommonService <ASIHTTPRequestDelegate>
+
+@property (nonatomic, retain) NSOperationQueue* queue;
+
+- (void)downloadFile:(NSString*)url;
++ (DownloadService*)defaultService;
 
 @end
