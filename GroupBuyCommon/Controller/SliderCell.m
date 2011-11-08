@@ -42,12 +42,20 @@
     NSArray *array = [self getPriceArray];
     UIImage *bgImage = [[UIImage imageNamed:@"tu_39.png"]stretchableImageWithLeftCapWidth:8.5 topCapHeight:0];
     UIImage *selectedImage = [[UIImage imageNamed:@"tu_126-53.png"]stretchableImageWithLeftCapWidth:7.5 topCapHeight:0];
+   
+    self.priceSeg = [[PPSegmentControl alloc]initWithItems:array 
+                                        defaultSelectIndex:PRICE_UNLIMIT_INDEX frame:CGRectMake(20, 38, 280, 40)];
     
-    self.priceSeg = [[PPSegmentControl alloc] initWithItems:array defaultSelectIndex:PRICE_UNLIMIT_INDEX bgImage:bgImage selectedImage:selectedImage];
-    [self.priceSeg  setSegmentFrame:CGRectMake(20, 38, 280, 28)];
-    [self.priceSeg  setSelectedTextFont:[UIFont boldSystemFontOfSize:12] color:[UIColor whiteColor]];
-    [self.priceSeg  setUnselectedTextFont:[UIFont boldSystemFontOfSize:12] color:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1]];
-    [self.priceSeg  setSelectedSegmentFrame:CGRectMake(0, 0, self.priceSeg.buttonWidth, 35) image:selectedImage];
+    [self.priceSeg setBackgroundImage:bgImage];
+    [self.priceSeg setSelectedSegmentImage:selectedImage];
+    [self.priceSeg setTextFont:[UIFont boldSystemFontOfSize:12]];
+    [self.priceSeg setSelectedSegmentTextFont:[UIFont boldSystemFontOfSize:12]];
+    
+    [self.priceSeg setTextColor:
+     [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1]];
+    [self.priceSeg setSelectedSegmentTextColor:
+     [UIColor whiteColor]];
+
     [self.priceSeg setDelegate:self];
     [self addSubview:self.priceSeg];
     

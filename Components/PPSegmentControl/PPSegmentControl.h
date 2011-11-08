@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @class PPSegmentControl;
-@class PPViewController;
-
 
 @protocol PPSegmentControlDelegate <NSObject>
 -(void)didSegmentValueChange:(PPSegmentControl *)seg;
@@ -18,45 +16,45 @@
 
 @interface PPSegmentControl : UIView {
     
-    NSMutableArray *buttonItems;
-    UIImageView *selectedImageView;
-    UIImageView *segmentBgImageView;    
-    UIFont *selectedSegmentFont;
-    UIColor *selectedSegmentColor;
-    UIFont *unSelectedSegmentFont;
-    UIColor *unSelectedSegmentColor;
-    NSInteger selectedIndex;
-    
+    NSMutableArray *_segments;
+    UIImageView *_backgroudImageView;
+    UIImageView *_selectedSegmentImageView;
+    UIFont *_textFont;
+    UIFont *_selectedSegmentTextFont;
+    UIColor *_textColor;
+    UIColor *_selectedSegmentTextColor;
+    CGFloat segmentWidth;
+    CGFloat segmentHeight;
+    id<PPSegmentControlDelegate> delegate;
 }
 
-
 @property (nonatomic, assign) id<PPSegmentControlDelegate> delegate;
-@property (nonatomic, assign) NSInteger selectedIndex;
-@property (nonatomic, assign) int buttonWidth;
-@property (nonatomic, assign) int buttonHeight;
-@property (nonatomic, retain) NSMutableArray *buttonItems;
-@property (nonatomic, retain) UIImageView *selectedImageView;
-@property (nonatomic, retain) UIImageView *segmentBgImageView;
-@property (nonatomic, retain) UIColor *selectedSegmentColor;
-@property (nonatomic, retain) UIFont *selectedSegmentFont;
-@property (nonatomic, retain) UIColor *unSelectedSegmentColor;
-@property (nonatomic, retain) UIFont *unSelectedSegmentFont;
+@property(nonatomic, readonly) NSUInteger numberOfSegments;
+@property(nonatomic, assign) NSInteger selectedSegmentIndex;
+@property(nonatomic, retain) UIImageView *backgroudImageView;
+@property(nonatomic, retain) UIImageView *selectedSegmentImageView;
 
-- (id)initWithItems:(NSArray*)titleArray 
- defaultSelectIndex:(int)defaultSelectIndex 
-            bgImage:(UIImage *)bgImage 
-      selectedImage:(UIImage *)selectedImage;
+-(id) initWithItems:(NSArray *)titleArray defaultSelectIndex:(int)defaultSelectIndex 
+              frame:(CGRect)frame;
 
-- (NSString*)titleForSegmentAtIndex:(NSInteger )index;
-- (void)setBackgroundImage:(NSString*)imageName;
-- (void)setSelectedSegmentFrame:(CGRect)frame image:(UIImage *)image;
-- (void)setSelectedSegmentIndex:(NSInteger)index;
-- (NSInteger)selectedSegmentIndex;
-- (UIButton *)newAButtonWithTitle:(NSString *)title offset:(CGFloat)offset;
-- (void)setSegmentFrame:(CGRect)frame;
-- (void)setUnselectedTextFont:(UIFont *)font color:(UIColor *)color;
-- (void)setSelectedTextFont:(UIFont *)font color:(UIColor *)color;
-- (void)clickButton:(id)sender;
-- (void)setXOffset:(NSInteger)x YOffset:(NSInteger)y;
+//set imaget and font
+- (void) setBackgroundImage:(UIImage *)backgroundImage;
+- (void) setSelectedSegmentImage:(UIImage *)selectedSegmentImage;
+- (void) setSelectedSegmentTextColor:(UIColor *)color;
+- (void) setSelectedSegmentTextFont:(UIFont *)font;
+
+- (void) setTextColor:(UIColor *)color;
+- (void) setTextFont: (UIFont *)font;
+
+- (void) setSegmentFrame:(CGRect)frame;
+
+//set and get segment title;
+- (NSString*) titleForSegmentAtIndex:(NSInteger )index;
+- (NSString *) titleForSelectedSegment;
+- (void) setTitle:(NSString *)title forSegmentAtIndex:(NSUInteger)segment;
+- (void) setSelectedSegmentIndex:(NSInteger)index;
+- (void) setContentOffset:(CGFloat)x y:(CGFloat)y;
+
 @end
+
 

@@ -83,11 +83,18 @@
     UIImage *bgImage = [[UIImage imageNamed:@"tu_39.png"]stretchableImageWithLeftCapWidth:8.5 topCapHeight:0];
     UIImage *selectedImage = [[UIImage imageNamed:@"tu_126-53.png"]stretchableImageWithLeftCapWidth:7.5 topCapHeight:0];
 
-    self.periodSeg = [[PPSegmentControl alloc] initWithItems:array defaultSelectIndex:1 bgImage:bgImage selectedImage:selectedImage];
-    [self.periodSeg  setSegmentFrame:CGRectMake(20, 38, 280, 28)];
-    [self.periodSeg  setSelectedTextFont:[UIFont boldSystemFontOfSize:12] color:[UIColor whiteColor]];
-    [self.periodSeg  setUnselectedTextFont:[UIFont boldSystemFontOfSize:12] color:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1]];
-    [self.periodSeg  setSelectedSegmentFrame:CGRectMake(0, 0, self.periodSeg.buttonWidth, 35) image:selectedImage];
+    
+    self.periodSeg = [[PPSegmentControl alloc]initWithItems:array defaultSelectIndex:4 frame:CGRectMake(20, 38, 280, 40)];
+    
+    [self.periodSeg setBackgroundImage:bgImage];
+    [self.periodSeg setSelectedSegmentImage:selectedImage];
+    [self.periodSeg setTextFont:[UIFont boldSystemFontOfSize:12]];
+    [self.periodSeg setSelectedSegmentTextFont:[UIFont boldSystemFontOfSize:12]];
+    
+    [self.periodSeg setTextColor:
+     [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1]];
+    [self.periodSeg setSelectedSegmentTextColor:
+     [UIColor whiteColor]];
     [self.periodSeg setDelegate:self];
     [self addSubview:self.periodSeg];
 

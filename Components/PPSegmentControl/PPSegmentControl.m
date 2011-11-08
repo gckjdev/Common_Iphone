@@ -2,290 +2,269 @@
 //  PPSegmentControl.m
 //  groupbuy
 //
-//  Created by qqn_pipi on 11-10-30.
-//  Copyright 1011年 __MyCompanyName__. All rights reserved.
+//  Created by qqn_pipi on 11-10-20.
+//  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
 #import "PPSegmentControl.h"
 
-#define DEFAULT_SEG_WIDTH 320.0
-#define DEFAULT_SEG_HEIGHT 30.0
 
-
+#define BACKGROUND_SCALE 0.7
 @implementation PPSegmentControl
 
-@synthesize selectedIndex;
-@synthesize buttonWidth;
-@synthesize buttonHeight;
-@synthesize buttonItems;
-@synthesize selectedImageView;
-@synthesize segmentBgImageView;
-@synthesize selectedSegmentFont;
-@synthesize selectedSegmentColor;
-@synthesize unSelectedSegmentFont;
-@synthesize unSelectedSegmentColor;
+@synthesize numberOfSegments;
+@synthesize selectedSegmentIndex;
+@synthesize selectedSegmentImageView = _selectedSegmentImageView;
+@synthesize backgroudImageView = _backgroudImageView;
 @synthesize delegate;
 
-
-- (void)setDefaultSetting
+- (void) dealloc
 {
-    self.buttonItems = [[NSMutableArray alloc] init];
-    self.segmentBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    [_segments release];
+    [_backgroudImageView release];
+    [_selectedSegmentImageView release];
+    [_textFont release];;
+    [_selectedSegmentTextFont release];;
+    [_textColor release];;
+    [_selectedSegmentTextColor release];
+    [super dealloc];
     
-    [self addSubview:self.segmentBgImageView];
 }
-
-- (id)initWithFrame:(CGRect)frame
+- (BOOL)isIndexValid:(NSInteger)index
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        [self setDefaultSetting];
+    if (index >=0 && index < [_segments count]) {
+        return YES;
     }
-    return self;
+    return NO;
 }
 
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
-
-
-- (UIButton *)newAButtonWithTitle:(NSString *)title offset:(CGFloat)offset
+- (UIButton *)selectedButton
 {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:title forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor clearColor]];
-    button.frame = CGRectMake(offset, 0, self.buttonWidth, self.buttonHeight);
-    return button;
-}
-
-- (NSInteger)selectedSegmentIndex
-{
-    return self.selectedIndex;
-}
-- (UIButton *)buttonAtIndex:(NSInteger)index
-{
-    if (index < 0 || index >= [buttonItems count]) {
-        return nil;
-    }
-    return [buttonItems objectAtIndex:index];
-}
-
-- (id)initWithItems:(NSArray*)titleArray 
- defaultSelectIndex:(int)defaultSelectIndex 
-            bgImage:(UIImage *)bgImage 
-      selectedImage:(UIImage *)selectedImage
-{
-    self = [super  initWithFrame:CGRectMake(0, 0, DEFAULT_SEG_WIDTH, DEFAULT_SEG_HEIGHT)];    
-    if (self) {
-        
-        [self setDefaultSetting];
-        
-        self.buttonWidth = 0;
-        
-        self.buttonHeight = DEFAULT_SEG_HEIGHT;
-        if (titleArray && [titleArray count] > 0) {
-            self.buttonWidth = DEFAULT_SEG_WIDTH / [titleArray count];
-        }
-        
-        // set background image
-        [self.segmentBgImageView setImage:bgImage];
-        
-        //set selected segment background image
-        
-        self.selectedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.buttonWidth, self.buttonHeight)];
-        
-        [self.selectedImageView setImage:selectedImage];
-        
-        [self addSubview:self.selectedImageView];
-        
-        //set segment with buttons.
-        int i = 0;
-        for (NSString * title in titleArray){
-            CGFloat offset = buttonWidth * (i++);
-            //create button with title, and set the button action;
-            UIButton *button = [self newAButtonWithTitle:title offset:offset];
-            [button addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
-            [self.buttonItems addObject:button];
-            [self addSubview:button];
-        }
-        
-        //deal with the selected segment
-        self.selectedIndex = (defaultSelectIndex < 0 || defaultSelectIndex >= [titleArray count]) ? -1 :defaultSelectIndex;
-        UIButton *selectedButton = [self buttonAtIndex:self.selectedIndex];
-        if (!selectedButton) {
-            [self.selectedImageView setHidden:NO];
-        }else{
-            [self.selectedImageView setHidden:NO];
-            [self.selectedImageView setCenter:selectedButton.center];
-        }
-    }
-    return self;
-}
-
-
-
-- (UIButton *)getSelectedButton
-{
-    if (self.selectedIndex < 0 || self.selectedIndex >= [buttonItems count]) {
-        return nil;
-    }
-    return [self.buttonItems objectAtIndex:self.selectedIndex];
-}
-
-- (void)setXOffset:(NSInteger)x YOffset:(NSInteger)y
-{
-    //set background view offset
-    [self.segmentBgImageView setFrame:CGRectMake(x, y, segmentBgImageView.frame.size.width, segmentBgImageView.frame.size.height)];
-    //set all button offset;
-    int offset = x;
-    int i = 0;
-    for (UIButton *button in buttonItems) {
-        [button setFrame:CGRectMake(offset + (i++) * buttonWidth, y, buttonWidth, buttonHeight)];
-    }
-    
-    //set foreground offset;
-    [self.selectedImageView setCenter:[self getSelectedButton].center];
-}
-
-- (NSString*)titleForSegmentAtIndex:(NSInteger )index
-{
-    if (index >= 0 && index < [self.buttonItems count]) {
-        UIButton *button = [self.buttonItems objectAtIndex:index];
-        return button.titleLabel.text;
+    if ([self isIndexValid:selectedSegmentIndex]) {
+        return [_segments objectAtIndex:selectedSegmentIndex];
     }
     return nil;
 }
 
-- (void)setUnselectedTextFont:(UIFont *)font color:(UIColor *)color;
+-(void) defaultSetting
 {
-    self.unSelectedSegmentFont =font;
-    self.unSelectedSegmentColor = color;
+    _segments = [[NSMutableArray alloc]init];
+    self.backgroudImageView = [[UIImageView alloc] init];
+    self.selectedSegmentImageView = [[UIImageView alloc] init];
+    _textColor = [UIColor yellowColor];
+    _selectedSegmentTextColor = [UIColor redColor];
+    _textFont = [UIFont systemFontOfSize:14];
+    _selectedSegmentTextFont = [UIFont systemFontOfSize:14];
+    segmentWidth = 0;
+    segmentHeight = 0;
+    [self addSubview:self.backgroudImageView];
+    [self addSubview:self.selectedSegmentImageView];
+}
+
+- (void) setSegment:(UIButton *)button Color:(UIColor *)color font:(UIFont *)font
+{
+    if (button) {
+        [button setTitleColor:color forState:UIControlStateNormal];
+        [button.titleLabel setFont:font];
+    }
     
-    UIButton *selectedButton = [self getSelectedButton];
-    for (UIButton *button in self.buttonItems) {
-        if (button && button != selectedButton) {
-            [button.titleLabel setFont:font];
-            [button setTitleColor:color forState:UIControlStateNormal];
+}
+
+
+- (void)clickSeg:(id)sender
+{
+    UIButton *seg = sender;
+    if (seg) {
+        NSInteger index = [_segments indexOfObject:seg];
+        [self setSelectedSegmentIndex:index];
+    }
+}
+
+-(id) initWithItems:(NSArray *)titleArray defaultSelectIndex:(int)defaultSelectIndex 
+              frame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self defaultSetting];
+        if (titleArray && [titleArray count] > 0) {
+            numberOfSegments =[titleArray count];
+            segmentHeight = frame.size.height;
+            segmentWidth = frame.size.width / numberOfSegments;
+            NSInteger i = 0;
+            
+            //set backgroud image;
+            CGFloat backgroundHeight = segmentHeight * BACKGROUND_SCALE;
+            CGFloat backgroundWidth = frame.size.width;
+            CGFloat y = (segmentHeight - backgroundHeight) / 2.0;
+            [self.backgroudImageView setFrame:CGRectMake(0, y, backgroundWidth, backgroundHeight)];
+            
+            
+            //set button type, text and image;
+            for (NSString *title in titleArray) {
+                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+                [button setFrame:CGRectMake((i++) * segmentWidth , 0, segmentWidth, segmentHeight)];
+                [button setTitle:title forState:UIControlStateNormal];
+                [self setSegment:button Color:_textColor font:_textFont];
+                [self addSubview:button];
+                [button addTarget:self action:@selector(clickSeg:) forControlEvents:UIControlEventTouchUpInside];
+                [_segments addObject:button];
+            }
+            
+            if ([self isIndexValid:defaultSelectIndex]) {
+                selectedSegmentIndex = defaultSelectIndex;
+            }else{
+                selectedSegmentIndex = UISegmentedControlNoSegment;
+            }
+            // set selected button text font and color;
+            UIButton *button = [self selectedButton];
+            if (button) {
+                [self.selectedSegmentImageView setFrame:button.frame];
+                [self setSegment:button Color:_selectedSegmentTextColor font:_selectedSegmentTextFont];
+            }
+        }
+    }
+    return self;
+}
+
+- (void) setSelectedSegmentTextColor:(UIColor *)color
+{
+    _selectedSegmentTextColor = color;
+    UIButton *seg = [self selectedButton];
+    if (seg) {
+        [self setSegment:seg Color:color font:_selectedSegmentTextFont];   
+    }
+}
+
+- (void) setSelectedSegmentTextFont:(UIFont *)font
+{
+    _selectedSegmentTextFont = font;
+    UIButton *seg = [self selectedButton];
+    if (seg) {
+        [self setSegment:seg Color:_selectedSegmentTextColor font:font];
+    }
+    
+}
+
+- (void) setTextColor:(UIColor *)color
+{
+    _textColor = color;
+    for (int i = 0; i < [_segments count];  ++ i) {
+        if (i != selectedSegmentIndex) {
+            UIButton *seg = [_segments objectAtIndex:i];
+            [self setSegment:seg Color:_textColor font:_textFont];
+        }
+    }
+}
+- (void) setTextFont: (UIFont *)font
+{
+    _textFont = font;
+    for (int i = 0; i < [_segments count];  ++ i) {
+        if (i != selectedSegmentIndex) {
+            UIButton *seg = [_segments objectAtIndex:i];
+            [self setSegment:seg Color:_textColor font:_textFont];
         }
     }
 }
 
-- (void)setSelectedTextFont:(UIFont *)font color:(UIColor *)color
+- (void) setSegmentFrame:(CGRect)frame
 {
-    self.selectedSegmentColor = color;
-    self.selectedSegmentFont = font;
+    self.frame = frame;
     
-    UIButton *button = [self getSelectedButton];
-    if (button) {
-        [button.titleLabel setFont:font];
-        [button setTitleColor:color forState:UIControlStateNormal];
+    //set backgroud view frame
+    segmentHeight = frame.size.height;
+    segmentWidth = frame.size.width / numberOfSegments;
+    
+    CGFloat backgroundHeight = segmentHeight * BACKGROUND_SCALE;
+    CGFloat backgroundWidth = frame.size.width;
+    CGFloat y = (segmentHeight - backgroundHeight) / 2.0;
+    [self.backgroudImageView setFrame:CGRectMake(0, y, backgroundWidth, backgroundHeight)];
+    
+    //set button frame
+    int i = 0;
+    for (UIButton *seg in _segments) {
+        [seg setFrame:CGRectMake( (i++) * segmentWidth, 0, segmentWidth, segmentHeight)];
+    }
+    //set selected image view frame
+    [self.selectedSegmentImageView setFrame:[[self selectedButton] frame]];
+}
+
+//set and get segment title;
+- (NSString*) titleForSegmentAtIndex:(NSInteger )index
+{
+    if ([self isIndexValid:index]) {
+        UIButton *seg = [_segments objectAtIndex:index]; 
+        return seg.titleLabel.text;
+    }
+    return nil;
+}
+
+- (void) setTitle:(NSString *)title forSegmentAtIndex:(NSUInteger)segment
+{
+    if ([self isIndexValid:segment]) {
+        UIButton *seg = [_segments objectAtIndex:segment]; 
+        seg.titleLabel.text = title;
     }
 }
 
-- (void)setSelectedBackgroundImage:(NSString*)imageName
+- (NSString *) titleForSelectedSegment
 {
-    [self.selectedImageView setImage:[UIImage imageNamed:imageName]];
+    UIButton *seg = [self selectedButton];
+    if (seg) {
+        return seg.titleLabel.text;
+    }
+    return nil;
 }
 
-- (void)setSelectedSegmentIndex:(NSInteger)index
+- (void) setSelectedSegmentIndex:(NSInteger)index
 {
-    if (index < 0 || index >= [buttonItems count]) {
-        self.selectedIndex = -1;
-        [self.selectedImageView setHidden:YES];
+    //invalid segment index
+    if (![self isIndexValid:index]) {
+        [self.selectedSegmentImageView setHidden:YES];
+        selectedSegmentIndex = UISegmentedControlNoSegment;
     }else{
-        [self clickButton:[buttonItems objectAtIndex:index]];
-    }
-}
-
-- (void)setBackgroundImage:(NSString*)imageName
-{
-    UIImage *image = [UIImage imageNamed:imageName];
-    [self.segmentBgImageView setImage:image];
-}
-
-- (void)setSelectedSegmentFrame:(CGRect)frame image:(UIImage *)image
-{
-    self.selectedImageView.frame = frame;
-    [self.selectedImageView setImage:image];
-    UIButton *button = [self getSelectedButton];
-    [self.selectedImageView setCenter:button.center];
-    
-}
-
-- (void)clickButton:(id)sender
-{    
-    UIButton *button = (UIButton *)sender;
-    
-    UIButton *oldButton = [self getSelectedButton];
-
-    if (button == oldButton) {
-        return;
-    }
-    
-    
-    self.selectedIndex = [self.buttonItems indexOfObject:button];
-    
-    //move animation
-    if ([self.selectedImageView isHidden]) {
-        [self.selectedImageView setCenter:button.center];
-        [self.selectedImageView setHidden:NO];
-    }
-    else
-    {
+        if (index == selectedSegmentIndex) {
+            return;
+        }
+        
+        UIButton *oldButton = [self selectedButton];
+        
+        selectedSegmentIndex = index;
+        UIButton *seg = [self selectedButton];
+        
+        [self setSegment:seg Color:_selectedSegmentTextColor font:_selectedSegmentTextFont];
+        [self setSegment:oldButton Color:_textColor font:_textFont];
+        
         [UIImageView beginAnimations:nil context:NULL];
         [UIImageView setAnimationDuration:0.5];
         [UIImageView setAnimationBeginsFromCurrentState:YES];
-        [self.selectedImageView setCenter:button.center];
+        [self.selectedSegmentImageView setFrame:seg.frame];
         [UIImageView commitAnimations];
-    }
-    
-    [button.titleLabel setFont:selectedSegmentFont];
-    [button setTitleColor:selectedSegmentColor forState:UIControlStateNormal];
-    //set Font
-    if (oldButton) {
-        [oldButton.titleLabel setFont:unSelectedSegmentFont];
-        [oldButton setTitleColor:unSelectedSegmentColor forState:UIControlStateNormal];
-    }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didSegmentValueChange:)]) {
-        [self.delegate didSegmentValueChange:self];
-    }
-}
-
-- (void)setSegmentFrame:(CGRect)frame
-{
-    self.frame = frame;
-    [self.segmentBgImageView setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-    self.buttonHeight = frame.size.height;
-    
-    if (self.buttonItems && [self.buttonItems count] > 0) {
-        self.buttonWidth = frame.size.width / [self.buttonItems count];
-        int i = 0;
-        for (UIButton *button in self.buttonItems) {
-            [button setFrame:CGRectMake(self.buttonWidth * (i ++), 0, buttonWidth, buttonHeight)];
+        [self.selectedSegmentImageView setHidden:NO];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didSegmentValueChange:)]) {
+            [self.delegate didSegmentValueChange:self];
         }
-        [self.selectedImageView setCenter:[self getSelectedButton].center];
-    }else{
-        self.buttonWidth = 0;
     }
-    
 }
 
-- (void)dealloc
+- (void) setBackgroundImage:(UIImage *)backgroundImage
 {
-    [selectedImageView release];
-    [buttonItems release];
-    [segmentBgImageView release];
-    [selectedSegmentFont release];
-    [selectedSegmentColor release];
-    [unSelectedSegmentFont release];
-    [unSelectedSegmentColor release];
-    [super dealloc];
+    [self.backgroudImageView setImage:backgroundImage];
+}
+
+- (void) setSelectedSegmentImage:(UIImage *)selectedSegmentImage
+{
+    [self.selectedSegmentImageView setImage:selectedSegmentImage];
+}
+
+- (void) setContentOffset:(CGFloat)x y:(CGFloat)y
+{
+    
+    [self.backgroudImageView setFrame:CGRectMake(_backgroudImageView.frame.origin.x + x, _backgroudImageView.frame.origin.y + y, _backgroudImageView.frame.size.width, _backgroudImageView.frame.size.height)];
+    
+    [self.selectedSegmentImageView setFrame:CGRectMake(_selectedSegmentImageView.frame.origin.x + x, _selectedSegmentImageView.frame.origin.y + y, _selectedSegmentImageView.frame.size.width, _selectedSegmentImageView.frame.size.height)];
+    for (UIButton *seg in _segments) {
+        [seg setFrame:CGRectMake(seg.frame.origin.x + x, seg.frame.origin.y + y, seg.frame.size.width, seg.frame.size.height)];
+    }
 }
 
 @end
