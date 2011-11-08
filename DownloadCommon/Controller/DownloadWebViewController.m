@@ -1,6 +1,9 @@
 
 #import "DownloadWebViewController.h"
 #import "StringUtil.h"
+#import "WebViewAdditions.h"
+#import "LogUtil.h"
+#import "DownloadService.h"
 
 DownloadWebViewController *downloadWebViewController;
 
@@ -55,9 +58,13 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 - (void)viewDidLoad
 {
     self.view.backgroundColor = [UIColor clearColor];
+
+    [self.webView registerLongPressHandler];
     
     [super viewDidLoad];
-    [self.webView setScalesPageToFit:YES];
+    
+    
+//    [self.webView setScalesPageToFit:YES];
     [self.webView setDelegate:self];
 }
 
@@ -70,9 +77,6 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 {
     [self.webView stopLoading];
     [self hideActivity];
-    [loadActivityIndicator stopAnimating];
-    if (loadActivityIndicator.superview)
-        [loadActivityIndicator removeFromSuperview];
     
     [super viewDidDisappear:animated];
 }
@@ -119,6 +123,14 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [self.webView reload];
 }
 
+- (void)longpressTouch:(UIWebView*)webView info:(HTMLLinkInfo*)linkInfo
+{
+    if ([linkInfo hasLink]){
+        [UIUtils alert:@"start downloading"];
+        [[DownloadService defaultService] downloadFile:linkInfo.href];
+    }
+}
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)requestURL navigationType:(UIWebViewNavigationType)navigationType{
     
     //    if ([[[requestURL URL] description] rangeOfString:@"tel"].location != NSNotFound){
@@ -141,6 +153,9 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
+
+    // forbid popup call out window
+    [self.webView stringByEvaluatingJavaScriptFromString:@"document.body.style.webkitTouchCallout='none';"];
     
     [self hideActivity];
     if (loadActivityIndicator.superview)
@@ -164,9 +179,15 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 
 + (void)show:(UIViewController*)superController url:(NSString*)url
 {
-    DownloadWebViewController *webController = [[[DownloadWebViewController alloc] init] autorelease];
-    [superController.navigationController pushViewController:webController animated:YES];    
-    [webController openURL:url];
+    DownloadWebViewController* webController = GlobalGetDownloadWebViewController();
+    
+    [webController setSuperViewController:superController];
+    [webController setBackAction:^(UIViewController* viewController){
+        [viewController dismissModalViewControllerAnimated:YES];        
+    }];
+    
+    [superController presentModalViewController:webController animated:YES];
+    [webController openURL:url];  
 }
 
 #define WEB_VIEW_FRAME   CGRectMake(8, 8, 304, 480-44-20-8-55-5)
@@ -188,18 +209,6 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     }
 }
 
-+ (void)showForGroupBuy:(UIViewController*)superController url:(NSString*)url
-{
-    DownloadWebViewController* webController = GlobalGetDownloadWebViewController();
-    
-    [webController setSuperViewController:superController];
-    [webController setBackAction:^(UIViewController* viewController){
-        [viewController dismissModalViewControllerAnimated:YES];        
-    }];
-    
-    [superController.navigationController presentModalViewController:webController animated:YES];
-    [webController openURL:url];    
-}
 
 @end
 
