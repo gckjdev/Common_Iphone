@@ -26,6 +26,7 @@
 }
 @property (nonatomic, retain) IBOutlet UILabel *keyWordsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *validPeriodLabel;
+@property (retain, nonatomic) IBOutlet UIImageView *matchCountBackgroundImageView;
 @property (nonatomic, retain) IBOutlet UILabel *priceLabel;
 @property (nonatomic, retain) IBOutlet UIButton *editButton;
 @property (nonatomic, retain) IBOutlet UILabel *matchCountLabel;

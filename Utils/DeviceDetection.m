@@ -38,7 +38,7 @@
 {
     NSString *ver = [[UIDevice currentDevice] systemVersion];
     int ver_int = [ver intValue];
-    if (ver_int == 5)
+    if (ver_int >= 5)
         return YES;
     else
         return NO;

@@ -14,6 +14,8 @@
 #import "LocaleUtils.h"
 #import "UIDevice+IdentifierAddition.h"
 
+const int MAX_COUNT = DEFAULT_MAX_COUNT;
+
 @implementation GroupBuyNetworkRequest
 
 + (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
@@ -100,8 +102,6 @@
 
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
-    
-    const int MAX_COUNT = 10;
     
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         
@@ -206,9 +206,7 @@
                                              todayOnly:(BOOL)todayOnly
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
-    
-    const int MAX_COUNT = 5;
-    
+        
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         
         // set input parameters
@@ -433,8 +431,6 @@
 									 startOffset:(int)startOffset
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
-    
-    const int MAX_COUNT = 10;
     
     ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
         

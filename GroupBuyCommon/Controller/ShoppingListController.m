@@ -179,7 +179,6 @@
         {    
             [cell.loadingIndicator stopAnimating];
             cell.matchCountLabel.text = [NSString stringWithFormat:@"%d",matchCount];
-            cell.matchCountLabel.textColor = [UIColor redColor];
             [cell.matchCountLabel setHidden:NO];
             
             [self updateTabBadge:@"新"];
@@ -189,7 +188,6 @@
         {
             [cell.loadingIndicator stopAnimating];
             cell.matchCountLabel.text = [NSString stringWithFormat:@"%d",matchCount];
-            cell.matchCountLabel.textColor = [UIColor blackColor];
             [cell.matchCountLabel setHidden:NO];
             
         }
@@ -262,9 +260,10 @@
     
 	CommonProductListController *shoppingItemProductsController = [[CommonProductListController alloc] init];
 	shoppingItemProductsController.superController = self;
-	shoppingItemProductsController.dataLoader = [[ProductShoppingItemDataLoader alloc] initWithShoppingItemId:[item itemId]];
-	shoppingItemProductsController.navigationItem.title = @"团购推荐结果列表"; 
-	[shoppingItemProductsController setNavigationLeftButton:@"返回" action:@selector(clickBack:)];
+	shoppingItemProductsController.dataLoader = [[[ProductShoppingItemDataLoader alloc] initWithShoppingItemId:[item itemId]] autorelease];
+    [shoppingItemProductsController setBackgroundImageName:@"background.png"];
+    [shoppingItemProductsController setGroupBuyNavigationBackButton];
+    [shoppingItemProductsController setGroupBuyNavigationTitle:@"团购推荐结果列表"];    
 	[self.navigationController pushViewController:shoppingItemProductsController animated:YES];
 	[shoppingItemProductsController release];
 }

@@ -12,6 +12,7 @@
 #import "GroupBuyNetworkConstants.h"
 #import "TimeUtils.h"
 #import "SBJsonWriter.h"
+#import "LogUtil.h"
 
 @implementation ProductManager
 
@@ -138,7 +139,7 @@
     product.deleteFlag = [NSNumber numberWithBool:NO];
     product.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
     
-//    NSLog(@"<createProduct> product=%@", [product description]);
+//    PPDebug(@"<createProduct> product=%@", [product description]);
     
     if ([dataManager save] == NO)
         return nil;

@@ -7,11 +7,12 @@
 //
 
 #import "ShoppingListCell.h"
-
+#import "UIImageUtil.h"
 
 @implementation ShoppingListCell
 @synthesize keyWordsLabel;
 @synthesize validPeriodLabel;
+@synthesize matchCountBackgroundImageView;
 @synthesize priceLabel;
 @synthesize editButton;
 @synthesize matchCountLabel;
@@ -24,6 +25,7 @@
     [editButton release];
     [matchCountLabel release];
     [loadingIndicator release];
+    [matchCountBackgroundImageView release];
     [super dealloc];
 }
 
@@ -44,6 +46,10 @@
     cell.delegate = delegate;
     UIImage *bgImage = [[UIImage imageNamed:@"tu_126-53.png"]stretchableImageWithLeftCapWidth:7.5 topCapHeight:0];
     [cell.editButton setBackgroundImage:bgImage forState:UIControlStateNormal];
+
+    // set label background
+    UIImage* image = [UIImage strectchableImageName:@"tu_182.png"];
+    [cell.matchCountBackgroundImageView setImage:image];
     return cell;
 }
 

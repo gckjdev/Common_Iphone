@@ -9,6 +9,7 @@
 #import "CoreDataUtil.h"
 #import <UIKit/UIKit.h>
 #import "StringUtil.h"
+#import "LogUtil.h"
 
 #define kDefaultDBName				@"PIPIDB"
 #define kDefaultDataModelName		@"MainDataModel"
@@ -19,7 +20,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 	if ([appDelegate respondsToSelector:@selector(dataManager)])
 		return [appDelegate performSelector:@selector(dataManager)];
 	else{
-		NSLog(@"[ERROR] Cannot find data manager in GlobalGetCoreDataManager");
+		PPDebug(@"[ERROR] Cannot find data manager in GlobalGetCoreDataManager");
 		return nil;
 	}
 }
@@ -43,7 +44,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 		dbWorkingQueue = NULL;
 	}
 	
-	NSLog(@"Init CoreDataUtil, DB Name (%@)", dbName);	
+	PPDebug(@"Init CoreDataUtil, DB Name (%@)", dbName);	
 	return self;
 }
 
@@ -66,7 +67,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 		[self managedObjectModel];
 	}
 	
-	NSLog(@"Init CoreDataUtil, DB Name (%@)", dbName);
+	PPDebug(@"Init CoreDataUtil, DB Name (%@)", dbName);
 	return self;
 }
 
@@ -95,7 +96,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 		}
 	}
 	
-	NSLog(@"Init CoreDataUtil, DB Name (%@) & Working Queue (%@)", dbName, queueName);
+	PPDebug(@"Init CoreDataUtil, DB Name (%@) & Working Queue (%@)", dbName, queueName);
 	return self;
 }
 
@@ -104,7 +105,7 @@ CoreDataManager* GlobalGetCoreDataManager()
     NSError *error = nil;
     if (managedObjectContext != nil) {
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            NSLog(@"<saveChange> Unresolved error %@, %@", error, [error userInfo]);
+            PPDebug(@"<saveChange> Unresolved error %@, %@", error, [error userInfo]);
 			return NO;
         } 
 		else {
@@ -119,7 +120,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 
 - (id)insert:(NSString*)entityName
 {
-	NSLog(@"<insert> %@", entityName);
+	PPDebug(@"<insert> %@", entityName);
 	return [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:self.managedObjectContext];
 }
 
@@ -129,20 +130,20 @@ CoreDataManager* GlobalGetCoreDataManager()
                                                              substitutionVariables:nil];
     
     if (fq == nil){
-        NSLog(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
+        PPDebug(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
         return nil;
     }
 	
 	NSError* error = nil;
 	NSArray* objects = [self.managedObjectContext executeFetchRequest:fq error:&error];
 	if (error == nil){
-		NSLog(@"<execute> execute fetch request (%@) successfully, total %d record found", fetchRequestName, [objects count]);
+		PPDebug(@"<execute> execute fetch request (%@) successfully, total %d record found", fetchRequestName, [objects count]);
 //		for (NSObject* item in objects){
-//			NSLog(@"[Debug] result object (%@)", [item description]);
+//			PPDebug(@"[Debug] result object (%@)", [item description]);
 //		}
 	}
 	else {
-		NSLog(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
+		PPDebug(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
 	}		
     
         
@@ -155,7 +156,7 @@ CoreDataManager* GlobalGetCoreDataManager()
                                                              substitutionVariables:nil];
     
     if (fq == nil){
-        NSLog(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
+        PPDebug(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
         return nil;
     }
 	
@@ -169,13 +170,13 @@ CoreDataManager* GlobalGetCoreDataManager()
 	NSError* error = nil;
 	NSArray* objects = [self.managedObjectContext executeFetchRequest:fq error:&error];
 	if (error == nil){
-		NSLog(@"<execute> execute fetch request (%@) successfully, total %d record", fetchRequestName, [objects count]);
+		PPDebug(@"<execute> execute fetch request (%@) successfully, total %d record", fetchRequestName, [objects count]);
 //		for (NSObject* item in objects){
-//			NSLog(@"[Debug] result object (%@)", [item description]);
+//			PPDebug(@"[Debug] result object (%@)", [item description]);
 //		}
 	}
 	else {
-		NSLog(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
+		PPDebug(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
 	}		
 		
     
@@ -194,13 +195,13 @@ CoreDataManager* GlobalGetCoreDataManager()
 	NSError* error = nil;
 	NSArray* objects = [self.managedObjectContext executeFetchRequest:fq error:&error];
 	if (error == nil){
-		NSLog(@"<execute> execute fetch request (%@) successfully", fetchRequestName);
+		PPDebug(@"<execute> execute fetch request (%@) successfully", fetchRequestName);
 //		for (NSObject* item in objects){
-//			NSLog(@"[Debug] result object (%@)", [item description]);
+//			PPDebug(@"[Debug] result object (%@)", [item description]);
 //		}
 	}
 	else {
-		NSLog(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
+		PPDebug(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
 	}		
 	
     
@@ -219,7 +220,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 															 substitutionVariables:keyValues];
 	
     if (fq == nil){
-        NSLog(@"<execute> execute fetch request (%@) fail, key values = %@, cannot create fetch request", [keyValues description], fetchRequestName);
+        PPDebug(@"<execute> execute fetch request (%@) fail, key values = %@, cannot create fetch request", [keyValues description], fetchRequestName);
         return nil;
     }
     
@@ -233,13 +234,13 @@ CoreDataManager* GlobalGetCoreDataManager()
 	NSError* error = nil;
 	NSArray* objects = [self.managedObjectContext executeFetchRequest:fq error:&error];
 	if (error == nil){
-		NSLog(@"<execute> execute fetch request (%@) successfully, total %d record found", [fq description], [objects count]);
+		PPDebug(@"<execute> execute fetch request (%@) successfully, total %d record found", [fq description], [objects count]);
 		//		for (NSObject* item in objects){
-		//			NSLog(@"[Debug] result object (%@)", [item description]);
+		//			PPDebug(@"[Debug] result object (%@)", [item description]);
 		//		}
 	}
 	else {
-		NSLog(@"<execute> execute fetch request (%@), error=%@", [fq description], [error localizedDescription]);
+		PPDebug(@"<execute> execute fetch request (%@), error=%@", [fq description], [error localizedDescription]);
 	}		
 	
     
@@ -257,7 +258,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 															 substitutionVariables:dict];
 	
     if (fq == nil){
-        NSLog(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
+        PPDebug(@"<execute> execute fetch request (%@) fail, cannot create fetch request", [fq description]);
         return nil;
     }
     
@@ -271,13 +272,13 @@ CoreDataManager* GlobalGetCoreDataManager()
 	NSError* error = nil;
 	NSArray* objects = [self.managedObjectContext executeFetchRequest:fq error:&error];
 	if (error == nil){
-		NSLog(@"<execute> execute fetch request (%@) successfully, total %d record found", fetchRequestName, [objects count]);
+		PPDebug(@"<execute> execute fetch request (%@) successfully, total %d record found", [fq description], [objects count]);
 		//		for (NSObject* item in objects){
-		//			NSLog(@"[Debug] result object (%@)", [item description]);
+		//			PPDebug(@"[Debug] result object (%@)", [item description]);
 		//		}
 	}
 	else {
-		NSLog(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
+		PPDebug(@"<execute> execute fetch request (%@), error=%@", [fq description], [error localizedDescription]);
 	}		
 	
     
@@ -287,7 +288,7 @@ CoreDataManager* GlobalGetCoreDataManager()
 
 - (BOOL)del:(NSManagedObject*)object
 {
-	NSLog(@"<del> delete object (%@)", [object description]);
+	PPDebug(@"<del> delete object (%@)", [object description]);
 	[self.managedObjectContext deleteObject:object];
 	return YES;	
 }
@@ -310,7 +311,7 @@ CoreDataManager* GlobalGetCoreDataManager()
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
         managedObjectContext = [[NSManagedObjectContext alloc] init];
-		NSLog(@"Create managedObjectContext");
+		PPDebug(@"Create managedObjectContext");
         [managedObjectContext setPersistentStoreCoordinator: coordinator];
     }
     return managedObjectContext;
@@ -332,7 +333,7 @@ CoreDataManager* GlobalGetCoreDataManager()
     managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 	
 //    managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];   
-	NSLog(@"Create managedObjectModel");
+	PPDebug(@"Create managedObjectModel");
     return managedObjectModel;
 }
 
@@ -359,17 +360,17 @@ CoreDataManager* GlobalGetCoreDataManager()
 		NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:dbName ofType:@"sqlite"];
 		if (defaultStorePath) {
 			if ([fileManager copyItemAtPath:defaultStorePath toPath:storePath error:NULL] == YES){
-				NSLog(@"Copy DB to %@ Successfully!", storePath);
+				PPDebug(@"Copy DB to %@ Successfully!", storePath);
 			}
 			else {
-				NSLog(@"Copy DB to %@ Failure!", storePath);
+				PPDebug(@"Copy DB to %@ Failure!", storePath);
 				
 			}
 			
 		}
 	}
 	else {
-		NSLog(@"DB %@ Exist", storePath);
+		PPDebug(@"DB %@ Exist", storePath);
 	}
 	
 	
@@ -380,15 +381,15 @@ CoreDataManager* GlobalGetCoreDataManager()
 								[NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, 
 								nil];	
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-	NSLog(@"Create persistentStoreCoordinator");
+	PPDebug(@"Create persistentStoreCoordinator");
 	
 	NSError *error;
 	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
 		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		PPDebug(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);  // Fail
     }    
-	NSLog(@"addPersistentStoreWithType OK!");
+	PPDebug(@"addPersistentStoreWithType OK!");
 	
     return persistentStoreCoordinator;
 }
