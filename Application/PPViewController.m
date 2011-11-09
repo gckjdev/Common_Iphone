@@ -257,7 +257,7 @@
 - (TKLoadingView*)getActivityViewWithText:(NSString*)loadingText withCenter:(CGPoint)point
 {
 	if (loadingView == nil){
-		self.loadingView = [[[TKLoadingView alloc] initWithTitle:nil message:loadingText] autorelease];
+		self.loadingView = [[[TKLoadingView alloc] initWithTitle:@"" message:loadingText] autorelease];
         loadingView.center = point;
 		[self.view addSubview:loadingView];
 	}
@@ -268,7 +268,7 @@
 - (TKLoadingView*)getActivityViewWithText:(NSString*)loadingText
 {
 	if (loadingView == nil){
-		self.loadingView = [[[TKLoadingView alloc] initWithTitle:nil message:loadingText] autorelease];
+		self.loadingView = [[[TKLoadingView alloc] initWithTitle:@"" message:loadingText] autorelease];
         loadingView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2+10);
 		[self.view addSubview:loadingView];
 	}

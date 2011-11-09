@@ -128,6 +128,19 @@
     }
 }
 
+- (NSString*)getRebateString:(NSNumber*)rebate
+{
+    int intValue = [rebate integerValue];
+    int decimalValue = getDecimal([rebate floatValue]);
+    
+    if (decimalValue == 0){
+        return [NSString stringWithFormat:@"%d", intValue];
+    }
+    else{
+        return [NSString stringWithFormat:@"%d.%d", intValue, decimalValue];
+    }
+}
+
 - (void)setCellInfoWithProductInfo:(NSDate*)endDate
                           siteName:(NSString*)siteName
                              title:(NSString*)title
@@ -179,12 +192,10 @@
     self.priceLabel.attributedText = attrStr;
     self.priceLabel.backgroundColor = [UIColor clearColor];
     
-//	[attrStr setTextBold:YES range:[txt rangeOfString:@TXT_BOLD]];
-    
     
     self.leftTimeLabel.text = [NSString stringWithFormat:@"时间: %@", timeInfo];
     
-    if (distance < MAXFLOAT){
+    if (distance > 0.0f && distance < MAXFLOAT){
         NSString *distanceStr = [self getDistance:distance];    
         self.distanceLabel.text = [NSString stringWithFormat:@"距离: %@",distanceStr];
     }
@@ -194,7 +205,7 @@
     
     self.siteNameLabel.text = siteName;
     self.boughtLabel.text = [NSString stringWithFormat:@"售出: %@", [self getBoughtInfo:bought]];    
-    self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [rebate description]]; 
+    self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [self getRebateString:rebate]]; 
     
 //    NSLog(@"rebate=%f, rebate=%@", [rebate doubleValue], [rebate description]);
     
