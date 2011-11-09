@@ -15,11 +15,11 @@
 #import "UINavigationBarExt.h"
 
 
-#define SINA_APP_KEY                    @"1528146353"
-#define SINA_APP_SECRET                 @"4815b7938e960380395e6ac1fe645a5c"
+#define SINA_APP_KEY                    @"2457135690"
+#define SINA_APP_SECRET                 @"9886c6c3a5683950bad471b44f47a312"
 
-#define QQ_APP_KEY                      @"a91a42c67bc940b68f75fe885c4a03bc"
-#define QQ_APP_SECRET                   @"dd56c4565e5f22affb4aa839fadfc9c2"
+#define QQ_APP_KEY                      @"801063695"
+#define QQ_APP_SECRET                   @"e65f5ba72a75725032e5ee26c71d71d3"
 
 typedef void (^AuthorizationSuccessHandler)(NSDictionary*, PPViewController*);
 
