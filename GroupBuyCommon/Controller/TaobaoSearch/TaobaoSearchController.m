@@ -136,6 +136,8 @@
 
 - (void)segmentTextFinish:(int)result jsonArray:(NSArray *)jsonArray
 {
+    const int RIGHT_SPACING = 10;
+    
     const int BUTTON_HEIGHT_INDENT = 5;
     const int BUTTON_WIDTH_INDENT = 5;  
     const int BUTTON_WIDTH_EXTEND = 20;
@@ -146,13 +148,14 @@
     int buttonHeight =DEFAULT_BUTTON_HEIGHT;
     
     int right = keywordBackgroundView.frame.origin.x + keywordBackgroundView.frame.size.width;
-    int bottom = keywordBackgroundView.bounds.origin.y + keywordBackgroundView.bounds.size.height;
+//    int bottom = keywordBackgroundView.bounds.origin.y + keywordBackgroundView.bounds.size.height;
     
     [self hideActivity];
     NSLog(@"text number in array : %d", [jsonArray count]);
     int count = [jsonArray count];
     
     UIImage* bgImage = [UIImage strectchableImageName:@"tu_60.png"];
+    CGSize scrollSize = keywordBackgroundView.bounds.size;
     
     const int START_X = 0;
     const int START_Y = 0;
@@ -167,7 +170,7 @@
         
         
         
-        if (buttonHeight + buttonTop <= bottom){
+//        if (buttonHeight + buttonTop <= bottom){
             UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.frame = CGRectMake(buttonLeft, buttonTop, buttonWidth, buttonHeight);        
             [button setTitle:word forState:UIControlStateNormal];
@@ -178,20 +181,24 @@
             [button.titleLabel setFont:[UIFont boldSystemFontOfSize:12]];
             [button setBackgroundImage:bgImage forState:UIControlStateNormal];
             [keywordBackgroundView addSubview:button];
-        }
-        else{
-            // reach bottom
-            break;
-        }
+//        }
+//        else{
+//            // reach bottom
+//            break;
+//        }
         
         if ( (i+1) < count ){
             NSString* nextWord = [jsonArray objectAtIndex:i+1];
             CGSize size = [nextWord sizeWithFont:font];
             int nextButtonWidth = size.width + BUTTON_WIDTH_EXTEND;
             buttonLeft += buttonWidth + BUTTON_WIDTH_INDENT;
-            if (buttonLeft + nextButtonWidth > right){
+            if (buttonLeft + nextButtonWidth + RIGHT_SPACING > right){
+                // new line
                 buttonTop += buttonHeight + BUTTON_HEIGHT_INDENT;
                 buttonLeft = START_X;
+                
+                scrollSize.height += buttonHeight + BUTTON_HEIGHT_INDENT;
+                keywordBackgroundView.contentSize = scrollSize;
             }
         }
     }

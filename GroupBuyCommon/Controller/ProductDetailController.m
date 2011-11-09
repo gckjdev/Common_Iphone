@@ -581,12 +581,12 @@ enum {
     }
     
     NSString* shortDesc = [product.title substringToIndex:index];    
-    NSString* subject = [NSString stringWithFormat:@"［咕噜Buy］转发团购产品:%@", shortDesc];    
+    NSString* subject = [NSString stringWithFormat:@"［甘橙团购推荐］转发团购产品:%@", shortDesc];    
     
     NSString* smsBody = [NSString stringWithFormat:@"%@ %@ - %@", product.loc, 
                       product.siteName, product.title];
 
-    NSString* htmlBody = [NSString stringWithFormat:@"%@ - %@\n\n%@\n\n来自［咕噜Buy]", 
+    NSString* htmlBody = [NSString stringWithFormat:@"%@ - %@\n\n%@\n\n来自［甘橙团购]", 
                          product.siteName, product.title, product.loc];
     
     enum{

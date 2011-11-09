@@ -9,6 +9,7 @@
 #import "TaobaoSearchResultCell.h"
 #import "PPApplication.h"
 #import "GroupBuyControllerExt.h"
+#import "NumberUtil.h"
 
 @implementation TaobaoSearchResultCell
 @synthesize imageView;
@@ -49,6 +50,19 @@
     return 75.0f;
 }
 
+- (NSString*)getNumberString:(NSString*)number
+{
+    int intValue = [number integerValue];
+    int decimalValue = getDecimal([number floatValue]);
+    
+    if (decimalValue == 0){
+        return [NSString stringWithFormat:@"%d", intValue];
+    }
+    else{
+        return [NSString stringWithFormat:@"%d.%d", intValue, decimalValue];
+    }
+}
+
 - (void)setCellInfoWithProduct:(NSDictionary*)taobaoProduct 
                      indexPath:(NSIndexPath*)indexPath
                          price:(double)price
@@ -67,12 +81,19 @@
     self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", shop, name];
     self.titleLabel.numberOfLines = 3;
     
-    NSString* priceText = [NSString stringWithFormat:@"%@元", [taobaoPrice description]];
+    NSString* priceText = [NSString stringWithFormat:@"%@元", [self getNumberString:taobaoPrice]];
     NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:priceText];
     [attrStr setFont:[UIFont systemFontOfSize:18]];
 	[attrStr setTextColor:[UIColor colorWithRed:245/255.0 green:109/255.0 blue:42/255.0 alpha:1.0f]];    
 	[attrStr setTextColor:[UIColor colorWithRed:111/255.0f green:104/255.0f blue:94/255.0f alpha:1.f] range:[priceText rangeOfString:@"元"]];
 	[attrStr setFont:[UIFont systemFontOfSize:12] range:[priceText rangeOfString:@"元"]];
+    
+    int priceDecimal = getDecimal([taobaoPrice doubleValue]);
+    if (priceDecimal != 0) {
+        NSString *text = [NSString stringWithFormat:@".%d",priceDecimal];
+        [attrStr setFont:[UIFont systemFontOfSize:15] range:[priceText rangeOfString:text]];
+    }
+    
     self.priceLabel.attributedText = attrStr;
     self.priceLabel.backgroundColor = [UIColor clearColor];        
     

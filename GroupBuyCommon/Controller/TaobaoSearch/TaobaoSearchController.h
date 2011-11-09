@@ -16,7 +16,7 @@
     double      price;
     double      value;
     
-    UIView *keywordBackgroundView;
+    UIScrollView *keywordBackgroundView;
 //    UISearchBar *searchBar;
 }
 
@@ -24,7 +24,7 @@
 @property (nonatomic, assign) double      price;
 @property (nonatomic, assign) double      value;
 
-@property (nonatomic, retain) IBOutlet UIView *keywordBackgroundView;
+@property (nonatomic, retain) IBOutlet UIScrollView *keywordBackgroundView;
 @property (retain, nonatomic) IBOutlet UIImageView *searchTextFieldBackgroundView;
 @property (retain, nonatomic) IBOutlet UIButton *searchButton;
 @property (retain, nonatomic) IBOutlet UITextField *searchTextField;

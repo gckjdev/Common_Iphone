@@ -60,6 +60,7 @@
         }
         
         self.tableView.backgroundColor = [UIColor clearColor];
+        [self setGroupBuyNavigationTitle:@"商家地址信息"];
     }
     else{
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(onclickBack:)];
@@ -76,26 +77,12 @@
         [self popupUnhappyMessage:@"当前没有任何商家地址信息" title:nil];
         return;
     }
-    
-//    if ([locationArray count] == 0){
-//        [self popupUnhappyMessage:@"当前没有任何商家地址信息" title:nil];
-//        return;
-//    }
-    
+        
     if (locationFlag) {
         //[self.tableView setHidden:YES];
-        self.mapView.delegate = self;
-//        [mapView setShowsUserLocation:YES];
-        MKCoordinateRegion theRegion = { {0.0, 0.0 }, { 0.0, 0.0 } }; 
-        theRegion.center = [[locationArray objectAtIndex:0] coordinate];
+        self.mapView.delegate = self;        
         [self.mapView setZoomEnabled:YES]; 
-        [self.mapView setScrollEnabled:YES]; 
-        theRegion.span.longitudeDelta = LONGITUDEDELTA; 
-        theRegion.span.latitudeDelta = LATITUDEDELTA; 
-    
-//        [self.mapView setRegion:theRegion animated:NO];
-        
-//        NSLog(@"locationArray = %@", [[locationArray objectAtIndex:0] description]);
+        [self.mapView setScrollEnabled:YES];         
         [self.mapView setCenterCoordinate:[[locationArray objectAtIndex:0] coordinate] 
                                 zoomLevel:15 animated:YES];
         
@@ -120,30 +107,38 @@
         self.navigationItem.title = @"地图";
         [self.mapView setHidden:NO];
         [self.tableView setHidden:YES];
+        
+        isShowMap = YES;
+        
     }else{
-        [self setGroupBuyNavigationRightButton:@"底图" action:@selector(clickRightButton:)];
+        [self setGroupBuyNavigationRightButton:@"地图" action:@selector(clickRightButton:)];
         self.navigationItem.title = @"地址列表";
         [self.mapView setHidden:YES];
         [self.tableView setHidden:NO];
+        
+        isShowMap = NO;
     }
     
-    [self enableGroupBuySettings];
+//    [self enableGroupBuySettings];
 }
 
 - (void) clickRightButton:(id)sender
 {
-    if ([self.navigationItem.title isEqualToString:@"地址列表"]) {
+    if (isShowMap) {
         [self setGroupBuyNavigationRightButton:@"地图" action:@selector(clickRightButton:)];
         self.navigationItem.title = @"地址列表";
         [self setGroupBuyNavigationTitle:self.navigationItem.title];
         [tableView setHidden:NO];
         [mapView setHidden:YES];
-    }else if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"地图"]) {
+        isShowMap = NO;
+    }
+    else {
         [self setGroupBuyNavigationRightButton:@"列表" action:@selector(clickRightButton:)];
         self.navigationItem.title = @"地图";
         [self setGroupBuyNavigationTitle:self.navigationItem.title];
         [tableView setHidden:YES];
         [mapView setHidden:NO];
+        isShowMap = YES;
     }
 }
 

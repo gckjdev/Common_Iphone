@@ -16,10 +16,12 @@
 
 @interface ShowAddressViewController : PPTableViewController <MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource> {
     
-    MKMapView *mapView;
+    IBOutlet MKMapView *mapView;
     UITableView *tableView;
     NSArray *addressList;
     NSArray *locationArray;
+    
+    BOOL isShowMap;
 }
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
