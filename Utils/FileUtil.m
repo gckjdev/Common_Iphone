@@ -7,9 +7,31 @@
 //
 
 #import "FileUtil.h"
-
+#import "LogUtil.h"
 
 @implementation FileUtil
+
++ (BOOL)createDir:(NSString*)fullPath
+{
+    
+    // Check if the directory already exists
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+        
+        // Directory does not exist so create it
+        PPDebug(@"create dir = %@", fullPath);
+
+        NSError* error = nil;
+        BOOL result = [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (result == NO){
+            NSLog(@"create dir (%@) but error (%@)", fullPath, [error description]);
+        }        
+        
+        return result;
+    }
+    else{
+        return YES;
+    }
+}
 
 + (NSString*)getAppHomeDir
 {

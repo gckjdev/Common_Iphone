@@ -8,6 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
+@class DownloadItem;
+
 @interface DownloadItemManager : NSObject
+
++ (DownloadItemManager*)defaultManager;
+
+- (DownloadItem*)createDownloadItem:(NSString*)url
+                            webSite:(NSString*)webSite
+                            origUrl:(NSString*)origUrl
+                           fileName:(NSString*)fileName
+                           filePath:(NSString*)filePath
+                           tempPath:(NSString*)tempPath;
+
+- (DownloadItem*)findItemByName:(NSString*)fileName;
+- (void)finishDownload:(DownloadItem*)item;
+- (void)downloadFailure:(DownloadItem*)item;
 
 @end

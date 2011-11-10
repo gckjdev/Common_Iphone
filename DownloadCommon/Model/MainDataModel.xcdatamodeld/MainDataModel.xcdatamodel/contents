@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="10K549" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="DownloadItem" syncable="YES">
+    <entity name="DownloadItem" representedClassName="DownloadItem" syncable="YES">
+        <attribute name="deleteFlag" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="downloadProgress" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="downloadSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="fileName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fileSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="fileType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="itemId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="localPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="origUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="starred" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="tempPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="webSite" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -17,8 +23,9 @@
         <attribute name="siteType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="siteURL" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <fetchRequest name="findItemByName" entity="DownloadItem" predicateString="fileName == $FILE_NAME"/>
     <elements>
-        <element name="DownloadItem" positionX="160" positionY="192" width="128" height="195"/>
+        <element name="DownloadItem" positionX="160" positionY="192" width="128" height="285"/>
         <element name="ResourceSite" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>

@@ -22,6 +22,8 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 @synthesize request;
 @synthesize backAction;
 @synthesize superViewController;
+@synthesize currentURL;
+@synthesize webSite;
 
 -(id)init
 {
@@ -36,6 +38,8 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 
 - (void)dealloc
 {
+    [webSite release];
+    [currentURL release];
     [superViewController release];
     [webView release];
     [loadActivityIndicator release];
@@ -127,7 +131,9 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 {
     if ([linkInfo hasLink]){
         [UIUtils alert:@"start downloading"];
-        [[DownloadService defaultService] downloadFile:linkInfo.href];
+        [[DownloadService defaultService] downloadFile:linkInfo.href 
+                                               webSite:webSite 
+                                               origUrl:currentURL];
     }
 }
 
@@ -154,6 +160,9 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
 
+    // set current URL
+    self.currentURL = self.webView.request.URL.absoluteString;
+    
     // forbid popup call out window
     [self.webView stringByEvaluatingJavaScriptFromString:@"document.body.style.webkitTouchCallout='none';"];
     
@@ -188,18 +197,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     
     [superController presentModalViewController:webController animated:YES];
     [webController openURL:url];  
-}
-
-#define WEB_VIEW_FRAME   CGRectMake(8, 8, 304, 480-44-20-8-55-5)
-
-- (void)enableGroupBuySettings
-{
-    webView.frame = WEB_VIEW_FRAME;
-    webView.backgroundColor = [UIColor clearColor];
-    
-    [self setGroupBuyNavigationBackButton];
-    [self setBackgroundImageName:@"background.png"];
-    [self setGroupBuyNavigationTitle:@"商品主页"];
+    [webController setWebSite:url];
 }
 
 - (IBAction)clickBack:(id)sender

@@ -47,7 +47,6 @@
 								<string key="NSFrame">{{50, 11}, {45, 21}}</string>
 								<reference key="NSSuperview" ref="511903180"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -219,7 +218,6 @@
 						<string key="NSFrameSize">{320, 95}</string>
 						<reference key="NSSuperview" ref="124702098"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
@@ -268,11 +266,11 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="571228615"/>
 							<reference ref="718659785"/>
-							<reference ref="638162873"/>
 							<reference ref="292994427"/>
 							<reference ref="651940395"/>
 							<reference ref="709457522"/>
 							<reference ref="735151509"/>
+							<reference ref="638162873"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>

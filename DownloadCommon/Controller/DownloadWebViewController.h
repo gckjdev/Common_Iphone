@@ -19,6 +19,8 @@ typedef void (^WebViewBackHandler)(UIViewController*);
 @property (nonatomic, retain) UIViewController* superViewController;
 
 @property (nonatomic, retain) NSURLRequest *request;
+@property (nonatomic, retain) NSString *webSite;
+@property (nonatomic, retain) NSString *currentURL;
 
 - (IBAction) clickBackBuuton;
 - (IBAction) clickForwardBuuton;
@@ -35,6 +37,7 @@ typedef void (^WebViewBackHandler)(UIViewController*);
 + (void)show:(UIViewController*)superController url:(NSString*)url;
 
 - (IBAction)clickBack:(id)sender;
+
 
 @end
 

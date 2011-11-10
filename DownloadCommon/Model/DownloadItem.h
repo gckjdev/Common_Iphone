@@ -8,9 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "ASIProgressDelegate.h"
+#import "ASIHTTPRequestDelegate.h"
 
-
-@interface DownloadItem : NSManagedObject
+enum DOWNLOAD_STATUS {
+    DOWNLOAD_STATUS_NOT_STARTED = 0,
+    DOWNLOAD_STATUS_STARTED,
+    DOWNLOAD_STATUS_FINISH,
+    DOWNLOAD_STATUS_PAUSE,
+    DOWNLOAD_STATUS_FAIL,
+};
+ 
+@interface DownloadItem : NSManagedObject <ASIProgressDelegate, ASIHTTPRequestDelegate>
 
 @property (nonatomic, retain) NSNumber * downloadSize;
 @property (nonatomic, retain) NSDate * endDate;
@@ -22,5 +31,14 @@
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSString * webSite;
+@property (nonatomic, retain) NSString * origUrl;
+@property (nonatomic, retain) NSString * localPath;
+@property (nonatomic, retain) NSString * tempPath;
+@property (nonatomic, retain) NSString * itemId;
+@property (nonatomic, retain) NSNumber * deleteFlag;
+@property (nonatomic, retain) NSNumber * downloadProgress;
+
+- (NSDictionary*)dictionaryForRequest;
++ (DownloadItem*)fromDictionary:(NSDictionary*)dict;
 
 @end

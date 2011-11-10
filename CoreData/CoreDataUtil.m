@@ -195,13 +195,13 @@ CoreDataManager* GlobalGetCoreDataManager()
 	NSError* error = nil;
 	NSArray* objects = [self.managedObjectContext executeFetchRequest:fq error:&error];
 	if (error == nil){
-		PPDebug(@"<execute> execute fetch request (%@) successfully", fetchRequestName);
+		PPDebug(@"<execute> execute fetch request (%@) successfully", [fq description]);
 //		for (NSObject* item in objects){
 //			PPDebug(@"[Debug] result object (%@)", [item description]);
 //		}
 	}
 	else {
-		PPDebug(@"<execute> execute fetch request (%@), error=%@", fetchRequestName, [error localizedDescription]);
+		PPDebug(@"<execute> execute fetch request (%@), error=%@", [fq description], [error localizedDescription]);
 	}		
 	
     

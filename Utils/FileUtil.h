@@ -17,5 +17,6 @@
 + (NSString*)getFileFullPath:(NSString*)fileName;
 + (BOOL) copyFileFromBundleToAppDir:(NSString *)bundleResourceFile appDir:(NSString *)appDir overwrite:(BOOL)overwrite;
 + (NSURL*)bundleURL:(NSString*)filename;
++ (BOOL)createDir:(NSString*)fullPath;
 
 @end
