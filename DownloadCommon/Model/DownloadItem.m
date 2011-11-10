@@ -9,6 +9,7 @@
 #import "DownloadItem.h"
 #import "ASIHTTPRequest.h"
 #import "LogUtil.h"
+#import "LocaleUtils.h"
 
 #define DOWNLOAD_KEY @"DOWNLOAD_KEY"
 
@@ -42,7 +43,7 @@
 // Called when the request receives some data - bytes is the length of that data
 - (void)request:(ASIHTTPRequest *)request didReceiveBytes:(long long)bytes
 {
-    self.downloadSize = [NSNumber numberWithLongLong:bytes];
+    self.downloadSize = [NSNumber numberWithLongLong:bytes + [self.downloadSize doubleValue]];
     PPDebug(@"item (%@) download progress didReceiveBytes = %qi", [self itemId], bytes);    
 }
 
@@ -73,6 +74,25 @@
 + (DownloadItem*)fromDictionary:(NSDictionary*)dict
 {
     return [dict objectForKey:DOWNLOAD_KEY];
+}
+
+#pragma STRING
+
+- (NSString*)statusText
+{    
+    NSArray* array = [NSArray arrayWithObjects:
+                      NSLS(@"DOWNLOAD_STATUS_NOT_STARTED"), 
+                      NSLS(@"DOWNLOAD_STATUS_STARTED"), 
+                      NSLS(@"DOWNLOAD_STATUS_FINISH"), 
+                      NSLS(@"DOWNLOAD_STATUS_PAUSE"), 
+                      NSLS(@"DOWNLOAD_STATUS_FAIL"), 
+                      nil];
+
+    int index = [self.status intValue];
+    if (index >=0 && index < [array count])
+        return [array objectAtIndex:index];
+    else
+        return @"";
 }
 
 @end

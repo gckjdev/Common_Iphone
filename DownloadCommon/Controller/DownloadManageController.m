@@ -8,6 +8,8 @@
 
 #import "DownloadManageController.h"
 #import "DownloadItemCell.h"
+#import "DownloadItem.h"
+#import "DownloadItemManager.h"
 
 @implementation DownloadManageController
 
@@ -32,8 +34,19 @@
 
 - (void)viewDidLoad
 {
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateProgressTimer) userInfo:nil repeats:YES];
+    
     [super viewDidLoad];
+        
     // Do any additional setup after loading the view from its nib.
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.dataTableView.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    self.dataList = [[DownloadItemManager defaultManager] findAllItems];
+    [super viewDidAppear:animated];
 }
 
 - (void)viewDidUnload
@@ -92,7 +105,8 @@
 		return cell;
 	}
 	
-//    [cell setCellInfoWithProduct:product indexPath:indexPath];    
+    DownloadItem* downloadItem = [self.dataList objectAtIndex:row];
+    [cell setCellInfoWithItem:downloadItem indexPath:indexPath];    
 	
 	return cell;
 	
@@ -114,5 +128,9 @@
 	}	
 }
 
+- (void)updateProgressTimer
+{
+    [self.dataTableView reloadRowsAtIndexPaths:[self.dataTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+}
 
 @end

@@ -7,8 +7,16 @@
 //
 
 #import "DownloadItemCell.h"
+#import "DownloadItem.h"
 
 @implementation DownloadItemCell
+@synthesize starButton;
+@synthesize pauseButton;
+@synthesize fileTypeLabel;
+@synthesize fileNameLabel;
+@synthesize statusLabel;
+@synthesize downloadProgress;
+@synthesize downloadDetailLabel;
 
 - (void)setCellStyle
 {
@@ -41,7 +49,78 @@
 
 + (CGFloat)getCellHeight
 {
-    return 160.0f;
+    return 96.0;
 }
 
+#define SIZE_ONE_MB (1000000.0)
+#define SIZE_ONE_KB (1000.0)
+
+- (NSString*)getSizeInfo:(DownloadItem*)item
+{
+    double downloadSize = [item.downloadSize doubleValue];
+    double totalSize = [item.fileSize doubleValue];    
+    
+    if ([item.status intValue] == DOWNLOAD_STATUS_FINISH){                
+        if (totalSize >= SIZE_ONE_MB || downloadSize >= SIZE_ONE_MB){
+            return [NSString stringWithFormat:@"%.2f MB", totalSize/SIZE_ONE_MB];
+        }
+        else{
+            return [NSString stringWithFormat:@"%.2f KB", totalSize/SIZE_ONE_KB];        
+        }            
+    }
+    else{
+        if (totalSize >= SIZE_ONE_MB || downloadSize >= SIZE_ONE_MB){
+            return [NSString stringWithFormat:@"%.2f/%.2f MB", downloadSize/SIZE_ONE_MB, totalSize/SIZE_ONE_MB];
+        }
+        else{
+            return [NSString stringWithFormat:@"%.2f/%.2f KB", downloadSize/SIZE_ONE_KB, totalSize/SIZE_ONE_KB];        
+        }    
+    }
+}
+
+- (NSString*)getPercentageInfo:(DownloadItem*)item
+{
+    double downloadSize = [item.downloadSize doubleValue];
+    double totalSize = [item.fileSize doubleValue];    
+
+    if ([item.status intValue] == DOWNLOAD_STATUS_FINISH){
+        return @"";
+    }
+    
+    if (totalSize > 0.0f){
+        return [NSString stringWithFormat:@"%d%%", (int)((downloadSize/totalSize)*100)]; 
+    }
+    else{
+        return @"";
+    }
+}
+
+- (NSString*)getLeftInfo:(DownloadItem*)item
+{
+    return @""; // TODO
+}
+
+- (void)setCellInfoWithItem:(DownloadItem*)item indexPath:(NSIndexPath*)indexPath
+{
+    self.fileTypeLabel.text = [item.fileName pathExtension];
+    self.fileNameLabel.text = item.fileName;
+    self.statusLabel.text = [item statusText];
+    
+    NSString* sizeInfo = [self getSizeInfo:item];
+    NSString* percentageInfo = [self getPercentageInfo:item];
+    NSString* leftInfo = [self getLeftInfo:item];    
+    self.downloadDetailLabel.text = [NSString stringWithFormat:@"%@ %@ %@", sizeInfo, percentageInfo, leftInfo];
+    self.downloadProgress.progress = [item.downloadProgress floatValue];
+}
+
+- (void)dealloc {
+    [fileTypeLabel release];
+    [fileNameLabel release];
+    [statusLabel release];
+    [downloadDetailLabel release];
+    [downloadProgress release];
+    [pauseButton release];
+    [starButton release];
+    [super dealloc];
+}
 @end

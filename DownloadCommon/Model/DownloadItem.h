@@ -40,5 +40,6 @@ enum DOWNLOAD_STATUS {
 
 - (NSDictionary*)dictionaryForRequest;
 + (DownloadItem*)fromDictionary:(NSDictionary*)dict;
+- (NSString*)statusText;
 
 @end

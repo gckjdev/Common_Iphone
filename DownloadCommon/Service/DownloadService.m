@@ -13,8 +13,8 @@
 #import "DownloadItem.h"
 #import "DownloadItemManager.h"
 
-#define DOWNLOAD_DIR                @"download/incoming/"
-#define DOWNLOAD_TEMP_DIR           @"download/temp/"
+#define DOWNLOAD_DIR                @"/download/incoming/"
+#define DOWNLOAD_TEMP_DIR           @"/download/temp/"
 
 DownloadService* globalDownloadService;
 
@@ -146,7 +146,5 @@ DownloadService* globalDownloadService;
     [[DownloadItemManager defaultManager] downloadFailure:item];
     PPDebug(@"item (%@) download failure, response done = %@", [item itemId], [error description]);
 }
-
-
 
 @end

@@ -24,5 +24,6 @@
 - (DownloadItem*)findItemByName:(NSString*)fileName;
 - (void)finishDownload:(DownloadItem*)item;
 - (void)downloadFailure:(DownloadItem*)item;
+- (NSArray*)findAllItems;
 
 @end

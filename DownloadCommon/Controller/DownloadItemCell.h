@@ -9,10 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
 
+@class DownloadItem;
+
 @interface DownloadItemCell : PPTableViewCell
 
 + (DownloadItemCell*) createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
+
+@property (retain, nonatomic) IBOutlet UIButton *pauseButton;
+@property (retain, nonatomic) IBOutlet UIButton *starButton;
+@property (retain, nonatomic) IBOutlet UILabel *fileTypeLabel;
+@property (retain, nonatomic) IBOutlet UILabel *fileNameLabel;
+@property (retain, nonatomic) IBOutlet UILabel *statusLabel;
+@property (retain, nonatomic) IBOutlet UIProgressView *downloadProgress;
+@property (retain, nonatomic) IBOutlet UILabel *downloadDetailLabel;
+
+- (void)setCellInfoWithItem:(DownloadItem*)item indexPath:(NSIndexPath*)indexPath;
 
 @end
