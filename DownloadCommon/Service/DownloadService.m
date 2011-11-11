@@ -39,6 +39,10 @@ DownloadService* globalDownloadService;
     self.downloadTempDir = [[FileUtil getAppHomeDir] stringByAppendingFormat:DOWNLOAD_TEMP_DIR];    
     self.concurrentDownload = 20;  
 
+    // create queue
+    [self setQueue:[[[NSOperationQueue alloc] init] autorelease]];
+    [self.queue setMaxConcurrentOperationCount:self.concurrentDownload];
+    
     // create directory if not exist
     [FileUtil createDir:self.downloadTempDir];
     [FileUtil createDir:self.downloadDir];    
@@ -54,6 +58,8 @@ DownloadService* globalDownloadService;
     
     return globalDownloadService;
 }
+
+#pragma File Creation and Generation
 
 - (NSString*)createFileName:(NSURL*)url
 {
@@ -88,13 +94,36 @@ DownloadService* globalDownloadService;
     return [self.downloadTempDir stringByAppendingString:fileName];
 }
 
-- (BOOL)downloadFile:(NSString*)urlString webSite:(NSString*)webSite origUrl:(NSString*)origUrl
+#pragma Download Internal Methods
+
+- (BOOL)startDownload:(DownloadItem*)item
 {
-    if ([self queue] == nil) {
-        [self setQueue:[[[NSOperationQueue alloc] init] autorelease]];
-        [self.queue setMaxConcurrentOperationCount:self.concurrentDownload];
-    }
-            
+    NSURL* url = [NSURL URLWithString:[item url]];
+    
+    // start to download
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    
+    [[DownloadItemManager defaultManager] downloadStart:item request:request];
+    
+    [request setDownloadDestinationPath:[item localPath]];    
+    [request setAllowResumeForFileDownloads:YES];
+    [request setTemporaryFileDownloadPath:[item tempPath]];    
+    [request setUserInfo:[item dictionaryForRequest]];
+    [request setDelegate:self];
+    [request setDownloadProgressDelegate:item];
+    [request setDidFinishSelector:@selector(requestDone:)];
+    [request setDidFailSelector:@selector(requestWentWrong:)];
+
+    PPDebug(@"download file, URL=%@, save to %@, temp path %@", [item url], [item localPath], [item tempPath]);
+
+    [[self queue] addOperation:request];
+    return YES;
+}
+
+#pragma External Methods
+
+- (BOOL)downloadFile:(NSString*)urlString webSite:(NSString*)webSite origUrl:(NSString*)origUrl
+{                
     NSURL* url = [NSURL URLWithString:urlString];
     if ([[UIApplication sharedApplication] canOpenURL:url] == NO){
         PPDebug(@"downloadFile but cannot open URL = %@", urlString);
@@ -113,23 +142,31 @@ DownloadService* globalDownloadService;
                                                                 fileName:fileName
                                                                 filePath:filePath                                   tempPath:tempFilePath];
     
-    // start to download
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-            
-    [request setDownloadDestinationPath:filePath];    
-    [request setAllowResumeForFileDownloads:YES];
-    [request setTemporaryFileDownloadPath:tempFilePath];
-    PPDebug(@"download file, URL=%@, save to %@, temp path %@", urlString, filePath, tempFilePath);
-
-    [request setUserInfo:[downloadItem dictionaryForRequest]];
-    [request setDelegate:self];
-    [request setDownloadProgressDelegate:downloadItem];
-    [request setDidFinishSelector:@selector(requestDone:)];
-    [request setDidFailSelector:@selector(requestWentWrong:)];
-    [[self queue] addOperation:request]; //queue is an NSOperationQueue
-    
+    [self startDownload:downloadItem];    
     return YES;
 }
+
+- (void)pauseDownloadItem:(DownloadItem*)item
+{
+    [[item request] clearDelegatesAndCancel];
+    [[DownloadItemManager defaultManager] downloadPause:item];
+}
+
+- (void)resumeDownloadItem:(DownloadItem*)item
+{
+    [self startDownload:item];
+}
+
+- (void)pauseAllDownloadItem
+{
+    DownloadItemManager* manager = [DownloadItemManager defaultManager];
+    NSArray* array = [manager findAllItemsByStatus:DOWNLOAD_STATUS_STARTED];
+    for (DownloadItem* item in array){
+        [self pauseDownloadItem:item];
+    }
+}
+
+#pragma ASIHTTPRequest Delegate
 
 - (void)requestDone:(ASIHTTPRequest *)request
 {

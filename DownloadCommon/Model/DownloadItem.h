@@ -37,9 +37,12 @@ enum DOWNLOAD_STATUS {
 @property (nonatomic, retain) NSString * itemId;
 @property (nonatomic, retain) NSNumber * deleteFlag;
 @property (nonatomic, retain) NSNumber * downloadProgress;
+@property (nonatomic, assign) ASIHTTPRequest * request;
 
 - (NSDictionary*)dictionaryForRequest;
 + (DownloadItem*)fromDictionary:(NSDictionary*)dict;
 - (NSString*)statusText;
+- (BOOL)canPause;
+- (BOOL)canResume;
 
 @end

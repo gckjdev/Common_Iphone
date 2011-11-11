@@ -32,6 +32,8 @@
 @dynamic deleteFlag;
 @dynamic downloadProgress;
 
+@synthesize request;
+
 #pragma Progress Delegate
 
 - (void)setProgress:(float)newProgress
@@ -93,6 +95,36 @@
         return [array objectAtIndex:index];
     else
         return @"";
+}
+
+- (BOOL)canPause
+{
+    switch ([self.status intValue]) {
+        case DOWNLOAD_STATUS_NOT_STARTED:            
+        case DOWNLOAD_STATUS_FINISH:
+        case DOWNLOAD_STATUS_PAUSE:
+        case DOWNLOAD_STATUS_FAIL:
+            return NO;
+            
+        case DOWNLOAD_STATUS_STARTED:
+        default:
+            return YES;
+    }
+}
+
+- (BOOL)canResume
+{
+    switch ([self.status intValue]) {
+        case DOWNLOAD_STATUS_NOT_STARTED:            
+        case DOWNLOAD_STATUS_PAUSE:
+        case DOWNLOAD_STATUS_FAIL:
+            return YES;
+            
+        case DOWNLOAD_STATUS_STARTED:
+        case DOWNLOAD_STATUS_FINISH:
+        default:
+            return NO;
+    }    
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "DownloadItemCell.h"
 #import "DownloadItem.h"
+#import "LocaleUtils.h"
 
 @implementation DownloadItemCell
 @synthesize starButton;
@@ -100,6 +101,21 @@
     return @""; // TODO
 }
 
+- (void)setPauseButtonInfo:(DownloadItem*)item
+{
+    [self.pauseButton setHidden:NO];
+    if ([item canPause]){
+        [self.pauseButton setTitle:NSLS(@"Pause") forState:UIControlStateNormal];
+    }
+    else if ([item canResume]){
+        [self.pauseButton setTitle:NSLS(@"Resume") forState:UIControlStateNormal];
+    }
+    else{
+        [self.pauseButton setTitle:@"" forState:UIControlStateNormal];
+        [self.pauseButton setHidden:YES];
+    }
+}
+
 - (void)setCellInfoWithItem:(DownloadItem*)item indexPath:(NSIndexPath*)indexPath
 {
     self.fileTypeLabel.text = [item.fileName pathExtension];
@@ -111,6 +127,20 @@
     NSString* leftInfo = [self getLeftInfo:item];    
     self.downloadDetailLabel.text = [NSString stringWithFormat:@"%@ %@ %@", sizeInfo, percentageInfo, leftInfo];
     self.downloadProgress.progress = [item.downloadProgress floatValue];
+    
+    [self setPauseButtonInfo:item];
+}
+
+- (IBAction)clickPause:(id)sender
+{
+    if (delegate && [delegate respondsToSelector:@selector(clickPause:atIndexPath:)])
+        [delegate clickPause:sender atIndexPath:self.indexPath];
+}
+
+- (IBAction)clickStar:(id)sender
+{
+    if (delegate && [delegate respondsToSelector:@selector(clickPause:atIndexPath:)])
+        [delegate clickStar:sender atIndexPath:self.indexPath];    
 }
 
 - (void)dealloc {

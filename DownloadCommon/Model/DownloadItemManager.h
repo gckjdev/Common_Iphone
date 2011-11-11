@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class DownloadItem;
+@class ASIHTTPRequest;
 
 @interface DownloadItemManager : NSObject
 
@@ -24,6 +25,10 @@
 - (DownloadItem*)findItemByName:(NSString*)fileName;
 - (void)finishDownload:(DownloadItem*)item;
 - (void)downloadFailure:(DownloadItem*)item;
+- (void)downloadPause:(DownloadItem*)item;
+- (void)downloadStart:(DownloadItem*)item request:(ASIHTTPRequest*)request;
+
 - (NSArray*)findAllItems;
+- (NSArray*)findAllItemsByStatus:(int)status;
 
 @end

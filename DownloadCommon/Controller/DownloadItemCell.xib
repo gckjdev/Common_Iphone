@@ -87,11 +87,11 @@
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="496432602">
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="1048021614">
 									<int key="type">1</int>
 									<double key="pointSize">11</double>
 								</object>
-								<object class="NSFont" key="IBUIFont" id="152856676">
+								<object class="NSFont" key="IBUIFont" id="970277252">
 									<string key="NSName">Helvetica</string>
 									<double key="NSSize">11</double>
 									<int key="NSfFlags">16</int>
@@ -113,8 +113,8 @@
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
-								<reference key="IBUIFontDescription" ref="496432602"/>
-								<reference key="IBUIFont" ref="152856676"/>
+								<reference key="IBUIFontDescription" ref="1048021614"/>
+								<reference key="IBUIFont" ref="970277252"/>
 							</object>
 							<object class="IBUIButton" id="571228615">
 								<reference key="NSNextResponder" ref="511903180"/>
@@ -173,7 +173,7 @@
 							<object class="IBUIButton" id="735151509">
 								<reference key="NSNextResponder" ref="511903180"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{262, 57}, {44, 27}}</string>
+								<string key="NSFrame">{{254, 57}, {60, 27}}</string>
 								<reference key="NSSuperview" ref="511903180"/>
 								<reference key="NSWindow"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -190,11 +190,11 @@
 								<reference key="IBUINormalTitleShadowColor" ref="771716245"/>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">2</int>
-									<double key="pointSize">12</double>
+									<double key="pointSize">10</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica-Bold</string>
-									<double key="NSSize">12</double>
+									<double key="NSSize">10</double>
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
@@ -299,6 +299,24 @@
 					</object>
 					<int key="connectionID">31</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">clickStar:</string>
+						<reference key="source" ref="571228615"/>
+						<reference key="destination" ref="124702098"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">33</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">clickPause:</string>
+						<reference key="source" ref="735151509"/>
+						<reference key="destination" ref="124702098"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">32</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -389,13 +407,27 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">31</int>
+			<int key="maxID">33</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">DownloadItemCell</string>
 					<string key="superclassName">PPTableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="clickPause:">id</string>
+						<string key="clickStar:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="clickPause:">
+							<string key="name">clickPause:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="clickStar:">
+							<string key="name">clickStar:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="downloadDetailLabel">UILabel</string>
 						<string key="downloadProgress">UIProgressView</string>

@@ -10,6 +10,7 @@
 #import "DownloadItemCell.h"
 #import "DownloadItem.h"
 #import "DownloadItemManager.h"
+#import "DownloadService.h"
 
 @implementation DownloadManageController
 
@@ -131,6 +132,30 @@
 - (void)updateProgressTimer
 {
     [self.dataTableView reloadRowsAtIndexPaths:[self.dataTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+#pragma Download Cell Delegate
+
+- (void)clickPause:(id)sender atIndexPath:(NSIndexPath*)indexPath
+{
+    int row = [indexPath row];
+    if (row >= [self.dataList count])
+        return;
+    
+    DownloadService* service = [DownloadService defaultService];
+
+    DownloadItem* item = [self.dataList objectAtIndex:row];
+    if ([item canPause]){
+        [service pauseDownloadItem:item];
+    }
+    else if ([item canResume]){
+        [service resumeDownloadItem:item];
+    }
+}
+
+- (void)clickStar:(id)sender atIndexPath:(NSIndexPath*)indexPath
+{
+    
 }
 
 @end

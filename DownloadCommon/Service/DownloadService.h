@@ -10,6 +10,8 @@
 #import "CommonService.h"
 #import "ASIHTTPRequestDelegate.h"
 
+@class DownloadItem;
+
 @interface DownloadService : CommonService <ASIHTTPRequestDelegate>
 
 @property (nonatomic, retain) NSOperationQueue* queue;
@@ -18,6 +20,9 @@
 @property (nonatomic, assign) int concurrentDownload;
 
 - (BOOL)downloadFile:(NSString*)url webSite:(NSString*)webSite origUrl:(NSString*)origUrl;
+- (void)pauseDownloadItem:(DownloadItem*)item;
+- (void)resumeDownloadItem:(DownloadItem*)item;
+- (void)pauseAllDownloadItem;
 
 + (DownloadService*)defaultService;
 

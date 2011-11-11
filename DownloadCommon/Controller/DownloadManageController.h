@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewController.h"
+#import "DownloadItemCell.h"
 
-@interface DownloadManageController : PPTableViewController
+@interface DownloadManageController : PPTableViewController <DownloadItemCellDelegate>
 
 @end

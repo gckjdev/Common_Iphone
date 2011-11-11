@@ -11,6 +11,13 @@
 
 @class DownloadItem;
 
+@protocol DownloadItemCellDelegate <NSObject>
+
+- (void)clickPause:(id)sender atIndexPath:(NSIndexPath*)indexPath;
+- (void)clickStar:(id)sender atIndexPath:(NSIndexPath*)indexPath;
+
+@end
+
 @interface DownloadItemCell : PPTableViewCell
 
 + (DownloadItemCell*) createCell:(id)delegate;
@@ -26,5 +33,7 @@
 @property (retain, nonatomic) IBOutlet UILabel *downloadDetailLabel;
 
 - (void)setCellInfoWithItem:(DownloadItem*)item indexPath:(NSIndexPath*)indexPath;
+- (IBAction)clickPause:(id)sender;
+- (IBAction)clickStar:(id)sender;
 
 @end

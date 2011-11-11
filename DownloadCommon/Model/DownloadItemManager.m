@@ -35,7 +35,7 @@ DownloadItemManager* globalDownloadManager;
                             origUrl:(NSString*)origUrl
                            fileName:(NSString*)fileName
                            filePath:(NSString*)filePath
-                           tempPath:(NSString*)tempPath;
+                           tempPath:(NSString*)tempPath
 {
     
     CoreDataManager* dataManager = [CoreDataManager dataManager];
@@ -74,10 +74,17 @@ DownloadItemManager* globalDownloadManager;
     return [dataManager execute:@"findAllItems" sortBy:@"startDate" ascending:YES];    
 }
 
+- (NSArray*)findAllItemsByStatus:(int)status
+{
+    CoreDataManager* dataManager = [CoreDataManager dataManager];
+    return [dataManager execute:@"findAllItemsByStatus" forKey:@"STATUS" value:[NSNumber numberWithInt:status] sortBy:@"startDate" ascending:YES];    
+}
+
 #pragma STATUS CONTROL
 
 - (void)finishDownload:(DownloadItem*)item
 {
+    [item setRequest:nil];
     [item setEndDate:[NSDate date]];
     [item setStatus:[NSNumber numberWithInt:DOWNLOAD_STATUS_FINISH]];
     [item setDownloadProgress:[NSNumber numberWithFloat:1.0]];
@@ -93,9 +100,24 @@ DownloadItemManager* globalDownloadManager;
 
 - (void)downloadFailure:(DownloadItem*)item
 {
+    [item setRequest:nil];
     [item setStatus:[NSNumber numberWithInt:DOWNLOAD_STATUS_FAIL]];
     [item setDownloadProgress:[NSNumber numberWithFloat:1.0]];
     [[CoreDataManager dataManager] save];    
+}
+
+- (void)downloadPause:(DownloadItem*)item
+{
+    [item setRequest:nil];
+    [item setStatus:[NSNumber numberWithInt:DOWNLOAD_STATUS_PAUSE]];
+    [[CoreDataManager dataManager] save];    
+}
+
+- (void)downloadStart:(DownloadItem*)item request:(ASIHTTPRequest*)request
+{
+    [item setRequest:request];
+    [item setStatus:[NSNumber numberWithInt:DOWNLOAD_STATUS_STARTED]];
+    [[CoreDataManager dataManager] save];        
 }
 
 @end
