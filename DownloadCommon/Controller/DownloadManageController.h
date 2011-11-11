@@ -10,6 +10,10 @@
 #import "PPTableViewController.h"
 #import "DownloadItemCell.h"
 
+@class ItemActionController;
+
 @interface DownloadManageController : PPTableViewController <DownloadItemCellDelegate>
+
+@property (nonatomic, retain) ItemActionController *actionController;
 
 @end

@@ -11,7 +11,7 @@
 
 typedef void (^WebViewBackHandler)(UIViewController*);
 
-@interface DownloadWebViewController : PPViewController <UIWebViewDelegate>
+@interface DownloadWebViewController : PPViewController <UIWebViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 @property (nonatomic, retain) UIActivityIndicatorView *loadActivityIndicator;
@@ -21,6 +21,8 @@ typedef void (^WebViewBackHandler)(UIViewController*);
 @property (nonatomic, retain) NSURLRequest *request;
 @property (nonatomic, retain) NSString *webSite;
 @property (nonatomic, retain) NSString *currentURL;
+@property (nonatomic, retain) NSString *urlForAction;
+@property (nonatomic, assign) BOOL openURLForAction;
 
 - (IBAction) clickBackBuuton;
 - (IBAction) clickForwardBuuton;

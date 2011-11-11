@@ -126,8 +126,9 @@ CoreDataManager* GlobalGetCoreDataManager()
 
 - (NSArray*)execute:(NSString*)fetchRequestName
 {
+    NSDictionary* dict = [NSDictionary dictionary];
 	NSFetchRequest* fq = [self.managedObjectModel fetchRequestFromTemplateWithName:fetchRequestName 
-                                                             substitutionVariables:nil];
+                                                             substitutionVariables:dict];
     
     if (fq == nil){
         PPDebug(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);
@@ -151,9 +152,11 @@ CoreDataManager* GlobalGetCoreDataManager()
 }
 
 - (NSArray*)execute:(NSString*)fetchRequestName sortBy:(NSString*)keyName ascending:(BOOL)ascending
-{
+{    
+    
+    NSDictionary* dict = [NSDictionary dictionary];
 	NSFetchRequest* fq = [self.managedObjectModel fetchRequestFromTemplateWithName:fetchRequestName 
-                                                             substitutionVariables:nil];
+                                                             substitutionVariables:dict];
     
     if (fq == nil){
         PPDebug(@"<execute> execute fetch request (%@) fail, cannot create fetch request", fetchRequestName);

@@ -21,17 +21,24 @@ function MyAppGetHTMLLinkAtPoint(x,y){
 	while (e) {
         if (e.tagName){
 //            alert(e.tagName);            
+			tags += e.tagName + ',';
         }
 		if (link == null && e.tagName && e.tagName.toLowerCase() == "a"){
 //            alert("It's A");
-			tags += e.tagName + ',';
             link = e.href;
 //            alert(link);
 		}
         else if (src == null && e.tagName && e.tagName.toLowerCase() == "img"){
-			tags += e.tagName + ',';
             src = e.src;
 //            alert(src);
+        }
+        else if (link == null && e.tagName && e.tagName.toLowerCase() == "embed"){
+            link = e.getAttribute("href");
+//            alert(link);
+        }
+        else if (link == null && e.tagName && e.tagName.toLowerCase() == "video"){
+            link = e.getAttribute("src");
+//            alert(link);
         }
 		e = e.parentNode;        
 	}

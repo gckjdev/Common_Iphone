@@ -11,8 +11,11 @@
 #import "DownloadItem.h"
 #import "DownloadItemManager.h"
 #import "DownloadService.h"
+#import "ItemActionController.h"
 
 @implementation DownloadManageController
+
+@synthesize actionController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,6 +32,12 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)dealloc
+{
+    [actionController release];
+    [super dealloc];
 }
 
 #pragma mark - View lifecycle
@@ -113,12 +122,19 @@
 	
 }
 
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
         
 	if (indexPath.row > [dataList count] - 1)
 		return;
+    
+    DownloadItem* item = [self.dataList objectAtIndex:indexPath.row];
+    if (self.actionController == nil){
+        self.actionController = [[[ItemActionController alloc] init] autorelease];
+    }
+
+    actionController.item = item;
+    [self.navigationController pushViewController:actionController animated:YES];
+
 }
 
 

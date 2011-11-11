@@ -10,6 +10,8 @@
 
 @implementation ItemActionController
 
+@synthesize item;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -25,6 +27,12 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)dealloc
+{
+    [item release];
+    [super dealloc];
 }
 
 #pragma mark - View lifecycle

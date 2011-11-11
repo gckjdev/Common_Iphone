@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPViewController.h"
 
-@interface ItemActionController : UIViewController
+@class DownloadItem;
+
+@interface ItemActionController : PPViewController
+
+@property (nonatomic, retain) DownloadItem *item;
 
 @end

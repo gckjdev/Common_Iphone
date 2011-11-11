@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPTableViewController.h"
+#import "ResourceService.h"
 
-@interface ResourceCategoryController : UIViewController
+@interface ResourceCategoryController : PPTableViewController <ResourceServiceDelegate>
 
 @end

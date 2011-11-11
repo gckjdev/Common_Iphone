@@ -24,6 +24,8 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 @synthesize superViewController;
 @synthesize currentURL;
 @synthesize webSite;
+@synthesize urlForAction;
+@synthesize openURLForAction;
 
 -(id)init
 {
@@ -44,6 +46,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [webView release];
     [loadActivityIndicator release];
     [request release];
+    [urlForAction release];
     [super dealloc];
 }
 
@@ -137,12 +140,84 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     }
 }
 
+- (BOOL)canDownload:(NSString*)urlString
+{    
+    NSString* pathExtension = [[urlString pathExtension] lowercaseString];
+    if (pathExtension == nil)
+        return NO;
+    
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mp4", @"zip", @"3pg", @"mov", @"jpg", @"png", @"jpeg", nil];
+    return [fileTypeSet containsObject:pathExtension];
+}
+
+- (void)askDownload:(NSString*)urlString
+{
+    self.urlForAction = urlString;
+    self.openURLForAction = NO;
+    
+    NSString* title = [NSString stringWithFormat:NSLS(@"kDownloadURL"), urlString];
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:NSLS(@"Cancel") destructiveButtonTitle:NSLS(@"kYesDownload") otherButtonTitles:NSLS(@"kNoOpenURL"), nil];
+    
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    enum BUTTON_INDEX {
+        CLICK_DOWNLOAD = 0,
+        CLICK_OPEN_URL = 1
+    };
+    
+    switch (buttonIndex) {
+        case CLICK_DOWNLOAD:
+        {
+            [[DownloadService defaultService] downloadFile:urlForAction 
+                                                   webSite:webSite 
+                                                   origUrl:currentURL];
+        }
+            break;
+            
+        case CLICK_OPEN_URL:
+        {
+            self.openURLForAction = YES;
+            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlForAction]]];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)requestURL navigationType:(UIWebViewNavigationType)navigationType{
     
     //    if ([[[requestURL URL] description] rangeOfString:@"tel"].location != NSNotFound){
     //        [UIUtils makeCall:[[requestURL URL] description]];
     //        return NO;
     //    }
+    
+    NSLog(@"Loading URL = %@", [[requestURL URL] absoluteURL]); 
+        
+    NSString* urlString = [[[requestURL URL] absoluteURL] description];
+    if (openURLForAction == YES && [self.urlForAction isEqualToString:urlString]){
+        // it's already confirmed to open the URL by askDownload
+        return YES;
+    }
+
+    // remove query parameter string
+    NSString* baseURLString = [[[requestURL URL] absoluteURL] description];
+    NSString* path = baseURLString;
+    NSString* para = [[[requestURL URL] absoluteURL] query];
+    if (para != nil){
+        path = [path stringByReplacingOccurrencesOfString:[@"?" stringByAppendingString:para]
+                                               withString:@""];
+    }
+    
+    if ([self canDownload:path]){
+        [self askDownload:urlString];
+        return NO;
+    }
     
     return YES;
 }
@@ -152,9 +227,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     
     if (loadActivityIndicator.superview)
         [loadActivityIndicator removeFromSuperview];
-    
-    [self showActivityWithText:@"加载数据中..."];
-    
+        
     [loadActivityIndicator startAnimating];
 }
 

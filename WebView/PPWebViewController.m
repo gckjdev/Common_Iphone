@@ -76,6 +76,8 @@
 
 - (void)openURL:(NSString *)URLString
 {
+    [self showActivityWithText:@"加载数据中..."];
+
     NSLog(@"url = %@",URLString);
     
     NSURL *url = [NSURL URLWithString:[URLString stringByURLEncode]];
