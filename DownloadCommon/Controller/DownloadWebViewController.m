@@ -90,6 +90,8 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 
 - (void)openURL:(NSString *)URLString
 {
+    [self showActivityWithText:@"kLoadingURL"];
+    
     NSLog(@"url = %@",URLString);
     
     NSURL *url = [NSURL URLWithString:[URLString stringByURLEncode]];
@@ -146,7 +148,11 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     if (pathExtension == nil)
         return NO;
     
-    NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mp4", @"zip", @"3pg", @"mov", @"jpg", @"png", @"jpeg", nil];
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mid", @"mp4", @"zip", @"3pg", @"mov", @"jpg", @"png", 
+                          @"jpeg", @"avi", @"pdf", @"doc", @"txt", @"gif", @"xls", @"ppt", @"rtf",
+                          @"rar", @"tar", @"gz", @"flv", @"rm", @"rmvb", @"ogg", @"wmv", @"m4v",
+                          @"bmp", @"wav", @"caf", @"m4v", @"aac", @"aiff", @"dvix", @"epub",
+                          nil];
     return [fileTypeSet containsObject:pathExtension];
 }
 
@@ -214,7 +220,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
                                                withString:@""];
     }
     
-    if ([self canDownload:path]){
+    if ([self canDownload:baseURLString] || [self canDownload:path]){
         [self askDownload:urlString];
         return NO;
     }

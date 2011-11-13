@@ -127,4 +127,29 @@
     }    
 }
 
+- (BOOL)isAudioVideo
+{
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mid", @"mp4", @"3pg", @"mov", @"avi", @"flv", @"rm", @"rmvb", @"ogg", @"wmv", @"m4v", @"wav", @"caf", @"m4v", @"aac", @"aiff", @"dvix",
+                          nil];
+    return [fileTypeSet containsObject:[self.fileName pathExtension]];
+}
+
+- (BOOL)isReadableFile
+{
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"pdf", @"doc", @"txt", @"xls", @"ppt", @"rtf",
+                          @"epub", nil];
+    return [fileTypeSet containsObject:[self.fileName pathExtension]];
+}
+
+// TODO not implemented yet
+- (BOOL)isImage
+{
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mp4", @"zip", @"3pg", @"mov", @"jpg", @"png", 
+                          @"jpeg", @"avi", @"pdf", @"doc", @"txt", @"gif", @"xls", @"ppt", @"rtf",
+                          @"rar", @"tar", @"gz", @"flv", @"rm", @"rmvb", @"ogg", @"wmv", @"m4v",
+                          @"bmp", @"wav", @"caf", @"m4v", @"aac", @"aiff", @"dvix", @"epub",
+                          nil];
+    return [fileTypeSet containsObject:[self.fileName pathExtension]];
+}
+
 @end

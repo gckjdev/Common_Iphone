@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "PPViewController.h"
+#import "CommonFileActionController.h"
 
 @class DownloadItem;
 
 @interface ItemActionController : PPViewController
 
 @property (nonatomic, retain) DownloadItem *item;
+@property (nonatomic, retain) UIViewController<CommonFileActionProtocol> *playItemController;
+@property (retain, nonatomic) IBOutlet UIView *playItemSuperView;
+
+- (void)showItem:(DownloadItem*)newItem;
 
 @end

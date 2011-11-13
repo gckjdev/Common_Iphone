@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommonFileActionController : UIViewController
+@class DownloadItem;
+
+@protocol CommonFileActionProtocol <NSObject>
+
+- (id)initWithDownloadItem:(DownloadItem*)item;
+- (void)show:(UIView*)superView;
 
 @end

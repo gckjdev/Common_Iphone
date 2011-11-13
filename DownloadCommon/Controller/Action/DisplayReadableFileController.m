@@ -7,8 +7,35 @@
 //
 
 #import "DisplayReadableFileController.h"
+#import "DownloadItem.h"
 
 @implementation DisplayReadableFileController
+
+@synthesize downloadItem;
+@synthesize docController;
+
+- (void)showPlayerView
+{
+    NSURL* url = [NSURL fileURLWithPath:downloadItem.localPath];    
+    
+    self.docController = [UIDocumentInteractionController interactionControllerWithURL:url];
+    self.docController.delegate = self;  
+    [self.docController presentPreviewAnimated:NO];
+}
+
+- (void)show:(UIView*)superView;
+{
+    [self.view setFrame:superView.bounds];
+    [superView addSubview:self.view];
+    [self showPlayerView];
+}
+
+- (id)initWithDownloadItem:(DownloadItem*)item
+{
+    self = [super init];
+    self.downloadItem = item;
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,6 +52,13 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)dealloc
+{
+    [docController release];
+    [downloadItem release];
+    [super dealloc];
 }
 
 #pragma mark - View lifecycle
@@ -46,6 +80,23 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma UIDocument Controller Delegate
+
+- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
+{
+    return self;
+}
+
+- (UIView *) documentInteractionControllerViewForPreview: (UIDocumentInteractionController *) controller
+{
+    return self.view;
+}
+
+- (CGRect) documentInteractionControllerRectForPreview: (UIDocumentInteractionController *) controller
+{
+    return self.view.bounds;
 }
 
 @end

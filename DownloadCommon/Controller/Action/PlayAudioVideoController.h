@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommonFileActionController.h"
+#import "PPViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface PlayAudioVideoController : UIViewController
+@interface PlayAudioVideoController : PPViewController<CommonFileActionProtocol>
+
+@property (nonatomic, retain) DownloadItem* downloadItem;
+@property (nonatomic, retain) MPMoviePlayerController* player;
 
 @end

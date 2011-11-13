@@ -31,4 +31,6 @@
 - (NSArray*)findAllItems;
 - (NSArray*)findAllItemsByStatus:(int)status;
 
+- (void)setFileName:(DownloadItem*)item newFileName:(NSString*)newFileName;
+
 @end

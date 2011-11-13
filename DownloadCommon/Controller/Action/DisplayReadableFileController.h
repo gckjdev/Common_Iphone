@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommonFileActionController.h"
+#import "PPViewController.h"
 
-@interface DisplayReadableFileController : UIViewController
+@interface DisplayReadableFileController : PPViewController<CommonFileActionProtocol, UIDocumentInteractionControllerDelegate>
+
+@property (nonatomic, retain) DownloadItem* downloadItem;
+@property (nonatomic, retain) UIDocumentInteractionController* docController;
 
 @end

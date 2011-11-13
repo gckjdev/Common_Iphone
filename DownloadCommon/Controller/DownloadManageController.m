@@ -132,8 +132,8 @@
         self.actionController = [[[ItemActionController alloc] init] autorelease];
     }
 
-    actionController.item = item;
     [self.navigationController pushViewController:actionController animated:YES];
+    [actionController showItem:item];
 
 }
 

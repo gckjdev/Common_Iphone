@@ -45,4 +45,7 @@ enum DOWNLOAD_STATUS {
 - (BOOL)canPause;
 - (BOOL)canResume;
 
+- (BOOL)isAudioVideo;
+- (BOOL)isReadableFile;
+
 @end

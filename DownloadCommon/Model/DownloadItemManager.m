@@ -11,6 +11,7 @@
 #import "CoreDataUtil.h"
 #import "StringUtil.h"
 #import "LogUtil.h"
+#import "FileUtil.h"
 
 DownloadItemManager* globalDownloadManager;
 
@@ -71,7 +72,7 @@ DownloadItemManager* globalDownloadManager;
 - (NSArray*)findAllItems
 {
     CoreDataManager* dataManager = [CoreDataManager dataManager];
-    return [dataManager execute:@"findAllItems" sortBy:@"startDate" ascending:YES];    
+    return [dataManager execute:@"findAllItems" sortBy:@"startDate" ascending:NO];    
 }
 
 - (NSArray*)findAllItemsByStatus:(int)status
@@ -83,7 +84,7 @@ DownloadItemManager* globalDownloadManager;
 #pragma STATUS CONTROL
 
 - (void)finishDownload:(DownloadItem*)item
-{
+{    
     [item setRequest:nil];
     [item setEndDate:[NSDate date]];
     [item setStatus:[NSNumber numberWithInt:DOWNLOAD_STATUS_FINISH]];
@@ -117,6 +118,12 @@ DownloadItemManager* globalDownloadManager;
 {
     [item setRequest:request];
     [item setStatus:[NSNumber numberWithInt:DOWNLOAD_STATUS_STARTED]];
+    [[CoreDataManager dataManager] save];        
+}
+
+- (void)setFileName:(DownloadItem*)item newFileName:(NSString*)newFileName
+{
+    item.fileName = newFileName;    
     [[CoreDataManager dataManager] save];        
 }
 
