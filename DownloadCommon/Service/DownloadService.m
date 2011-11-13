@@ -242,10 +242,10 @@ DownloadService* globalDownloadService;
     
     NSString* fileName = nil;
     if (fileName1 != nil){
-        fileName = [self createFileName:fileName1];    
+        fileName = [self createFileName:[fileName1 lastPathComponent]];    
     }
     else if (fileName2 != nil){
-        fileName = [self createFileName:fileName2];
+        fileName = [self createFileName:[fileName2 lastPathComponent]];
     }
     else{
         fileName = [self createFileName:[[request url] lastPathComponent]];
