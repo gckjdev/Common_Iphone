@@ -61,6 +61,8 @@
 + (CommonNetworkOutput*)findAllSites:(NSString*)baseURL
                                appId:(NSString*)appId
                          countryCode:(NSString*)countryCode
+                                type:(NSNumber*)type
+                              sortBy:(NSNumber*)sortBy
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -69,7 +71,16 @@
         NSString* str = [NSString stringWithString:baseURL];        
         str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDTOPSITES];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
-        str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:countryCode];        
+        str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:countryCode];
+        
+        if (type){
+            str = [str stringByAddQueryParameter:PARA_TYPE intValue:[type intValue]];
+        }
+        
+        if (sortBy){
+            str = [str stringByAddQueryParameter:PARA_SORT_BY intValue:[sortBy intValue]];            
+        }        
+        
         return str;
     };
     

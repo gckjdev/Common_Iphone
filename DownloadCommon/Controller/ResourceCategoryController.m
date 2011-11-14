@@ -14,11 +14,17 @@
 
 @implementation ResourceCategoryController
 
+@synthesize requestType;
+@synthesize latestList;
+@synthesize topList;
+@synthesize hotList;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.requestType = SITE_REQUEST_TYPE_TOP;
     }
     return self;
 }
@@ -31,14 +37,78 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void)dealloc
+{
+    [hotList release];
+    [topList release];
+    [latestList release];
+    [super dealloc];
+}
+
 #pragma mark - View lifecycle
 
-- (void)findAllSitesFinish:(int)resultCode
+- (void)updateDataListByType:(NSArray*)newDataList requestType:(int)requestTypeValue
+{
+    switch (requestTypeValue) {
+        case SITE_REQUEST_TYPE_TOP:
+        {
+            self.topList = newDataList;
+        }
+            break;
+
+        case SITE_REQUEST_TYPE_HOT:
+        {
+            self.hotList = newDataList;
+        }
+            break;
+            
+        case SITE_REQUEST_TYPE_NEW:
+        {
+            self.latestList = newDataList;
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)reloadData
+{
+    switch (self.requestType) {
+        case SITE_REQUEST_TYPE_TOP:
+        {
+            self.dataList = self.topList;
+        }
+            break;
+            
+        case SITE_REQUEST_TYPE_HOT:
+        {
+            self.dataList = self.hotList;
+        }
+            break;
+            
+        case SITE_REQUEST_TYPE_NEW:
+        {
+            self.dataList = self.latestList;
+        }
+            break;
+            
+        default:
+            break;
+    }
+
+    [self.dataTableView reloadData];
+}
+
+- (void)findAllSitesFinish:(int)resultCode requestType:(int)requestTypeValue newDataList:(NSArray*)newDataList
 {
     [self hideActivity];
     if (resultCode == 0){
-        self.dataList = [[TopSiteManager defaultManager] siteList];
-        [self.dataTableView reloadData];
+        [self updateDataListByType:newDataList requestType:requestTypeValue];
+        if (requestType == requestTypeValue){
+            [self reloadData];
+        }
     }
     else{
         [self popupUnhappyMessage:NSLS(@"kFailLoadSite") title:@""];
@@ -48,7 +118,7 @@
 - (void)loadSiteFromServer
 {
     [self showActivityWithText:NSLS(@"kLoadingData")];
-    [[ResourceService defaultService] findAllSites:self];
+    [[ResourceService defaultService] findAllSites:self requestType:self.requestType];
 }
 
 - (void)viewDidLoad
@@ -66,7 +136,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    self.dataList = [[TopSiteManager defaultManager] siteList];
+    [self reloadData];
     [super viewDidAppear:animated];
 }
 
@@ -140,6 +210,41 @@
     
     TopSite* site = [self.dataList objectAtIndex:indexPath.row];
     [DownloadWebViewController show:self url:site.siteURL];
+}
+
+- (IBAction)clickHot:(id)sender
+{
+    self.requestType = SITE_REQUEST_TYPE_HOT;
+    if ([self.hotList count] == 0){
+        [self loadSiteFromServer];
+    }
+    else{
+        [self reloadData];
+    }    
+}
+
+- (IBAction)clickTop:(id)sender
+{
+    self.requestType = SITE_REQUEST_TYPE_TOP;
+    if ([self.topList count] == 0){
+        [self loadSiteFromServer];
+    }
+    else{
+        [self reloadData];
+    }    
+    
+}
+
+- (IBAction)clickNew:(id)sender
+{
+    self.requestType = SITE_REQUEST_TYPE_NEW;
+    if ([self.latestList count] == 0){
+        [self loadSiteFromServer];
+    }
+    else{
+        [self reloadData];
+    }    
+    
 }
 
 

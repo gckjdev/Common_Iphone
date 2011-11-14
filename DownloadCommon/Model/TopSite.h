@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+enum SITE_TYPE {
+    SITE_TYPE_SYSTEM = 1,
+    SITE_TYPE_USER = 2
+    };
+
 @interface TopSite : NSObject
 
 @property (nonatomic, assign) int siteType;

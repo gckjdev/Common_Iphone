@@ -12,4 +12,14 @@
 
 @interface ResourceCategoryController : PPTableViewController <ResourceServiceDelegate>
 
+@property (nonatomic, assign) int requestType;
+
+@property (nonatomic, retain) NSArray* topList;
+@property (nonatomic, retain) NSArray* hotList;
+@property (nonatomic, retain) NSArray* latestList;
+
+- (IBAction)clickHot:(id)sender;
+- (IBAction)clickTop:(id)sender;
+- (IBAction)clickNew:(id)sender;
+
 @end

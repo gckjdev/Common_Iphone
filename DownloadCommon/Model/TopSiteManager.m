@@ -31,9 +31,9 @@ TopSiteManager *globalTopSiteManager;
     return globalTopSiteManager;
 }
 
-- (void)updateData:(NSArray*)jsonArray
+- (NSArray*)updateData:(NSArray*)jsonArray
 {
-    self.siteList = [NSMutableArray arrayWithCapacity:[jsonArray count]];
+    NSMutableArray* dataList = [NSMutableArray arrayWithCapacity:[jsonArray count]];
     for (NSDictionary* data in jsonArray){
         TopSite* site = [[TopSite alloc] initWithSiteId:[data objectForKey:PARA_SITE_ID]
                                                siteType:[[data objectForKey:PARA_TYPE] intValue]
@@ -42,8 +42,10 @@ TopSiteManager *globalTopSiteManager;
                                                siteName:[data objectForKey:PARA_SITE_NAME]
                                           downloadCount:[[data objectForKey:PARA_DOWNLOAD_COUNT] intValue]
                                             countryCode:[data objectForKey:PARA_COUNTRYCODE]];
-        [siteList addObject:site];
+        [dataList addObject:site];
     }
+    
+    return dataList;
 }
 
 @end

@@ -14,6 +14,6 @@
 
 + (TopSiteManager*)defaultManager;
 
-- (void)updateData:(NSArray*)jsonArray;
+- (NSArray*)updateData:(NSArray*)jsonArray;
 
 @end

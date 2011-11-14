@@ -12,6 +12,7 @@
 #import "LocaleUtils.h"
 #import "PPNetworkRequest.h"
 #import "TopSiteManager.h"
+#import "TopSite.h"
 
 ResourceService* globalResourceService;
 
@@ -24,9 +25,29 @@ ResourceService* globalResourceService;
     return globalResourceService;
 }
 
-- (void)findAllSites:(id<ResourceServiceDelegate>)delegateObject
+- (void)findAllSites:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType
 {
     NSString* appId = @"";
+    
+    NSNumber* sortBy = nil;
+    NSNumber* type = nil;
+    
+    switch (requestType) {
+        case SITE_REQUEST_TYPE_TOP:
+            sortBy = [NSNumber numberWithInt:SORT_BY_DOWNLOAD];
+            break;
+            
+        case SITE_REQUEST_TYPE_HOT:
+            type = [NSNumber numberWithInt:SITE_TYPE_SYSTEM];
+            break;
+            
+        case SITE_REQUEST_TYPE_NEW:
+            sortBy = [NSNumber numberWithInt:SORT_BY_START_DATE];
+            break;
+            
+        default:
+            break;
+    }
     
     dispatch_async(workingQueue, ^{
         
@@ -34,22 +55,26 @@ ResourceService* globalResourceService;
         CommonNetworkOutput* output = nil;        
         output = [DownloadNetworkRequest findAllSites:SERVER_URL 
                                                 appId:appId 
-                                          countryCode:[LocaleUtils getCountryCode]];
+                                          countryCode:[LocaleUtils getCountryCode]
+                                                 type:type
+                                               sortBy:sortBy];
         
         // if succeed, clean local data and save new data
         dispatch_async(dispatch_get_main_queue(), ^{
             
             // save data locally
+            NSArray* siteList;
             if (output.resultCode == 0){
-                [[TopSiteManager defaultManager] updateData:output.jsonDataArray];
+                siteList = [[TopSiteManager defaultManager] updateData:output.jsonDataArray];
             }
             
             // notify UI to refresh data
             NSLog(@"<findAllSites> result code=%d, get total %d sites", 
                   output.resultCode, [output.jsonDataArray count]);
             
-            if ([delegateObject respondsToSelector:@selector(findAllSitesFinish:)]){
-                [delegateObject findAllSitesFinish:output.resultCode];
+            if ([delegateObject respondsToSelector:@selector(findAllSitesFinish:requestType:newDataList:)]){
+                [delegateObject findAllSitesFinish:output.resultCode
+                 requestType:requestType newDataList:siteList];
             }
         });
         

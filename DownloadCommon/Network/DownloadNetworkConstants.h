@@ -278,6 +278,9 @@
 #define SORT_BY_BOUGHT 3
 
 
+#define SORT_BY_DOWNLOAD 20
+
+
 
 #define ERROR_DEVICE_NOT_BIND           20003
 

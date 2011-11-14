@@ -55,8 +55,9 @@
     self.fileTypeLabel.text = site.siteFileType;
     if ([site.siteName length] > 0)
         self.siteNameLabel.text = site.siteName;
-    else
-        self.siteNameLabel.text = 
+    else{
+        self.siteNameLabel.text = [site.siteURL stringByReplacingOccurrencesOfString:@"http://" withString:@""];
+    }
     self.siteUrlLabel.text = site.siteURL;
     self.downloadCountLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), site.downloadCount];
 }

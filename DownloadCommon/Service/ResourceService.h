@@ -9,15 +9,23 @@
 #import <Foundation/Foundation.h>
 #import "CommonService.h"
 
+enum SITE_REQUEST {
+    SITE_REQUEST_TYPE_TOP = 0,
+    SITE_REQUEST_TYPE_HOT,
+    SITE_REQUEST_TYPE_NEW
+    };
+
+
+
 @protocol ResourceServiceDelegate <NSObject>
 
-- (void)findAllSitesFinish:(int)resultCode;
+- (void)findAllSitesFinish:(int)resultCode requestType:(int)requestTypeValue newDataList:(NSArray*)newDataList;
 
 @end
 
 @interface ResourceService : CommonService
 
 + (ResourceService*)defaultService;
-- (void)findAllSites:(id<ResourceServiceDelegate>)delegateObject;
+- (void)findAllSites:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType;
 
 @end

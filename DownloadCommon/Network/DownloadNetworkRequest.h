@@ -20,7 +20,9 @@
 
 + (CommonNetworkOutput*)findAllSites:(NSString*)baseURL
                                appId:(NSString*)appId
-                         countryCode:(NSString*)countryCode;
+                         countryCode:(NSString*)countryCode
+                                type:(NSNumber*)type
+                              sortBy:(NSNumber*)sortBy;
 
 + (CommonNetworkOutput*)reportDownload:(NSString*)baseURL 
                                  appId:(NSString*)appId

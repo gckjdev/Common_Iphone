@@ -149,8 +149,9 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     if (pathExtension == nil)
         return NO;
     
-    NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mid", @"mp4", @"zip", @"3pg", @"mov", @"jpg", @"png", 
-                          @"jpeg", @"avi", @"pdf", @"doc", @"txt", @"gif", @"xls", @"ppt", @"rtf",
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mid", @"mp4", @"zip", @"3pg", @"mov", 
+                          //@"jpg", @"png", @"jpeg", 
+                          @"avi", @"pdf", @"doc", @"txt", @"gif", @"xls", @"ppt", @"rtf",
                           @"rar", @"tar", @"gz", @"flv", @"rm", @"rmvb", @"ogg", @"wmv", @"m4v",
                           @"bmp", @"wav", @"caf", @"m4v", @"aac", @"aiff", @"dvix", @"epub",
                           nil];
