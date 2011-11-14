@@ -53,7 +53,10 @@
 - (void)setCellInfoWithSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath
 {
     self.fileTypeLabel.text = site.siteFileType;
-    self.siteNameLabel.text = site.siteName;
+    if ([site.siteName length] > 0)
+        self.siteNameLabel.text = site.siteName;
+    else
+        self.siteNameLabel.text = 
     self.siteUrlLabel.text = site.siteURL;
     self.downloadCountLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), site.downloadCount];
 }

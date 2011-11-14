@@ -87,5 +87,45 @@
                                   output:output];
 }
 
++ (CommonNetworkOutput*)reportDownload:(NSString*)baseURL 
+                                 appId:(NSString*)appId
+                              fileType:(NSString*)fileType
+                              fileName:(NSString*)fileName
+                                   url:(NSString*)url
+                               webSite:(NSString*)webSite
+                           webSiteName:(NSString*)webSiteName
+                              fileSize:(long)fileSize
+                           countryCode:(NSString*)countryCode
+                              language:(NSString*)language
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_REPORTDOWNLOAD];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:countryCode];        
+        str = [str stringByAddQueryParameter:PARA_LANGUAGE value:language];        
+        str = [str stringByAddQueryParameter:PARA_FILE_TYPE value:fileType];        
+        str = [str stringByAddQueryParameter:PARA_FILE_URL value:[url stringByURLEncode]];        
+        str = [str stringByAddQueryParameter:PARA_FILE_NAME value:[fileName stringByURLEncode]];        
+        str = [str stringByAddQueryParameter:PARA_SITE_URL value:[webSite stringByURLEncode]];        
+        str = [str stringByAddQueryParameter:PARA_SITE_NAME value:[webSiteName stringByURLEncode]];        
+        str = [str stringByAddQueryParameter:PARA_FILE_SIZE intValue:fileSize];        
+        str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {        
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+}
 
 @end

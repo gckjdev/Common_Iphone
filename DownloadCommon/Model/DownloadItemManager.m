@@ -122,10 +122,21 @@ DownloadItemManager* globalDownloadManager;
     [[CoreDataManager dataManager] save];        
 }
 
-- (void)setFileName:(DownloadItem*)item newFileName:(NSString*)newFileName
+- (void)setFileInfo:(DownloadItem*)item newFileName:(NSString*)newFileName fileSize:(long)fileSize
 {
-    item.fileName = newFileName;    
+    item.fileName = newFileName;
+    item.fileSize = [NSNumber numberWithLong:fileSize];
     [[CoreDataManager dataManager] save];        
+}
+
+- (BOOL)isURLReport:(NSString*)urlString
+{
+    return NO;
+}
+
+- (void)setURLReported:(NSString*)urlString
+{
+    
 }
 
 @end

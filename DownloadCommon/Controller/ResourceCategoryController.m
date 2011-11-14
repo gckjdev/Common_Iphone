@@ -55,6 +55,8 @@
 {
     [super viewDidLoad];
     
+    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadSiteFromServer)];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
     

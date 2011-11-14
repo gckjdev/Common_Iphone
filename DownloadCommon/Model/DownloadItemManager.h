@@ -32,6 +32,9 @@
 - (NSArray*)findAllItems;
 - (NSArray*)findAllItemsByStatus:(int)status;
 
-- (void)setFileName:(DownloadItem*)item newFileName:(NSString*)newFileName;
+- (void)setFileInfo:(DownloadItem*)item newFileName:(NSString*)newFileName fileSize:(long)fileSize;
+
+- (BOOL)isURLReport:(NSString*)urlString;
+- (void)setURLReported:(NSString*)urlString;
 
 @end

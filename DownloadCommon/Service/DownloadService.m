@@ -16,6 +16,9 @@
 #import "StringUtil.h"
 #import "StatusView.h"
 #import "LocaleUtils.h"
+#import "DownloadNetworkRequest.h"
+#import "DownloadNetworkConstants.h"
+#import "PPNetworkRequest.h"
 
 #define DOWNLOAD_DIR                @"/download/incoming/"
 #define DOWNLOAD_TEMP_DIR           @"/download/temp/"
@@ -174,6 +177,40 @@ DownloadService* globalDownloadService;
     }
 }
 
+- (void)reportDownload:(DownloadItem*)item
+{
+    if ([[DownloadItemManager defaultManager] isURLReport:item.url]){
+        return;
+    }
+    
+    NSString* appId = @"";
+    
+    dispatch_async(workingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;        
+        output = [DownloadNetworkRequest reportDownload:SERVER_URL 
+                                                  appId:appId 
+                                               fileType:[item.fileName pathExtension]
+                                               fileName:item.fileName
+                                                    url:item.url
+                                                webSite:item.webSite
+                                            webSiteName:item.webSiteName
+                                               fileSize:[item.fileSize longValue]
+                                            countryCode:[LocaleUtils getCountryCode]
+                                               language:[LocaleUtils getLanguageCode]];
+        
+        // if succeed, clean local data and save new data
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            // save data locally
+            if (output.resultCode == 0){
+                [[DownloadItemManager defaultManager] setURLReported:item.url];
+            }            
+        });                
+    });    
+}
+
 #pragma ASIHTTPRequest Delegate
 
 - (NSString*)unicodeStringToUTF8:(NSString*)unicodeString
@@ -252,10 +289,17 @@ DownloadService* globalDownloadService;
         fileName = [self createFileName:[[request url] lastPathComponent]];
     }
     
-    [[DownloadItemManager defaultManager] setFileName:item newFileName:fileName];
+    long fileSize = [[responseHeaders valueForKey:@"Content-Length"] intValue];
+
+    // set right file name here
+    [[DownloadItemManager defaultManager] setFileInfo:item newFileName:fileName fileSize:fileSize];
     
+    // notify UI to show info
     NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadStart"), item.fileName];
     [StatusView showtStatusText:statusText vibrate:NO duration:10.0];
+    
+    // report to server
+    [self reportDownload:item];
 }
 
 - (void)request:(ASIHTTPRequest *)request willRedirectToURL:(NSURL *)newURL

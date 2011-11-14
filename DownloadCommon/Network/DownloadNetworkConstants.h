@@ -77,6 +77,7 @@
 #define METHOD_COMPAREPRODUCT @"comp"
 
 #define METHOD_FINDTOPSITES @"fts"
+#define METHOD_REPORTDOWNLOAD @"rdl"
 
 // request parameters
 
@@ -258,6 +259,9 @@
 #define PARA_REGISTER_TYPE  @"rt"
 
 #define PARA_FILE_TYPE @"ft"
+#define PARA_FILE_SIZE @"fs"
+#define PARA_FILE_URL @"fu"
+#define PARA_FILE_NAME @"fn"
 #define PARA_TYPE @"tp"
 #define PARA_DOWNLOAD_COUNT @"cnt"
 #define PARA_DATA_COUNT @"count"
