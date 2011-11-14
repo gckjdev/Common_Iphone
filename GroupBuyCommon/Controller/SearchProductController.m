@@ -16,7 +16,8 @@
 #import "ProductManager.h"
 #import "UIImageUtil.h"
 #import "UIButtonExt.h"
-
+#import "UserShopItemService.h"
+#import "LocationService.h"
 //private methods
 @interface SearchProductController()
 
@@ -193,6 +194,29 @@
 	[searchBar resignFirstResponder];
 }
 
+#pragma mark -  
+#pragma mark alertView delegate Methods  
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        //yes
+        UserShopItemService* shopService = GlobalGetUserShopItemService();
+        NSString* city = [GlobalGetLocationService() getDefaultCity];    
+        NSString* categoryName = nil;
+        NSArray* selectedSubCategories = nil;
+        NSString *keywords = searchTextField.text;
+        NSDate *expireDate = nil;
+        NSNumber *price = nil;
+        NSNumber *latitude = nil;
+        NSNumber *longitude = nil;
+        NSNumber *radius = nil;
+        [shopService addUserShoppingItem:city categoryName:categoryName subCategories:selectedSubCategories keywords:keywords maxPrice:price expireDate:expireDate latitude:latitude longitude:longitude radius:radius rebate:nil];
+    }
+    if (buttonIndex == 0) {
+        //no
+    }
+}
+
 #pragma mark -
 #pragma mark do Search
 
@@ -216,6 +240,8 @@
 	UIButton *button = (UIButton *)sender;    
     keywordSearchBar.text = button.currentTitle;  
     searchTextField.text = button.currentTitle;
+    [SearchHistoryManager createSearchHistory:searchTextField.text];	
+	[self refreshLatestSearchHistory];
     [self search:button.currentTitle];	
 }
 

@@ -29,6 +29,7 @@
     NSString                        *categoryId;
     NSString                        *type;
     BOOL                            isRemoteRequest;
+    NSInteger                       appearCount;
 }
 
 @property (nonatomic, retain) UIViewController                *superController;

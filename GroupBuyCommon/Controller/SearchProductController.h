@@ -11,7 +11,7 @@
 
 //#import "ASREngine.h"
 
-@interface SearchProductController : PPViewController <UISearchBarDelegate> {
+@interface SearchProductController : PPViewController <UISearchBarDelegate, UIAlertViewDelegate> {
     UIButton *latestSearchButton1;
 	UIButton *latestSearchButton2;
 	UIButton *latestSearchButton3;

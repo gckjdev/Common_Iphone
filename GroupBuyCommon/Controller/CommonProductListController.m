@@ -23,6 +23,7 @@
 #import "GroupBuyReport.h"
 #import "UITableViewCellUtil.h"
 #import "GroupBuyControllerExt.h"
+#import "UIAlertViewUtils.h"
 
 @implementation CommonProductListController
 
@@ -113,7 +114,7 @@
 - (void)viewDidLoad
 {    
     self.view.backgroundColor = [UIColor clearColor];
-    
+    appearCount = 0;
     //don't set background here, it's set by caller viewcontrollers    
     //[self setBackgroundImageName:@"background.png"];
     
@@ -126,8 +127,6 @@
         
     [self requestProductListFromServer:YES];    
     [super viewDidLoad];
-    
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -136,6 +135,15 @@
     if (self.dataList == nil || [dataList count] == 0){
         [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];
+        
+        if ((appearCount ++) == 0 && (self.dataList == nil || [dataList count] == 0) && 
+            [self.dataLoader isKindOfClass:[ProductKeywordDataLoader class]]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"通知" message:@"找不到商品，是否需要加入团购通知列表？" delegate:self.superController cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+            [alert showWithBackground];
+            [alert release];
+            
+        }
+        
     }
     else{
         [self.dataTableView reloadData];
@@ -143,6 +151,9 @@
     
     [super viewDidAppear:YES];
 }
+
+
+
 
 - (void)viewDidUnload
 {
