@@ -15,6 +15,7 @@
 @property (retain, nonatomic) IBOutlet UILabel *siteUrlLabel;
 @property (retain, nonatomic) IBOutlet UILabel *downloadCountLabel;
 @property (retain, nonatomic) IBOutlet UILabel *siteNameLabel;
+@property (retain, nonatomic) IBOutlet UILabel *fileTypeLabel;
 
 + (ResourceCell*) createCell:(id)delegate;
 + (NSString*)getCellIdentifier;

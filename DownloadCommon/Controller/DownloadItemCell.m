@@ -12,6 +12,7 @@
 
 @implementation DownloadItemCell
 @synthesize starButton;
+@synthesize webSiteLabel;
 @synthesize pauseButton;
 @synthesize fileTypeLabel;
 @synthesize fileNameLabel;
@@ -50,7 +51,7 @@
 
 + (CGFloat)getCellHeight
 {
-    return 96.0;
+    return 106.0f;
 }
 
 #define SIZE_ONE_MB (1000000.0)
@@ -128,6 +129,8 @@
     self.downloadDetailLabel.text = [NSString stringWithFormat:@"%@ %@ %@", sizeInfo, percentageInfo, leftInfo];
     self.downloadProgress.progress = [item.downloadProgress floatValue];
     
+    self.webSiteLabel.text = [NSString stringWithFormat:NSLS(@"kFromWebSite"), item.webSite];
+    
     [self setPauseButtonInfo:item];
 }
 
@@ -151,6 +154,7 @@
     [downloadProgress release];
     [pauseButton release];
     [starButton release];
+    [webSiteLabel release];
     [super dealloc];
 }
 @end

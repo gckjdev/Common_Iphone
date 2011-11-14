@@ -128,7 +128,7 @@ DownloadService* globalDownloadService;
 
 #pragma External Methods
 
-- (BOOL)downloadFile:(NSString*)urlString webSite:(NSString*)webSite origUrl:(NSString*)origUrl
+- (BOOL)downloadFile:(NSString*)urlString webSite:(NSString*)webSite webSiteName:(NSString*)webSiteName origUrl:(NSString*)origUrl
 {                
     NSURL* url = [NSURL URLWithString:urlString];
     if ([[UIApplication sharedApplication] canOpenURL:url] == NO){
@@ -144,6 +144,7 @@ DownloadService* globalDownloadService;
     DownloadItemManager* downloadItemManager = [DownloadItemManager defaultManager];
     DownloadItem* downloadItem = [downloadItemManager createDownloadItem:urlString 
                                                                  webSite:webSite 
+                                                             webSiteName:webSiteName 
                                                                  origUrl:origUrl
                                                                 fileName:@""            // no file name
                                                                 filePath:filePath                                  

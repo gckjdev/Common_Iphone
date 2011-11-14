@@ -166,7 +166,7 @@
     
     [dataManager save];
     
-     NSLog(@"<createProductForFavorite> product=%@", [favorProduct description]);    
+     PPDebug(@"<createProductForFavorite> product=%@", [favorProduct description]);    
     return YES;
 }
 
@@ -186,7 +186,7 @@
     [productHistory copyFrom:product useFor:USE_FOR_HISTORY];    
     productHistory.browseDate = [NSDate date];
 
-    NSLog(@"<createProductHistory> product=%@", [productHistory description]);
+    PPDebug(@"<createProductHistory> product=%@", [productHistory description]);
     
     return [dataManager save];    
     
@@ -222,7 +222,7 @@
 
 + (BOOL)deleteProductsByUseFor:(int)useFor
 {
-    NSLog(@"<deleteProductsByUseFor> useFor=%d", useFor);
+    PPDebug(@"<deleteProductsByUseFor> useFor=%d", useFor);
     NSArray* ProductArray = [ProductManager getAllProductsByUseFor:useFor sortByKey:@"deleteFlag"  sortAsending:YES];
     for (Product* Product in ProductArray){
         Product.deleteFlag = [NSNumber numberWithBool:YES];

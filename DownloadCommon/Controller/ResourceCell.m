@@ -14,6 +14,7 @@
 @synthesize siteUrlLabel;
 @synthesize downloadCountLabel;
 @synthesize siteNameLabel;
+@synthesize fileTypeLabel;
 
 - (void)setCellStyle
 {
@@ -51,6 +52,7 @@
 
 - (void)setCellInfoWithSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath
 {
+    self.fileTypeLabel.text = site.siteFileType;
     self.siteNameLabel.text = site.siteName;
     self.siteUrlLabel.text = site.siteURL;
     self.downloadCountLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), site.downloadCount];
@@ -61,6 +63,7 @@
     [siteNameLabel release];
     [siteUrlLabel release];
     [downloadCountLabel release];
+    [fileTypeLabel release];
     [super dealloc];
 }
 @end

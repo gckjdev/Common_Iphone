@@ -17,6 +17,7 @@
 
 - (DownloadItem*)createDownloadItem:(NSString*)url
                             webSite:(NSString*)webSite
+                        webSiteName:(NSString*)webSiteName 
                             origUrl:(NSString*)origUrl
                            fileName:(NSString*)fileName
                            filePath:(NSString*)filePath

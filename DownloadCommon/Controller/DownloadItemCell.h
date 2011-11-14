@@ -23,6 +23,7 @@
 + (DownloadItemCell*) createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
+@property (retain, nonatomic) IBOutlet UILabel *webSiteLabel;
 
 @property (retain, nonatomic) IBOutlet UIButton *pauseButton;
 @property (retain, nonatomic) IBOutlet UIButton *starButton;

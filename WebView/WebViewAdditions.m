@@ -143,5 +143,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contextualMenuAction:) name:@"TapAndHoldNotification" object:nil];
 }
 
+- (NSString*)getTitle
+{
+    NSString *theTitle = [self stringByEvaluatingJavaScriptFromString:@"document.title"];
+    
+    return theTitle;
+}
+
 
 @end

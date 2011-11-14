@@ -30,5 +30,6 @@
 - (CGSize)windowSize;
 - (CGPoint)scrollOffset;
 - (void)registerLongPressHandler;
+- (NSString*)getTitle;
 
 @end

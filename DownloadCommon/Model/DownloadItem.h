@@ -35,6 +35,7 @@ enum DOWNLOAD_STATUS {
 @property (nonatomic, retain) NSString * localPath;
 @property (nonatomic, retain) NSString * tempPath;
 @property (nonatomic, retain) NSString * itemId;
+@property (nonatomic, retain) NSString * webSiteName;
 @property (nonatomic, retain) NSNumber * deleteFlag;
 @property (nonatomic, retain) NSNumber * downloadProgress;
 @property (nonatomic, assign) ASIHTTPRequest * request;

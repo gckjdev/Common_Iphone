@@ -135,9 +135,10 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 - (void)longpressTouch:(UIWebView*)webView info:(HTMLLinkInfo*)linkInfo
 {
     if ([linkInfo hasLink]){
-        [UIUtils alert:@"start downloading"];
+        [self popupHappyMessage:NSLS(@"kTryDownloadNow") title:@""];
         [[DownloadService defaultService] downloadFile:linkInfo.href 
                                                webSite:webSite 
+                                           webSiteName:[self.webView getTitle]
                                                origUrl:currentURL];
     }
 }
@@ -179,7 +180,8 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
         case CLICK_DOWNLOAD:
         {
             [[DownloadService defaultService] downloadFile:urlForAction 
-                                                   webSite:webSite 
+                                                   webSite:webSite
+                                               webSiteName:[self.webView getTitle]             
                                                    origUrl:currentURL];
         }
             break;

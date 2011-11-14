@@ -17,6 +17,7 @@
         <attribute name="tempPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="webSite" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="webSiteName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="ResourceSite" syncable="YES">
         <attribute name="siteName" optional="YES" attributeType="String" syncable="YES"/>
@@ -27,7 +28,7 @@
     <fetchRequest name="findAllItemsByStatus" entity="DownloadItem" predicateString="deleteFlag == 0 AND status == $STATUS"/>
     <fetchRequest name="findItemByName" entity="DownloadItem" predicateString="fileName == $FILE_NAME"/>
     <elements>
-        <element name="DownloadItem" positionX="160" positionY="192" width="128" height="285"/>
+        <element name="DownloadItem" positionX="160" positionY="192" width="128" height="300"/>
         <element name="ResourceSite" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>

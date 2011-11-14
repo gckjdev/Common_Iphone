@@ -31,6 +31,7 @@
 @dynamic tempPath;
 @dynamic deleteFlag;
 @dynamic downloadProgress;
+@dynamic webSiteName;
 
 @synthesize request;
 
