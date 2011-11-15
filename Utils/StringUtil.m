@@ -353,6 +353,34 @@ BOOL NSStringIsValidPhone(NSString *checkString)
     return dict;
 }
 
++ (NSString*)floatToStringWithoutZeroTail:(float)floatValue
+{
+    NSString* stringFloat = [NSString stringWithFormat:@"%f",floatValue];
+    const char* floatChars = [stringFloat UTF8String];
+    NSUInteger length = [stringFloat length];
+    NSUInteger zeroLength  = 0;
+    int i = length-1;
+    
+    for(; i >= 0; i--)
+    {
+        if(floatChars[i] == '0')
+            zeroLength++;
+        else
+        {
+            if(floatChars[i] =='.')
+                i--;
+            break;
+        }  
+    }
+    
+    NSString* returnString;
+    
+    if(i == -1)
+        returnString  = @"0";  
+    else 
+        returnString = [stringFloat substringToIndex:i+1]; 
+    return returnString;
+}
 @end
 
 //return [retArray sortedArrayUsingComparator:^(id obj1, id obj2) {					
