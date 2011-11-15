@@ -44,23 +44,12 @@
 
 #pragma mark - View lifecycle
 
-- (UIViewController<CommonFileActionProtocol>*)getViewControllerByItem:(DownloadItem*)downloadItem
-{
-    if ([downloadItem isAudioVideo]){
-        return [[[PlayAudioVideoController alloc] initWithDownloadItem:downloadItem] autorelease];
-    }
-    else if ([downloadItem isReadableFile]){
-        return [[[DisplayReadableFileController alloc] initWithDownloadItem:downloadItem] autorelease];
-    }
-    else{
-        return [[[DisplayReadableFileController alloc] initWithDownloadItem:downloadItem] autorelease];
-    }
-}
+
 
 - (void)createPlayItemView
 {
-    self.playItemController = [self getViewControllerByItem:self.item];
-    [self.playItemController show:self.playItemSuperView];    
+//    self.playItemController = [self getViewControllerByItem:self.item];
+//    [self.playItemController show:self.playItemSuperView];    
 }
 
 - (void)showItem:(DownloadItem*)newItem
@@ -90,5 +79,9 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+// save
+// http://stackoverflow.com/questions/6916305/how-to-save-video-file-into-document-directory
+// http://stackoverflow.com/questions/5706911/save-mp4-into-iphone-photo-album
 
 @end

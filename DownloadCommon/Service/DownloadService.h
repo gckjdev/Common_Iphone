@@ -11,6 +11,8 @@
 #import "ASIHTTPRequestDelegate.h"
 
 @class DownloadItem;
+@class PlayAudioVideoController;
+@class DisplayReadableFileController;
 
 @interface DownloadService : CommonService <ASIHTTPRequestDelegate>
 
@@ -19,9 +21,13 @@
 @property (nonatomic, retain) NSString* downloadTempDir;
 @property (nonatomic, assign) int concurrentDownload;
 
-- (BOOL)downloadFile:(NSString*)url webSite:(NSString*)webSite webSiteName:(NSString*)webSiteName origUrl:(NSString*)origUrl;
+@property (nonatomic, retain) PlayAudioVideoController *videoPlayController;
+@property (nonatomic, retain) DisplayReadableFileController *fileViewController;
+
+- (BOOL)downloadFile:(NSString*)url fileType:(int)fileType webSite:(NSString*)webSite webSiteName:(NSString*)webSiteName origUrl:(NSString*)origUrl;
 - (void)pauseDownloadItem:(DownloadItem*)item;
 - (void)resumeDownloadItem:(DownloadItem*)item;
+- (void)playItem:(DownloadItem*)item viewController:(UIViewController*)viewController;
 - (void)pauseAllDownloadItem;
 
 + (DownloadService*)defaultService;

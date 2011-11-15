@@ -4,6 +4,7 @@
 #import "WebViewAdditions.h"
 #import "LogUtil.h"
 #import "DownloadService.h"
+#import "DownloadItem.h"
 
 DownloadWebViewController *downloadWebViewController;
 
@@ -26,6 +27,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 @synthesize webSite;
 @synthesize urlForAction;
 @synthesize openURLForAction;
+@synthesize urlFileType;
 
 -(id)init
 {
@@ -135,11 +137,17 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 - (void)longpressTouch:(UIWebView*)webView info:(HTMLLinkInfo*)linkInfo
 {
     if ([linkInfo hasLink]){
-        [self popupHappyMessage:NSLS(@"kTryDownloadNow") title:@""];
-        [[DownloadService defaultService] downloadFile:linkInfo.href 
-                                               webSite:webSite 
-                                           webSiteName:[self.webView getTitle]
-                                               origUrl:currentURL];
+//        [self popupHappyMessage:NSLS(@"kTryDownloadNow") title:@""];
+//        [[DownloadService defaultService] downloadFile:linkInfo.href 
+//                                               webSite:webSite 
+//                                           webSiteName:[self.webView getTitle]
+//                                               origUrl:currentURL];
+        self.urlFileType = FILE_TYPE_UNKNOWN;
+        [self askDownload:linkInfo.href];
+    }
+    else if ([linkInfo hasImage]){
+        self.urlFileType = FILE_TYPE_IMAGE;
+        [self askDownload:linkInfo.src];        
     }
 }
 
@@ -150,7 +158,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
         return NO;
     
     NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mid", @"mp4", @"zip", @"3pg", @"mov", 
-                          //@"jpg", @"png", @"jpeg", 
+                          @"jpg", @"png", @"jpeg", 
                           @"avi", @"pdf", @"doc", @"txt", @"gif", @"xls", @"ppt", @"rtf",
                           @"rar", @"tar", @"gz", @"flv", @"rm", @"rmvb", @"ogg", @"wmv", @"m4v",
                           @"bmp", @"wav", @"caf", @"m4v", @"aac", @"aiff", @"dvix", @"epub",
@@ -181,6 +189,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
         case CLICK_DOWNLOAD:
         {
             [[DownloadService defaultService] downloadFile:urlForAction 
+                                                  fileType:urlFileType
                                                    webSite:webSite
                                                webSiteName:[self.webView getTitle]             
                                                    origUrl:currentURL];
@@ -224,6 +233,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     }
     
     if ([self canDownload:baseURLString] || [self canDownload:path]){
+        self.urlFileType = FILE_TYPE_UNKNOWN;
         [self askDownload:urlString];
         return NO;
     }

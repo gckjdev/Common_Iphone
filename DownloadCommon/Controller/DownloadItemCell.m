@@ -111,6 +111,18 @@
     else if ([item canResume]){
         [self.pauseButton setTitle:NSLS(@"Resume") forState:UIControlStateNormal];
     }
+    else if ([item canPlay]){
+        if ([item isAudioVideo]){
+            [self.pauseButton setTitle:NSLS(@"Play") forState:UIControlStateNormal];        
+        }
+        else if ([item canView]){
+            [self.pauseButton setTitle:NSLS(@"View") forState:UIControlStateNormal];        
+        }
+        else{
+            [self.pauseButton setTitle:@"" forState:UIControlStateNormal];
+            [self.pauseButton setHidden:YES];            
+        }
+    }             
     else{
         [self.pauseButton setTitle:@"" forState:UIControlStateNormal];
         [self.pauseButton setHidden:YES];
@@ -132,6 +144,13 @@
     self.webSiteLabel.text = [NSString stringWithFormat:NSLS(@"kFromWebSite"), item.webSite];
     
     [self setPauseButtonInfo:item];
+    
+    if ([item canPlay]){
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else{
+        self.accessoryType = UITableViewCellAccessoryNone;
+    }
 }
 
 - (IBAction)clickPause:(id)sender
