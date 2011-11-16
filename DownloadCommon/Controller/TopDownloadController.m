@@ -7,14 +7,28 @@
 //
 
 #import "TopDownloadController.h"
+#import "TopDownloadItem.h"
+#import "TopDownloadItemCell.h"
+#import "TopDownloadManager.h"
+#import "DownloadWebViewController.h"
 
 @implementation TopDownloadController
+
+@synthesize siteList;
+@synthesize requestType;
+
+- (void)dealloc
+{
+    [siteList release];
+    [super dealloc];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.requestType = SITE_REQUEST_TYPE_TOP;
     }
     return self;
 }
@@ -29,10 +43,50 @@
 
 #pragma mark - View lifecycle
 
+- (void)updateDataList:(NSArray*)newDataList 
+{
+    self.siteList = newDataList;
+}
+
+- (void)reloadData
+{
+    self.dataList = siteList;
+    [self.dataTableView reloadData];
+}
+
+- (void)findAllSitesFinish:(int)resultCode requestType:(int)requestTypeValue newDataList:(NSArray*)newDataList
+{
+    [self hideActivity];
+    if (resultCode == 0){
+        [self updateDataList:newDataList];
+        [self reloadData];
+    }
+    
+}
+
+- (void)loadTopDownLoadItemFromServer
+{
+    [self showActivityWithText:NSLS(@"kLoadingData")];
+    [[ResourceService defaultService] findAllTopDownloadItems:self requestType:self.requestType];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadTopDownLoadItemFromServer)];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.dataTableView.backgroundColor = [UIColor whiteColor];
+    
     // Do any additional setup after loading the view from its nib.
+    [self loadTopDownLoadItemFromServer];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self reloadData];
+    [super viewDidAppear:animated];
 }
 
 - (void)viewDidUnload
@@ -47,5 +101,65 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
+	return @"";
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 0.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return [TopDownloadItemCell getCellHeight];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;		// default implementation
+}
+
+// Customize the number of rows in the table view.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.dataList count];
+}
+
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSString *CellIdentifier = [TopDownloadItemCell getCellIdentifier];
+	TopDownloadItemCell *cell = (TopDownloadItemCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+        cell = [TopDownloadItemCell createCell:self];
+	}
+    
+    cell.indexPath = indexPath;
+	
+	// set text label
+	int row = [indexPath row];	
+	int count = [dataList count];
+	if (row >= count){
+		NSLog(@"[WARN] cellForRowAtIndexPath, row(%d) > data list total number(%d)", row, count);
+		return cell;
+	}
+	
+    TopDownloadItem* downloadItem = [self.dataList objectAtIndex:row];
+	[cell setCellInfoWithTopDownloadItem:downloadItem atIndexPath:indexPath];
+    
+	return cell;
+	
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+	if (indexPath.row > [dataList count] - 1)
+		return;
+    
+    TopDownloadItem* item = [self.dataList objectAtIndex:indexPath.row];
+    [DownloadWebViewController show:self url:item.url];
+}
+
+
 
 @end

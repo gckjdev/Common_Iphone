@@ -24,6 +24,10 @@
                                 type:(NSNumber*)type
                               sortBy:(NSNumber*)sortBy;
 
++ (CommonNetworkOutput*)findAllTopDownloadItems:(NSString*)baseURL
+                               appId:(NSString*)appId
+                         countryCode:(NSString*)countryCode;
+
 + (CommonNetworkOutput*)reportDownload:(NSString*)baseURL 
                                  appId:(NSString*)appId
                               fileType:(NSString*)fileType

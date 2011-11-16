@@ -13,6 +13,8 @@
 #import "PPNetworkRequest.h"
 #import "TopSiteManager.h"
 #import "TopSite.h"
+#import "TopDownloadManager.h"
+#import "TopDownloadItem.h"
 
 ResourceService* globalResourceService;
 
@@ -23,6 +25,43 @@ ResourceService* globalResourceService;
     if (globalResourceService == nil)
         globalResourceService = [[ResourceService alloc] init];
     return globalResourceService;
+}
+
+- (void)findAllTopDownloadItems:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType
+{
+    NSString* appId = @"";
+    
+    dispatch_async(workingQueue, ^{
+        
+        // fetch user place data from server
+        CommonNetworkOutput* output = nil;  
+        
+        output = [DownloadNetworkRequest findAllTopDownloadItems:SERVER_URL 
+                                                appId:appId 
+                                          countryCode:[LocaleUtils getCountryCode]];
+        
+        // if succeed, clean local data and save new data
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            // save data locally
+            NSArray* itemList;
+            if (output.resultCode == 0){
+                itemList = [[TopDownloadManager defaultManager] updateData:output.jsonDataArray];
+            }
+            
+            // notify UI to refresh data
+            NSLog(@"<findAllTopDownloadItems> result code=%d, get total %d items", 
+                  output.resultCode, [output.jsonDataArray count]);
+            
+            if ([delegateObject respondsToSelector:@selector(findAllSitesFinish:requestType:newDataList:)]){
+                [delegateObject findAllSitesFinish:output.resultCode
+                                       requestType:requestType newDataList:itemList];
+            }
+        });
+        
+        
+    });    
+
 }
 
 - (void)findAllSites:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType

@@ -27,6 +27,8 @@ enum SITE_REQUEST {
 @interface ResourceService : CommonService
 
 + (ResourceService*)defaultService;
+
 - (void)findAllSites:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType;
 
+- (void)findAllTopDownloadItems:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType;
 @end
