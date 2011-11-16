@@ -17,6 +17,7 @@ function MyAppGetHTMLLinkAtPoint(x,y){
     var tags = ",";
     var src = null;
     var link = null;
+    var text = null;
 	var e = document.elementFromPoint(x,y);
 	while (e) {
         if (e.tagName){
@@ -24,8 +25,10 @@ function MyAppGetHTMLLinkAtPoint(x,y){
 			tags += e.tagName + ',';
         }
 		if (link == null && e.tagName && e.tagName.toLowerCase() == "a"){
-//            alert("It's A");
             link = e.href;
+            if (e.innerHTML){
+                text = e.innerHTML;
+            }
 //            alert(link);
 		}
         else if (src == null && e.tagName && e.tagName.toLowerCase() == "img"){
@@ -34,12 +37,19 @@ function MyAppGetHTMLLinkAtPoint(x,y){
         }
         else if (link == null && e.tagName && e.tagName.toLowerCase() == "embed"){
             link = e.getAttribute("href");
+            if (e.getAttribute("title")){
+                text = e.getAttribute("title");
+            }
 //            alert(link);
         }
         else if (link == null && e.tagName && e.tagName.toLowerCase() == "video"){
             link = e.getAttribute("src");
+            if (e.getAttribute("title")){
+                text = e.getAttribute("title");
+            }
 //            alert(link);
         }
+        
 		e = e.parentNode;        
 	}
 	
@@ -56,7 +66,10 @@ function MyAppGetHTMLLinkAtPoint(x,y){
     else
         str = str + sep;
     
-    str = str + tags;
+    str = str + tags + sep;
 
+    if (text != null)
+        str = str + text;
+    
     return str;
 }

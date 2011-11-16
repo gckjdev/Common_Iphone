@@ -128,6 +128,10 @@
 		return;
     
     DownloadItem* item = [self.dataList objectAtIndex:indexPath.row];
+    if ([item canPlay] == NO){
+        return;
+    }
+    
     if (self.actionController == nil){
         self.actionController = [[[ItemActionController alloc] init] autorelease];
     }
@@ -166,6 +170,9 @@
     }
     else if ([item canResume]){
         [service resumeDownloadItem:item];
+    }
+    else if ([item canPlay]){
+        [service playItem:item viewController:self];
     }
 }
 

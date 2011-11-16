@@ -60,6 +60,7 @@
     }
     self.siteUrlLabel.text = site.siteURL;
     self.downloadCountLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), site.downloadCount];
+    
 }
 
 

@@ -20,6 +20,10 @@
 #import "DownloadNetworkConstants.h"
 #import "PPNetworkRequest.h"
 
+#import "PlayAudioVideoController.h"
+#import "DisplayReadableFileController.h"
+#import "CommonFileActionController.h"
+
 #define DOWNLOAD_DIR                @"/download/incoming/"
 #define DOWNLOAD_TEMP_DIR           @"/download/temp/"
 
@@ -31,9 +35,12 @@ DownloadService* globalDownloadService;
 @synthesize downloadDir;
 @synthesize downloadTempDir;
 @synthesize concurrentDownload;
+@synthesize videoPlayController;
+@synthesize fileViewController;
 
 - (void)dealloc
 {
+    [videoPlayController release];
     [queue release];
     [super dealloc];
 }
@@ -53,6 +60,9 @@ DownloadService* globalDownloadService;
     // create directory if not exist
     [FileUtil createDir:self.downloadTempDir];
     [FileUtil createDir:self.downloadDir];    
+    
+    self.videoPlayController = [[[PlayAudioVideoController alloc] init] autorelease];    
+    self.fileViewController = [[[DisplayReadableFileController alloc] init] autorelease];
     return self;
 }
 
@@ -131,7 +141,7 @@ DownloadService* globalDownloadService;
 
 #pragma External Methods
 
-- (BOOL)downloadFile:(NSString*)urlString webSite:(NSString*)webSite webSiteName:(NSString*)webSiteName origUrl:(NSString*)origUrl
+- (BOOL)downloadFile:(NSString*)urlString fileType:(int)fileType webSite:(NSString*)webSite webSiteName:(NSString*)webSiteName origUrl:(NSString*)origUrl
 {                
     NSURL* url = [NSURL URLWithString:urlString];
     if ([[UIApplication sharedApplication] canOpenURL:url] == NO){
@@ -146,6 +156,7 @@ DownloadService* globalDownloadService;
     // save download item
     DownloadItemManager* downloadItemManager = [DownloadItemManager defaultManager];
     DownloadItem* downloadItem = [downloadItemManager createDownloadItem:urlString 
+                                                                fileType:fileType
                                                                  webSite:webSite 
                                                              webSiteName:webSiteName 
                                                                  origUrl:origUrl
@@ -157,6 +168,22 @@ DownloadService* globalDownloadService;
     return YES;
 }
 
+#pragma Item Play/Pause/Resume
+
+- (UIViewController<CommonFileActionProtocol>*)getViewControllerByItem:(DownloadItem*)downloadItem
+{
+    if ([downloadItem isAudioVideo]){
+        return videoPlayController;
+    }
+    else if ([downloadItem isReadableFile]){
+        return fileViewController;
+    }
+    else{
+        return [[[DisplayReadableFileController alloc] initWithDownloadItem:downloadItem] autorelease];
+    }
+    return nil;
+}
+
 - (void)pauseDownloadItem:(DownloadItem*)item
 {
     [[item request] clearDelegatesAndCancel];
@@ -166,6 +193,12 @@ DownloadService* globalDownloadService;
 - (void)resumeDownloadItem:(DownloadItem*)item
 {
     [self startDownload:item];
+}
+
+- (void)playItem:(DownloadItem*)item viewController:(UIViewController*)viewController
+{
+    UIViewController<CommonFileActionProtocol>* playController = [self getViewControllerByItem:item];
+    [playController preview:viewController downloadItem:item];
 }
 
 - (void)pauseAllDownloadItem
@@ -270,6 +303,7 @@ DownloadService* globalDownloadService;
 
 - (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders
 {
+    DownloadItemManager *manager = [DownloadItemManager defaultManager];
     DownloadItem *item = [DownloadItem fromDictionary:request.userInfo];        
     
     // rename item here
@@ -280,19 +314,22 @@ DownloadService* globalDownloadService;
     
     NSString* fileName = nil;
     if (fileName1 != nil){
-        fileName = [self createFileName:[fileName1 lastPathComponent]];    
+        fileName = [fileName1 lastPathComponent];    
     }
     else if (fileName2 != nil){
-        fileName = [self createFileName:[fileName2 lastPathComponent]];
+        fileName = [fileName2 lastPathComponent];
     }
     else{
-        fileName = [self createFileName:[[request url] lastPathComponent]];
+        fileName = [[request url] lastPathComponent];
     }
+    
+    fileName = [manager adjustImageFileName:item newFileName:fileName];
+    fileName = [self createFileName:fileName];
     
     long fileSize = [[responseHeaders valueForKey:@"Content-Length"] intValue];
 
     // set right file name here
-    [[DownloadItemManager defaultManager] setFileInfo:item newFileName:fileName fileSize:fileSize];
+    [manager setFileInfo:item newFileName:fileName fileSize:fileSize];
     
     // notify UI to show info
     NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadStart"), item.fileName];

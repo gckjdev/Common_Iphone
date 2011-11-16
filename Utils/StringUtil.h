@@ -48,6 +48,8 @@
 
 - (NSMutableDictionary *)URLQueryStringToDictionary;
 
++ (NSString*)floatToStringWithoutZeroTail:(float)floatValue;
+
 - (BOOL)isMobileInChina;
 
 @end

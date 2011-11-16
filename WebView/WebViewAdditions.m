@@ -14,18 +14,20 @@
 @synthesize src;
 @synthesize href;
 @synthesize tags;
+@synthesize text;
 
 - (void)dealloc
 {
     [src release];
     [href release];
     [tags release];
+    [text release];
     [super dealloc];
 }
 
 - (NSString*)description
 {
-    return [NSString stringWithFormat:@"src=%@, href=%@, tags=%@", self.src, self.href, self.tags];
+    return [NSString stringWithFormat:@"src=%@, href=%@, tags=%@, text=%@", self.src, self.href, self.tags, self.text];
 }
 
 - (BOOL)hasLink
@@ -72,10 +74,11 @@
 	
 	HTMLLinkInfo* info = [[[HTMLLinkInfo alloc] init] autorelease];
     NSArray* array = [data componentsSeparatedByString:@"$$_$$"];   // seperator is defined in JSTools
-    if ([array count] >= 3){  // 3 components at least
+    if ([array count] >= 4){  // 4 components at least, refer to JSTools.js
         info.href = [array objectAtIndex:0];
         info.src = [array objectAtIndex:1];
-        info.tags = [array objectAtIndex:2];        
+        info.tags = [array objectAtIndex:2]; 
+        info.text = [array objectAtIndex:3];
     }    
     
     return info;
