@@ -50,9 +50,9 @@
     return 50;
 }
 
-- (void)setCellInfoWithTopDownloadItem:(TopDownloadItem*)item atIndexPath:(NSIndexPath*)indexPath
+- (void)setCellInfoWithTopDownloadItem:(TopDownloadItem*)item atIndexPath:(NSIndexPath*)indexPathValue
 {
-    self.rankLabel.text = [NSString stringWithFormat:@"%d", [indexPath row] + 1];
+    self.rankLabel.text = [NSString stringWithFormat:@"%d", [indexPathValue row] + 1];
     self.fileTypeLabel.text = item.fileType;
     if ([item.fileName length] > 0){
         self.fileNameLabel.text = item.fileName;
