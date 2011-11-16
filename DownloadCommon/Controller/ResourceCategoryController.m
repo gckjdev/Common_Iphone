@@ -18,6 +18,7 @@
 @synthesize latestList;
 @synthesize topList;
 @synthesize hotList;
+@synthesize starredList;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +40,7 @@
 
 - (void)dealloc
 {
+    [starredList release];
     [hotList release];
     [topList release];
     [latestList release];
@@ -93,7 +95,13 @@
             self.dataList = self.latestList;
         }
             break;
-            
+        
+        case SITE_REQUEST_TYPE_NONE:
+        {
+            self.dataList = self.starredList;
+        }
+            break;            
+        
         default:
             break;
     }
@@ -116,7 +124,10 @@
 }
 
 - (void)loadSiteFromServer
-{
+{    
+    if (self.requestType == SITE_REQUEST_TYPE_NONE)
+        return;
+    
     [self showActivityWithText:NSLS(@"kLoadingData")];
     [[ResourceService defaultService] findAllSites:self requestType:self.requestType];
 }
@@ -245,6 +256,13 @@
         [self reloadData];
     }    
     
+}
+
+- (IBAction)clickStarred:(id)sender
+{
+    self.requestType = SITE_REQUEST_TYPE_NONE;
+    self.starredList = [[TopSiteManager defaultManager] findAllStarredList];
+    [self reloadData];    
 }
 
 

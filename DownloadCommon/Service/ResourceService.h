@@ -10,7 +10,8 @@
 #import "CommonService.h"
 
 enum SITE_REQUEST {
-    SITE_REQUEST_TYPE_TOP = 0,
+    SITE_REQUEST_TYPE_NONE = -1,
+    SITE_REQUEST_TYPE_TOP,
     SITE_REQUEST_TYPE_HOT,
     SITE_REQUEST_TYPE_NEW
     };

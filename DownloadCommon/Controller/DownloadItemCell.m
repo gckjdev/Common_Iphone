@@ -151,6 +151,13 @@
     else{
         self.accessoryType = UITableViewCellAccessoryNone;
     }
+    
+    if ([item isStarred]){
+        [self.starButton setSelected:YES];
+    }
+    else{
+        [self.starButton setSelected:NO];
+    }
 }
 
 - (IBAction)clickPause:(id)sender

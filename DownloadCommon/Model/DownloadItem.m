@@ -99,6 +99,11 @@
         return @"";
 }
 
+- (BOOL)isStarred
+{
+    return ([self.starred intValue] == 1);
+}
+
 - (BOOL)canPlay
 {
     switch ([self.status intValue]) {

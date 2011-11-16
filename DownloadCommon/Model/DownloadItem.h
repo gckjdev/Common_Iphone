@@ -15,9 +15,9 @@
 enum DOWNLOAD_STATUS {
     DOWNLOAD_STATUS_NOT_STARTED = 0,
     DOWNLOAD_STATUS_STARTED,
-    DOWNLOAD_STATUS_FINISH,
     DOWNLOAD_STATUS_PAUSE,
     DOWNLOAD_STATUS_FAIL,
+    DOWNLOAD_STATUS_FINISH = 18,
 };
 
 enum FILE_TYPE {
@@ -54,6 +54,7 @@ enum FILE_TYPE {
 - (BOOL)canResume;
 - (BOOL)canPlay;
 - (BOOL)canView;
+- (BOOL)isStarred;
 
 - (BOOL)isAudioVideo;
 - (BOOL)isReadableFile;

@@ -119,10 +119,10 @@
         str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:countryCode];        
         str = [str stringByAddQueryParameter:PARA_LANGUAGE value:language];        
         str = [str stringByAddQueryParameter:PARA_FILE_TYPE value:fileType];        
-        str = [str stringByAddQueryParameter:PARA_FILE_URL value:[url stringByURLEncode]];        
-        str = [str stringByAddQueryParameter:PARA_FILE_NAME value:[fileName stringByURLEncode]];        
-        str = [str stringByAddQueryParameter:PARA_SITE_URL value:[webSite stringByURLEncode]];        
-        str = [str stringByAddQueryParameter:PARA_SITE_NAME value:[webSiteName stringByURLEncode]];        
+        str = [str stringByAddQueryParameter:PARA_FILE_URL value:url];        
+        str = [str stringByAddQueryParameter:PARA_FILE_NAME value:fileName];        
+        str = [str stringByAddQueryParameter:PARA_SITE_URL value:webSite];        
+        str = [str stringByAddQueryParameter:PARA_SITE_NAME value:webSiteName];        
         str = [str stringByAddQueryParameter:PARA_FILE_SIZE intValue:fileSize];        
         str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]];
         

@@ -10,10 +10,22 @@
 #import "PPTableViewController.h"
 #import "DownloadItemCell.h"
 
+enum {
+    SELECT_ALL_ITEM,
+    SELECT_COMPLETE_ITEM,
+    SELECT_DOWNLOADING_ITEM,
+    SELECT_STARRED_ITEM
+};
+
 @class ItemActionController;
 
 @interface DownloadManageController : PPTableViewController <DownloadItemCellDelegate>
 
 @property (nonatomic, retain) ItemActionController *actionController;
+@property (nonatomic, assign) int currentSelection;
+
+- (IBAction)clickFilterComplete:(id)sender;
+- (IBAction)clickFilterDownloading:(id)sender;
+- (IBAction)clickFilterStarred:(id)sender;
 
 @end

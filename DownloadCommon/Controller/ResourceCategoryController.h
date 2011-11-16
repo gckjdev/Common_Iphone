@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSArray* topList;
 @property (nonatomic, retain) NSArray* hotList;
 @property (nonatomic, retain) NSArray* latestList;
+@property (nonatomic, retain) NSArray* starredList;
 
 - (IBAction)clickHot:(id)sender;
 - (IBAction)clickTop:(id)sender;

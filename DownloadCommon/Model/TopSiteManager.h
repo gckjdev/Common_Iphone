@@ -15,5 +15,6 @@
 + (TopSiteManager*)defaultManager;
 
 - (NSArray*)updateData:(NSArray*)jsonArray;
+- (NSArray*)findAllStarredList;
 
 @end

@@ -58,12 +58,19 @@
         self.item = newItem;
         [self createPlayItemView];
     }
+    
+    self.navigationItem.title = self.item.fileName;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
+    [self setNavigationRightButton:NSLS(@"Next Item") action:@selector(clickNext:)];
+    self.navigationItem.title = self.item.fileName;
 }
 
 - (void)viewDidUnload

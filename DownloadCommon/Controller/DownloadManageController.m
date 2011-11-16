@@ -15,6 +15,7 @@
 
 @implementation DownloadManageController
 
+@synthesize currentSelection;
 @synthesize actionController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -44,6 +45,8 @@
 
 - (void)viewDidLoad
 {
+    self.dataList = [[DownloadItemManager defaultManager] findAllItems];
+
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateProgressTimer) userInfo:nil repeats:YES];
     
     [super viewDidLoad];
@@ -51,11 +54,12 @@
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
+
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    self.dataList = [[DownloadItemManager defaultManager] findAllItems];
     [super viewDidAppear:animated];
 }
 
@@ -178,6 +182,67 @@
 
 - (void)clickStar:(id)sender atIndexPath:(NSIndexPath*)indexPath
 {
+    int row = [indexPath row];
+    if (row >= [self.dataList count])
+        return;
+
+    DownloadItem* item = [self.dataList objectAtIndex:row];
+    [[DownloadItemManager defaultManager] starItem:item];
+    
+    if (self.currentSelection == SELECT_STARRED_ITEM){
+        self.dataList = [[DownloadItemManager defaultManager] findAllStarredItems];
+        [self.dataTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];    
+    }
+    else{
+        [self.dataTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+- (IBAction)clickFilterComplete:(id)sender
+{
+    if (currentSelection == SELECT_COMPLETE_ITEM){
+        return;
+    }
+    
+    currentSelection = SELECT_COMPLETE_ITEM;
+    
+    self.dataList = [[DownloadItemManager defaultManager] findAllCompleteItems];
+    [self.dataTableView reloadData];    
+}
+
+- (IBAction)clickFilterDownloading:(id)sender
+{
+    if (currentSelection == SELECT_DOWNLOADING_ITEM){
+        return;
+    }
+
+    currentSelection = SELECT_DOWNLOADING_ITEM;
+
+    self.dataList = [[DownloadItemManager defaultManager] findAllDownloadingItems];
+    [self.dataTableView reloadData];    
+}
+
+- (IBAction)clickFilterStarred:(id)sender
+{
+    if (currentSelection == SELECT_STARRED_ITEM){
+        return;
+    }
+
+    currentSelection = SELECT_STARRED_ITEM;
+    self.dataList = [[DownloadItemManager defaultManager] findAllStarredItems];
+    [self.dataTableView reloadData];    
+
+}
+
+- (IBAction)clickFilterAll:(id)sender
+{
+    if (currentSelection == SELECT_ALL_ITEM){
+        return;
+    }
+    
+    currentSelection = SELECT_ALL_ITEM;
+    self.dataList = [[DownloadItemManager defaultManager] findAllItems];
+    [self.dataTableView reloadData];    
     
 }
 

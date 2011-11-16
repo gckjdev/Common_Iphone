@@ -83,6 +83,24 @@ DownloadItemManager* globalDownloadManager;
     return [dataManager execute:@"findAllItemsByStatus" forKey:@"STATUS" value:[NSNumber numberWithInt:status] sortBy:@"startDate" ascending:YES];    
 }
 
+- (NSArray*)findAllCompleteItems
+{
+    CoreDataManager* dataManager = [CoreDataManager dataManager];
+    return [dataManager execute:@"findAllCompleteItems" sortBy:@"startDate" ascending:NO];        
+}
+
+- (NSArray*)findAllDownloadingItems
+{
+    CoreDataManager* dataManager = [CoreDataManager dataManager];
+    return [dataManager execute:@"findAllDownloadingItems" sortBy:@"startDate" ascending:NO];        
+}
+
+- (NSArray*)findAllStarredItems
+{
+    CoreDataManager* dataManager = [CoreDataManager dataManager];
+    return [dataManager execute:@"findAllStarredItems" sortBy:@"startDate" ascending:NO];        
+}
+
 #pragma STATUS CONTROL
 
 - (void)finishDownload:(DownloadItem*)item
@@ -147,6 +165,13 @@ DownloadItemManager* globalDownloadManager;
     item.fileName = newFileName;
     item.fileSize = [NSNumber numberWithLong:fileSize];
     [[CoreDataManager dataManager] save];        
+}
+
+- (void)starItem:(DownloadItem*)item
+{
+    int value = !([item.starred intValue]);
+    item.starred = [NSNumber numberWithInt:value];
+    [[CoreDataManager dataManager] save];            
 }
 
 - (BOOL)isURLReport:(NSString*)urlString

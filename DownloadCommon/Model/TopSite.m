@@ -40,6 +40,18 @@
     return self;
 }
 
+- (void) encodeWithCoder: (NSCoder *)coder 
+{
+    [coder encodeObject:siteId forKey:@"siteId"];  
+    [coder encodeObject:siteId forKey:@"siteType"];  
+    [coder encodeObject:siteId forKey:@"siteFileType"];  
+    [coder encodeObject:siteId forKey:@"siteURL"];  
+    [coder encodeObject:siteId forKey:@"siteName"];  
+    [coder encodeObject:siteId forKey:@"siteId"];  
+    [coder encodeObject:siteId forKey:@"siteId"];  
+    
+}
+
 - (void)dealloc
 {
     [siteId release];
