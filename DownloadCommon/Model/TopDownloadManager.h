@@ -10,4 +10,11 @@
 
 @interface TopDownloadManager : NSObject
 
+@property (nonatomic, retain) NSMutableArray* siteList;
+
++ (TopDownloadManager *)defaultManager;
+
+- (NSArray*)updateData:(NSArray*)jsonArray;
+
+
 @end

@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPTableViewController.h"
+#import "ResourceService.h"
 
-@interface TopDownloadController : UIViewController
+@interface TopDownloadController : PPTableViewController <ResourceServiceDelegate> {
+    int requestType;
+    NSArray* siteList;
+}
+
+@property (nonatomic, assign) int requestType;
+@property (nonatomic, retain) NSArray* siteList;
 
 @end
