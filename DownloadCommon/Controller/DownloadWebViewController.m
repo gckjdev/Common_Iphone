@@ -5,6 +5,7 @@
 #import "LogUtil.h"
 #import "DownloadService.h"
 #import "DownloadItem.h"
+#import "TopSiteManager.h"
 
 DownloadWebViewController *downloadWebViewController;
 
@@ -117,21 +118,32 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction) clickBackBuuton{
+- (IBAction) clickBackButton{
     if (self.webView.canGoBack) {
         [self.webView stopLoading];
         [self.webView goBack];
     }
 }
-- (IBAction) clickForwardBuuton{
+- (IBAction) clickForwardButton{
     if (self.webView.canGoForward) {
         [self.webView stopLoading];
         [self.webView goForward];
     }
 }
-- (IBAction) clickReloadBuuton{
+
+- (IBAction) clickReloadButton{
     [self.webView stopLoading];
     [self.webView reload];
+}
+
+- (IBAction) clickStopButton{
+    [self.webView stopLoading];
+}
+
+- (IBAction) clickAddFavorite:(id)sender
+{
+    [[TopSiteManager defaultManager] addFavoriteSite:[self.webView getTitle] 
+                                             siteURL:self.currentURL];
 }
 
 - (void)longpressTouch:(UIWebView*)webView info:(HTMLLinkInfo*)linkInfo

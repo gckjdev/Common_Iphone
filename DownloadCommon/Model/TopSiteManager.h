@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+@class Site;
+@class TopSite;
+
 @interface TopSiteManager : NSObject
 
 @property (nonatomic, retain) NSMutableArray* siteList;
@@ -15,6 +18,11 @@
 + (TopSiteManager*)defaultManager;
 
 - (NSArray*)updateData:(NSArray*)jsonArray;
-- (NSArray*)findAllStarredList;
+
+- (Site*)addFavoriteSite:(NSString*)siteName siteURL:(NSString*)siteURL;
+- (Site*)addFavoriteSite:(TopSite*)topSite;
+
+- (NSArray*)findAllFavoriteSites;
+- (Site*)findSiteById:(NSString*)url;
 
 @end

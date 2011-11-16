@@ -25,9 +25,12 @@ typedef void (^WebViewBackHandler)(UIViewController*);
 @property (nonatomic, assign) int urlFileType;
 @property (nonatomic, assign) BOOL openURLForAction;
 
-- (IBAction) clickBackBuuton;
-- (IBAction) clickForwardBuuton;
-- (IBAction) clickReloadBuuton;
+- (IBAction) clickBackButton;
+- (IBAction) clickForwardButton;
+- (IBAction) clickReloadButton;
+- (IBAction) clickStopButton;
+- (IBAction) clickAddFavorite:(id)sender;
+
 - (id)init;
 - (void)openURL:(NSString *)URLString;
 

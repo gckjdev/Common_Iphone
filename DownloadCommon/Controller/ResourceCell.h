@@ -10,6 +10,7 @@
 #import "PPTableViewCell.h"
 
 @class TopSite;
+@class Site;
 
 @interface ResourceCell : PPTableViewCell
 @property (retain, nonatomic) IBOutlet UILabel *siteUrlLabel;
@@ -21,6 +22,7 @@
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
 
-- (void)setCellInfoWithSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath;
+- (void)setCellInfoWithTopSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath;
+- (void)setCellInfoWithSite:(Site*)site atIndexPath:(NSIndexPath*)indexPath;
 
 @end

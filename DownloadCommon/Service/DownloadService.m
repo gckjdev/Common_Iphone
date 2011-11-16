@@ -26,6 +26,7 @@
 
 #define DOWNLOAD_DIR                @"/download/incoming/"
 #define DOWNLOAD_TEMP_DIR           @"/download/temp/"
+#define DOWNLOAD_ICLOUD_DIR           @"/download/iCloud/"
 
 DownloadService* globalDownloadService;
 
@@ -37,9 +38,13 @@ DownloadService* globalDownloadService;
 @synthesize concurrentDownload;
 @synthesize videoPlayController;
 @synthesize fileViewController;
+@synthesize iCloudDir;
 
 - (void)dealloc
 {
+    [downloadDir release];
+    [iCloudDir release];
+    [downloadTempDir release];
     [videoPlayController release];
     [queue release];
     [super dealloc];
@@ -50,7 +55,8 @@ DownloadService* globalDownloadService;
     self = [super init];
 
     self.downloadDir = [[FileUtil getAppHomeDir] stringByAppendingFormat:DOWNLOAD_DIR];
-    self.downloadTempDir = [[FileUtil getAppHomeDir] stringByAppendingFormat:DOWNLOAD_TEMP_DIR];    
+    self.downloadTempDir = [[FileUtil getAppHomeDir] stringByAppendingFormat:DOWNLOAD_TEMP_DIR];   
+    self.iCloudDir = [[FileUtil getAppHomeDir] stringByAppendingFormat:DOWNLOAD_ICLOUD_DIR];
     self.concurrentDownload = 20;  
 
     // create queue
@@ -60,6 +66,7 @@ DownloadService* globalDownloadService;
     // create directory if not exist
     [FileUtil createDir:self.downloadTempDir];
     [FileUtil createDir:self.downloadDir];    
+    [FileUtil createDir:self.iCloudDir];
     
     self.videoPlayController = [[[PlayAudioVideoController alloc] init] autorelease];    
     self.fileViewController = [[[DisplayReadableFileController alloc] init] autorelease];

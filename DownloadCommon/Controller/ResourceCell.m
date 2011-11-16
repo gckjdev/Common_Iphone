@@ -9,6 +9,7 @@
 #import "ResourceCell.h"
 #import "TopSite.h"
 #import "LocaleUtils.h"
+#import "Site.h"
 
 @implementation ResourceCell
 @synthesize siteUrlLabel;
@@ -18,7 +19,8 @@
 
 - (void)setCellStyle
 {
-    self.selectionStyle = UITableViewCellSelectionStyleNone;		   
+    self.selectionStyle = UITableViewCellSelectionStyleNone;		
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)awakeFromNib{
@@ -50,19 +52,49 @@
     return 44;
 }
 
-- (void)setCellInfoWithSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath
+- (void)setFileType:(NSString*)fileType
 {
-    self.fileTypeLabel.text = site.siteFileType;
-    if ([site.siteName length] > 0)
-        self.siteNameLabel.text = site.siteName;
-    else{
-        self.siteNameLabel.text = [site.siteURL stringByReplacingOccurrencesOfString:@"http://" withString:@""];
-    }
-    self.siteUrlLabel.text = site.siteURL;
-    self.downloadCountLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), site.downloadCount];
-    
+    self.fileTypeLabel.text = fileType;    
 }
 
+- (void)setSiteName:(NSString*)siteName siteURL:(NSString*)siteURL
+{
+    if ([siteName length] > 0)
+        self.siteNameLabel.text = siteName;
+    else{
+        self.siteNameLabel.text = [siteURL stringByReplacingOccurrencesOfString:@"http://" withString:@""];
+    }        
+}
+
+- (void)setSiteURL:(NSString*)siteURL
+{
+    self.siteUrlLabel.text = siteURL;    
+}
+
+- (void)setDownloadCount:(int)downloadCount{
+    if (downloadCount >= 0){
+        self.downloadCountLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), downloadCount];    
+    }
+    else{
+        self.downloadCountLabel.text = @"";
+    }
+}
+
+- (void)setCellInfoWithTopSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath
+{
+    [self setFileType:site.siteFileType];
+    [self setSiteName:site.siteName siteURL:site.siteURL];
+    [self setSiteURL:site.siteURL];
+    [self setDownloadCount:site.downloadCount];
+}
+
+- (void)setCellInfoWithSite:(Site*)site atIndexPath:(NSIndexPath*)indexPath
+{
+    [self setFileType:site.siteFileType];
+    [self setSiteName:site.siteName siteURL:site.siteURL];
+    [self setSiteURL:site.siteURL];
+    [self setDownloadCount:-1];
+}
 
 - (void)dealloc {
     [siteNameLabel release];
