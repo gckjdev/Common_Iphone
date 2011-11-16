@@ -91,4 +91,56 @@
 // http://stackoverflow.com/questions/6916305/how-to-save-video-file-into-document-directory
 // http://stackoverflow.com/questions/5706911/save-mp4-into-iphone-photo-album
 
+- (IBAction)shareWithEmail:(id)sender
+{
+	Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+	if (mailClass != nil)
+	{
+		// We must always check whether the current device is configured for sending emails
+		if ([mailClass canSendMail])
+		{
+			[self displayComposerSheet];
+		}
+		else
+		{
+			[self launchMailAppOnDevice];
+		}
+	}
+	else
+	{
+		[self launchMailAppOnDevice];
+	}
+}
+
+- (void)displayComposerSheet 
+{
+	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+	picker.mailComposeDelegate = self;
+	
+	[picker setSubject:NSLS(@"kShareEmailSubject")];
+    
+//	NSArray *toRecipients = [NSArray arrayWithObject:@""]; 
+//	NSArray *ccRecipients = [NSArray arrayWithObject:@""]; 
+//	NSArray *bccRecipients = [NSArray arrayWithObject:@""]; 
+//	[picker setToRecipients:toRecipients];
+//	[picker setCcRecipients:ccRecipients];	
+//	[picker setBccRecipients:bccRecipients];
+	
+	// Fill out the email body text
+	NSString *emailBody = self.item.url;
+	[picker setMessageBody:emailBody isHTML:NO];
+	
+	[self presentModalViewController:picker animated:YES];
+    [picker release];
+}
+
+// Launches the Mail application on the device.
+-(void)launchMailAppOnDevice
+{
+	NSString *email = @"mailto:someone@example.com";
+	email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+}
+
 @end
