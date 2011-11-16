@@ -150,7 +150,7 @@
 {
     int result;
     
-    __block NSMutableDictionary *userInfo = nil;
+//    __block NSMutableDictionary *userInfo = nil;
     NSURL *url = [snsRequest getSendTextURL];    
     NSString *body = [snsRequest getSendTextBody:text];
     

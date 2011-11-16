@@ -171,7 +171,7 @@
 
 + (UIViewController*)addViewController:(NSObject*)viewControllerAllocObject viewTitle:(NSString*)viewTitle viewImage:(NSString*)viewImage highlightImage:(NSString*)highlightImage hasNavController:(BOOL)hasNavController viewControllers:(NSMutableArray*)viewControllers
 {
-	UIViewController* retViewController = [[viewControllerAllocObject init] autorelease];		
+	UIViewController* retViewController = (UIViewController*)[[viewControllerAllocObject init] autorelease];		
 	UITabBarItem* button1 = [[[UITabBarItem alloc] initWithTitle:viewTitle image:[UIImage imageNamed:viewImage] tag:0] autorelease];						
     
 	if (hasNavController){
@@ -191,7 +191,7 @@
 
 + (UIViewController*)addViewController:(NSObject*)viewControllerAllocObject viewTitle:(NSString*)viewTitle viewImage:(NSString*)viewImage hasNavController:(BOOL)hasNavController hideNavigationBar:(BOOL)hideNavigationBar viewControllers:(NSMutableArray*)viewControllers
 {
-	UIViewController* retViewController = [[viewControllerAllocObject init] autorelease];		
+	UIViewController* retViewController = (UIViewController*)[[viewControllerAllocObject init] autorelease];		
 	UITabBarItem* button1 = [[[UITabBarItem alloc] initWithTitle:viewTitle image:[UIImage imageNamed:viewImage] tag:0] autorelease];							   
 	
 	if (hasNavController){
