@@ -52,7 +52,7 @@
 
 - (void)setCellInfoWithTopDownloadItem:(TopDownloadItem*)item atIndexPath:(NSIndexPath*)indexPath
 {
-    self.rankLabel.text = [NSString stringWithFormat:@"%d", item.rank];
+    self.rankLabel.text = [NSString stringWithFormat:@"%d", [indexPath row]];
     self.fileTypeLabel.text = item.fileType;
     if ([item.fileName length] > 0){
         self.fileNameLabel.text = item.fileName;
@@ -65,7 +65,6 @@
         self.webSiteNameLabel.text = [NSString stringWithFormat:@"来自%@", item.webSite];
     }    
     self.totalDownloadLabel.text = [NSString stringWithFormat:@"%d次下载", item.totalDownload];
-    
 }
 
 - (void)dealloc
