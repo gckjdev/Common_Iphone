@@ -29,10 +29,12 @@
 
 /** default policy is good for small images, fast scrolling, async updates, LRU file cache */
 -(HJMOPolicy*)init {
-	[super init];
-	self.urlTimeoutTime = 30;
-	self.readsUpdateFileDate = YES;
-	
+	self = [super init];
+    if (self) {
+        self.urlTimeoutTime = 30;
+        self.readsUpdateFileDate = YES;
+    }
+    
 	//self.loadToFile = YES;
 	//self.cacheInMemory = YES;
 	//self.asyncStartLoad = YES;
