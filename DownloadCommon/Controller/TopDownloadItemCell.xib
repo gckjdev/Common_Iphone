@@ -44,7 +44,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{6, 0}, {42, 21}}</string>
 								<reference key="NSSuperview" ref="441242277"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="509133409"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -76,7 +75,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{12, 25}, {42, 21}}</string>
 								<reference key="NSSuperview" ref="441242277"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="544877505"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -95,9 +93,8 @@
 							<object class="IBUILabel" id="509133409">
 								<reference key="NSNextResponder" ref="441242277"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{81, 0}, {126, 21}}</string>
+								<string key="NSFrame">{{88, 0}, {126, 21}}</string>
 								<reference key="NSSuperview" ref="441242277"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="931513980"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -117,9 +114,8 @@
 							<object class="IBUILabel" id="931513980">
 								<reference key="NSNextResponder" ref="441242277"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{231, 0}, {92, 21}}</string>
+								<string key="NSFrame">{{266, 0}, {92, 21}}</string>
 								<reference key="NSSuperview" ref="441242277"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1052777071"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -127,7 +123,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">10次下载</string>
+								<string key="IBUIText">(10)</string>
 								<reference key="IBUITextColor" ref="605722202"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
@@ -138,9 +134,8 @@
 							<object class="IBUILabel" id="544877505">
 								<reference key="NSNextResponder" ref="441242277"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{81, 25}, {159, 21}}</string>
+								<string key="NSFrame">{{88, 25}, {159, 21}}</string>
 								<reference key="NSSuperview" ref="441242277"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -160,7 +155,6 @@
 						</array>
 						<string key="NSFrameSize">{313, 50}</string>
 						<reference key="NSSuperview" ref="419948008"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="999748048"/>
 						<string key="NSReuseIdentifierKey">_NS:395</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -176,7 +170,6 @@
 				</array>
 				<string key="NSFrameSize">{313, 51}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="441242277"/>
 				<string key="NSReuseIdentifierKey">_NS:384</string>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -250,11 +243,11 @@
 						<int key="objectID">2</int>
 						<reference key="object" ref="419948008"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="931513980"/>
-							<reference ref="509133409"/>
 							<reference ref="999748048"/>
 							<reference ref="1052777071"/>
+							<reference ref="931513980"/>
 							<reference ref="544877505"/>
+							<reference ref="509133409"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -304,55 +297,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">25</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">PPTableViewCell</string>
-					<string key="superclassName">UITableViewCell</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/PPTableViewCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">TopDownloadItemCell</string>
-					<string key="superclassName">PPTableViewCell</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="fileNameLabel">UILabel</string>
-						<string key="fileTypeLabel">UILabel</string>
-						<string key="rankLabel">UILabel</string>
-						<string key="totalDownloadLabel">UILabel</string>
-						<string key="webSiteNameLabel">UILabel</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="fileNameLabel">
-							<string key="name">fileNameLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="fileTypeLabel">
-							<string key="name">fileTypeLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rankLabel">
-							<string key="name">rankLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="totalDownloadLabel">
-							<string key="name">totalDownloadLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="webSiteNameLabel">
-							<string key="name">webSiteNameLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/TopDownloadItemCell.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
