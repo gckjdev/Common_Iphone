@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+enum SITE_USE_FOR {
+    SITE_USE_FOR_FAVORITE = 0,
+};
 
 @interface Site : NSManagedObject
 
@@ -19,5 +22,8 @@
 @property (nonatomic, retain) NSString * countryCode;
 @property (nonatomic, retain) NSNumber * downloadCount;
 @property (nonatomic, retain) NSString * siteFileType;
+@property (nonatomic, retain) NSNumber * useFor;
+@property (nonatomic, retain) NSNumber * deleteFlag;
+@property (nonatomic, retain) NSDate * createDate;
 
 @end

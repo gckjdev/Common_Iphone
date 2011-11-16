@@ -207,8 +207,14 @@
 		return cell;
 	}
 	
-    TopSite* site = [self.dataList objectAtIndex:row];
-    [cell setCellInfoWithSite:site atIndexPath:indexPath];    
+    if (requestType == SITE_REQUEST_TYPE_NONE){
+        Site* site = [self.dataList objectAtIndex:row];
+        [cell setCellInfoWithSite:site atIndexPath:indexPath];    
+    }
+    else{
+        TopSite* site = [self.dataList objectAtIndex:row];
+        [cell setCellInfoWithTopSite:site atIndexPath:indexPath];    
+    }
 	
 	return cell;
 	
@@ -261,7 +267,7 @@
 - (IBAction)clickStarred:(id)sender
 {
     self.requestType = SITE_REQUEST_TYPE_NONE;
-    self.starredList = [[TopSiteManager defaultManager] findAllStarredList];
+    self.starredList = [[TopSiteManager defaultManager] findAllFavoriteSites];
     [self reloadData];    
 }
 

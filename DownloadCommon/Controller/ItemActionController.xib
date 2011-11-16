@@ -155,31 +155,10 @@
 						<reference key="IBUIFontDescription" ref="208173355"/>
 						<reference key="IBUIFont" ref="785180869"/>
 					</object>
-					<object class="IBUIButton" id="515455549">
-						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{99, 273}, {76, 37}}</string>
-						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBUIContentHorizontalAlignment">0</int>
-						<int key="IBUIContentVerticalAlignment">0</int>
-						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">iCloud</string>
-						<reference key="IBUIHighlightedTitleColor" ref="719421251"/>
-						<object class="NSColor" key="IBUINormalTitleColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-						</object>
-						<reference key="IBUINormalTitleShadowColor" ref="1043540341"/>
-						<reference key="IBUIFontDescription" ref="208173355"/>
-						<reference key="IBUIFont" ref="785180869"/>
-					</object>
 					<object class="IBUIButton" id="359440779">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{192, 273}, {76, 37}}</string>
+						<string key="NSFrame">{{99, 273}, {76, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -398,13 +377,12 @@
 							<reference ref="194879057"/>
 							<reference ref="661867164"/>
 							<reference ref="890456656"/>
-							<reference ref="515455549"/>
-							<reference ref="359440779"/>
 							<reference ref="180256341"/>
 							<reference ref="390842454"/>
 							<reference ref="589377688"/>
 							<reference ref="835458121"/>
 							<reference ref="802411234"/>
+							<reference ref="359440779"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -475,11 +453,6 @@
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">21</int>
-						<reference key="object" ref="515455549"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">22</int>
 						<reference key="object" ref="359440779"/>
 						<reference key="parent" ref="191373211"/>
@@ -506,7 +479,6 @@
 				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="22.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

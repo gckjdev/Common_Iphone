@@ -10,8 +10,9 @@
 
 enum SITE_TYPE {
     SITE_TYPE_SYSTEM = 1,
-    SITE_TYPE_USER = 2
-    };
+    SITE_TYPE_USER = 2,
+    SITE_TYPE_LOCAL = 99
+};
 
 @interface TopSite : NSObject
 

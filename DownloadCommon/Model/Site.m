@@ -18,5 +18,8 @@
 @dynamic countryCode;
 @dynamic downloadCount;
 @dynamic siteFileType;
+@dynamic useFor;
+@dynamic deleteFlag;
+@dynamic createDate;
 
 @end

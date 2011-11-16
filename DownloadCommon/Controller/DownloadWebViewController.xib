@@ -186,7 +186,7 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">保存</string>
+						<string key="IBUINormalTitle">收藏</string>
 						<reference key="IBUIHighlightedTitleColor" ref="578699728"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
@@ -241,30 +241,48 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">clickBackBuuton</string>
+						<string key="label">clickBackButton</string>
 						<reference key="source" ref="358535526"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">13</int>
+					<int key="connectionID">20</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">clickForwardBuuton</string>
+						<string key="label">clickForwardButton</string>
 						<reference key="source" ref="588906441"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">14</int>
+					<int key="connectionID">19</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">clickReloadBuuton</string>
+						<string key="label">clickStopButton</string>
+						<reference key="source" ref="166579875"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">17</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">clickReloadButton</string>
 						<reference key="source" ref="169461142"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">15</int>
+					<int key="connectionID">18</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">clickAddFavorite:</string>
+						<reference key="source" ref="706878227"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">16</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -355,7 +373,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">15</int>
+			<int key="maxID">20</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -363,26 +381,36 @@
 					<string key="className">DownloadWebViewController</string>
 					<string key="superclassName">PPViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="clickAddFavorite:">id</string>
 						<string key="clickBack:">id</string>
-						<string key="clickBackBuuton">id</string>
-						<string key="clickForwardBuuton">id</string>
-						<string key="clickReloadBuuton">id</string>
+						<string key="clickBackButton">id</string>
+						<string key="clickForwardButton">id</string>
+						<string key="clickReloadButton">id</string>
+						<string key="clickStopButton">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="clickAddFavorite:">
+							<string key="name">clickAddFavorite:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="clickBack:">
 							<string key="name">clickBack:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="clickBackBuuton">
-							<string key="name">clickBackBuuton</string>
+						<object class="IBActionInfo" key="clickBackButton">
+							<string key="name">clickBackButton</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="clickForwardBuuton">
-							<string key="name">clickForwardBuuton</string>
+						<object class="IBActionInfo" key="clickForwardButton">
+							<string key="name">clickForwardButton</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="clickReloadBuuton">
-							<string key="name">clickReloadBuuton</string>
+						<object class="IBActionInfo" key="clickReloadButton">
+							<string key="name">clickReloadButton</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="clickStopButton">
+							<string key="name">clickStopButton</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

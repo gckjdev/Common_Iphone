@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSOperationQueue* queue;
 @property (nonatomic, retain) NSString* downloadDir;
 @property (nonatomic, retain) NSString* downloadTempDir;
+@property (nonatomic, retain) NSString* iCloudDir;
 @property (nonatomic, assign) int concurrentDownload;
 
 @property (nonatomic, retain) PlayAudioVideoController *videoPlayController;
