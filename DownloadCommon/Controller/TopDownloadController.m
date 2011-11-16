@@ -22,6 +22,7 @@
 - (void)dealloc
 {
     [siteList release];
+    [currentSelectItem release];
     [super dealloc];
 }
 
