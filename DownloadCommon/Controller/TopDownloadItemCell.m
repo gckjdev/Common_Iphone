@@ -19,7 +19,8 @@
 
 - (void)setCellStyle
 {
-    self.selectionStyle = UITableViewCellSelectionStyleNone;		   
+    self.selectionStyle = UITableViewCellSelectionStyleNone;		
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;		   
 }
 
 - (void)awakeFromNib{

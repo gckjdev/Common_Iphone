@@ -22,6 +22,7 @@
 - (void)dealloc
 {
     [siteList release];
+    [currentSelectItem release];
     [super dealloc];
 }
 
@@ -168,7 +169,7 @@
     
     NSString* title = [NSString stringWithFormat:NSLS(@"kDownloadURL"), self.currentSelectItem.url];
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:NSLS(@"Cancel") destructiveButtonTitle:NSLS(@"kYesDownload") otherButtonTitles:nil, nil];    
-    [actionSheet showInView:self.view];
+    [actionSheet showFromTabBar:self.tabBarController.tabBar];
     [actionSheet release];
 }
 
