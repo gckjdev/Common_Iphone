@@ -89,7 +89,7 @@
     NSMutableString *number = [[[NSMutableString alloc] init]autorelease];
     for (int i = 0; i < [telNumber length]; ++ i) {
         char ch = [telNumber characterAtIndex:i];
-        if (ch >= '0' && ch <= '9' || ch =='+') {
+        if ((ch >= '0' && ch <= '9') || ch =='+') {
             [number appendFormat:@"%c",ch];
         }else if(ch == '-' || ch == ' '){
             continue;

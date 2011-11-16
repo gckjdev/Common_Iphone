@@ -93,7 +93,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 
 - (void)openURL:(NSString *)URLString
 {
-    [self showActivityWithText:@"kLoadingURL"];
+    [self showActivityWithText:NSLS(@"kLoadingURL")];
     
     NSLog(@"url = %@",URLString);
     
@@ -220,6 +220,16 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     }
 }
 
+- (BOOL)isURLSkip:(NSString*)urlString
+{
+    if ([urlString rangeOfString:@":4022"].location != NSNotFound){
+        PPDebug(@"URL(%@) contains 4022, skip it", urlString);
+        return YES;
+    }
+    else
+        return NO;
+}
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)requestURL navigationType:(UIWebViewNavigationType)navigationType{
     
     //    if ([[[requestURL URL] description] rangeOfString:@"tel"].location != NSNotFound){
@@ -229,7 +239,12 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     
     NSLog(@"Loading URL = %@", [[requestURL URL] absoluteURL]); 
         
+    
     NSString* urlString = [[[requestURL URL] absoluteURL] description];
+    if ([self isURLSkip:urlString]){
+        return YES;
+    }
+
     if (openURLForAction == YES && [self.urlForAction isEqualToString:urlString]){
         // it's already confirmed to open the URL by askDownload
         return YES;

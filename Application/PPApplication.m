@@ -77,7 +77,8 @@ BOOL isFree()
 {
 	NSDictionary* payload = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
 	if (payload != nil){
-		[self application:application didReceiveRemoteNotification:payload];
+        [self performSelector:@selector(application:didReceiveRemoteNotification:) withObject:application withObject:payload];
+//		[self application:application didReceiveRemoteNotification:payload];
 	}
 	
 }

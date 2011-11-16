@@ -17,12 +17,12 @@
 	int				cellCollapseHeight;
 	int				cellExpandHeight;
 	
-	UILabel*		newTextLabel;
+	UILabel*		theNewTextLabel;
 }
 
 @property (nonatomic, retain) NSMutableArray*	buttonList;
 @property (nonatomic, retain) NSString*			backgroundName;
-@property (nonatomic, retain) UILabel*			newTextLabel;
+@property (nonatomic, retain) UILabel*			theNewTextLabel;
 @property (nonatomic)		  int				cellCollapseHeight;
 @property (nonatomic)		  int				cellExpandHeight;
 

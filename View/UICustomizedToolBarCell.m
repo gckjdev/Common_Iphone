@@ -15,7 +15,7 @@
 
 @implementation UICustomizedToolBarCell
 
-@synthesize buttonList, backgroundName, cellCollapseHeight, cellExpandHeight, newTextLabel;
+@synthesize buttonList, backgroundName, cellCollapseHeight, cellExpandHeight, theNewTextLabel;
 
 + (int)getToolbarHeight
 {
@@ -71,10 +71,10 @@
 		//		UIToolbar 
 		
 		CGRect textLabelRect = CGRectMake(kTextLableIndent, 0, width - kTextLableIndent * 6, heightWithoutToolbar);
-		self.newTextLabel = [[UILabel alloc] initWithFrame:textLabelRect];
-		newTextLabel.tag = kTextLabelTag;
-		newTextLabel.backgroundColor = [UIColor clearColor];
-		[self.contentView addSubview:newTextLabel];
+		self.theNewTextLabel = [[UILabel alloc] initWithFrame:textLabelRect];
+		theNewTextLabel.tag = kTextLabelTag;
+		theNewTextLabel.backgroundColor = [UIColor clearColor];
+		[self.contentView addSubview:theNewTextLabel];
 		
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
@@ -87,9 +87,9 @@
 	CGRect rect = CGRectMake(0, 0, self.frame.size.width, heightOfCellWithoutToolbar + kHeightOfToolbarInCell);
 	self.frame = rect;
 	
-	CGRect textLabelRect = self.newTextLabel.frame;
+	CGRect textLabelRect = self.theNewTextLabel.frame;
 	textLabelRect.size.height = heightOfCellWithoutToolbar;
-	self.newTextLabel.frame = textLabelRect;
+	self.theNewTextLabel.frame = textLabelRect;
 	
 	for (UIView *v in [self.contentView subviews]) {			
 		if (v.tag == kSubViewFlag) {				
@@ -180,7 +180,7 @@
 
 - (void)dealloc {
 	
-	[newTextLabel release];
+	[theNewTextLabel release];
 	[buttonList release];
 	[backgroundName release];
     [super dealloc];

@@ -55,7 +55,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
 
-
+    [self setNavigationRightButton:NSLS(@"kNowPlaying") action:@selector(clickNowPlaying:)];
 }
 
 - (void)viewDidAppear:(BOOL)animated
