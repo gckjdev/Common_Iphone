@@ -10,12 +10,18 @@
 #import "PPTableViewController.h"
 #import "ResourceService.h"
 
-@interface TopDownloadController : PPTableViewController <ResourceServiceDelegate> {
+@class TopDownloadItem;
+
+@interface TopDownloadController : PPTableViewController <ResourceServiceDelegate, UIActionSheetDelegate> {
     int requestType;
     NSArray* siteList;
+    TopDownloadItem* currentSelectItem;
 }
 
 @property (nonatomic, assign) int requestType;
 @property (nonatomic, retain) NSArray* siteList;
+@property (nonatomic, retain) TopDownloadItem* currentSelectItem;
+
+- (void)askDownload;
 
 @end

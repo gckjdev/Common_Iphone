@@ -11,11 +11,13 @@
 #import "TopDownloadItemCell.h"
 #import "TopDownloadManager.h"
 #import "DownloadWebViewController.h"
+#import "DownloadService.h"
 
 @implementation TopDownloadController
 
 @synthesize siteList;
 @synthesize requestType;
+@synthesize currentSelectItem;
 
 - (void)dealloc
 {
@@ -156,8 +158,41 @@
 	if (indexPath.row > [dataList count] - 1)
 		return;
     
-    TopDownloadItem* item = [self.dataList objectAtIndex:indexPath.row];
-    [DownloadWebViewController show:self url:item.url];
+    TopDownloadItem* item = [self.dataList objectAtIndex:indexPath.row];    
+    self.currentSelectItem = item;
+    [self askDownload];
+}
+
+- (void)askDownload
+{
+    
+    NSString* title = [NSString stringWithFormat:NSLS(@"kDownloadURL"), self.currentSelectItem.url];
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:NSLS(@"Cancel") destructiveButtonTitle:NSLS(@"kYesDownload") otherButtonTitles:nil, nil];    
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    enum BUTTON_INDEX {
+        CLICK_DOWNLOAD = 0,
+        CLICK_CANCEL = 1
+    };
+    
+    switch (buttonIndex) {
+        case CLICK_DOWNLOAD:
+        {
+            [[DownloadService defaultService] downloadFile:self.currentSelectItem.url 
+                                                  fileType:[self.currentSelectItem.fileType intValue]
+                                                   webSite:self.currentSelectItem.webSite
+                                               webSiteName:self.currentSelectItem.webSiteName             
+                                                   origUrl:nil];
+        }
+            break;
+        case CLICK_CANCEL:    
+        default:
+            break;
+    }
 }
 
 
