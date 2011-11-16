@@ -10,7 +10,8 @@
 #import "CommonService.h"
 
 enum SITE_REQUEST {
-    SITE_REQUEST_TYPE_TOP = 0,
+    SITE_REQUEST_TYPE_NONE = -1,
+    SITE_REQUEST_TYPE_TOP,
     SITE_REQUEST_TYPE_HOT,
     SITE_REQUEST_TYPE_NEW
     };
@@ -26,6 +27,8 @@ enum SITE_REQUEST {
 @interface ResourceService : CommonService
 
 + (ResourceService*)defaultService;
+
 - (void)findAllSites:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType;
 
+- (void)findAllTopDownloadItems:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType;
 @end

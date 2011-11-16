@@ -32,6 +32,7 @@ DownloadItemManager* globalDownloadManager;
 }
 
 - (DownloadItem*)createDownloadItem:(NSString*)url
+                           fileType:(int)fileType
                             webSite:(NSString*)webSite
                         webSiteName:(NSString*)webSiteName 
                             origUrl:(NSString*)origUrl
@@ -49,7 +50,7 @@ DownloadItemManager* globalDownloadManager;
     item.localPath = filePath;
     item.tempPath = tempPath;
     item.starred = [NSNumber numberWithInt:0];
-    item.fileType = [NSNumber numberWithInt:[self getFileTypeFromName:fileName]];
+    item.fileType = [NSNumber numberWithInt:fileType];
     item.startDate = [NSDate date];
     item.url = url;
     item.webSite = webSite;
@@ -80,6 +81,24 @@ DownloadItemManager* globalDownloadManager;
 {
     CoreDataManager* dataManager = [CoreDataManager dataManager];
     return [dataManager execute:@"findAllItemsByStatus" forKey:@"STATUS" value:[NSNumber numberWithInt:status] sortBy:@"startDate" ascending:YES];    
+}
+
+- (NSArray*)findAllCompleteItems
+{
+    CoreDataManager* dataManager = [CoreDataManager dataManager];
+    return [dataManager execute:@"findAllCompleteItems" sortBy:@"startDate" ascending:NO];        
+}
+
+- (NSArray*)findAllDownloadingItems
+{
+    CoreDataManager* dataManager = [CoreDataManager dataManager];
+    return [dataManager execute:@"findAllDownloadingItems" sortBy:@"startDate" ascending:NO];        
+}
+
+- (NSArray*)findAllStarredItems
+{
+    CoreDataManager* dataManager = [CoreDataManager dataManager];
+    return [dataManager execute:@"findAllStarredItems" sortBy:@"startDate" ascending:NO];        
 }
 
 #pragma STATUS CONTROL
@@ -122,11 +141,37 @@ DownloadItemManager* globalDownloadManager;
     [[CoreDataManager dataManager] save];        
 }
 
-- (void)setFileInfo:(DownloadItem*)item newFileName:(NSString*)newFileName fileSize:(long)fileSize
+- (NSString*)adjustImageFileName:(DownloadItem*)item newFileName:(NSString*)newFileName
 {
+    NSString* retFileName = newFileName;
+    
+    // if file name has no extension and file type is image, set file extension as JPEG
+    if ([item isImageFileType]){
+        if ([[newFileName pathExtension] length] <= 0){
+            if ([newFileName characterAtIndex:[newFileName length]-1] == '.'){
+                retFileName = [newFileName stringByAppendingString:@"jpg"];                
+            }
+            else{
+                retFileName = [newFileName stringByAppendingString:@".jpg"];                
+            }
+        }
+    }
+    
+    return retFileName;
+}
+
+- (void)setFileInfo:(DownloadItem*)item newFileName:(NSString*)newFileName fileSize:(long)fileSize
+{    
     item.fileName = newFileName;
     item.fileSize = [NSNumber numberWithLong:fileSize];
     [[CoreDataManager dataManager] save];        
+}
+
+- (void)starItem:(DownloadItem*)item
+{
+    int value = !([item.starred intValue]);
+    item.starred = [NSNumber numberWithInt:value];
+    [[CoreDataManager dataManager] save];            
 }
 
 - (BOOL)isURLReport:(NSString*)urlString

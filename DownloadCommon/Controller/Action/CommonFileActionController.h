@@ -14,5 +14,6 @@
 
 - (id)initWithDownloadItem:(DownloadItem*)item;
 - (void)show:(UIView*)superView;
+- (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item;
 
 @end

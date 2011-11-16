@@ -16,6 +16,7 @@
 + (DownloadItemManager*)defaultManager;
 
 - (DownloadItem*)createDownloadItem:(NSString*)url
+                           fileType:(int)fileType
                             webSite:(NSString*)webSite
                         webSiteName:(NSString*)webSiteName 
                             origUrl:(NSString*)origUrl
@@ -31,10 +32,17 @@
 
 - (NSArray*)findAllItems;
 - (NSArray*)findAllItemsByStatus:(int)status;
+- (NSArray*)findAllCompleteItems;
+- (NSArray*)findAllDownloadingItems;
+- (NSArray*)findAllStarredItems;
 
+- (NSString*)adjustImageFileName:(DownloadItem*)item newFileName:(NSString*)newFileName;
 - (void)setFileInfo:(DownloadItem*)item newFileName:(NSString*)newFileName fileSize:(long)fileSize;
+- (void)starItem:(DownloadItem*)item;
 
 - (BOOL)isURLReport:(NSString*)urlString;
 - (void)setURLReported:(NSString*)urlString;
+
+
 
 @end

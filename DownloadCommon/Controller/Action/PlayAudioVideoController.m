@@ -33,6 +33,34 @@
     [self showPlayerView];
 }
 
+- (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
+{
+    
+    NSURL* url = [NSURL fileURLWithPath:item.localPath];    
+    if (player == nil){
+        
+        [self setDownloadItem:item];
+
+        self.player = [[[MPMoviePlayerController alloc] initWithContentURL:url] autorelease];
+                        
+        self.view.frame = viewController.view.bounds;
+        CGRect frame = [self.view bounds];
+        [[player view] setFrame:frame]; // size to fit parent view exactly
+        [self.view addSubview:player.view];
+    }
+    else{
+        if (self.downloadItem != item){
+            [self setDownloadItem:item];
+            [player setContentURL:url];
+        }
+    }
+    
+    [self.navigationItem setTitle:downloadItem.fileName];
+
+    [viewController.navigationController pushViewController:self animated:YES];
+    [player play];    
+}
+
 - (id)initWithDownloadItem:(DownloadItem*)item
 {
     self = [super init];
@@ -67,9 +95,22 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
-{
+{        
+    [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [player play];
+    [super viewDidAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [player pause];
+    [super viewDidDisappear:animated];    
 }
 
 - (void)viewDidUnload

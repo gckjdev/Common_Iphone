@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "CommonFileActionController.h"
 #import "PPViewController.h"
+#import <QuickLook/QuickLook.h>
 
-@interface DisplayReadableFileController : PPViewController<CommonFileActionProtocol, UIDocumentInteractionControllerDelegate>
+@interface DisplayReadableFileController : PPViewController<CommonFileActionProtocol, UIDocumentInteractionControllerDelegate, QLPreviewControllerDelegate, QLPreviewControllerDataSource>
 
 @property (nonatomic, retain) DownloadItem* downloadItem;
 @property (nonatomic, retain) UIDocumentInteractionController* docController;
+@property (nonatomic, retain) QLPreviewController* previewController;
+@property (nonatomic, retain) UIViewController* superViewController;
 
 @end

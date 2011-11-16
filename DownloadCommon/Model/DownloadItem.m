@@ -10,6 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "LogUtil.h"
 #import "LocaleUtils.h"
+#import "FileUtil.h"
 
 #define DOWNLOAD_KEY @"DOWNLOAD_KEY"
 
@@ -98,6 +99,26 @@
         return @"";
 }
 
+- (BOOL)isStarred
+{
+    return ([self.starred intValue] == 1);
+}
+
+- (BOOL)canPlay
+{
+    switch ([self.status intValue]) {
+        case DOWNLOAD_STATUS_FINISH:
+            return YES;
+        default:
+            return NO;
+    }    
+}
+
+- (BOOL)canView
+{
+    return [QLPreviewController canPreviewItem:self];
+}
+
 - (BOOL)canPause
 {
     switch ([self.status intValue]) {
@@ -151,6 +172,17 @@
                           @"bmp", @"wav", @"caf", @"m4v", @"aac", @"aiff", @"dvix", @"epub",
                           nil];
     return [fileTypeSet containsObject:[self.fileName pathExtension]];
+}
+
+- (BOOL)isImageFileType
+{
+    return ([self.fileType intValue] == FILE_TYPE_IMAGE);
+}
+
+- (NSURL*)previewItemURL
+{
+    NSURL* url = [NSURL fileURLWithPath:self.localPath];
+    return url;
 }
 
 @end

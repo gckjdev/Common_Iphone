@@ -22,6 +22,7 @@ typedef void (^WebViewBackHandler)(UIViewController*);
 @property (nonatomic, retain) NSString *webSite;
 @property (nonatomic, retain) NSString *currentURL;
 @property (nonatomic, retain) NSString *urlForAction;
+@property (nonatomic, assign) int urlFileType;
 @property (nonatomic, assign) BOOL openURLForAction;
 
 - (IBAction) clickBackBuuton;
@@ -39,7 +40,7 @@ typedef void (^WebViewBackHandler)(UIViewController*);
 + (void)show:(UIViewController*)superController url:(NSString*)url;
 
 - (IBAction)clickBack:(id)sender;
-
+- (void)askDownload:(NSString*)urlString;
 
 @end
 

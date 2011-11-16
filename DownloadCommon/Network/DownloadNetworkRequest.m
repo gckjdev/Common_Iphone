@@ -98,6 +98,36 @@
                                   output:output];
 }
 
++ (CommonNetworkOutput*)findAllTopDownloadItems:(NSString*)baseURL
+                               appId:(NSString*)appId
+                         countryCode:(NSString*)countryCode
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDTOPDOWNLOAD];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:countryCode];
+        
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {        
+        // parse response data and set into output object
+        output.jsonDataDict = [dict objectForKey:RET_DATA];
+        output.jsonDataArray = [output.jsonDataDict objectForKey:PARA_DATA];
+        NSLog(@"<findAllTopDownloadItems> data=%@", [output.jsonDataDict description]);
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];
+}
+
 + (CommonNetworkOutput*)reportDownload:(NSString*)baseURL 
                                  appId:(NSString*)appId
                               fileType:(NSString*)fileType
@@ -119,10 +149,10 @@
         str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:countryCode];        
         str = [str stringByAddQueryParameter:PARA_LANGUAGE value:language];        
         str = [str stringByAddQueryParameter:PARA_FILE_TYPE value:fileType];        
-        str = [str stringByAddQueryParameter:PARA_FILE_URL value:[url stringByURLEncode]];        
-        str = [str stringByAddQueryParameter:PARA_FILE_NAME value:[fileName stringByURLEncode]];        
-        str = [str stringByAddQueryParameter:PARA_SITE_URL value:[webSite stringByURLEncode]];        
-        str = [str stringByAddQueryParameter:PARA_SITE_NAME value:[webSiteName stringByURLEncode]];        
+        str = [str stringByAddQueryParameter:PARA_FILE_URL value:url];        
+        str = [str stringByAddQueryParameter:PARA_FILE_NAME value:fileName];        
+        str = [str stringByAddQueryParameter:PARA_SITE_URL value:webSite];        
+        str = [str stringByAddQueryParameter:PARA_SITE_NAME value:webSiteName];        
         str = [str stringByAddQueryParameter:PARA_FILE_SIZE intValue:fileSize];        
         str = [str stringByAddQueryParameter:PARA_DEVICEID value:[[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]];
         

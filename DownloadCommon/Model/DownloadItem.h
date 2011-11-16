@@ -10,16 +10,22 @@
 #import <CoreData/CoreData.h>
 #import "ASIProgressDelegate.h"
 #import "ASIHTTPRequestDelegate.h"
+#import <QuickLook/QuickLook.h>
 
 enum DOWNLOAD_STATUS {
     DOWNLOAD_STATUS_NOT_STARTED = 0,
     DOWNLOAD_STATUS_STARTED,
-    DOWNLOAD_STATUS_FINISH,
     DOWNLOAD_STATUS_PAUSE,
     DOWNLOAD_STATUS_FAIL,
+    DOWNLOAD_STATUS_FINISH = 18,
+};
+
+enum FILE_TYPE {
+    FILE_TYPE_UNKNOWN = 0,
+    FILE_TYPE_IMAGE    
 };
  
-@interface DownloadItem : NSManagedObject <ASIProgressDelegate, ASIHTTPRequestDelegate>
+@interface DownloadItem : NSManagedObject <ASIProgressDelegate, ASIHTTPRequestDelegate, QLPreviewItem>
 
 @property (nonatomic, retain) NSNumber * downloadSize;
 @property (nonatomic, retain) NSDate * endDate;
@@ -39,14 +45,19 @@ enum DOWNLOAD_STATUS {
 @property (nonatomic, retain) NSNumber * deleteFlag;
 @property (nonatomic, retain) NSNumber * downloadProgress;
 @property (nonatomic, assign) ASIHTTPRequest * request;
+@property(readonly) NSURL * previewItemURL;
 
 - (NSDictionary*)dictionaryForRequest;
 + (DownloadItem*)fromDictionary:(NSDictionary*)dict;
 - (NSString*)statusText;
 - (BOOL)canPause;
 - (BOOL)canResume;
+- (BOOL)canPlay;
+- (BOOL)canView;
+- (BOOL)isStarred;
 
 - (BOOL)isAudioVideo;
 - (BOOL)isReadableFile;
+- (BOOL)isImageFileType;
 
 @end

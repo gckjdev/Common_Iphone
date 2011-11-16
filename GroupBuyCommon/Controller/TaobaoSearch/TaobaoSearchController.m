@@ -134,6 +134,60 @@
 #define UNSELECTED_COLOR [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0]
 #define SELECTED_COLOR [UIColor colorWithRed:164/255.0 green:174/255.0 blue:67/255.0 alpha:1.0]
 
++ (void)createButtonsInView:(UIView*)view buttonTextArray:(NSArray*)buttonTextArray templateButton:(UIButton*)templateButton
+{
+    const int RIGHT_SPACING = 10;
+    
+    const int BUTTON_HEIGHT_INDENT = 5;
+    const int BUTTON_WIDTH_INDENT = 5;  
+    const int BUTTON_WIDTH_EXTEND = 20;
+    const int DEFAULT_BUTTON_HEIGHT = 30;
+    
+    UIFont* font = [templateButton.titleLabel font];
+    
+    int buttonHeight = DEFAULT_BUTTON_HEIGHT;    
+    int right = view.frame.origin.x + view.frame.size.width;
+    
+    int count = [buttonTextArray count];
+    
+    CGSize scrollSize = view.bounds.size;
+    
+    const int START_X = 0;
+    const int START_Y = 0;
+    
+    int buttonLeft = START_X;
+    int buttonTop = START_Y;
+    for (int i=0; i<count; i++){
+        
+        NSString* word = [buttonTextArray objectAtIndex:i];
+        CGSize size = [word sizeWithFont:font];
+        int buttonWidth = size.width + BUTTON_WIDTH_EXTEND;            
+                
+        UIButton* button = [[templateButton copy] autorelease];
+        button.frame = CGRectMake(buttonLeft, buttonTop, buttonWidth, buttonHeight);        
+        [button setTitle:word forState:UIControlStateNormal];
+        [view addSubview:button];
+        
+        if ( (i+1) < count ){
+            NSString* nextWord = [buttonTextArray objectAtIndex:i+1];
+            CGSize size = [nextWord sizeWithFont:font];
+            int nextButtonWidth = size.width + BUTTON_WIDTH_EXTEND;
+            buttonLeft += buttonWidth + BUTTON_WIDTH_INDENT;
+            if (buttonLeft + nextButtonWidth + RIGHT_SPACING > right){
+                // new line
+                buttonTop += buttonHeight + BUTTON_HEIGHT_INDENT;
+                buttonLeft = START_X;
+                
+                scrollSize.height += buttonHeight + BUTTON_HEIGHT_INDENT;
+                if ([view isKindOfClass:[UIScrollView class]]){
+                    [((UIScrollView*)view) setContentSize:scrollSize];
+                }
+            }
+        }
+    }
+    
+}
+
 - (void)segmentTextFinish:(int)result jsonArray:(NSArray *)jsonArray
 {
     const int RIGHT_SPACING = 10;

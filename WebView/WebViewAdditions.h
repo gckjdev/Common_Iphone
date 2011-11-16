@@ -12,7 +12,8 @@
     
 @property (nonatomic, retain) NSString* href;   // for A HREF
 @property (nonatomic, retain) NSString* src;    // for IMG SRC
-@property (nonatomic, retain) NSString* tags;   
+@property (nonatomic, retain) NSString* tags; 
+@property (nonatomic, retain) NSString* text; 
     
 - (BOOL)hasLink;
 - (BOOL)hasImage;

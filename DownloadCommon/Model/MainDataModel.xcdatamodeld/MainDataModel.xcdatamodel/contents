@@ -24,8 +24,11 @@
         <attribute name="siteType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="siteURL" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <fetchRequest name="findAllCompleteItems" entity="DownloadItem" predicateString="deleteFlag == 0 AND status == 18"/>
+    <fetchRequest name="findAllDownloadingItems" entity="DownloadItem" predicateString="deleteFlag == 0 AND status != 18"/>
     <fetchRequest name="findAllItems" entity="DownloadItem" predicateString="deleteFlag == 0"/>
     <fetchRequest name="findAllItemsByStatus" entity="DownloadItem" predicateString="deleteFlag == 0 AND status == $STATUS"/>
+    <fetchRequest name="findAllStarredItems" entity="DownloadItem" predicateString="deleteFlag == 0 AND starred == 1"/>
     <fetchRequest name="findItemByName" entity="DownloadItem" predicateString="fileName == $FILE_NAME"/>
     <elements>
         <element name="DownloadItem" positionX="160" positionY="192" width="128" height="300"/>

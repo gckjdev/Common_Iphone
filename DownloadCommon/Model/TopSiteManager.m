@@ -48,4 +48,9 @@ TopSiteManager *globalTopSiteManager;
     return dataList;
 }
 
+- (NSArray*)findAllStarredList
+{
+    return nil;
+}
+
 @end

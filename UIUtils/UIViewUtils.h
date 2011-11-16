@@ -36,7 +36,8 @@
 - (UIActivityIndicatorView*)createActivityViewAtCenter:(UIActivityIndicatorViewStyle)style;
 - (UIActivityIndicatorView*)getActivityViewAtCenter;
 
-
+- (void)createButtonsInView:(NSArray*)buttonTextArray templateButton:(UIButton*)templateButton
+                     target:(id)target action:(SEL)action;
 
 @end
 

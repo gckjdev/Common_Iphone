@@ -13,6 +13,66 @@
 
 @synthesize downloadItem;
 @synthesize docController;
+@synthesize superViewController;
+@synthesize previewController;
+
+- (void)quickLookPreview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
+{    
+    if ([QLPreviewController canPreviewItem:item] == NO){
+        [UIUtils alert:NSLS(@"kCannotPreviewFile")];
+        return;
+    }
+    
+    BOOL isItemChange = NO;
+    if (self.downloadItem != item){
+        self.downloadItem = item;
+        isItemChange = YES;
+    }
+
+    self.superViewController = viewController;
+    
+    if (self.previewController == nil){
+        self.previewController = [[[QLPreviewController alloc] init] autorelease];
+        self.previewController.delegate = self;          
+        self.previewController.dataSource = self;                
+    }    
+    
+    [self.superViewController.navigationController pushViewController:self.previewController animated:YES];
+}
+
+- (void)docControllerPreview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
+{
+    if ([QLPreviewController canPreviewItem:item] == NO){
+        [UIUtils alert:NSLS(@"kCannotPreviewFile")];
+        return;
+    }
+    
+    BOOL isItemChange = NO;
+    if (self.downloadItem != item){
+        self.downloadItem = item;
+        isItemChange = YES;
+    }
+    
+    self.superViewController = viewController;
+    
+    NSURL* url = [NSURL fileURLWithPath:downloadItem.localPath];    
+    if (self.docController == nil){
+        self.docController = [UIDocumentInteractionController interactionControllerWithURL:url];
+        self.docController.delegate = self;          
+    }
+
+    if (isItemChange){        
+        [self.docController setURL:url];
+    }
+
+    [self.docController presentPreviewAnimated:YES];    
+}
+
+- (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
+{
+    [self docControllerPreview:viewController downloadItem:item];
+//    [self quickLookPreview:viewController downloadItem:item];
+}
 
 - (void)showPlayerView
 {
@@ -56,8 +116,10 @@
 
 - (void)dealloc
 {
+    [previewController release];
     [docController release];
     [downloadItem release];
+    [superViewController release];
     [super dealloc];
 }
 
@@ -86,17 +148,29 @@
 
 - (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
 {
-    return self;
+    return self.superViewController;
 }
 
 - (UIView *) documentInteractionControllerViewForPreview: (UIDocumentInteractionController *) controller
 {
-    return self.view;
+    return self.superViewController.view;
 }
 
 - (CGRect) documentInteractionControllerRectForPreview: (UIDocumentInteractionController *) controller
 {
-    return self.view.bounds;
+    return self.superViewController.view.bounds;
+}
+
+#pragma Quick Look Delegate
+
+- (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
+{
+    return 1;
+}
+
+- (id <QLPreviewItem>) previewController: (QLPreviewController *) controller previewItemAtIndex: (NSInteger) index
+{
+    return self.downloadItem;
 }
 
 @end
