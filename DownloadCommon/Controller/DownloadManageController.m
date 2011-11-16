@@ -43,10 +43,32 @@
 
 #pragma mark - View lifecycle
 
+- (void)loadDataBySelectType
+{
+    switch (currentSelection) {
+        case SELECT_COMPLETE_ITEM:
+            self.dataList = [[DownloadItemManager defaultManager] findAllCompleteItems];
+            break;
+            
+        case SELECT_ALL_ITEM:
+            self.dataList = [[DownloadItemManager defaultManager] findAllItems];
+            break;
+            
+        case SELECT_DOWNLOADING_ITEM:
+            self.dataList = [[DownloadItemManager defaultManager] findAllDownloadingItems];
+            break;
+            
+        case SELECT_STARRED_ITEM:
+            self.dataList = [[DownloadItemManager defaultManager] findAllStarredItems];
+            break;            
+            
+        default:
+            break;
+    }
+}
+
 - (void)viewDidLoad
 {
-    self.dataList = [[DownloadItemManager defaultManager] findAllItems];
-
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateProgressTimer) userInfo:nil repeats:YES];
     
     [super viewDidLoad];
@@ -60,6 +82,8 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self loadDataBySelectType];
+    [self.dataTableView reloadData];
     [super viewDidAppear:animated];
 }
 
@@ -245,5 +269,7 @@
     [self.dataTableView reloadData];    
     
 }
+
+
 
 @end

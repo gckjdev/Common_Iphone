@@ -104,7 +104,7 @@ DownloadItemManager* globalDownloadManager;
 #pragma STATUS CONTROL
 
 - (void)finishDownload:(DownloadItem*)item
-{    
+{        
     [item setRequest:nil];
     [item setEndDate:[NSDate date]];
     [item setStatus:[NSNumber numberWithInt:DOWNLOAD_STATUS_FINISH]];

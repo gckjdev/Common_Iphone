@@ -33,4 +33,6 @@
 
 + (DownloadService*)defaultService;
 
+- (void)requestWentWrong:(ASIHTTPRequest *)request;
+
 @end
