@@ -23,11 +23,13 @@
 }
 
 -(HJObjManager*) initWithLoadingBufferSize:(int)loadingBufferSize memCacheSize:(int)memCacheSize {
-	[super init];
-	self.policy = [HJMOPolicy smallImgFastScrollLRUCachePolicy];
-	self.loadingHandlers = [HJCircularBuffer bufferWithCapacity:loadingBufferSize];
-	self.memCache = [HJCircularBuffer bufferWithCapacity:memCacheSize];
-	flyweightManagedState = [[HJMOHandler alloc] init];
+	self = [super init];
+    if (self) {
+        self.policy = [HJMOPolicy smallImgFastScrollLRUCachePolicy];
+        self.loadingHandlers = [HJCircularBuffer bufferWithCapacity:loadingBufferSize];
+        self.memCache = [HJCircularBuffer bufferWithCapacity:memCacheSize];
+        flyweightManagedState = [[HJMOHandler alloc] init];
+    }
 	return self;
 }
 

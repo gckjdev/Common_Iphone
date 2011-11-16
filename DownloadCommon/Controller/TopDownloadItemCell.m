@@ -52,7 +52,7 @@
 
 - (void)setCellInfoWithTopDownloadItem:(TopDownloadItem*)item atIndexPath:(NSIndexPath*)indexPath
 {
-    self.rankLabel.text = [NSString stringWithFormat:@"%d", [indexPath row]];
+    self.rankLabel.text = [NSString stringWithFormat:@"%d", [indexPath row] + 1];
     self.fileTypeLabel.text = item.fileType;
     if ([item.fileName length] > 0){
         self.fileNameLabel.text = item.fileName;
@@ -60,11 +60,11 @@
         self.fileNameLabel.text = [item.url stringByReplacingOccurrencesOfString:@"http://" withString:@""];
     }
     if ([item.webSiteName length] > 0) {
-        self.webSiteNameLabel.text = [NSString stringWithFormat:@"来自%@", item.webSiteName];
+        self.webSiteNameLabel.text = [NSString stringWithFormat:NSLS(@"kFromWebSite"), item.webSiteName];
     } else {
-        self.webSiteNameLabel.text = [NSString stringWithFormat:@"来自%@", item.webSite];
+        self.webSiteNameLabel.text = [NSString stringWithFormat:NSLS(@"kFromWebSite"), item.webSite];
     }    
-    self.totalDownloadLabel.text = [NSString stringWithFormat:@"%d次下载", item.totalDownload];
+    self.totalDownloadLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), item.totalDownload];
 }
 
 - (void)dealloc

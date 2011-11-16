@@ -17,8 +17,10 @@
 }
 
 -(HJWeakMutableArray*) initWithCapacity:(int)capacity {
-	[super init];
-	array = [[NSMutableArray arrayWithCapacity:capacity] retain];
+	self = [super init];
+    if (self) {
+        array = [[NSMutableArray arrayWithCapacity:capacity] retain];
+    }
 	return self;
 }
 

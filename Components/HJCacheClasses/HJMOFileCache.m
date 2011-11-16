@@ -20,28 +20,30 @@
 
 
 -(HJMOFileCache*)initWithRootPath:(NSString*)root {
-	[super init];
-	isCounting = NO;
-	fileCount = 0;
-	byteCount = 0;
-	rootPath = root;
-	[rootPath retain];
-	
-	fileCountLimit = 0;
-	fileAgeLimit = 0;
-	
-	if (![[NSFileManager defaultManager] fileExistsAtPath:rootPath]) {
-		[[NSFileManager defaultManager] createDirectoryAtPath:rootPath withIntermediateDirectories:YES attributes:nil error:nil];
-	}
-	
-	loadingPath = [[NSString stringWithFormat:@"%@/loading/",rootPath] retain];
-	readyPath = [[NSString stringWithFormat:@"%@/ready/",rootPath] retain];
-	[self createCacheDirsIfNeeded];
-	countsPath = [[NSString stringWithFormat:@"%@/counts.plist",rootPath] retain];
+	self = [super init];
+    if (self) {
+        isCounting = NO;
+        fileCount = 0;
+        byteCount = 0;
+        rootPath = root;
+        [rootPath retain];
+        
+        fileCountLimit = 0;
+        fileAgeLimit = 0;
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:rootPath]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:rootPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
+        loadingPath = [[NSString stringWithFormat:@"%@/loading/",rootPath] retain];
+        readyPath = [[NSString stringWithFormat:@"%@/ready/",rootPath] retain];
+        [self createCacheDirsIfNeeded];
+        countsPath = [[NSString stringWithFormat:@"%@/counts.plist",rootPath] retain];
+        
+        //delete any half loaded files
+        [self deleteAllFilesInDir:loadingPath];
+    }
 
-	//delete any half loaded files
-	[self deleteAllFilesInDir:loadingPath];
-	
 	return self;
 }
 

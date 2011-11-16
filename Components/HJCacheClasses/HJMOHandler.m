@@ -28,16 +28,18 @@
 
 
 -(HJMOHandler*)initWithOid:(id)oid_ url:(NSURL*)url_  objManager:objManager_{
-	[super init];
-	state = stateNew;
-	self.oid = oid_;
-	self.url = url_ ;
-	self.objManager = objManager_;
-	if (oid==nil) { 
-		self.oid = url_;
-	}
-	
-	users = [[HJWeakMutableArray alloc] initWithCapacity:1]; //it can expand automatically.
+	self = [super init];
+    if (self) {
+        state = stateNew;
+        self.oid = oid_;
+        self.url = url_ ;
+        self.objManager = objManager_;
+        if (oid==nil) { 
+            self.oid = url_;
+        }
+        
+        users = [[HJWeakMutableArray alloc] initWithCapacity:1]; //it can expand automatically.
+    }
 	return self;
 }
 
