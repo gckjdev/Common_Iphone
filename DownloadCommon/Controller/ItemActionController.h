@@ -14,7 +14,7 @@
 
 @class DownloadItem;
 
-@interface ItemActionController : PPViewController <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate, UINavigationControllerDelegate>
+@interface ItemActionController : PPViewController <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, retain) DownloadItem *item;
 @property (nonatomic, retain) UIViewController<CommonFileActionProtocol> *playItemController;
@@ -26,6 +26,7 @@
 - (IBAction)shareWithSMS:(id)sender;
 - (IBAction)sendWithEmail:(id)sender;
 - (IBAction)sendToAlbum:(id)sender;
+- (IBAction)deleteFile:(id)sender;
 
 - (void)displayComposeEmailForShare;
 - (void)displayComposeEmailForSend;
