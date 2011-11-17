@@ -330,6 +330,14 @@ DownloadService* globalDownloadService;
         fileName = [[request url] lastPathComponent];
     }
     
+    // TODO
+    if (fileName == nil){
+        PPDebug(@"<didReceiveResponseHeaders> Cannot create file name for download request (%@)", [request description]);
+        [request clearDelegatesAndCancel];
+        [self requestWentWrong:request];
+        return;
+    }
+    
     fileName = [manager adjustImageFileName:item newFileName:fileName];
     fileName = [self createFileName:fileName];
     
@@ -389,8 +397,9 @@ DownloadService* globalDownloadService;
     DownloadItem *item = [DownloadItem fromDictionary:request.userInfo];
     [[DownloadItemManager defaultManager] downloadFailure:item];
     PPDebug(@"item (%@) download failure, response done = %@", [item itemId], [error description]);
-
-    NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadFailure"), item.fileName];
+    
+    NSString* fileInfo = ([item.fileName length] > 0) ? item.fileName : item.url;
+    NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadFailure"), fileInfo];
     [StatusView showtStatusText:statusText vibrate:NO duration:10.0];
 
 }

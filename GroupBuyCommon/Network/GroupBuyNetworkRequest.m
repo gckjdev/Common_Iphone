@@ -491,6 +491,37 @@ const int MAX_COUNT = DEFAULT_MAX_COUNT;
                                   output:output];    
 }
 
++ (CommonNetworkOutput*)updateKeywords:(NSString*)baseURL
+                                 appId:(NSString*)appId
+                                  type:(int)type
+{
+    CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
+    
+    ConstructURLBlock constructURLHandler = ^NSString *(NSString *baseURL) {
+        
+        // set input parameters
+        NSString* str = [NSString stringWithString:baseURL];       
+        
+        str = [str stringByAddQueryParameter:METHOD value:METHOD_UPDATEKEYWORD];
+        str = [str stringByAddQueryParameter:PARA_APPID value:appId];
+        str = [str stringByAddQueryParameter:PARA_TYPE intValue:type];
+		
+        return str;
+    };
+    
+    PPNetworkResponseBlock responseHandler = ^(NSDictionary *dict, CommonNetworkOutput *output) {
+        
+        // parse response data and set into output object
+        output.jsonDataArray = [dict objectForKey:RET_DATA];
+        return;
+    }; 
+    
+    return [PPNetworkRequest sendRequest:baseURL
+                     constructURLHandler:constructURLHandler
+                         responseHandler:responseHandler
+                                  output:output];    
+}
+
 + (CommonNetworkOutput*)actionOnProduct:(NSString*)baseURL
                                   appId:(NSString*)appId
                                  userId:(NSString*)userId

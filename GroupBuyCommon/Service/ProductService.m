@@ -235,6 +235,11 @@
 
 - (void)updateKeywords
 {
+    [self updateKeywords:0];
+}
+
+- (void)updateKeywords:(int)type
+{
     NSString* appId = [AppManager getPlaceAppId];
 
     dispatch_async(workingQueue, ^{
@@ -242,7 +247,7 @@
         // fetch user place data from server
         CommonNetworkOutput* output = nil;
         
-        output = [GroupBuyNetworkRequest updateKeywords:SERVER_URL appId:appId];
+        output = [GroupBuyNetworkRequest updateKeywords:SERVER_URL appId:appId type:type];
         
         // if succeed, clean local data and save new data
         if (output.resultCode == ERROR_SUCCESS){

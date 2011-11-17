@@ -6,7 +6,7 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#import "SearchProductController.h"
+#import "CustomSearchProductController.h"
 #import "SearchHistoryManager.h"
 #import "SearchHistory.h"
 #import "CommonProductListController.h"
@@ -19,13 +19,13 @@
 #import "UserShopItemService.h"
 #import "LocationService.h"
 //private methods
-@interface SearchProductController()
+@interface CustomSearchProductController()
 
 -(void) refreshLatestSearchHistory;
 
 @end
 
-@implementation SearchProductController
+@implementation CustomSearchProductController
 
 @synthesize testButton;
 @synthesize searchTextFieldBackgroundView;
