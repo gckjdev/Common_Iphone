@@ -97,7 +97,7 @@
     
     [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
     
-    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadTopDownLoadItemFromServer)];
+    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadTopDownLoadItemFromServer:)];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
@@ -212,6 +212,10 @@
     TopDownloadItem* item = [self.dataList objectAtIndex:indexPath.row];    
     self.currentSelectItem = item;
     [self askDownload];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return NO;
 }
 
 #pragma mark - askDownload
