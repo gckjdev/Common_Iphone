@@ -64,6 +64,9 @@
         [self updateDataList:newDataList];
         [self reloadData];
     }
+    if ([self isReloading]){
+        [self dataSourceDidFinishLoadingNewData];
+    }
     
 }
 
@@ -76,11 +79,16 @@
 
 - (void)viewDidLoad
 {
+    supportRefreshHeader = YES;
     [super viewDidLoad];
+    
+    [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
+    
     [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadTopDownLoadItemFromServer)];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
+    
     
     // Do any additional setup after loading the view from its nib.
     [self loadTopDownLoadItemFromServer];
@@ -164,6 +172,7 @@
     [self askDownload];
 }
 
+#pragma mark - askDownload
 - (void)askDownload
 {
     
@@ -196,6 +205,15 @@
     }
 }
 
+#pragma Pull Refresh Delegate
+- (void) reloadTableViewDataSource
+{
+    [self loadTopDownLoadItemFromServer];
+}
 
+- (void)dataSourceDidFinishLoadingNewData{
+    _reloading = NO;
+    [super dataSourceDidFinishLoadingNewData];
+}
 
 @end
