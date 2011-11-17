@@ -9,8 +9,7 @@
 #import "PPTableViewController.h"
 #import "UITableViewCellUtil.h"
 #import "ArrayOfCharacters.h"
-
-
+#import "LogUtil.h"
 
 @implementation PPTableViewController
 
@@ -49,10 +48,60 @@
 @synthesize controlRowIndexPath;
 @synthesize refreshHeaderViewEnable;
 
+@synthesize reloadVisibleCellTimer;
+@synthesize enableReloadVisableCellTimer;
+@synthesize reloadVisibleCellTimerInterval;
+
 - (void)loadCellFromNib:(NSString*)nibFileNameWithoutSuffix 
 {
     [[NSBundle mainBundle] loadNibNamed:nibFileNameWithoutSuffix owner:self options:nil];
 }
+
+#pragma Reload Visible Cell Timer
+
+#define DEFAULT_RELOAD_CELL_TIMER_INTERVAL 1
+
+- (void)scheduleReloadVisiableCellTimer:(int)interval
+{
+    PPDebug(@"<scheduleReloadVisiableCellTimer> interval = %d", interval);    
+    self.enableReloadVisableCellTimer = YES;
+    self.reloadVisibleCellTimerInterval = interval;
+    self.reloadVisibleCellTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(reloadVisiableCell) userInfo:nil repeats:YES];
+}
+
+- (void)scheduleReloadVisiableCellTimer
+{
+    [self scheduleReloadVisiableCellTimer:DEFAULT_RELOAD_CELL_TIMER_INTERVAL];
+}
+
+- (void)reloadVisiableCell
+{
+//    PPDebug(@"<reloadVisiableCell>");
+    [self.dataTableView reloadRowsAtIndexPaths:[self.dataTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void)checkReloadVisiableCellTimer
+{
+    if (!enableReloadVisableCellTimer)
+        return;
+    
+    if (self.reloadVisibleCellTimer != nil){
+        return;
+    }
+    else{
+        [self scheduleReloadVisiableCellTimer:reloadVisibleCellTimerInterval];
+    }
+}
+
+- (void)stopReloadVisiableCellTimer
+{
+    if (self.reloadVisibleCellTimer){
+        PPDebug(@"<stopReloadVisiableCellTimer>");
+        [self.reloadVisibleCellTimer invalidate];
+        self.reloadVisibleCellTimer = nil;
+    }
+}
+
 
 #pragma mark Select Row And Section Methods
 
@@ -133,6 +182,7 @@
     [super viewDidUnload];
     self.refreshHeaderView = nil;
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     if (needRefreshNow == YES){
@@ -142,7 +192,15 @@
     }
     
 	[dataTableView reloadData];	
+    [self checkReloadVisiableCellTimer];
+        
 	[super viewDidAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self stopReloadVisiableCellTimer];
+    [super viewDidDisappear:animated];
 }
 
 - (BOOL)isCellSelected:(NSIndexPath*)indexPath
@@ -273,6 +331,7 @@
 	[sectionImage release];
 	[sectionLabel release];
 	[footerImage release];
+    [reloadVisibleCellTimer release];
 	[super dealloc];
 }
 

@@ -12,6 +12,12 @@
 
 @class CommonProductListController;
 
+enum PRODUCT_DISPLAY_TYPE{
+
+    PRODUCT_DISPLAY_GROUPBUY,
+    PRODUCT_DISPLAY_TAOBAO
+};
+
 @protocol ProductDataLoader <NSObject>
 
 - (NSArray*)requestProductListFromDB;
@@ -30,11 +36,16 @@
     NSString                        *type;
     BOOL                            isRemoteRequest;
     NSInteger                       appearCount;
+    
+    Class                           productDisplayClass;
 }
 
 @property (nonatomic, retain) UIViewController                *superController;
 @property (nonatomic, retain) NSObject<ProductDataLoader>     *dataLoader;
 @property (nonatomic, retain) NSString                        *categoryId;
-@property (nonatomic, retain)     NSString                    *type;
+@property (nonatomic, retain) NSString                        *type;
+@property (nonatomic, assign) int                             productDisplayType;
 
 @end
+
+extern int GlobalGetProductDisplayType();

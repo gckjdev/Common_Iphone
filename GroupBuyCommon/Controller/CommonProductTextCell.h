@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class Product;
+
 @protocol CommonProductTextCell <NSObject>
+
++ (PPTableViewCell<CommonProductTextCell>*)createCell:(id)delegate;
++ (NSString*)getCellIdentifier;
++ (CGFloat)getCellHeight;
++ (BOOL)needReloadVisiableCellTimer;
+
+- (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath;
+- (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath;
 
 @end
