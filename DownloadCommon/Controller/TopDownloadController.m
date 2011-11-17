@@ -110,7 +110,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     if (self.dataList == nil || [dataList count] == 0){
-        [self showActivityWithText:@"获取数据中..."];
+        [self showActivityWithText:NSLS(@"kLoadingData")];
         [self loadTopDownLoadItemFromServer:YES];                
     }
     else{
