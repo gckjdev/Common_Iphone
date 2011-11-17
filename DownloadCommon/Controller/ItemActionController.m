@@ -16,6 +16,7 @@
 @synthesize item;
 @synthesize playItemController;
 @synthesize playItemSuperView;
+@synthesize Message;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +40,7 @@
     [playItemController release];
     [item release];
     [playItemSuperView release];
+    [Message release];
     [super dealloc];
 }
 
@@ -66,7 +68,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
     [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
     [self setNavigationRightButton:NSLS(@"Next Item") action:@selector(clickNext:)];
@@ -76,6 +78,7 @@
 - (void)viewDidUnload
 {
     [self setPlayItemSuperView:nil];
+    [self setMessage:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -99,7 +102,7 @@
 		// We must always check whether the current device is configured for sending emails
 		if ([mailClass canSendMail])
 		{
-			[self displayComposerSheet];
+			[self displayComposeEmailForShare];
 		}
 		else
 		{
@@ -112,21 +115,78 @@
 	}
 }
 
-- (void)displayComposerSheet 
+- (IBAction)sendWithEmail:(id)sender
+{
+	Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+	if (mailClass != nil)
+	{
+		// We must always check whether the current device is configured for sending emails
+		if ([mailClass canSendMail])
+		{
+			[self displayComposeEmailForSend];
+		}
+		else
+		{
+			[self launchMailAppOnDevice];
+		}
+	}
+	else
+	{
+		[self launchMailAppOnDevice];
+	}
+}
+
+- (IBAction)shareWithSMS:(id)sender
+{
+    Class messageClass = (NSClassFromString(@"MFMessageComposeViewController"));
+	
+	if (messageClass != nil) { 			
+		// Check whether the current device is configured for sending SMS messages
+		if ([messageClass canSendText]) {
+			[self displaySMSComposerSheet];
+		}
+		else {	
+			Message.hidden = NO;
+			Message.text = @"Device not configured to send SMS.";
+            
+		}
+	}
+	else {
+		Message.hidden = NO;
+		Message.text = @"Device not configured to send SMS.";
+	}
+}
+
+- (IBAction)sendToAlbum:(id)sender
+{
+    NSLog(@"%@",self.item.localPath);
+    
+    if (self.item.isImage)
+    {
+        UIImageWriteToSavedPhotosAlbum([UIImage imageWithContentsOfFile:self.item.localPath], nil, nil, nil);
+        Message.hidden = NO;
+		Message.text = @"Saved!";
+    }
+    else if(UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.item.localPath))
+    {
+        UISaveVideoAtPathToSavedPhotosAlbum(self.item.localPath, nil, nil, nil);
+        Message.hidden = NO;
+		Message.text = @"Saved!";
+    }
+    else 
+    {
+        Message.hidden = NO;
+		Message.text = @"This file can not be saved to the Album.";
+    }
+}
+
+- (void)displayComposeEmailForShare
 {
 	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
 	picker.mailComposeDelegate = self;
 	
 	[picker setSubject:NSLS(@"kShareEmailSubject")];
-    
-//	NSArray *toRecipients = [NSArray arrayWithObject:@""]; 
-//	NSArray *ccRecipients = [NSArray arrayWithObject:@""]; 
-//	NSArray *bccRecipients = [NSArray arrayWithObject:@""]; 
-//	[picker setToRecipients:toRecipients];
-//	[picker setCcRecipients:ccRecipients];	
-//	[picker setBccRecipients:bccRecipients];
 	
-	// Fill out the email body text
 	NSString *emailBody = self.item.url;
 	[picker setMessageBody:emailBody isHTML:NO];
 	
@@ -134,13 +194,87 @@
     [picker release];
 }
 
-// Launches the Mail application on the device.
--(void)launchMailAppOnDevice
+- (void)displayComposeEmailForSend
 {
-	NSString *email = @"mailto:someone@example.com";
+	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+	picker.mailComposeDelegate = self;
+	
+	[picker setSubject:NSLS(@"kSendEmailSubject")];
+    NSData *myData = [NSData dataWithContentsOfFile:self.item.localPath];
+	[picker addAttachmentData:myData mimeType:[self.item.fileName pathExtension] fileName:self.item.fileName]; 
+    
+	NSString *emailBody = @"";              //add content later
+	[picker setMessageBody:emailBody isHTML:NO];
+	
+	[self presentModalViewController:picker animated:YES];
+    [picker release];
+}
+
+- (void)displaySMSComposerSheet 
+{
+	MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+	picker.messageComposeDelegate = self;
+	
+	[self presentModalViewController:picker animated:YES];
+	[picker release];
+}
+
+// Launches the Mail application on the device.
+- (void)launchMailAppOnDevice
+{
+	NSString *email = @"mailto:user@example.com";
 	email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller 
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+{
+	Message.hidden = NO;
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			Message.text = @"Result: Mail sending canceled";
+			break;
+		case MFMailComposeResultSaved:
+			Message.text = @"Result: Mail saved";
+			break;
+		case MFMailComposeResultSent:
+			Message.text = @"Result: Mail sent";
+			break;
+		case MFMailComposeResultFailed:
+			Message.text = @"Result: Mail sending failed";
+			break;
+		default:
+			Message.text = @"Result: Mail not sent";
+			break;
+	}
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller 
+                 didFinishWithResult:(MessageComposeResult)result 
+{
+	Message.hidden = NO;
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MessageComposeResultCancelled:
+			Message.text = @"Result: SMS sending canceled";
+			break;
+		case MessageComposeResultSent:
+			Message.text = @"Result: SMS sent";
+			break;
+		case MessageComposeResultFailed:
+			Message.text = @"Result: SMS sending failed";
+			break;
+		default:
+			Message.text = @"Result: SMS not sent";
+			break;
+	}
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end
