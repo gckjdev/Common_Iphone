@@ -184,4 +184,18 @@ DownloadItemManager* globalDownloadManager;
     
 }
 
+- (BOOL)deleteItem:(DownloadItem*)item
+{
+    if ([[NSFileManager defaultManager] removeItemAtPath:item.localPath error:nil])
+    {
+        item.deleteFlag = [NSNumber numberWithInt:1];
+        [[CoreDataManager dataManager] save];
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
 @end

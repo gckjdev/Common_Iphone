@@ -43,6 +43,6 @@
 - (BOOL)isURLReport:(NSString*)urlString;
 - (void)setURLReported:(NSString*)urlString;
 
-
+- (BOOL)deleteItem:(DownloadItem*)item;
 
 @end
