@@ -93,7 +93,7 @@
 @property (nonatomic, retain) NSIndexPath          *tappedIndexPath;
 @property (nonatomic, retain) NSIndexPath          *controlRowIndexPath;
 @property (nonatomic, assign) CGRect            tableViewFrame;
-
+@property (nonatomic, assign,getter = isRefreshHeaderViewEnable) BOOL              refreshHeaderViewEnable;
 
 
 //@property (nonatomic, retain) CustomIndexView	*customIndexView;

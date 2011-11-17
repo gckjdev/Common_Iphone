@@ -47,6 +47,7 @@
 
 @synthesize tappedIndexPath;
 @synthesize controlRowIndexPath;
+@synthesize refreshHeaderViewEnable;
 
 - (void)loadCellFromNib:(NSString*)nibFileNameWithoutSuffix 
 {
@@ -116,6 +117,8 @@
 - (void)viewDidLoad
 {
     needRefreshNow = NO;
+    
+    [self setRefreshHeaderViewEnable:YES];
     
 	dataTableView.delegate = self;
 	dataTableView.dataSource = self;
@@ -406,6 +409,11 @@
     if (!supportRefreshHeader)
         return;
     
+    [self.refreshHeaderView setHidden:![self isRefreshHeaderViewEnable]];
+    if (![self isRefreshHeaderViewEnable]) {
+        return;
+    }
+    
 	if (scrollView.isDragging) {        
 		if (!_reloading && refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f) {
 			[refreshHeaderView setState:EGOOPullRefreshNormal];
@@ -419,6 +427,10 @@
 	
     if (!supportRefreshHeader)
         return;
+    
+    if (![self isRefreshHeaderViewEnable]) {
+        return;
+    }
     
 	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {
 		_reloading = YES;
@@ -438,6 +450,10 @@
 	
     if (!supportRefreshHeader)
         return;
+    
+    if (![self isRefreshHeaderViewEnable]) {
+        return;
+    }
     
 	_reloading = NO;
 	
