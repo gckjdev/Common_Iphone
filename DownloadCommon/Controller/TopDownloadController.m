@@ -19,6 +19,7 @@
 @synthesize siteList;
 @synthesize requestType;
 @synthesize currentSelectItem;
+@synthesize startOffset;
 
 - (void)dealloc
 {
@@ -33,6 +34,7 @@
     if (self) {
         // Custom initialization
         self.requestType = SITE_REQUEST_TYPE_TOP;
+        self.siteList = [[[NSMutableArray alloc] init] autorelease];
     }
     return self;
 }
@@ -49,17 +51,17 @@
 
 - (void)updateDataList:(NSArray*)newDataList 
 {
-    self.siteList = newDataList;
+    if (startOffset == 0) {
+        [self.siteList removeAllObjects];
+        [self.siteList addObjectsFromArray:newDataList];
+    } else {
+        [self.siteList addObjectsFromArray:newDataList];
+    }
 }
 
 - (void)reloadData
 {
-    //self.dataList = siteList;
-    
-    NSMutableSet *set = [NSMutableSet setWithArray:self.dataList];
-    [set addObjectsFromArray:self.siteList];
-    self.dataList = [set allObjects];
-    
+    self.dataList = siteList;    
     [self.dataTableView reloadData];
 }
 
@@ -79,7 +81,6 @@
 - (void)loadTopDownLoadItemFromServer:(BOOL)isRequestLastest
 {
     [self showActivityWithText:NSLS(@"kLoadingData")];
-    int startOffset;
     if (isRequestLastest) {
         startOffset = 0;
     } else {
@@ -199,7 +200,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
    
     if ([self isMoreRow:indexPath.row]){
-        [self showActivityWithText:@"加载数据中..."];
+        [self showActivityWithText:NSLS(@"kLoadingData")];
         [self.moreLoadingView startAnimating];
         [self loadTopDownLoadItemFromServer:NO];
         return;
