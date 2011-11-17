@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ActionSelector.h"
 
 #define kDefaultSimpleTextViewTag			8888
 #define kSimpleTextTableViewFontSize		14
