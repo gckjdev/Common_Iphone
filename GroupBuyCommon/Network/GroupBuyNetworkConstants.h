@@ -116,6 +116,7 @@
 
 #define PARA_ITEMIDARRAY @"iia"
 #define PARA_REQUIRE_MATCH @"rm"
+#define PARA_TYPE @"tp"
 
 #define PARA_NEED_RETURN_USER           @"r"
 #define PARA_AVATAR                     @"av"
@@ -288,5 +289,6 @@
 #define ERROR_PARAMETER_PASSWORD_NULL 	10021
 #define ERROR_PARAMETER_EMAIL_NULL      10064
 #define ERROR_PARAMETER_EMAIL_EMPTY     10065
+
 
 extern NSString* GlobalGetServerURL();

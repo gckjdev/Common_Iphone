@@ -17,6 +17,10 @@
 #define PRODUCT_ACTION_UP               @"up"
 #define PRODUCT_ACTION_DOWN             @"down"
 
+#define KEYWORD_TYPE_DEFAULT            0
+#define KEYWORD_TYPE_QUAN               8
+
+
 @protocol ProductServiceDelegate <NSObject>
 
 @optional
@@ -54,6 +58,7 @@
 
 - (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly;
 
+- (void)updateKeywords:(int)type;
 - (void)updateKeywords;
 
 - (void)actionOnProduct:(NSString*)productId actionName:(NSString*)actionName actionValue:(int)actionValue;

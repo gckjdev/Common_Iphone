@@ -96,6 +96,9 @@
 + (CommonNetworkOutput*)updateKeywords:(NSString*)baseURL
                            appId:(NSString*)appId;
 
++ (CommonNetworkOutput*)updateKeywords:(NSString*)baseURL
+                                 appId:(NSString*)appId
+                                  type:(int)type;
 
 + (CommonNetworkOutput*)actionOnProduct:(NSString*)baseURL
                                  appId:(NSString*)appId
