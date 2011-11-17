@@ -27,7 +27,7 @@ ResourceService* globalResourceService;
     return globalResourceService;
 }
 
-- (void)findAllTopDownloadItems:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType
+- (void)findAllTopDownloadItems:(id<ResourceServiceDelegate>)delegateObject startOffset:(int)startOffset requestType:(int)requestType
 {
     NSString* appId = @"";
     
@@ -37,7 +37,8 @@ ResourceService* globalResourceService;
         CommonNetworkOutput* output = nil;  
         
         output = [DownloadNetworkRequest findAllTopDownloadItems:SERVER_URL 
-                                                appId:appId 
+                                                appId:appId
+                                        startOffset:startOffset
                                           countryCode:[LocaleUtils getCountryCode]];
         
         // if succeed, clean local data and save new data

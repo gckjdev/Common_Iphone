@@ -26,6 +26,7 @@
 
 + (CommonNetworkOutput*)findAllTopDownloadItems:(NSString*)baseURL
                                appId:(NSString*)appId
+                            startOffset:(int)startOffset
                          countryCode:(NSString*)countryCode;
 
 + (CommonNetworkOutput*)reportDownload:(NSString*)baseURL 

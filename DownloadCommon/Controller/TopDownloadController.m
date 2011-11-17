@@ -12,6 +12,7 @@
 #import "TopDownloadManager.h"
 #import "DownloadWebViewController.h"
 #import "DownloadService.h"
+#import "MoreTableViewCell.h"
 
 @implementation TopDownloadController
 
@@ -53,7 +54,12 @@
 
 - (void)reloadData
 {
-    self.dataList = siteList;
+    //self.dataList = siteList;
+    
+    NSMutableSet *set = [NSMutableSet setWithArray:self.dataList];
+    [set addObjectsFromArray:self.siteList];
+    self.dataList = [set allObjects];
+    
     [self.dataTableView reloadData];
 }
 
@@ -70,10 +76,16 @@
     
 }
 
-- (void)loadTopDownLoadItemFromServer
+- (void)loadTopDownLoadItemFromServer:(BOOL)isRequestLastest
 {
     [self showActivityWithText:NSLS(@"kLoadingData")];
-    [[ResourceService defaultService] findAllTopDownloadItems:self requestType:self.requestType];
+    int startOffset;
+    if (isRequestLastest) {
+        startOffset = 0;
+    } else {
+        startOffset = [self.dataList count];
+    }
+    [[ResourceService defaultService] findAllTopDownloadItems:self startOffset:startOffset requestType:self.requestType];
 }
 
 
@@ -91,12 +103,19 @@
     
     
     // Do any additional setup after loading the view from its nib.
-    [self loadTopDownLoadItemFromServer];
+    [self loadTopDownLoadItemFromServer:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self reloadData];
+    if (self.dataList == nil || [dataList count] == 0){
+        [self showActivityWithText:@"获取数据中..."];
+        [self loadTopDownLoadItemFromServer:YES];                
+    }
+    else{
+        [self reloadData];
+    }
+    
     [super viewDidAppear:animated];
 }
 
@@ -124,6 +143,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([self isMoreRow:indexPath.row]){
+        return [MoreTableViewCell getRowHeight];
+    }
+    
 	return [TopDownloadItemCell getCellHeight];
 }
 
@@ -133,11 +156,22 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.dataList count];
+    //return [self.dataList count];
+    return [self dataListCountWithMore];
+
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self isMoreRow:indexPath.row]){
+        // check if it's last row - to load more
+        MoreTableViewCell* moreCell = [MoreTableViewCell createCell:theTableView];
+        self.moreLoadingView = moreCell.loadingView;
+        moreCell.textLabel.textColor = [self getDefaultTextColor];
+        moreCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return moreCell;
+    }
     
     NSString *CellIdentifier = [TopDownloadItemCell getCellIdentifier];
 	TopDownloadItemCell *cell = (TopDownloadItemCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -163,6 +197,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+   
+    if ([self isMoreRow:indexPath.row]){
+        [self showActivityWithText:@"加载数据中..."];
+        [self.moreLoadingView startAnimating];
+        [self loadTopDownLoadItemFromServer:NO];
+        return;
+    }
     
 	if (indexPath.row > [dataList count] - 1)
 		return;
@@ -208,12 +249,17 @@
 #pragma Pull Refresh Delegate
 - (void) reloadTableViewDataSource
 {
-    [self loadTopDownLoadItemFromServer];
+    [self loadTopDownLoadItemFromServer:YES];
 }
 
 - (void)dataSourceDidFinishLoadingNewData{
     _reloading = NO;
     [super dataSourceDidFinishLoadingNewData];
+}
+
+- (UIColor*)getDefaultTextColor
+{
+    return [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
 }
 
 @end

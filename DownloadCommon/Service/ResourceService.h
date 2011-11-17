@@ -30,5 +30,5 @@ enum SITE_REQUEST {
 
 - (void)findAllSites:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType;
 
-- (void)findAllTopDownloadItems:(id<ResourceServiceDelegate>)delegateObject requestType:(int)requestType;
+- (void)findAllTopDownloadItems:(id<ResourceServiceDelegate>)delegateObject startOffset:(int)startOffset requestType:(int)requestType;
 @end

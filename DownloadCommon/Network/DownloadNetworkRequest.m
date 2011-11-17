@@ -100,6 +100,7 @@
 
 + (CommonNetworkOutput*)findAllTopDownloadItems:(NSString*)baseURL
                                appId:(NSString*)appId
+                            startOffset:(int)startOffset
                          countryCode:(NSString*)countryCode
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
@@ -110,7 +111,7 @@
         str = [str stringByAddQueryParameter:METHOD value:METHOD_FINDTOPDOWNLOAD];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:countryCode];
-        
+        str = [str stringByAddQueryParameter:PARA_START_OFFSET intValue:startOffset];
         return str;
     };
     
