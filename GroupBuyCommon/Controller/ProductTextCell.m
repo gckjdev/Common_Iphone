@@ -204,8 +204,14 @@
     }
     
     self.siteNameLabel.text = siteName;
-    self.boughtLabel.text = [NSString stringWithFormat:@"售出: %@", [self getBoughtInfo:bought]];    
-    self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [self getRebateString:rebate]]; 
+    self.boughtLabel.text = [NSString stringWithFormat:@"售出: %@", [self getBoughtInfo:bought]]; 
+    
+    if ([price isEqualToNumber:value]){
+        self.rebateLabel.text = @"";
+    }
+    else{
+        self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [self getRebateString:rebate]]; 
+    }
     
 //    NSLog(@"rebate=%f, rebate=%@", [rebate doubleValue], [rebate description]);
     
@@ -231,6 +237,7 @@
 {
     CGRect textFrame = CGRectMake(5, 3, 200, 106);     // default , need to align with Cell.xib
     CGRect imageFrame = textFrame;
+    CGSize actualImageSize = mi.image.size;
     if (mi.image.size.height < MIN_HEIGHT){    
         CGRect frame = mi.frame;
         frame.size.width = mi.image.size.width;
