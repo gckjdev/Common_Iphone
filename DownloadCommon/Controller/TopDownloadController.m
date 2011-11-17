@@ -89,6 +89,10 @@
     [[ResourceService defaultService] findAllTopDownloadItems:self startOffset:startOffset requestType:self.requestType];
 }
 
+- (void)clickRefresh:(id)sender
+{
+    [self loadTopDownLoadItemFromServer:YES];
+}
 
 - (void)viewDidLoad
 {
@@ -97,7 +101,7 @@
     
     [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
     
-    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadTopDownLoadItemFromServer:)];
+    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(clickRefresh:)];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
