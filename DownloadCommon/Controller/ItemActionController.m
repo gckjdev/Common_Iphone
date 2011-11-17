@@ -10,6 +10,7 @@
 #import "PlayAudioVideoController.h"
 #import "DisplayReadableFileController.h"
 #import "DownloadItem.h"
+#import "DownloadItemManager.h"
 
 @implementation ItemActionController
 
@@ -180,6 +181,19 @@
     }
 }
 
+- (IBAction)deleteFile:(id)sender
+{
+    UIAlertView *alert = [[UIAlertView alloc] 
+                          initWithTitle:@"Delete File"
+                          message:[NSString stringWithFormat:@"Are you sure delete the file: %@",item.fileName]
+                          delegate:self
+                          cancelButtonTitle:@"No" 
+                          otherButtonTitles:@"Yes",nil];
+    
+    [alert show];
+    [alert release];
+}
+
 - (void)displayComposeEmailForShare
 {
 	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
@@ -275,6 +289,19 @@
 			break;
 	}
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            break;
+        case 1:
+            [[DownloadItemManager defaultManager] deleteItem:self.item];
+            break;
+        default:
+            break;
+    }
 }
 
 @end
