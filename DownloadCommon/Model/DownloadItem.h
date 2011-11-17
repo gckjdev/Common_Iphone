@@ -55,6 +55,7 @@ enum FILE_TYPE {
 - (BOOL)canPlay;
 - (BOOL)canView;
 - (BOOL)isStarred;
+- (BOOL)isImage;
 
 - (BOOL)isAudioVideo;
 - (BOOL)isReadableFile;

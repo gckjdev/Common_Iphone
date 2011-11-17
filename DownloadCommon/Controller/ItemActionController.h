@@ -10,18 +10,26 @@
 #import "PPViewController.h"
 #import "CommonFileActionController.h"
 #import <MessageUI/MFMailComposeViewController.h>
+#import <MessageUI/MessageUI.h>
 
 @class DownloadItem;
 
-@interface ItemActionController : PPViewController <MFMailComposeViewControllerDelegate>
+@interface ItemActionController : PPViewController <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, retain) DownloadItem *item;
 @property (nonatomic, retain) UIViewController<CommonFileActionProtocol> *playItemController;
 @property (retain, nonatomic) IBOutlet UIView *playItemSuperView;
+@property (retain, nonatomic) IBOutlet UILabel *Message;
 
 - (void)showItem:(DownloadItem*)newItem;
 - (IBAction)shareWithEmail:(id)sender;
+- (IBAction)shareWithSMS:(id)sender;
+- (IBAction)sendWithEmail:(id)sender;
+- (IBAction)sendToAlbum:(id)sender;
 
--(void)displayComposerSheet;
--(void)launchMailAppOnDevice;
+- (void)displayComposeEmailForShare;
+- (void)displayComposeEmailForSend;
+- (void)launchMailAppOnDevice;
+- (void)displaySMSComposerSheet;
+
 @end
