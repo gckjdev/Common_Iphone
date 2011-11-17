@@ -160,8 +160,6 @@
 
 - (IBAction)sendToAlbum:(id)sender
 {
-    NSLog(@"%@",self.item.localPath);
-    
     if (self.item.isImage)
     {
         UIImageWriteToSavedPhotosAlbum([UIImage imageWithContentsOfFile:self.item.localPath], nil, nil, nil);
@@ -184,13 +182,17 @@
 - (IBAction)deleteFile:(id)sender
 {
     UIAlertView *alert = [[UIAlertView alloc] 
-                          initWithTitle:@"Delete File"
-                          message:[NSString stringWithFormat:@"Are you sure delete the file: %@",item.fileName]
+                          initWithTitle:NSLS(@"kDeleteFileAlertTitle")
+                          message:[NSString stringWithFormat:NSLS(@"kDeleteFileAlertMessage"),item.fileName]
                           delegate:self
-                          cancelButtonTitle:@"No" 
-                          otherButtonTitles:@"Yes",nil];
+                          cancelButtonTitle:NSLS(@"kDeleteFileAlertCancelButtonTitle") 
+                          otherButtonTitles:NSLS(@"kDeleteFileAlertOtherButtonTitle"),nil];
     
     [alert show];
+    
+    Message.hidden = NO;
+    Message.text = @"This file has been deleted!";
+    
     [alert release];
 }
 
@@ -201,7 +203,7 @@
 	
 	[picker setSubject:NSLS(@"kShareEmailSubject")];
 	
-	NSString *emailBody = self.item.url;
+	NSString *emailBody = [NSString stringWithFormat:NSLS(@"kShareEmailBody"),self.item.fileName,self.item.url];
 	[picker setMessageBody:emailBody isHTML:NO];
 	
 	[self presentModalViewController:picker animated:YES];
@@ -217,7 +219,7 @@
     NSData *myData = [NSData dataWithContentsOfFile:self.item.localPath];
 	[picker addAttachmentData:myData mimeType:[self.item.fileName pathExtension] fileName:self.item.fileName]; 
     
-	NSString *emailBody = @"";              //add content later
+	NSString *emailBody = [NSString stringWithFormat:NSLS(@"kSendEmailBody"),self.item.fileName];
 	[picker setMessageBody:emailBody isHTML:NO];
 	
 	[self presentModalViewController:picker animated:YES];
