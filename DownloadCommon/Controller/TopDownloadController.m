@@ -16,14 +16,14 @@
 
 @implementation TopDownloadController
 
-@synthesize siteList;
+@synthesize toplist;
 @synthesize requestType;
 @synthesize currentSelectItem;
 @synthesize startOffset;
 
 - (void)dealloc
 {
-    [siteList release];
+    [toplist release];
     [currentSelectItem release];
     [super dealloc];
 }
@@ -34,7 +34,7 @@
     if (self) {
         // Custom initialization
         self.requestType = SITE_REQUEST_TYPE_TOP;
-        self.siteList = [[[NSMutableArray alloc] init] autorelease];
+        self.toplist = [[[NSMutableArray alloc] init] autorelease];
     }
     return self;
 }
@@ -52,16 +52,16 @@
 - (void)updateDataList:(NSArray*)newDataList 
 {
     if (startOffset == 0) {
-        [self.siteList removeAllObjects];
-        [self.siteList addObjectsFromArray:newDataList];
+        [self.toplist removeAllObjects];
+        [self.toplist addObjectsFromArray:newDataList];
     } else {
-        [self.siteList addObjectsFromArray:newDataList];
+        [self.toplist addObjectsFromArray:newDataList];
     }
 }
 
 - (void)reloadData
 {
-    self.dataList = siteList;    
+    self.dataList = toplist;    
     [self.dataTableView reloadData];
 }
 

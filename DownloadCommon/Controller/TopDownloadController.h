@@ -15,13 +15,13 @@
 @interface TopDownloadController : PPTableViewController <ResourceServiceDelegate, UIActionSheetDelegate> {
     int requestType;
     int startOffset;
-    NSMutableArray* siteList;
+    NSMutableArray* toplist;
     TopDownloadItem* currentSelectItem;
 }
 
 @property (nonatomic, assign) int requestType;
 @property (nonatomic, assign) int startOffset;
-@property (nonatomic, retain) NSMutableArray* siteList;
+@property (nonatomic, retain) NSMutableArray* toplist;
 @property (nonatomic, retain) TopDownloadItem* currentSelectItem;
 
 - (void)askDownload;
