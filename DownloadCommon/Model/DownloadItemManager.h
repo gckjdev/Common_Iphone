@@ -31,6 +31,7 @@
 - (void)downloadStart:(DownloadItem*)item request:(ASIHTTPRequest*)request;
 
 - (NSArray*)findAllItems;
+- (DownloadItem*)findItemByUrl:(NSString*) url;
 - (NSArray*)findAllItemsByStatus:(int)status;
 - (NSArray*)findAllCompleteItems;
 - (NSArray*)findAllDownloadingItems;

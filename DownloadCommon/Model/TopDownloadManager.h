@@ -16,5 +16,4 @@
 
 - (NSArray*)updateData:(NSArray*)jsonArray;
 
-
 @end
