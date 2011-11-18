@@ -325,7 +325,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">热门现金券</string>
+						<string key="IBUIText">热门推荐</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC40MzUyOTQxMTc2IDAuNDA3ODQzMTM3MyAwLjM2ODYyNzQ1MQA</bytes>
@@ -342,7 +342,6 @@
 						<string key="NSFrame">{{0, 313}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<int key="IBUIContentMode">3</int>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBPlaceholder">请输入搜索关键字</string>

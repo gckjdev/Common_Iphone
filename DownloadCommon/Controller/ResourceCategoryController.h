@@ -14,10 +14,10 @@
 
 @property (nonatomic, assign) int requestType;
 
-@property (nonatomic, retain) NSArray* topList;
-@property (nonatomic, retain) NSArray* hotList;
-@property (nonatomic, retain) NSArray* latestList;
-@property (nonatomic, retain) NSArray* starredList;
+@property (nonatomic, retain) NSMutableArray* topList;
+@property (nonatomic, retain) NSMutableArray* hotList;
+@property (nonatomic, retain) NSMutableArray* latestList;
+@property (nonatomic, retain) NSMutableArray* starredList;
 
 - (IBAction)clickHot:(id)sender;
 - (IBAction)clickTop:(id)sender;

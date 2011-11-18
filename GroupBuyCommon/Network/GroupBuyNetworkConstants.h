@@ -265,7 +265,12 @@
 #define SORT_BY_PRICE 1
 #define SORT_BY_REBATE 2
 #define SORT_BY_BOUGHT 3
+#define SORT_BY_END_DATE 4
 
+#define CATEGORY_TAOBAO_MIAOSHA         100
+#define CATEGORY_TAOBAO_ZHEKOU          150
+
+#define DATA_UNDEFINE                   (-1)
 
 
 #define ERROR_DEVICE_NOT_BIND           20003

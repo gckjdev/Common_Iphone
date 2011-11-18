@@ -24,6 +24,7 @@
 #import "UITableViewCellUtil.h"
 #import "GroupBuyControllerExt.h"
 #import "UIAlertViewUtils.h"
+#import "TaobaoProductTextCell.h"
 
 @implementation CommonProductListController
 
@@ -31,12 +32,14 @@
 @synthesize dataLoader;
 @synthesize categoryId;
 @synthesize type;
+@synthesize productDisplayType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.productDisplayType = GlobalGetProductDisplayType();
     }
     return self;
 }
@@ -118,9 +121,27 @@
     [self requestProductListFromServer:YES];
 }
 
+- (void)initDisplayCellClass
+{
+    if (productDisplayType == PRODUCT_DISPLAY_TAOBAO)
+        productDisplayClass = [TaobaoProductTextCell class];
+    else
+        productDisplayClass = [ProductTextCell class];
+}
+
+- (void)initReloadTableViewVisiableCellTimer
+{
+    if ([productDisplayClass needReloadVisiableCellTimer]){
+        [self scheduleReloadVisiableCellTimer];
+    }
+}
 
 - (void)viewDidLoad
 {    
+    // set product display cell class
+    [self initDisplayCellClass];
+    [self initReloadTableViewVisiableCellTimer];
+    
     self.view.backgroundColor = [UIColor clearColor];
     appearCount = 0;
     //don't set background here, it's set by caller viewcontrollers    
@@ -227,7 +248,7 @@
         return [MoreTableViewCell getRowHeight];
     }
     
-	return [ProductTextCell getCellHeight];
+	return [productDisplayClass getCellHeight];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -258,10 +279,10 @@
     }
     
     
-    NSString *CellIdentifier = [ProductTextCell getCellIdentifier];
-	ProductTextCell *cell = (ProductTextCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NSString *CellIdentifier = [productDisplayClass getCellIdentifier];
+	PPTableViewCell<CommonProductTextCell> *cell = [theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-        cell = [ProductTextCell createCell:self];
+        cell = [productDisplayClass createCell:self];
 	}
 
     cell.indexPath = indexPath;

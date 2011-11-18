@@ -15,7 +15,7 @@
 
 @implementation CategoryService
 
-- (void)getAllCategory:(id<CategoryServiceDelegate>)delegate
+- (void)getAllCategory:(id<CategoryServiceDelegate>)delegate categoryType:(int)categoryType
 {
     NSString* appId = [AppManager getPlaceAppId];
     NSString* city = [GlobalGetLocationService() getDefaultCity];
@@ -25,7 +25,7 @@
         // fetch user place data from server
         CommonNetworkOutput *output = nil;
         
-        output = [GroupBuyNetworkRequest getAllCategory:SERVER_URL appId:appId city:city];
+        output = [GroupBuyNetworkRequest getAllCategory:SERVER_URL appId:appId city:city categoryType:categoryType];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -38,6 +38,11 @@
             }
         });
     });
+}
+
+- (void)getAllCategory:(id<CategoryServiceDelegate>)delegate
+{
+    return [self getAllCategory:delegate categoryType:DATA_UNDEFINE];
 }
 
 @end

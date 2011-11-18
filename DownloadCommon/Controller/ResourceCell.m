@@ -54,7 +54,11 @@
 
 - (void)setFileType:(NSString*)fileType
 {
-    self.fileTypeLabel.text = fileType;    
+    if ([fileType length] > 0)
+        self.fileTypeLabel.text = fileType;
+    else{
+        self.fileTypeLabel.text = NSLS(@"FileType_Other");
+    }    
 }
 
 - (void)setSiteName:(NSString*)siteName siteURL:(NSString*)siteURL

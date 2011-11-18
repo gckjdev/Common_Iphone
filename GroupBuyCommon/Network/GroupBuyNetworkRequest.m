@@ -21,6 +21,7 @@ const int MAX_COUNT = DEFAULT_MAX_COUNT;
 + (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
                                   appId:(NSString *)appId
                                    city:(NSString*)city
+                           categoryType:(int)categoryType
 {
     CommonNetworkOutput* output = [[[CommonNetworkOutput alloc] init] autorelease];
     
@@ -32,6 +33,9 @@ const int MAX_COUNT = DEFAULT_MAX_COUNT;
         str = [str stringByAddQueryParameter:METHOD value:METHOD_GETALLCATEGORY];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_CITY value:city];
+        if (categoryType != DATA_UNDEFINE){
+            str = [str stringByAddQueryParameter:PARA_TYPE intValue:categoryType];
+        }
         
         return str;
     };
@@ -48,6 +52,13 @@ const int MAX_COUNT = DEFAULT_MAX_COUNT;
                      constructURLHandler:constructURLHandler
                          responseHandler:responseHandler
                                   output:output];
+}
+
++ (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
+                                  appId:(NSString *)appId
+                                   city:(NSString*)city
+{
+    return [GroupBuyNetworkRequest getAllCategory:baseURL appId:appId city:city categoryType:DATA_UNDEFINE];
 }
 
 + (CommonNetworkOutput*)deviceLogin:(NSString*)baseURL
@@ -181,6 +192,18 @@ const int MAX_COUNT = DEFAULT_MAX_COUNT;
     return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0
                                     maxDistance:DEFAULT_MAX_DISTANCE
                                       todayOnly:NO category:category sortBy:SORT_BY_START_DATE startOffset:startOffset
+                                       maxCount:DEFAULT_MAX_COUNT];
+}
+
++ (CommonNetworkOutput*)findAllProductsWithEndDate:(NSString*)baseURL
+                                               appId:(NSString*)appId
+                                         startOffset:(int)startOffset
+                                                city:(NSString*)city
+                                            category:(NSString *)category
+{
+    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0
+                                    maxDistance:DEFAULT_MAX_DISTANCE
+                                      todayOnly:NO category:category sortBy:SORT_BY_END_DATE startOffset:startOffset
                                        maxCount:DEFAULT_MAX_COUNT];
 }
 

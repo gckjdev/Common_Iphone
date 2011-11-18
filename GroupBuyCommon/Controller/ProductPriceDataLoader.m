@@ -74,6 +74,57 @@
 
 @end
 
+@implementation ProductEndDateDataLoader
+
+
+
+@synthesize categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryIdVal
+{
+    self = [super init];
+    self.categoryId = categoryIdVal;
+    return self;
+}
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    int useFor = USE_FOR_END_DATE;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_ENDDATE;
+    }
+    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"offset" sortAsending:YES];
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    int useFor = USE_FOR_END_DATE;
+    if (nil != self.categoryId) {
+        useFor = [categoryId intValue] + USE_FOR_CATEGORY_ENDDATE;
+    }
+	ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:useFor startOffset:0 cleanData:YES];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:useFor startOffset:startOffset cleanData:NO];
+    }       
+}
+
+@end
+
+
 @implementation ProductBoughtDataLoader
 
 - (BOOL)supportRemote
