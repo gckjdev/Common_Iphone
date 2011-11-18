@@ -205,11 +205,24 @@ DownloadItemManager* globalDownloadManager;
     NSMutableString *filepath = [[NSMutableString alloc] initWithFormat:@""];
     [filepath appendString:item.localPath];
     
-    [filepath replaceCharactersInRange:rgn withString:newFileName];
+    NSString *realNewFileName;
+    
+    
+    if (0 == [[newFileName pathExtension] length])
+    {
+        realNewFileName = [NSString stringWithFormat:@"%@.%@",newFileName,[item.fileName pathExtension]];
+    }
+    else
+    {
+        realNewFileName = [NSString stringWithFormat:@"%@",newFileName];
+    }
+    
+    
+    [filepath replaceCharactersInRange:rgn withString:realNewFileName];
     
     if ([[NSFileManager defaultManager] moveItemAtPath:item.localPath toPath:filepath error:nil])
     {
-        item.fileName=newFileName;
+        item.fileName=realNewFileName;
         item.localPath=filepath;
         [[CoreDataManager dataManager] save];
         [filepath release];
