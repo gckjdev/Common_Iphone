@@ -71,6 +71,13 @@ DownloadItemManager* globalDownloadManager;
     return (DownloadItem*)[dataManager execute:@"findItemByName" forKey:@"FILE_NAME" value:fileName];
 }
 
+- (DownloadItem*)findItemByUrl:(NSString*) url
+{
+    CoreDataManager* dataManager = [CoreDataManager dataManager];
+    return (DownloadItem*) [dataManager execute:@"findItemByUrl" forKey:@"URL" value:url];
+}
+
+
 - (NSArray*)findAllItems
 {
     CoreDataManager* dataManager = [CoreDataManager dataManager];

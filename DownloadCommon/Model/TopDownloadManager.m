@@ -9,6 +9,7 @@
 #import "TopDownloadManager.h"
 #import "TopDownloadItem.h"
 #import "DownloadNetworkConstants.h"
+#import "CoreDataUtil.h"
 
 TopDownloadManager *globalTopDownloadManager;
 

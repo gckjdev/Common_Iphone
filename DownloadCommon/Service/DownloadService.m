@@ -11,6 +11,7 @@
 #import "LogUtil.h"
 #import "FileUtil.h"
 #import "DownloadItem.h"
+#import "TopDownloadItem.h"
 #import "DownloadItemManager.h"
 #import "UIUtils.h"
 #import "StringUtil.h"
@@ -404,4 +405,14 @@ DownloadService* globalDownloadService;
 
 }
 
+- (BOOL)hasDownloaded:(TopDownloadItem*)topItem
+{
+    DownloadItemManager* downloadManager = [DownloadItemManager defaultManager];
+    DownloadItem *item = [downloadManager findItemByUrl:topItem.url];
+    if (item == nil) {
+        return NO;
+    } 
+    return YES;
+    
+}
 @end

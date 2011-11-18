@@ -11,6 +11,7 @@
 #import "ASIHTTPRequestDelegate.h"
 
 @class DownloadItem;
+@class TopDownloadItem;
 @class PlayAudioVideoController;
 @class DisplayReadableFileController;
 
@@ -34,5 +35,7 @@
 + (DownloadService*)defaultService;
 
 - (void)requestWentWrong:(ASIHTTPRequest *)request;
+
+- (BOOL)hasDownloaded:(TopDownloadItem*)item;
 
 @end
