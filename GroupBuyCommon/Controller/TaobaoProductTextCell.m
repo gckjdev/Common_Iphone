@@ -1,12 +1,12 @@
 //
-//  ProductTextCell.m
+//  TaobaoProductTextCell.m
 //  groupbuy
 //
 //  Created by qqn_pipi on 11-7-23.
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#import "ProductTextCell.h"
+#import "TaobaoProductTextCell.h"
 #import "Product.h"
 #import "LocationService.h"
 #import "Product.h"
@@ -20,7 +20,7 @@
 #import "FontUtils.h"
 
 
-@implementation ProductTextCell
+@implementation TaobaoProductTextCell
 
 @synthesize imageView;
 @synthesize productDescLabel;
@@ -37,30 +37,31 @@
 // just replace PPTableViewCell by the new Cell Class Name
 + (PPTableViewCell<CommonProductTextCell>*)createCell:(id)delegate
 {
-    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProductTextCell" 
+    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"TaobaoProductTextCell" 
                                                              owner:self options:nil];
     // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).  
     if (topLevelObjects == nil || [topLevelObjects count] <= 0){
-        NSLog(@"create <ProductTextCell> but cannot find cell object from Nib");
+        NSLog(@"create <TaobaoProductTextCell> but cannot find cell object from Nib");
         return nil;
     }
     
-    ((ProductTextCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    ((TaobaoProductTextCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
     
-    return (ProductTextCell*)[topLevelObjects objectAtIndex:0];
+    return (TaobaoProductTextCell*)[topLevelObjects objectAtIndex:0];
 }
 
 - (void)setCellStyle
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.leftTimeLabel.hidden = YES;
+    self.leftTimeLabel.hidden = NO;
     self.valueLabel.hidden = YES;
+    self.siteNameLabel.hidden = YES;
 //    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 + (NSString*)getCellIdentifier
 {
-    return @"ProductTextCell";
+    return @"TaobaoProductTextCell";
 }
 
 + (CGFloat)getCellHeight
@@ -70,7 +71,7 @@
 
 + (BOOL)needReloadVisiableCellTimer
 {
-    return NO;
+    return YES;
 }
 
 - (NSString*)getTimeInfo:(int)seconds
@@ -79,16 +80,16 @@
         return @"已结束";
     }
     else if (seconds < 60){
-        return [NSString stringWithFormat:@"还有%d秒", seconds];
+        return [NSString stringWithFormat:@"%d秒", seconds];
     }
     else if (seconds < 60*60){
-        return [NSString stringWithFormat:@"还有%d分钟", seconds/60];        
+        return [NSString stringWithFormat:@"%d分钟", seconds/60];        
     }
     else if (seconds < 60*60*24){
-        return [NSString stringWithFormat:@"还有%d小时", seconds/(60*60)];        
+        return [NSString stringWithFormat:@"%d小时", seconds/(60*60)];        
     }
     else{
-        return [NSString stringWithFormat:@"还有%d天", seconds/(60*60*24)];                
+        return [NSString stringWithFormat:@"%d天", seconds/(60*60*24)];                
     }
 }
 
@@ -198,7 +199,9 @@
     self.priceLabel.backgroundColor = [UIColor clearColor];
     
     
-    self.leftTimeLabel.text = [NSString stringWithFormat:@"时间: %@", timeInfo];
+    self.leftTimeLabel.text = [NSString stringWithFormat:@"距离结束: %@", timeInfo];
+    self.leftTimeLabel.textColor = textColor2;
+
     
     if (distance > 0.0f && distance < MAXFLOAT){
         NSString *distanceStr = [self getDistance:distance];    
@@ -209,7 +212,7 @@
     }
     
     self.siteNameLabel.text = siteName;
-    self.boughtLabel.text = [NSString stringWithFormat:@"售出: %@", [self getBoughtInfo:bought]]; 
+    self.boughtLabel.text = [NSString stringWithFormat:@"累计售出: %@", [self getBoughtInfo:bought]]; 
     
     if ([price isEqualToNumber:value]){
         self.rebateLabel.text = @"";
@@ -240,28 +243,27 @@
 
 - (void) managedImageSet:(HJManagedImageV*)mi
 {
-    CGRect textFrame = CGRectMake(5, 3, 200, 106);     // default , need to align with Cell.xib
-    CGRect imageFrame = textFrame;
-    CGSize actualImageSize = mi.image.size;
-    if (mi.image.size.height < MIN_HEIGHT){    
-        CGRect frame = mi.frame;
-        frame.size.width = mi.image.size.width;
-        frame.size.height = mi.image.size.height;
-        imageView.imageView.frame = frame;
-        self.imageView.frame = frame;
-                
-        textFrame.size.height = textFrame.size.height - mi.frame.size.height;
-        textFrame.origin.y = mi.frame.origin.y + mi.frame.size.height + 3;
-        self.productDescLabel.frame = textFrame;
-        self.productDescLabel.numberOfLines = 2;
-    }
-    else{    
-        self.imageView.frame = imageFrame;
-        
-        self.productDescLabel.text = @"";
-        self.productDescLabel.frame = textFrame;
-        self.productDescLabel.numberOfLines = 6;    // need to align with cell xib
-    }
+//    CGRect imageFrame = self.imageView.frame;
+//    CGSize actualImageSize = mi.image.size;
+//    if (mi.image.size.height < MIN_HEIGHT){    
+//        CGRect frame = mi.frame;
+//        frame.size.width = mi.image.size.width;
+//        frame.size.height = mi.image.size.height;
+//        imageView.imageView.frame = frame;
+//        self.imageView.frame = frame;
+//                
+//        textFrame.size.height = textFrame.size.height - mi.frame.size.height;
+//        textFrame.origin.y = mi.frame.origin.y + mi.frame.size.height + 3;
+//        self.productDescLabel.frame = textFrame;
+//        self.productDescLabel.numberOfLines = 2;
+//    }
+//    else{    
+//        self.imageView.frame = imageFrame;
+//        
+//        self.productDescLabel.text = @"";
+//        self.productDescLabel.frame = textFrame;
+//        self.productDescLabel.numberOfLines = 6;    // need to align with cell xib
+//    }
 }
 
 - (void) managedImageCancelled:(HJManagedImageV*)mi

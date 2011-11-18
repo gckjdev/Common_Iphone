@@ -1,5 +1,5 @@
 //
-//  ProductTextCell.h
+//  TaobaoProductTextCell.h
 //  groupbuy
 //
 //  Created by qqn_pipi on 11-7-23.
@@ -14,7 +14,7 @@
 
 @class Product;
 
-@interface ProductTextCell : PPTableViewCell <HJManagedImageVDelegate, CommonProductTextCell> {
+@interface TaobaoProductTextCell : PPTableViewCell <HJManagedImageVDelegate, CommonProductTextCell> {
     
     IBOutlet UILabel *siteNameLabel;
     UILabel *productDescLabel;
@@ -26,11 +26,13 @@
     UILabel *boughtLabel;
     HJManagedImageV *imageView;
 }
+
 @property (nonatomic, retain) IBOutlet HJManagedImageV *imageView;
 
 + (PPTableViewCell<CommonProductTextCell>*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
++ (BOOL)needReloadVisiableCellTimer;
 
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath;
 - (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath;

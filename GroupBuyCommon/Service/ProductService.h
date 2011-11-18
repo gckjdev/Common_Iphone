@@ -19,6 +19,8 @@
 
 #define KEYWORD_TYPE_DEFAULT            0
 #define KEYWORD_TYPE_QUAN               8
+#define KEYWORD_TYPE_TAOBAO_MIAOSHA     100
+#define KEYWORD_TYPE_TAOBAO_ZHEKOU      150
 
 
 @protocol ProductServiceDelegate <NSObject>

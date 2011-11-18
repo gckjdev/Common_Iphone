@@ -304,7 +304,7 @@
     }    
     
     NSString *CellIdentifier = [ProductTextCell getCellIdentifier];
-	ProductTextCell *cell = (ProductTextCell*)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	PPTableViewCell<CommonProductTextCell> *cell = [theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
         cell = [ProductTextCell createCell:self];
 	}

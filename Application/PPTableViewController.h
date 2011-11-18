@@ -95,6 +95,10 @@
 @property (nonatomic, assign) CGRect            tableViewFrame;
 @property (nonatomic, assign,getter = isRefreshHeaderViewEnable) BOOL              refreshHeaderViewEnable;
 
+@property (nonatomic, retain) NSTimer           *reloadVisibleCellTimer;
+@property (nonatomic, assign) BOOL              enableReloadVisableCellTimer;
+@property (nonatomic, assign) int               reloadVisibleCellTimerInterval;
+
 
 //@property (nonatomic, retain) CustomIndexView	*customIndexView;
 
@@ -152,4 +156,10 @@
 - (void)deleteControlRow;
 
 - (void)setRefreshHeaderViewFrame:(CGRect)frame;
+
+// for reload visiable cell timer, just choose one of method below, the first one use 1 second as default
+- (void)scheduleReloadVisiableCellTimer;
+- (void)scheduleReloadVisiableCellTimer:(int)interval;
+
+
 @end

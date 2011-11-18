@@ -108,11 +108,11 @@
     
     
     //other vars
-    if (product.rebate) {
+    if (product.rebate && [product.rebate intValue] < 10) {        
         NSString *rebate = [NSString stringWithFormat:@"%@折",[product.rebate description]];
         [self.rebateLabel setText:rebate];
     }else{
-        [self.rebateLabel setText:nil];
+        [self.rebateLabel setText:@"无"];
     }
     
     if (product.value) {
