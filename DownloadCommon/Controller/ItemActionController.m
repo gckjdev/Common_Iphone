@@ -11,6 +11,7 @@
 #import "DisplayReadableFileController.h"
 #import "DownloadItem.h"
 #import "DownloadItemManager.h"
+#import "LogUtil.h"
 
 @implementation ItemActionController
 
@@ -187,11 +188,30 @@
 	}
 }
 
+- (void)               image: (UIImage *) image
+    didFinishSavingWithError: (NSError *) error
+                 contextInfo: (void *) contextInfo
+
+{
+    [self hideActivity];
+    if ([error code] == 0){
+        [self popupHappyMessage:NSLS(@"kSaveAlbumSuccess") title:nil];
+    }
+    else{
+        PPDebug(@"save item to album fail, error = %@", [error description]);
+        [self popupHappyMessage:NSLS(@"kSaveAlbumFail") title:nil];
+    }
+}
+
 - (IBAction)sendToAlbum:(id)sender
 {
     if (self.item.isImage)
-    {
-        UIImageWriteToSavedPhotosAlbum([UIImage imageWithContentsOfFile:self.item.localPath], nil, nil, nil);
+    {        
+        [self showActivityWithText:NSLS(@"kSaving")];
+        UIImageWriteToSavedPhotosAlbum([UIImage imageWithContentsOfFile:self.item.localPath], 
+                                       self, 
+                                       @selector(image:didFinishSavingWithError:contextInfo:), 
+                                       nil);
         Message.hidden = NO;
 		Message.text = @"Saved!";
     }
@@ -264,6 +284,7 @@
 	switch (result)
 	{
 		case MFMailComposeResultCancelled:
+            [self popupHappyMessage:NSLS(@"kMessageCancel") title:nil];
 			Message.text = @"Result: Mail sending canceled";
 			break;
 		case MFMailComposeResultSaved:
@@ -290,10 +311,12 @@
 	switch (result)
 	{
 		case MessageComposeResultCancelled:
-			Message.text = @"Result: SMS sending canceled";
+//			Message.text = @"Result: SMS sending canceled";            
 			break;
 		case MessageComposeResultSent:
-			Message.text = @"Result: SMS sent";
+//			Message.text = @"Result: SMS sent";
+            [self popupHappyMessage:NSLS(@"kMessageSent") title:nil];
+            
 			break;
 		case MessageComposeResultFailed:
 			Message.text = @"Result: SMS sending failed";

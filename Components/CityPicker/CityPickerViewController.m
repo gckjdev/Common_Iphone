@@ -190,7 +190,7 @@
     
     [super viewDidLoad];
     
-    if (!self.useForGroupBuy){
+    if (self.useForGroupBuy){
         self.view.backgroundColor = [UIColor clearColor];
     }
     
