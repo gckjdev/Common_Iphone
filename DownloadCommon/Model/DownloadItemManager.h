@@ -44,5 +44,6 @@
 - (void)setURLReported:(NSString*)urlString;
 
 - (BOOL)deleteItem:(DownloadItem*)item;
+- (BOOL)renameFile:(DownloadItem*)item newFileName:(NSString*)newFileName;
 
 @end

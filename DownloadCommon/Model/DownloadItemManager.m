@@ -198,4 +198,28 @@ DownloadItemManager* globalDownloadManager;
     }
 }
 
+- (BOOL)renameFile:(DownloadItem*)item newFileName:(NSString*)newFileName
+{
+    NSRange rgn = NSMakeRange(item.localPath.length-item.fileName.length, item.fileName.length);
+    
+    NSMutableString *filepath = [[NSMutableString alloc] initWithFormat:@""];
+    [filepath appendString:item.localPath];
+    
+    [filepath replaceCharactersInRange:rgn withString:newFileName];
+    
+    if ([[NSFileManager defaultManager] moveItemAtPath:item.localPath toPath:filepath error:nil])
+    {
+        item.fileName=newFileName;
+        item.localPath=filepath;
+        [[CoreDataManager dataManager] save];
+        [filepath release];
+        return YES;
+    }
+    else
+    {
+        [filepath release];
+        return NO;
+    }
+}
+
 @end
