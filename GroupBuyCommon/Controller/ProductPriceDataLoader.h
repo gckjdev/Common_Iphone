@@ -29,6 +29,20 @@
 
 @end
 
+@interface ProductEndDateDataLoader : NSObject<ProductDataLoader> {
+    
+    
+}
+
+@property (nonatomic, retain)     NSString    *categoryId;
+
+- (id)initWithCategoryId:(NSString*)categoryId;
+
+- (NSArray*)requestProductListFromDB;
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller;
+
+@end
+
 @interface ProductDistanceDataLoader : NSObject<ProductDataLoader> {
     
     NSString    *categoryId;

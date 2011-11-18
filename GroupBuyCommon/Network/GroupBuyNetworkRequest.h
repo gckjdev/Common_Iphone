@@ -19,6 +19,11 @@
 
 + (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
                                   appId:(NSString *)appId
+                                   city:(NSString*)city
+                           categoryType:(int)categoryType;
+
++ (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
+                                  appId:(NSString *)appId
                                    city:(NSString*)city;
 
 + (CommonNetworkOutput*)deviceLogin:(NSString*)baseURL
@@ -69,6 +74,12 @@
                                          startOffset:(int)startOffset
                                                 city:(NSString*)city
                                             category:(NSString *)category;
+
++ (CommonNetworkOutput*)findAllProductsWithEndDate:(NSString*)baseURL
+                                             appId:(NSString*)appId
+                                       startOffset:(int)startOffset
+                                              city:(NSString*)city
+                                          category:(NSString *)category;
 
 + (CommonNetworkOutput*)findAllProductsGroupByCategory:(NSString*)baseURL
                                                  appId:(NSString*)appId

@@ -242,7 +242,7 @@
 {
     CGRect textFrame = CGRectMake(5, 3, 200, 106);     // default , need to align with Cell.xib
     CGRect imageFrame = textFrame;
-    CGSize actualImageSize = mi.image.size;
+//    CGSize actualImageSize = mi.image.size;
     if (mi.image.size.height < MIN_HEIGHT){    
         CGRect frame = mi.frame;
         frame.size.width = mi.image.size.width;

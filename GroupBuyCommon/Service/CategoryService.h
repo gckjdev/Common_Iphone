@@ -19,6 +19,7 @@
 @interface CategoryService : CommonService
 
 - (void)getAllCategory:(id<CategoryServiceDelegate>)delegate;
+- (void)getAllCategory:(id<CategoryServiceDelegate>)delegate categoryType:(int)categoryType;
 
 @end
 
