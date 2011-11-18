@@ -26,6 +26,12 @@
     if (self) {
         // Custom initialization
         self.requestType = SITE_REQUEST_TYPE_TOP;
+        self.topList = [[[NSMutableArray alloc] init] autorelease];
+        self.latestList = [[[NSMutableArray alloc] init] autorelease];
+        self.hotList = [[[NSMutableArray alloc] init] autorelease];
+        self.starredList = [[[NSMutableArray alloc] init] autorelease];
+
+
     }
     return self;
 }
@@ -54,19 +60,22 @@
     switch (requestTypeValue) {
         case SITE_REQUEST_TYPE_TOP:
         {
-            self.topList = newDataList;
+            [self.topList removeAllObjects];
+            [self.topList addObjectsFromArray:newDataList];
         }
             break;
 
         case SITE_REQUEST_TYPE_HOT:
         {
-            self.hotList = newDataList;
+            [self.hotList removeAllObjects];
+            [self.hotList addObjectsFromArray:newDataList];
         }
             break;
             
         case SITE_REQUEST_TYPE_NEW:
         {
-            self.latestList = newDataList;
+            [self.latestList removeAllObjects];
+            [self.latestList addObjectsFromArray:newDataList];
         }
             break;
             
@@ -121,6 +130,9 @@
     else{
         [self popupUnhappyMessage:NSLS(@"kFailLoadSite") title:@""];
     }
+    
+    [self dataSourceDidFinishLoadingNewData];
+
 }
 
 - (void)loadSiteFromServer
@@ -134,8 +146,11 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    supportRefreshHeader = YES;
+    [self setRefreshHeaderViewFrame:CGRectMake(0, 0-self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.width)];
     
+    [super viewDidLoad];
+        
     [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadSiteFromServer)];
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -269,6 +284,17 @@
     self.requestType = SITE_REQUEST_TYPE_NONE;
     self.starredList = [[TopSiteManager defaultManager] findAllFavoriteSites];
     [self reloadData];    
+}
+
+#pragma Pull Refresh Delegate
+- (void) reloadTableViewDataSource
+{
+    [self loadSiteFromServer];
+}
+
+- (UIColor*)getDefaultTextColor
+{
+    return [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
 }
 
 
