@@ -18,6 +18,8 @@
 @synthesize playItemController;
 @synthesize playItemSuperView;
 @synthesize Message;
+@synthesize alertViewNumber;
+@synthesize textViewOfAlertView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,11 +44,12 @@
     [item release];
     [playItemSuperView release];
     [Message release];
+    [alertViewNumber release];
+    [textViewOfAlertView release];
     [super dealloc];
 }
 
 #pragma mark - View lifecycle
-
 
 
 - (void)createPlayItemView
@@ -94,6 +97,32 @@
 // save
 // http://stackoverflow.com/questions/6916305/how-to-save-video-file-into-document-directory
 // http://stackoverflow.com/questions/5706911/save-mp4-into-iphone-photo-album
+
+- (IBAction)renameFile:(id)sender
+{
+    self.alertViewNumber = [NSNumber numberWithInt:1]; 
+    
+    UIAlertView *alert = [UIUtils showTextView:@"The new file name" okButtonTitle:@"OK" cancelButtonTitle:@"Cancel" delegate:self];
+    
+    self.textViewOfAlertView = (UITextView*)[alert viewWithTag:kAlertTextViewTag];
+    
+    [alert show];
+    
+}
+
+- (IBAction)deleteFile:(id)sender
+{
+    self.alertViewNumber = [NSNumber numberWithInt:2]; 
+    UIAlertView *alert = [[UIAlertView alloc] 
+                          initWithTitle:NSLS(@"kDeleteFileAlertTitle")
+                          message:[NSString stringWithFormat:NSLS(@"kDeleteFileAlertMessage"),item.fileName]
+                          delegate:self
+                          cancelButtonTitle:NSLS(@"kDeleteFileAlertCancelButtonTitle") 
+                          otherButtonTitles:NSLS(@"kDeleteFileAlertOtherButtonTitle"),nil];
+    
+    [alert show];
+    [alert release];
+}
 
 - (IBAction)shareWithEmail:(id)sender
 {
@@ -177,23 +206,6 @@
         Message.hidden = NO;
 		Message.text = @"This file can not be saved to the Album.";
     }
-}
-
-- (IBAction)deleteFile:(id)sender
-{
-    UIAlertView *alert = [[UIAlertView alloc] 
-                          initWithTitle:NSLS(@"kDeleteFileAlertTitle")
-                          message:[NSString stringWithFormat:NSLS(@"kDeleteFileAlertMessage"),item.fileName]
-                          delegate:self
-                          cancelButtonTitle:NSLS(@"kDeleteFileAlertCancelButtonTitle") 
-                          otherButtonTitles:NSLS(@"kDeleteFileAlertOtherButtonTitle"),nil];
-    
-    [alert show];
-    
-    Message.hidden = NO;
-    Message.text = @"This file has been deleted!";
-    
-    [alert release];
 }
 
 - (void)displayComposeEmailForShare
@@ -295,14 +307,34 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    switch (buttonIndex) {
-        case 0:
-            break;
-        case 1:
-            [[DownloadItemManager defaultManager] deleteItem:self.item];
-            break;
-        default:
-            break;
+    if ([NSNumber numberWithInt:1] ==self.alertViewNumber)
+    {
+        switch (buttonIndex) 
+        {
+            case 0:
+                break;
+            case 1:
+                [[DownloadItemManager defaultManager] renameFile:self.item newFileName:self.textViewOfAlertView.text];
+                self.navigationItem.title = self.item.fileName;
+                break;
+            default:
+                break;
+        }
+    }
+    else if ([NSNumber numberWithInt:2] ==self.alertViewNumber)
+    {
+        switch (buttonIndex) 
+        {
+            case 0:
+                break;
+            case 1:
+                [[DownloadItemManager defaultManager] deleteItem:self.item];
+                Message.hidden = NO;
+                Message.text = @"This file has been deleted!";
+                break;
+            default:
+                break;
+        }
     }
 }
 

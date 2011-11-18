@@ -8,8 +8,8 @@
 
 #import "LocationService.h"
 
-#define kLocationUpdateTimeOut      120
-#define kTimeOutObjectString		@"Location Update Time out"
+#define LOCATION_UPDATE_TIMEOUT      120
+#define LOCATION_UPDATE_TIMEOUT_STRING		@"Location Update Time out"
 
 @implementation LocationService
 
@@ -39,7 +39,7 @@
 	locationManager.delegate = self;		
 	locationManager.desiredAccuracy = kCLLocationAccuracyBest;	
 	[locationManager startUpdatingLocation];		
-	[self performSelector:@selector(stopUpdatingLocation:) withObject:kTimeOutObjectString afterDelay:kLocationUpdateTimeOut];    
+	[self performSelector:@selector(stopUpdatingLocation:) withObject:LOCATION_UPDATE_TIMEOUT_STRING afterDelay:LOCATION_UPDATE_TIMEOUT];    
 	
     
 }
@@ -62,7 +62,7 @@
     }
     	    
 	// we can also cancel our previous performSelector:withObject:afterDelay: - it's no longer necessary
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopUpdatingLocation:) object:kTimeOutObjectString];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopUpdatingLocation:) object:LOCATION_UPDATE_TIMEOUT_STRING];
 	
 	// IMPORTANT!!! Minimize power usage by stopping the location manager as soon as possible.
 	[self stopUpdatingLocation:NSLocalizedString(@"Acquired Location", @"Acquired Location")];

@@ -15,11 +15,17 @@
 @class DownloadItem;
 
 @interface ItemActionController : PPViewController <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
+{
+    NSNumber *alertViewNumber;
+    UITextView* textViewOfAlertView;
+}
 
 @property (nonatomic, retain) DownloadItem *item;
 @property (nonatomic, retain) UIViewController<CommonFileActionProtocol> *playItemController;
 @property (retain, nonatomic) IBOutlet UIView *playItemSuperView;
 @property (retain, nonatomic) IBOutlet UILabel *Message;
+@property (retain, nonatomic) NSNumber *alertViewNumber;
+@property (retain, nonatomic) UITextView* textViewOfAlertView;
 
 - (void)showItem:(DownloadItem*)newItem;
 - (IBAction)shareWithEmail:(id)sender;
@@ -27,6 +33,7 @@
 - (IBAction)sendWithEmail:(id)sender;
 - (IBAction)sendToAlbum:(id)sender;
 - (IBAction)deleteFile:(id)sender;
+- (IBAction)renameFile:(id)sender;
 
 - (void)displayComposeEmailForShare;
 - (void)displayComposeEmailForSend;

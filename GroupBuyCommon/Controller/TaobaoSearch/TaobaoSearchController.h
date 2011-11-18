@@ -30,7 +30,7 @@
 @property (retain, nonatomic) IBOutlet UITextField *searchTextField;
 @property (retain, nonatomic) IBOutlet UIImageView *searchBackgroundView;
 
-@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
+//@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 + (TaobaoSearchController*)showController:(UIViewController*)superController 
                                      text:(NSString*)text 
                                     price:(double)price
