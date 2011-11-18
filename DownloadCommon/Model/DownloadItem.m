@@ -104,7 +104,7 @@
     return ([self.starred intValue] == 1);
 }
 
-- (BOOL)canPlay
+- (BOOL)isDownloadFinished
 {
     switch ([self.status intValue]) {
         case DOWNLOAD_STATUS_FINISH:
@@ -112,6 +112,11 @@
         default:
             return NO;
     }    
+}
+
+- (BOOL)canPlay
+{
+    return [self isAudioVideo];
 }
 
 - (BOOL)canView

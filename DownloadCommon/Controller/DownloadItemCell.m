@@ -111,7 +111,7 @@
     else if ([item canResume]){
         [self.pauseButton setTitle:NSLS(@"Resume") forState:UIControlStateNormal];
     }
-    else if ([item canPlay]){
+    else if ([item isDownloadFinished]){
         if ([item isAudioVideo]){
             [self.pauseButton setTitle:NSLS(@"Play") forState:UIControlStateNormal];        
         }
@@ -145,7 +145,7 @@
     
     [self setPauseButtonInfo:item];
     
-    if ([item canPlay]){
+    if ([item isDownloadFinished]){
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else{

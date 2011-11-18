@@ -17,6 +17,7 @@
 
 @synthesize currentSelection;
 @synthesize actionController;
+@synthesize lastPlayingItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,6 +39,7 @@
 - (void)dealloc
 {
     [actionController release];
+    [lastPlayingItem release];
     [super dealloc];
 }
 
@@ -77,7 +79,28 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
 
-    [self setNavigationRightButton:NSLS(@"kNowPlaying") action:@selector(clickNowPlaying:)];
+    
+}
+
+- (void) clickNowPlaying:(id) sender
+{
+    DownloadService * service = [DownloadService defaultService];
+    [service playItem:lastPlayingItem viewController:self];
+}
+
+- (void) updateNowPlayingButton
+{
+    if (lastPlayingItem != nil) {
+        if ([lastPlayingItem canPlay] ) {
+            [self setNavigationRightButton:NSLS(@"kNowPlaying") action:@selector(clickNowPlaying:)];
+        } else if ([lastPlayingItem canView]) {
+            [self setNavigationRightButton:NSLS(@"kNowViewing") action:@selector(clickNowPlaying:)];
+        }
+        else{
+            self.navigationItem.rightBarButtonItem = nil;
+        }
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -85,6 +108,9 @@
     [self loadDataBySelectType];
     [self.dataTableView reloadData];
     [super viewDidAppear:animated];
+    
+//    [self updateNowPlayingButton];
+
 }
 
 - (void)viewDidUnload
@@ -156,7 +182,7 @@
 		return;
     
     DownloadItem* item = [self.dataList objectAtIndex:indexPath.row];
-    if ([item canPlay] == NO){
+    if ([item isDownloadFinished] == NO){
         return;
     }
     
@@ -201,6 +227,13 @@
     }
     else if ([item canPlay]){
         [service playItem:item viewController:self];
+        lastPlayingItem = [self.dataList objectAtIndex:row];
+        [self updateNowPlayingButton];
+    }
+    else if([item canView]){
+        [service playItem:item viewController:self];
+        lastPlayingItem = [self.dataList objectAtIndex:row];
+        [self updateNowPlayingButton];
     }
 }
 

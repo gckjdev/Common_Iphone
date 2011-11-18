@@ -53,6 +53,7 @@ enum FILE_TYPE {
 - (BOOL)canPause;
 - (BOOL)canResume;
 - (BOOL)canPlay;
+- (BOOL)isDownloadFinished;
 - (BOOL)canView;
 - (BOOL)isStarred;
 - (BOOL)isImage;

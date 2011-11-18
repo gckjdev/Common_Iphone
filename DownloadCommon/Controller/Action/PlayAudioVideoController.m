@@ -10,6 +10,7 @@
 
 #import "DownloadItem.h"
 #import "FileUtil.h"
+#import "LogUtil.h"
 
 @implementation PlayAudioVideoController
 
@@ -109,6 +110,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    PPDebug(@"Play Video/Audio <viewDidDisappear>");
     [player pause];
     [super viewDidDisappear:animated];    
 }
@@ -125,6 +127,12 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)clickBack:(id)sender
+{
+    [player pause];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
