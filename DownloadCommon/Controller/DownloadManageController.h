@@ -24,6 +24,10 @@ enum {
 @property (nonatomic, retain) ItemActionController *actionController;
 @property (nonatomic, assign) int currentSelection;
 @property (nonatomic, retain) DownloadItem* lastPlayingItem;
+@property (retain, nonatomic) IBOutlet UIButton *filterAllButton;
+@property (retain, nonatomic) IBOutlet UIButton *filterCompleteButton;
+@property (retain, nonatomic) IBOutlet UIButton *filterDownloadingButton;
+@property (retain, nonatomic) IBOutlet UIButton *filterStarredButton;
 
 - (IBAction)clickFilterComplete:(id)sender;
 - (IBAction)clickFilterDownloading:(id)sender;

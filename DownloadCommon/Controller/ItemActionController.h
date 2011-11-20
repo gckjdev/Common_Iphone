@@ -46,4 +46,6 @@
 - (void)launchMailAppOnDevice;
 - (void)displaySMSComposerSheet;
 
+- (void)updateSaveAlbumButton;
+
 @end

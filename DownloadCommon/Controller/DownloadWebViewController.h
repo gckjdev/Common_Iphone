@@ -25,6 +25,11 @@ typedef void (^WebViewBackHandler)(UIViewController*);
 @property (nonatomic, assign) int urlFileType;
 @property (nonatomic, assign) BOOL openURLForAction;
 
+@property (retain, nonatomic) IBOutlet UIButton *backButton;
+@property (retain, nonatomic) IBOutlet UIButton *stopButton;
+@property (retain, nonatomic) IBOutlet UIButton *reloadButton;
+@property (retain, nonatomic) IBOutlet UIButton *addFavoriteButton;
+
 - (IBAction) clickBackButton;
 - (IBAction) clickForwardButton;
 - (IBAction) clickReloadButton;

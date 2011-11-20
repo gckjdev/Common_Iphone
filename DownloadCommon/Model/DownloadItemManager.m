@@ -193,7 +193,8 @@ DownloadItemManager* globalDownloadManager;
 
 - (BOOL)deleteItem:(DownloadItem*)item
 {
-    if ([[NSFileManager defaultManager] removeItemAtPath:item.localPath error:nil])
+    NSError *error = nil;
+    if ([[NSFileManager defaultManager] removeItemAtPath:item.localPath error:&error])
     {
         item.deleteFlag = [NSNumber numberWithInt:1];
         [[CoreDataManager dataManager] save];
@@ -201,6 +202,7 @@ DownloadItemManager* globalDownloadManager;
     }
     else
     {
+        PPDebug(@"delete item fail, error = %@", [error description]);
         return NO;
     }
 }
@@ -227,7 +229,8 @@ DownloadItemManager* globalDownloadManager;
     
     [filepath replaceCharactersInRange:rgn withString:realNewFileName];
     
-    if ([[NSFileManager defaultManager] moveItemAtPath:item.localPath toPath:filepath error:nil])
+    NSError *error = nil;
+    if ([[NSFileManager defaultManager] moveItemAtPath:item.localPath toPath:filepath error:&error])
     {
         item.fileName=realNewFileName;
         item.localPath=filepath;
@@ -237,6 +240,7 @@ DownloadItemManager* globalDownloadManager;
     }
     else
     {
+        PPDebug(@"delete item fail, error = %@", [error description]);
         [filepath release];
         return NO;
     }
