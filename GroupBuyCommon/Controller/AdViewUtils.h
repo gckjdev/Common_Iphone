@@ -7,7 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GADBannerView.h"
+
+@class GADBannerView;
 
 @interface AdViewUtils : NSObject
 
++ (GADBannerView*)allocAdMobView:(UIViewController*)superViewController;
+
 @end
+
+extern BOOL GlobalGetEnableAd();
+extern NSString* GlobalGetEnableAdPubliserId();
