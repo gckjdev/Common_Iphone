@@ -41,6 +41,7 @@ enum PRODUCT_DISPLAY_TYPE{
 }
 
 @property (nonatomic, retain) UIViewController                *superController;
+@property (retain, nonatomic) IBOutlet UILabel *noProductLabel;
 @property (nonatomic, retain) NSObject<ProductDataLoader>     *dataLoader;
 @property (nonatomic, retain) NSString                        *categoryId;
 @property (nonatomic, retain) NSString                        *type;

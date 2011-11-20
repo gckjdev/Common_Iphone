@@ -29,6 +29,7 @@
 @implementation CommonProductListController
 
 @synthesize superController;
+@synthesize noProductLabel;
 @synthesize dataLoader;
 @synthesize categoryId;
 @synthesize type;
@@ -50,6 +51,7 @@
     [dataLoader release];
     [categoryId release];
     [type release];
+    [noProductLabel release];
     [super dealloc];
 }
 
@@ -62,6 +64,16 @@
 }
 
 #pragma mark - View lifecycle
+
+- (void)showNoProductLabel
+{
+    if ([self.dataList count] == 0){
+        self.noProductLabel.hidden = NO;
+    }
+    else{
+        self.noProductLabel.hidden = YES;
+    }
+}
 
 // to be override
 - (NSArray*)requestProductListFromDB
@@ -106,6 +118,8 @@
     if ([self isReloading]){
         [self dataSourceDidFinishLoadingNewData];
     }
+    
+    [self showNoProductLabel];
 }
 
 - (void)initDataList
@@ -132,7 +146,7 @@
 - (void)initReloadTableViewVisiableCellTimer
 {
     if ([productDisplayClass needReloadVisiableCellTimer]){
-        [self scheduleReloadVisiableCellTimer];
+        [self scheduleReloadVisiableCellTimer:5]; // reload every 5 seconds
     }
 }
 
@@ -161,6 +175,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     self.dataList = [self requestProductListFromDB]; 
+    [self showNoProductLabel];
+
     if (self.dataList == nil || [dataList count] == 0){
         [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];                
@@ -177,6 +193,7 @@
 
 - (void)viewDidUnload
 {
+    [self setNoProductLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
