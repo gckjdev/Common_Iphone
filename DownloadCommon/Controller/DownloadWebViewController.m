@@ -28,6 +28,10 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 @synthesize webSite;
 @synthesize urlForAction;
 @synthesize openURLForAction;
+@synthesize backButton;
+@synthesize stopButton;
+@synthesize reloadButton;
+@synthesize addFavoriteButton;
 @synthesize urlFileType;
 
 -(id)init
@@ -50,6 +54,10 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [loadActivityIndicator release];
     [request release];
     [urlForAction release];
+    [backButton release];
+    [stopButton release];
+    [reloadButton release];
+    [addFavoriteButton release];
     [super dealloc];
 }
 
@@ -67,6 +75,12 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    [self.backButton setTitle:NSLS(@"kBackButtonTitle") forState:UIControlStateNormal];
+    [self.stopButton setTitle:NSLS(@"kStopButtonTitle") forState:UIControlStateNormal];
+    [self.reloadButton setTitle:NSLS(@"kReloadButtonTitle") forState:UIControlStateNormal];
+    [self.addFavoriteButton setTitle:NSLS(@"kAddFavoriteButtonTitle") forState:UIControlStateNormal];
+
+    
     self.view.backgroundColor = [UIColor clearColor];
 
     [self.webView registerLongPressHandler];
@@ -107,6 +121,10 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [self setSuperViewController:nil];
     [self setWebView:nil];
     [self setLoadActivityIndicator:nil];
+    [self setBackButton:nil];
+    [self setStopButton:nil];
+    [self setReloadButton:nil];
+    [self setAddFavoriteButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

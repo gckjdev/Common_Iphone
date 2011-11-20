@@ -85,10 +85,24 @@
     }
     
     self.navigationItem.title = self.item.fileName;
+    
+    [self updateSaveAlbumButton];
+}
+
+- (void)updateSaveAlbumButton
+{
+    if (self.item.isImage || UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.item.localPath))
+    {
+        self.albumButton.enabled = YES;	
+    }
+    else
+    {
+        self.albumButton.enabled = NO;
+    }    
 }
 
 - (void)viewDidLoad
-{
+{    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 
@@ -96,16 +110,14 @@
     [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
     [self setNavigationRightButton:NSLS(@"Next Item") action:@selector(clickNext:)];
     self.navigationItem.title = self.item.fileName;
-    
-//    if (NO == self.item.isImage  &&  NO == UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.item.localPath))
-//    {
-//        self.albumButton.userInteractionEnabled = NO;
-//    }
-//    else
-//    {
-//        self.albumButton.userInteractionEnabled = YES;
-//    }
-}
+}	
+
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//    NSLog(@"%@",self.item.fileName);
+//    [self updateSaveAlbumButton];    
+//    [super viewDidAppear:animated];
+//}
 
 - (void)viewDidUnload
 {

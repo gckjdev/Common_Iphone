@@ -19,6 +19,10 @@
 @synthesize topList;
 @synthesize hotList;
 @synthesize starredList;
+@synthesize topButton;
+@synthesize hotButton;
+@synthesize newButton;
+@synthesize starredButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,6 +54,10 @@
     [hotList release];
     [topList release];
     [latestList release];
+    [topButton release];
+    [hotButton release];
+    [newButton release];
+    [starredButton release];
     [super dealloc];
 }
 
@@ -146,6 +154,11 @@
 
 - (void)viewDidLoad
 {
+    [self.topButton setTitle:NSLS(@"kTopButtonTitle") forState:UIControlStateNormal];
+    [self.hotButton setTitle:NSLS(@"kHotButtonTitle") forState:UIControlStateNormal];
+    [self.newButton setTitle:NSLS(@"kNewButtonTitle") forState:UIControlStateNormal];
+    [self.starredButton setTitle:NSLS(@"kStarredButtonTitle") forState:UIControlStateNormal];
+    
     supportRefreshHeader = YES;
     [self setRefreshHeaderViewFrame:CGRectMake(0, 0-self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.width)];
     
@@ -168,6 +181,10 @@
 
 - (void)viewDidUnload
 {
+    [self setTopButton:nil];
+    [self setHotButton:nil];
+    [self setNewButton:nil];
+    [self setStarredButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

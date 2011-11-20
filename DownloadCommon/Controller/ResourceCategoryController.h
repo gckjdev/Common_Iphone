@@ -18,6 +18,10 @@
 @property (nonatomic, retain) NSMutableArray* hotList;
 @property (nonatomic, retain) NSMutableArray* latestList;
 @property (nonatomic, retain) NSMutableArray* starredList;
+@property (retain, nonatomic) IBOutlet UIButton *topButton;
+@property (retain, nonatomic) IBOutlet UIButton *hotButton;
+@property (retain, nonatomic) IBOutlet UIButton *newButton;
+@property (retain, nonatomic) IBOutlet UIButton *starredButton;
 
 - (IBAction)clickHot:(id)sender;
 - (IBAction)clickTop:(id)sender;
