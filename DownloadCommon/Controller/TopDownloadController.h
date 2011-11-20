@@ -25,5 +25,6 @@
 @property (nonatomic, retain) TopDownloadItem* currentSelectItem;
 
 - (void)askDownload;
+- (void) hasDownloaded:(TopDownloadItem*) downloadItem;
 - (UIColor*)getDefaultTextColor;
 @end

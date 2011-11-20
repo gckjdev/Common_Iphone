@@ -15,10 +15,19 @@
 
 @implementation ItemActionController
 
+@synthesize openButton;
+@synthesize renameButton;
+@synthesize DeleteButton;
+@synthesize facebookButton;
+@synthesize twitterButton;
+@synthesize emailShareButton;
+@synthesize SMSButton;
+@synthesize moreButton;
+@synthesize albumButton;
+@synthesize emailSendButton;
 @synthesize item;
 @synthesize playItemController;
 @synthesize playItemSuperView;
-@synthesize Message;
 @synthesize alertViewNumber;
 @synthesize textViewOfAlertView;
 
@@ -44,9 +53,18 @@
     [playItemController release];
     [item release];
     [playItemSuperView release];
-    [Message release];
     [alertViewNumber release];
     [textViewOfAlertView release];
+    [openButton release];
+    [renameButton release];
+    [DeleteButton release];
+    [facebookButton release];
+    [twitterButton release];
+    [emailShareButton release];
+    [SMSButton release];
+    [moreButton release];
+    [albumButton release];
+    [emailSendButton release];
     [super dealloc];
 }
 
@@ -78,13 +96,32 @@
     [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
     [self setNavigationRightButton:NSLS(@"Next Item") action:@selector(clickNext:)];
     self.navigationItem.title = self.item.fileName;
+    
+//    if (NO == self.item.isImage  &&  NO == UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.item.localPath))
+//    {
+//        self.albumButton.userInteractionEnabled = NO;
+//    }
+//    else
+//    {
+//        self.albumButton.userInteractionEnabled = YES;
+//    }
 }
 
 - (void)viewDidUnload
 {
     [self setPlayItemSuperView:nil];
-    [self setMessage:nil];
+    [self setOpenButton:nil];
+    [self setRenameButton:nil];
+    [self setDeleteButton:nil];
+    [self setFacebookButton:nil];
+    [self setTwitterButton:nil];
+    [self setEmailShareButton:nil];
+    [self setSMSButton:nil];
+    [self setMoreButton:nil];
+    [self setAlbumButton:nil];
+    [self setEmailSendButton:nil];
     [super viewDidUnload];
+    
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -103,7 +140,10 @@
 {
     self.alertViewNumber = [NSNumber numberWithInt:1]; 
     
-    UIAlertView *alert = [UIUtils showTextView:@"The new file name" okButtonTitle:@"OK" cancelButtonTitle:@"Cancel" delegate:self];
+    UIAlertView *alert = [UIUtils showTextView:NSLS(@"kRenameFileAlertTitle") 
+                                 okButtonTitle:NSLS(@"kRenameFileAlertOkButtonTitle" )
+                             cancelButtonTitle:NSLS(@"kRenameFileAlertCancelButtonTitle") 
+                                      delegate:self];
     
     self.textViewOfAlertView = (UITextView*)[alert viewWithTag:kAlertTextViewTag];
     
@@ -177,54 +217,64 @@
 			[self displaySMSComposerSheet];
 		}
 		else {	
-			Message.hidden = NO;
-			Message.text = @"Device not configured to send SMS.";
-            
+            [self popupUnhappyMessage:NSLS(@"kCanNotSendSMS") title:nil];
 		}
 	}
 	else {
-		Message.hidden = NO;
-		Message.text = @"Device not configured to send SMS.";
+        [self popupUnhappyMessage:NSLS(@"kCanNotSendSMS") title:nil];
 	}
 }
 
-- (void)               image: (UIImage *) image
-    didFinishSavingWithError: (NSError *) error
-                 contextInfo: (void *) contextInfo
-
+- (void)            image: (UIImage *) image 
+ didFinishSavingWithError: (NSError *) error 
+              contextInfo: (void *) contextInfo
 {
     [self hideActivity];
     if ([error code] == 0){
-        [self popupHappyMessage:NSLS(@"kSaveAlbumSuccess") title:nil];
+        [self popupHappyMessage:NSLS(@"kSaveToAlbumSuccess") title:nil];
     }
     else{
         PPDebug(@"save item to album fail, error = %@", [error description]);
-        [self popupHappyMessage:NSLS(@"kSaveAlbumFail") title:nil];
+        [self popupUnhappyMessage:NSLS(@"kSaveToAlbumFail") title:nil];
     }
 }
 
+- (void)               video: (NSString *) videoPath
+    didFinishSavingWithError: (NSError *) error
+                 contextInfo: (void *) contextInfo
+{
+    [self hideActivity];
+    if ([error code] == 0){
+        [self popupHappyMessage:NSLS(@"kSaveToAlbumSuccess") title:nil];   //要改描述
+    }
+    else{
+        PPDebug(@"save item to album fail, error = %@", [error description]);
+        [self popupUnhappyMessage:NSLS(@"kSaveToAlbumFail") title:nil];
+    }
+}
+
+    
 - (IBAction)sendToAlbum:(id)sender
 {
     if (self.item.isImage)
     {        
-        [self showActivityWithText:NSLS(@"kSaving")];
+        [self showActivityWithText:NSLS(@"kSavingToAlbum")];
         UIImageWriteToSavedPhotosAlbum([UIImage imageWithContentsOfFile:self.item.localPath], 
                                        self, 
                                        @selector(image:didFinishSavingWithError:contextInfo:), 
                                        nil);
-        Message.hidden = NO;
-		Message.text = @"Saved!";
     }
     else if(UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.item.localPath))
     {
-        UISaveVideoAtPathToSavedPhotosAlbum(self.item.localPath, nil, nil, nil);
-        Message.hidden = NO;
-		Message.text = @"Saved!";
+        [self showActivityWithText:NSLS(@"kSavingToAlbum")];
+        UISaveVideoAtPathToSavedPhotosAlbum(self.item.localPath, 
+                                            self, 
+                                            @selector(video:didFinishSavingWithError:contextInfo:), 
+                                            nil);
     }
     else 
     {
-        Message.hidden = NO;
-		Message.text = @"This file can not be saved to the Album.";
+        [self popupUnhappyMessage:NSLS(@"kSaveAlbumFail") title:nil];
     }
 }
 
@@ -279,25 +329,23 @@
 - (void)mailComposeController:(MFMailComposeViewController*)controller 
           didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
 {
-	Message.hidden = NO;
 	// Notifies users about errors associated with the interface
 	switch (result)
 	{
 		case MFMailComposeResultCancelled:
-            [self popupHappyMessage:NSLS(@"kMessageCancel") title:nil];
-			Message.text = @"Result: Mail sending canceled";
+            [self popupHappyMessage:NSLS(@"kEmailCanceled") title:nil];
 			break;
 		case MFMailComposeResultSaved:
-			Message.text = @"Result: Mail saved";
+            [self popupHappyMessage:NSLS(@"kEmailSaved") title:nil];
 			break;
 		case MFMailComposeResultSent:
-			Message.text = @"Result: Mail sent";
+            [self popupHappyMessage:NSLS(@"kEmailSent") title:nil];
 			break;
 		case MFMailComposeResultFailed:
-			Message.text = @"Result: Mail sending failed";
+            [self popupUnhappyMessage:NSLS(@"kEmailFailed") title:nil];
 			break;
 		default:
-			Message.text = @"Result: Mail not sent";
+            [self popupHappyMessage:NSLS(@"kEmailNotSent") title:nil];
 			break;
 	}
 	[self dismissModalViewControllerAnimated:YES];
@@ -306,23 +354,20 @@
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller 
                  didFinishWithResult:(MessageComposeResult)result 
 {
-	Message.hidden = NO;
 	// Notifies users about errors associated with the interface
 	switch (result)
 	{
 		case MessageComposeResultCancelled:
-//			Message.text = @"Result: SMS sending canceled";            
+            [self popupHappyMessage:NSLS(@"kMessageCanceled") title:nil];
 			break;
 		case MessageComposeResultSent:
-//			Message.text = @"Result: SMS sent";
             [self popupHappyMessage:NSLS(@"kMessageSent") title:nil];
-            
 			break;
 		case MessageComposeResultFailed:
-			Message.text = @"Result: SMS sending failed";
+            [self popupUnhappyMessage:NSLS(@"kMessageFailed") title:nil];
 			break;
 		default:
-			Message.text = @"Result: SMS not sent";
+            [self popupHappyMessage:NSLS(@"kMessageNotSent") title:nil];
 			break;
 	}
 	[self dismissModalViewControllerAnimated:YES];
@@ -337,8 +382,14 @@
             case 0:
                 break;
             case 1:
-                [[DownloadItemManager defaultManager] renameFile:self.item newFileName:self.textViewOfAlertView.text];
-                self.navigationItem.title = self.item.fileName;
+                if ([[DownloadItemManager defaultManager] renameFile:self.item newFileName:self.textViewOfAlertView.text])
+                {
+                    self.navigationItem.title = self.item.fileName;
+                }
+                else
+                {
+                    [self popupUnhappyMessage:NSLS(@"kRenameFileFailed") title:nil];
+                }
                 break;
             default:
                 break;
@@ -351,9 +402,14 @@
             case 0:
                 break;
             case 1:
-                [[DownloadItemManager defaultManager] deleteItem:self.item];
-                Message.hidden = NO;
-                Message.text = @"This file has been deleted!";
+                if ([[DownloadItemManager defaultManager] deleteItem:self.item])
+                {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+                else
+                {
+                    [self popupUnhappyMessage:NSLS(@"kDeleteFileFailed") title:nil];
+                }
                 break;
             default:
                 break;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="10K549" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="11A511a" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="DownloadItem" representedClassName="DownloadItem" syncable="YES">
         <attribute name="deleteFlag" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="downloadProgress" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -38,6 +38,7 @@
     <fetchRequest name="findAllItemsByStatus" entity="DownloadItem" predicateString="deleteFlag == 0 AND status == $STATUS"/>
     <fetchRequest name="findAllStarredItems" entity="DownloadItem" predicateString="deleteFlag == 0 AND starred == 1"/>
     <fetchRequest name="findItemByName" entity="DownloadItem" predicateString="fileName == $FILE_NAME"/>
+    <fetchRequest name="findItemByUrl" entity="DownloadItem" predicateString="deleteFlag == 0 AND url == $URL"/>
     <fetchRequest name="findSiteById" entity="Site" predicateString="deleteFlag == 0 AND siteURL == $SITE_URL"/>
     <elements>
         <element name="DownloadItem" positionX="160" positionY="192" width="128" height="300"/>

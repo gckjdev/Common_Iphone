@@ -242,17 +242,60 @@
     switch (buttonIndex) {
         case CLICK_DOWNLOAD:
         {
-            [[DownloadService defaultService] downloadFile:self.currentSelectItem.url 
-                                                  fileType:[self.currentSelectItem.fileType intValue]
-                                                   webSite:self.currentSelectItem.webSite
-                                               webSiteName:self.currentSelectItem.webSiteName             
-                                                   origUrl:nil];
+            [self hasDownloaded:currentSelectItem];
         }
             break;
         case CLICK_CANCEL:    
         default:
             break;
     }
+}
+
+- (void) hasDownloaded:(TopDownloadItem*) topDownloadItem
+{
+    BOOL exist = [[DownloadService defaultService] hasDownloaded:topDownloadItem];
+    if (exist) {
+        NSLog(@"item downloaded before!");
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:NSLS(@"kDownloaded_Before")   
+                                                       message:NSLS(@"kRedownload")   
+                                                      delegate:self   
+                                             cancelButtonTitle:NSLS(@"kRedownload_NO")  
+                                             otherButtonTitles:NSLS(@"kRedownload_YES"),nil];
+        [alert show];  
+        [alert release];  
+    } else {
+        [[DownloadService defaultService] downloadFile:self.currentSelectItem.url 
+                                              fileType:[self.currentSelectItem.fileType intValue]
+                                               webSite:self.currentSelectItem.webSite
+                                           webSiteName:self.currentSelectItem.webSiteName             
+                                               origUrl:nil];
+    }
+    
+}
+
+#pragma mark  -- UIAlertViewDelegate --  
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {  
+    NSLog(@"clickedButtonAtIndex:%d",buttonIndex);
+    enum BUTTON_INDEX {
+        CLICK_CANCEL = 0,
+        CLICK_DOWNLOAD = 1
+
+    };
+    switch (buttonIndex) {
+        case CLICK_DOWNLOAD:
+            NSLog(@"restart download...");
+            [[DownloadService defaultService] downloadFile:self.currentSelectItem.url 
+                                                  fileType:[self.currentSelectItem.fileType intValue]
+                                                   webSite:self.currentSelectItem.webSite
+                                               webSiteName:self.currentSelectItem.webSiteName             
+                                                   origUrl:nil];
+
+            break;
+            
+        default:
+            break;
+    }
+    
 }
 
 #pragma Pull Refresh Delegate
