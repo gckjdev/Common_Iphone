@@ -175,7 +175,12 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     if (bannerView == nil){
-        bannerView = [AdViewUtils allocAdMobView:self];        
+        bannerView = [AdViewUtils allocAdMobView:self];  
+        if (bannerView != nil){
+            CGRect rect = self.dataTableView.frame;
+            rect.size.height -= 50;
+            self.dataTableView.frame = rect;
+        }
     }
     
     self.dataList = [self requestProductListFromDB]; 
