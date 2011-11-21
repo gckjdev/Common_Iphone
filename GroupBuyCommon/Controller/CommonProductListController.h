@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewController.h"
 #import "ProductService.h"
+#import "AdViewUtils.h"
 
 @class CommonProductListController;
 
@@ -38,6 +39,8 @@ enum PRODUCT_DISPLAY_TYPE{
     NSInteger                       appearCount;
     
     Class                           productDisplayClass;
+    
+    GADBannerView                   *bannerView;
 }
 
 @property (nonatomic, retain) UIViewController                *superController;

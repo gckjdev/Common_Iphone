@@ -151,7 +151,7 @@
 }
 
 - (void)viewDidLoad
-{    
+{        
     // set product display cell class
     [self initDisplayCellClass];
     [self initReloadTableViewVisiableCellTimer];
@@ -174,6 +174,10 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (bannerView == nil){
+        bannerView = [AdViewUtils allocAdMobView:self];        
+    }
+    
     self.dataList = [self requestProductListFromDB]; 
     [self showNoProductLabel];
 
@@ -188,11 +192,9 @@
     [super viewDidAppear:YES];
 }
 
-
-
-
 - (void)viewDidUnload
 {
+    [bannerView release];
     [self setNoProductLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
