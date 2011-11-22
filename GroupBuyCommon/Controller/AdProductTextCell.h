@@ -25,14 +25,17 @@
     UILabel *distanceLabel;
     UILabel *boughtLabel;
     HJManagedImageV *imageView;
+    Product *_product;
 }
 
 @property (nonatomic, retain) IBOutlet HJManagedImageV *imageView;
+@property (nonatomic, retain) Product *product;
 
 + (PPTableViewCell<CommonProductTextCell>*)createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
 + (BOOL)needReloadVisiableCellTimer;
+- (IBAction)clickSave:(id)sender;
 
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath;
 - (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath;
