@@ -136,11 +136,27 @@
 }
 
 - (void)initDisplayCellClass
-{
-    if (productDisplayType == PRODUCT_DISPLAY_TAOBAO)
-        productDisplayClass = [TaobaoProductTextCell class];
-    else
-        productDisplayClass = [ProductTextCell class];
+{    
+    switch (productDisplayType) {
+        case PRODUCT_DISPLAY_TAOBAO:
+            productDisplayClass = NSClassFromString(@"ProductTextCell");
+            break;
+            
+        case PRODUCT_DISPLAY_GROUPBUY:
+            productDisplayClass = NSClassFromString(@"TaobaoProductTextCell");
+            break;
+
+        case PRODUCT_DISPLAY_AD:
+            productDisplayClass = NSClassFromString(@"AdProductTextCell");
+            break;
+
+        default:
+            break;
+    }
+    
+    if (productDisplayClass == nil){
+        NSLog(@"ERROR! Cannot find class for product display!");
+    }
 }
 
 - (void)initReloadTableViewVisiableCellTimer

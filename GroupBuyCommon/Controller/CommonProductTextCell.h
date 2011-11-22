@@ -8,7 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class PPTableViewCell;
 @class Product;
+
+enum PRODUCT_DISPLAY_TYPE{
+    
+    PRODUCT_DISPLAY_GROUPBUY,
+    PRODUCT_DISPLAY_TAOBAO,
+    PRODUCT_DISPLAY_AD,
+};
 
 @protocol CommonProductTextCell <NSObject>
 
