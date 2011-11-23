@@ -497,8 +497,6 @@ enum {
 
 - (IBAction)clickBuy:(id)sender
 {
-
-
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_BUY actionValue:1];
     [GroupBuyReport reportClickBuyProduct:product];
     [self gotoBuy];
@@ -521,8 +519,6 @@ enum {
     
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
     [actionSheet release];
-    
-    
 }
 
 - (void)clickUp:(id)sender

@@ -19,6 +19,8 @@
 #import "NumberUtil.h"
 #import "FontUtils.h"
 
+#import "GroupBuyReport.h"
+#import "ProductService.h"
 
 @implementation AdProductTextCell
 
@@ -32,7 +34,7 @@
 @synthesize distanceLabel;
 @synthesize boughtLabel;
 @synthesize siteNameLabel;
-
+@synthesize product=_product;
 
 
 // just replace PPTableViewCell by the new Cell Class Name
@@ -76,6 +78,19 @@
 + (BOOL)needReloadVisiableCellTimer
 {
     return YES;
+}
+//- (void)popupHappyMessage:(NSString*)msg title:(NSString*)title
+//{
+//	NSString* newMsg = [NSString stringWithFormat:@"%@ %@", kHappyFace, msg];
+//	[self popupMessage:newMsg title:title];
+//}
+- (IBAction)clickSave:(id)sender {
+    
+    [GlobalGetProductService() actionOnProduct:self.product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
+    [GroupBuyReport reportClickSaveProduct:self.product];
+    if ([ProductManager createProductForFavorite:self.product]){
+       // [self popupHappyMessage:@"团购商品收藏成功" title:@"收藏结果"];
+    }
 }
 
 - (NSString*)getTimeInfo:(int)seconds
@@ -300,6 +315,7 @@
 
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPathValue
 {
+    self.product = product;
     LocationService *locationService = GlobalGetLocationService();
     CLLocation *location = [locationService currentLocation];
 
@@ -322,6 +338,7 @@
     [imageView release];
     [siteNameLabel release];
     [offsetLabel release];
+    [_product release];
     [super dealloc];
 }
 
