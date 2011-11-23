@@ -23,7 +23,6 @@
 #import "ProductService.h"
 #import "ActionHandler.h"
 
-
 @implementation AdProductTextCell
 
 @synthesize imageView;
@@ -37,6 +36,8 @@
 @synthesize boughtLabel;
 @synthesize siteNameLabel;
 @synthesize product=_product;
+@synthesize actionHandler = _handler;
+
 
 
 // just replace PPTableViewCell by the new Cell Class Name
@@ -49,10 +50,11 @@
         NSLog(@"create <AdProductTextCell> but cannot find cell object from Nib");
         return nil;
     }
+    AdProductTextCell *cell = ((AdProductTextCell*)[topLevelObjects objectAtIndex:0]);
+    cell.delegate = delegate;
+
     
-    ((AdProductTextCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
-    
-    return (AdProductTextCell*)[topLevelObjects objectAtIndex:0];
+    return cell;
 }
 
 - (void)setCellStyle
@@ -60,11 +62,9 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.leftTimeLabel.hidden = YES;
     self.valueLabel.hidden = YES;
-//    self.siteNameLabel.hidden = YES;
     self.boughtLabel.hidden = YES;
     self.priceLabel.hidden = YES;
     
-//    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 + (NSString*)getCellIdentifier
@@ -88,12 +88,11 @@
 //}
 - (IBAction)clickSave:(id)sender {
     
-//    [GlobalGetProductService() actionOnProduct:self.product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
-//    [GroupBuyReport reportClickSaveProduct:self.product];
-//    if ([ProductManager createProductForFavorite:self.product]){
-//       // [self popupHappyMessage:@"团购商品收藏成功" title:@"收藏结果"];
-//    }
-    [[ActionHandler defaultHandler] actionOnSave:self.product];
+    [[self actionHander] actionOnSave];
+}
+
+- (IBAction)clickForward:(id)sender {
+    [[self actionHander] actionOnForward];
 }
 
 - (NSString*)getTimeInfo:(int)seconds
@@ -329,6 +328,8 @@
     [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate distance:distance image:product.image offset:offset];
 }
 
+
+
 - (void)dealloc {
     
     [productDescLabel release];
@@ -342,6 +343,7 @@
     [siteNameLabel release];
     [offsetLabel release];
     [_product release];
+    [_handler release];
     [super dealloc];
 }
 

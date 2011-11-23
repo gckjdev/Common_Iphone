@@ -13,6 +13,7 @@
 #import "CommonProductTextCell.h"
 
 @class Product;
+@class ActionHandler;
 
 @interface AdProductTextCell : PPTableViewCell <HJManagedImageVDelegate, CommonProductTextCell> {
     
@@ -26,6 +27,7 @@
     UILabel *boughtLabel;
     HJManagedImageV *imageView;
     Product *_product;
+    ActionHandler *_handler;
 }
 
 @property (nonatomic, retain) IBOutlet HJManagedImageV *imageView;
@@ -36,6 +38,7 @@
 + (CGFloat)getCellHeight;
 + (BOOL)needReloadVisiableCellTimer;
 - (IBAction)clickSave:(id)sender;
+- (IBAction)clickForward:(id)sender;
 
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath;
 - (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath;
@@ -49,6 +52,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *distanceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *boughtLabel;
 @property (nonatomic, retain) IBOutlet UILabel *siteNameLabel;
+@property (nonatomic, retain, getter = actionHander, setter = setActionHandler:) ActionHandler *actionHandler;
+
 
 @end
 

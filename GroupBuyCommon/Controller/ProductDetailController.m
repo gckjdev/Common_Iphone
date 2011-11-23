@@ -54,7 +54,7 @@ enum {
 @synthesize forwardButton;
 @synthesize commetButton;
 @synthesize imageView;
-
+@synthesize actionHandler;
 
 + (void)showProductDetail:(Product*)product navigationController:(UINavigationController*)navigationController isCreateHistory:(BOOL)isCreateHistory
 {
@@ -94,6 +94,7 @@ enum {
     [savaButton release];
     [forwardButton release];
     [commetButton release];
+    [actionHandler release];
     [super dealloc];
 }
 
@@ -137,6 +138,10 @@ enum {
 //    [self.buyButton setImageEdgeInsets:UIEdgeInsetsMake(0, size.width, 0, size.width)];
 //    [self.buyButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 //    [self.buyButton 
+    
+    ActionHandler *handler = [[ActionHandler alloc]initWithProduct:product callingViewController:self];
+    self.actionHandler = handler;
+    [handler release];
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -498,23 +503,22 @@ enum {
 
 - (IBAction)clickBuy:(id)sender
 {
-    [[ActionHandler defaultHandler] actionOnBuy:self.product viewController:self];
+    [self.actionHandler actionOnBuy];
 }
 
 - (IBAction)clickSave:(id)sender
 {
-    [[ActionHandler defaultHandler]actionOnSave:product];
+    [self.actionHandler actionOnSave];
 }
  
 - (IBAction)clickForward:(id)sender
 {
-    [[ActionHandler defaultHandler] actionOnForward:product viewController:self];
-
+    [actionHandler actionOnForward];
 }
 
 - (IBAction)clickComment:(id)sender
 {
-    [[ActionHandler defaultHandler] actionOnComment:self.product viewController:self];
+    [actionHandler actionOnComment];
 }
 
 - (void)clickUp:(id)sender
@@ -555,98 +559,98 @@ enum {
     NSLog(@"image load failure");    
 }
 
-- (void)handleForwardProduct:(NSInteger)buttonIndex
-{    
-    int index = 0;
-    if ([product.title length] > 30){
-        index = 30;
-    }
-    else{
-        index = [product.title length];
-    }
-    
-    NSString* shortDesc = [product.title substringToIndex:index];    
-    NSString* subject = [NSString stringWithFormat:@"［甘橙团购推荐］转发团购产品:%@", shortDesc];    
-    
-    NSString* smsBody = [NSString stringWithFormat:@"%@ %@ - %@", product.loc, 
-                      product.siteName, product.title];
+//- (void)handleForwardProduct:(NSInteger)buttonIndex
+//{    
+//    int index = 0;
+//    if ([product.title length] > 30){
+//        index = 30;
+//    }
+//    else{
+//        index = [product.title length];
+//    }
+//    
+//    NSString* shortDesc = [product.title substringToIndex:index];    
+//    NSString* subject = [NSString stringWithFormat:@"［甘橙团购推荐］转发团购产品:%@", shortDesc];    
+//    
+//    NSString* smsBody = [NSString stringWithFormat:@"%@ %@ - %@", product.loc, 
+//                      product.siteName, product.title];
+//
+//    NSString* htmlBody = [NSString stringWithFormat:@"%@ - %@\n\n%@\n\n来自［甘橙团购]", 
+//                         product.siteName, product.title, product.loc];
+//    
+//    enum{
+//        BUTTON_SEND_BY_SMS,
+//        BUTTON_SEND_BY_EMAIL,
+//        BUTTON_CANCEL
+//    };
+//    
+//    switch (buttonIndex) {
+//        case BUTTON_SEND_BY_SMS:
+//        {
+//            GlobalSetNavBarBackground(nil);
+//            [self sendSms:@"" body:smsBody];
+//        }
+//            break;
+//            
+//        case BUTTON_SEND_BY_EMAIL:
+//        {
+//            GlobalSetNavBarBackground(nil);
+//            [self sendEmailTo:nil ccRecipients:nil bccRecipients:nil subject:subject body:htmlBody isHTML:NO delegate:self];
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//}
 
-    NSString* htmlBody = [NSString stringWithFormat:@"%@ - %@\n\n%@\n\n来自［甘橙团购]", 
-                         product.siteName, product.title, product.loc];
-    
-    enum{
-        BUTTON_SEND_BY_SMS,
-        BUTTON_SEND_BY_EMAIL,
-        BUTTON_CANCEL
-    };
-    
-    switch (buttonIndex) {
-        case BUTTON_SEND_BY_SMS:
-        {
-            GlobalSetNavBarBackground(nil);
-            [self sendSms:@"" body:smsBody];
-        }
-            break;
-            
-        case BUTTON_SEND_BY_EMAIL:
-        {
-            GlobalSetNavBarBackground(nil);
-            [self sendEmailTo:nil ccRecipients:nil bccRecipients:nil subject:subject body:htmlBody isHTML:NO delegate:self];
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [self handleForwardProduct:buttonIndex];
-}
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    [self handleForwardProduct:buttonIndex];
+//}
 
 - (void)clickTaobaoSearch:(id)sender
 {
     [TaobaoSearchController showController:self text:product.title price:[product.price doubleValue] value:[product.value doubleValue]];    
 }
 
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
-{		
-	NSLog(@"<sendSms> result=%d", result);	
-    GlobalSetNavBarBackground(@"navigationbar.png");
-	[self dismissModalViewControllerAnimated:YES];
-    
-}
-
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
-{	
-	NSString* text = nil;
-	
-	// Notifies users about errors associated with the interface
-	switch (result)
-	{
-		case MFMailComposeResultCancelled:
-			text = @"<MFMailComposeViewController.didFinishWithResult> Result: canceled";
-			break;
-		case MFMailComposeResultSaved:
-			text = @"<MFMailComposeViewController.didFinishWithResult> Result: saved";
-			break;
-		case MFMailComposeResultSent:
-			text = @"<MFMailComposeViewController.didFinishWithResult> Result: sent";
-			break;
-		case MFMailComposeResultFailed:
-			text = @"<MFMailComposeViewController.didFinishWithResult> Result: failed";
-			break;
-		default:
-			text = @"<MFMailComposeViewController.didFinishWithResult> Result: not sent";
-			break;
-	}
-	
-	NSLog(@"%@", text);
-    GlobalSetNavBarBackground(@"navigationbar.png");    
-	[self dismissModalViewControllerAnimated:YES];
-    
-}
+//- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+//{		
+//	NSLog(@"<sendSms> result=%d", result);	
+//    GlobalSetNavBarBackground(@"navigationbar.png");
+//	[self dismissModalViewControllerAnimated:YES];
+//    
+//}
+//
+//- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+//{	
+//	NSString* text = nil;
+//	
+//	// Notifies users about errors associated with the interface
+//	switch (result)
+//	{
+//		case MFMailComposeResultCancelled:
+//			text = @"<MFMailComposeViewController.didFinishWithResult> Result: canceled";
+//			break;
+//		case MFMailComposeResultSaved:
+//			text = @"<MFMailComposeViewController.didFinishWithResult> Result: saved";
+//			break;
+//		case MFMailComposeResultSent:
+//			text = @"<MFMailComposeViewController.didFinishWithResult> Result: sent";
+//			break;
+//		case MFMailComposeResultFailed:
+//			text = @"<MFMailComposeViewController.didFinishWithResult> Result: failed";
+//			break;
+//		default:
+//			text = @"<MFMailComposeViewController.didFinishWithResult> Result: not sent";
+//			break;
+//	}
+//	
+//	NSLog(@"%@", text);
+//    GlobalSetNavBarBackground(@"navigationbar.png");    
+//	[self dismissModalViewControllerAnimated:YES];
+//    
+//}
 
 
 @end

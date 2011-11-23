@@ -10,6 +10,7 @@
 
 @class PPTableViewCell;
 @class Product;
+@class ActionHandler;
 
 enum PRODUCT_DISPLAY_TYPE{
     
@@ -28,4 +29,7 @@ enum PRODUCT_DISPLAY_TYPE{
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath;
 - (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath;
 
+@required
+- (void)setActionHandler:(ActionHandler *)hander;
+- (ActionHandler *)actionHander;
 @end

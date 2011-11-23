@@ -13,7 +13,7 @@
 #import "ProductDetailCell.h"
 
 @class Product;
-
+@class ActionHandler;
 @interface ProductDetailController : PPTableViewController <HJManagedImageVDelegate, UIActionSheetDelegate, ProductServiceDelegate, ProductDetailCellDelegate> {
     Product *product;
     UILabel *priceLabel;
@@ -24,6 +24,7 @@
     UILabel *upLabel;
     UILabel *downLabel;
     HJManagedImageV *imageView;
+    ActionHandler *actionHandler;
 }
 
 @property (nonatomic, retain) Product *product;
@@ -39,6 +40,7 @@
 
 
 @property (nonatomic, retain) HJManagedImageV *imageView;
+@property (nonatomic, retain) ActionHandler *actionHandler;
 
 - (IBAction)clickBuy:(id)sender;
 - (IBAction)clickSave:(id)sender;

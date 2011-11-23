@@ -28,6 +28,9 @@ ActionHandler *GlobalGetActionHandler()
 
 @implementation ActionHandler
 
+@synthesize callingViewController=_callingViewController;
+@synthesize product = _product;
+
 -(id)init
 {
     self = [super init];
@@ -35,6 +38,23 @@ ActionHandler *GlobalGetActionHandler()
         
     }
     return self;
+}
+
+-(id)initWithProduct:(Product *)aProduct callingViewController:(UIViewController *)aViewController
+{
+    self = [super init];
+    if (self) {
+        self.product = aProduct;
+        self.callingViewController = aViewController;
+    }
+    return self;
+}
+
+-(void) dealloc
+{
+    [_callingViewController release];
+    [_product release];
+    [super dealloc];
 }
 
 +(ActionHandler *)defaultHandler
@@ -45,6 +65,7 @@ ActionHandler *GlobalGetActionHandler()
 #pragma mark - Action On Save
 -(void)actionOnSave:(Product *)product;
 {
+    self.product = product;
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
     [GroupBuyReport reportClickSaveProduct:product];
     if ([ProductManager createProductForFavorite:product]){
@@ -54,16 +75,37 @@ ActionHandler *GlobalGetActionHandler()
     }
 }
 
+-(void)actionOnSave
+{
+    if (self.product) {
+        [self actionOnSave:self.product];
+    }else{
+        NSLog(@"<ActionHandler-actionOnSave>:product is nil");
+    }
+}
 
 #pragma mark - Action On Comment
 
 -(void)actionOnComment:(Product *)product viewController:(UIViewController *)viewController
 {
+    self.product = product;
     ProductCommentsController *controller = [[ProductCommentsController alloc] init];
     controller.productId = product.productId;
     [viewController.navigationController pushViewController:controller animated:YES];
     [controller release];
 }
+
+
+-(void)actionOnComment
+{
+    if (self.product && self.callingViewController) {
+        [self actionOnComment:self.product viewController:self.callingViewController];
+    }else{
+        NSLog(@"<ActionHandler-actionOnComment>:product or calling view controller is nil");
+    }
+}
+
+
 
 #pragma mark - Action On Buy
 -(void)actionOnBuy:(Product *)product viewController:(UIViewController *)viewController
@@ -78,17 +120,35 @@ ActionHandler *GlobalGetActionHandler()
     [PPWebViewController showForGroupBuy:viewController url:url];
 }
 
+-(void)actionOnBuy
+{
+    if (self.product && self.callingViewController) {
+        [self actionOnBuy:self.product viewController:self.callingViewController];
+    }else{
+        NSLog(@"<ActionHandler-actionOnBuy>:product or calling view controller is nil");
+    }
+}
 
 #pragma mark - Action On Forward
 -(void)actionOnForward:(Product *)product viewController:(UIViewController *)viewController
 {
-    _product = product;
+    self.product = product;
     _callingViewController = viewController;
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_FORWARD actionValue:1];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLS(@"取消") destructiveButtonTitle:nil otherButtonTitles:NSLS(@"短信转发"), NSLS(@"邮件转发"), nil];
     
     [actionSheet showFromTabBar:viewController.tabBarController.tabBar];
     [actionSheet release];
+}
+
+-(void)actionOnForward
+{
+    if (self.product && self.callingViewController) {
+        [self actionOnForward:self.product viewController:self.callingViewController];
+    }else{
+        NSLog(@"<ActionHandler-actionForward>:product or calling view controller is nil");
+    }
+    
 }
 
 #pragma mark - send email
@@ -219,16 +279,16 @@ ActionHandler *GlobalGetActionHandler()
 
 -(void)sendSms:(NSString*)receiver body:(NSString*)body
 {
+	if ([MFMessageComposeViewController canSendText] == NO){
+        GlobalSetNavBarBackground(@"navigationbar.png");            
+		return;
+	}	 
+
 	NSLog(@"<sendSms> receiver=%@, body=%@", receiver, body);
 	MFMessageComposeViewController* vc = [[[MFMessageComposeViewController alloc] init] autorelease];
 	vc.messageComposeDelegate = self;
 	vc.body = body;
-	vc.recipients = [NSArray arrayWithObject:receiver];
-	
-	if ([MFMessageComposeViewController canSendText] == NO){
-		return;
-	}	 
-	
+	vc.recipients = [NSArray arrayWithObject:receiver];		
 	[_callingViewController presentModalViewController:vc animated:YES];
 }
 
@@ -249,6 +309,8 @@ ActionHandler *GlobalGetActionHandler()
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {		
+    GlobalSetNavBarBackground(@"navigationbar.png");    
+
 	NSLog(@"<sendSms> result=%d", result);	
 	[_callingViewController dismissModalViewControllerAnimated:YES];
 }
@@ -257,21 +319,21 @@ ActionHandler *GlobalGetActionHandler()
 - (void)handleForwardProduct:(NSInteger)buttonIndex
 {    
     int index = 0;
-    if ([_product.title length] > 30){
+    if ([self.product.title length] > 30){
         index = 30;
     }
     else{
-        index = [_product.title length];
+        index = [self.product.title length];
     }
     
-    NSString* shortDesc = [_product.title substringToIndex:index];    
+    NSString* shortDesc = [self.product.title substringToIndex:index];    
     NSString* subject = [NSString stringWithFormat:@"［甘橙团购推荐］转发团购产品:%@", shortDesc];    
     
-    NSString* smsBody = [NSString stringWithFormat:@"%@ %@ - %@", _product.loc, 
-                         _product.siteName, _product.title];
+    NSString* smsBody = [NSString stringWithFormat:@"%@ %@ - %@", self.product.loc, 
+                         self.product.siteName, self.product.title];
     
     NSString* htmlBody = [NSString stringWithFormat:@"%@ - %@\n\n%@\n\n来自［甘橙团购]", 
-                          _product.siteName, _product.title, _product.loc];
+                          self.product.siteName, self.product.title, self.product.loc];
     
     enum{
         BUTTON_SEND_BY_SMS,
