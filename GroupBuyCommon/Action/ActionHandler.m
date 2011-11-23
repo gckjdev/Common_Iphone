@@ -14,6 +14,8 @@
 #import "TKAlertCenter.h"
 #import "StringUtil.h"
 #import "UINavigationBarExt.h"
+#import "ProductCommentsController.h"
+#import "PPWebViewController.h"
 
 ActionHandler *handler = nil;
 ActionHandler *GlobalGetActionHandler()
@@ -40,7 +42,7 @@ ActionHandler *GlobalGetActionHandler()
     return GlobalGetActionHandler();
 }
 
-
+#pragma mark - Action On Save
 -(void)actionOnSave:(Product *)product;
 {
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
@@ -53,12 +55,31 @@ ActionHandler *GlobalGetActionHandler()
 }
 
 
+#pragma mark - Action On Comment
+
+-(void)actionOnComment:(Product *)product viewController:(UIViewController *)viewController
+{
+    ProductCommentsController *controller = [[ProductCommentsController alloc] init];
+    controller.productId = product.productId;
+    [viewController.navigationController pushViewController:controller animated:YES];
+    [controller release];
+}
+
+#pragma mark - Action On Buy
+-(void)actionOnBuy:(Product *)product viewController:(UIViewController *)viewController
+{
+    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_BUY actionValue:1];
+    [GroupBuyReport reportClickBuyProduct:product];
+    NSString* url = nil;
+    if ([product.wapURL length] > 0)
+        url = product.wapURL;
+    else
+        url = product.loc;
+    [PPWebViewController showForGroupBuy:viewController url:url];
+}
 
 
-
-
-
-
+#pragma mark - Action On Forward
 -(void)actionOnForward:(Product *)product viewController:(UIViewController *)viewController
 {
     _product = product;
@@ -160,6 +181,38 @@ ActionHandler *GlobalGetActionHandler()
 	}
 	
 	return YES;
+}
+
+
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+{	
+	NSString* text = nil;
+	
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: canceled";
+			break;
+		case MFMailComposeResultSaved:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: saved";
+			break;
+		case MFMailComposeResultSent:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: sent";
+			break;
+		case MFMailComposeResultFailed:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: failed";
+			break;
+		default:
+			text = @"<MFMailComposeViewController.didFinishWithResult> Result: not sent";
+			break;
+	}
+	
+	NSLog(@"%@", text);
+    GlobalSetNavBarBackground(@"navigationbar.png");    
+	[_callingViewController dismissModalViewControllerAnimated:YES];
+    
 }
 
 #pragma mark SMS Methods

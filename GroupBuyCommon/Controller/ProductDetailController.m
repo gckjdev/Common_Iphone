@@ -498,30 +498,23 @@ enum {
 
 - (IBAction)clickBuy:(id)sender
 {
-    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_BUY actionValue:1];
-    [GroupBuyReport reportClickBuyProduct:product];
-    [self gotoBuy];
+    [[ActionHandler defaultHandler] actionOnBuy:self.product viewController:self];
 }
 
 - (IBAction)clickSave:(id)sender
 {
-
     [[ActionHandler defaultHandler]actionOnSave:product];
-//    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
-//    [GroupBuyReport reportClickSaveProduct:product];
-//    if ([ProductManager createProductForFavorite:product]){
-//        [self popupHappyMessage:@"团购商品收藏成功" title:@"收藏结果"];
-//    }
 }
  
 - (IBAction)clickForward:(id)sender
 {
     [[ActionHandler defaultHandler] actionOnForward:product viewController:self];
-//    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_FORWARD actionValue:1];
-//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLS(@"取消") destructiveButtonTitle:nil otherButtonTitles:NSLS(@"短信转发"), NSLS(@"邮件转发"), nil];
-//    
-//    [actionSheet showFromTabBar:self.tabBarController.tabBar];
-//    [actionSheet release];
+
+}
+
+- (IBAction)clickComment:(id)sender
+{
+    [[ActionHandler defaultHandler] actionOnComment:self.product viewController:self];
 }
 
 - (void)clickUp:(id)sender
@@ -534,13 +527,6 @@ enum {
     [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_DOWN actionValue:1 viewController:self];
 }
 
-- (IBAction)clickComment:(id)sender
-{
-    ProductCommentsController *controller = [[ProductCommentsController alloc] init];
-    controller.productId = self.product.productId;
-    [self.navigationController pushViewController:controller animated:YES];
-    [controller release];
-}
 
 - (void)actionOnProductFinish:(int)result actionName:(NSString *)actionName count:(long)count
 {

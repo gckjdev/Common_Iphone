@@ -24,7 +24,8 @@
 +(ActionHandler *)defaultHandler;
 -(void)actionOnSave:(Product *)product;
 -(void)actionOnForward:(Product *)product viewController:(UIViewController *)viewController;
-
+-(void)actionOnComment:(Product *)product viewController:(UIViewController *)viewController;
+-(void)actionOnBuy:(Product *)product viewController:(UIViewController *)viewController;
 @end
 
 extern ActionHandler *GlobalGetActionHandler();
