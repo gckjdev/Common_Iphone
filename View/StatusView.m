@@ -60,6 +60,9 @@ StatusView *globalStatusView;
                duration:(int)duration
 
 {
+    if (self.statusWindow == nil){
+        statusWindow = [[UIWindow alloc] init];
+    }
 
     CGRect frame = CGRectMake(0, -20, 320, 20);
     
@@ -110,6 +113,12 @@ StatusView *globalStatusView;
     frame.origin.y -= 20;
     [globalStatusView.statusWindow setFrame:frame];
     [UIView commitAnimations];
+    
+//    [[[[UIApplication sharedApplication] delegate] window] makeKeyAndVisible];
+    
+//    [self.window resignKeyWindow];
+    
+    self.statusWindow = nil;
 }
 
 + (void)showtStatusText:(NSString*)text 

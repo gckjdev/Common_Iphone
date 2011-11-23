@@ -348,8 +348,8 @@ DownloadService* globalDownloadService;
     [manager setFileInfo:item newFileName:fileName fileSize:fileSize];
     
     // notify UI to show info
-    NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadStart"), item.fileName];
-    [StatusView showtStatusText:statusText vibrate:NO duration:10.0];
+//    NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadStart"), item.fileName];
+//    [StatusView showtStatusText:statusText vibrate:NO duration:10.0];
     
     // report to server
     [self reportDownload:item];
@@ -388,8 +388,8 @@ DownloadService* globalDownloadService;
     [[DownloadItemManager defaultManager] finishDownload:item];
     PPDebug(@"item (%@) download done, response done = %@", [item itemId], response);
     
-    NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadFinish"), item.fileName];
-    [StatusView showtStatusText:statusText vibrate:NO duration:10.0];
+//    NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadFinish"), item.fileName];
+//    [StatusView showtStatusText:statusText vibrate:NO duration:10.0];
 }
 
 - (void)requestWentWrong:(ASIHTTPRequest *)request
@@ -400,8 +400,9 @@ DownloadService* globalDownloadService;
     PPDebug(@"item (%@) download failure, response done = %@", [item itemId], [error description]);
     
     NSString* fileInfo = ([item.fileName length] > 0) ? item.fileName : item.url;
-    NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadFailure"), fileInfo];
-    [StatusView showtStatusText:statusText vibrate:NO duration:10.0];
+
+//    NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadFailure"), fileInfo];
+//    [StatusView showtStatusText:statusText vibrate:NO duration:10.0];
 
 }
 

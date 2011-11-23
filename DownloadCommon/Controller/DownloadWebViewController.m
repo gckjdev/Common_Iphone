@@ -306,6 +306,8 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [self hideActivity];
     if (loadActivityIndicator.superview)
         [loadActivityIndicator removeFromSuperview];
+
+//    [[[[UIApplication sharedApplication] delegate] window] make];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -335,6 +337,8 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [superController presentModalViewController:webController animated:YES];
     [webController openURL:url];  
     [webController setWebSite:url];
+    
+    
 }
 
 - (IBAction)clickBack:(id)sender
