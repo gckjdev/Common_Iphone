@@ -21,6 +21,8 @@
 
 #import "GroupBuyReport.h"
 #import "ProductService.h"
+#import "ActionHandler.h"
+
 
 @implementation AdProductTextCell
 
@@ -86,11 +88,12 @@
 //}
 - (IBAction)clickSave:(id)sender {
     
-    [GlobalGetProductService() actionOnProduct:self.product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
-    [GroupBuyReport reportClickSaveProduct:self.product];
-    if ([ProductManager createProductForFavorite:self.product]){
-       // [self popupHappyMessage:@"团购商品收藏成功" title:@"收藏结果"];
-    }
+//    [GlobalGetProductService() actionOnProduct:self.product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
+//    [GroupBuyReport reportClickSaveProduct:self.product];
+//    if ([ProductManager createProductForFavorite:self.product]){
+//       // [self popupHappyMessage:@"团购商品收藏成功" title:@"收藏结果"];
+//    }
+    [[ActionHandler defaultHandler] actionOnSave:self.product];
 }
 
 - (NSString*)getTimeInfo:(int)seconds

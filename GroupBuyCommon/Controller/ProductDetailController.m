@@ -22,6 +22,7 @@
 #import "TaobaoSearchController.h"
 #import "ProductDetailCell.h"
 #import "UINavigationBarExt.h"
+#import "ActionHandler.h"
 
 enum {
     SECTION_IMAGE,
@@ -505,20 +506,22 @@ enum {
 - (IBAction)clickSave:(id)sender
 {
 
-    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
-    [GroupBuyReport reportClickSaveProduct:product];
-    if ([ProductManager createProductForFavorite:product]){
-        [self popupHappyMessage:@"团购商品收藏成功" title:@"收藏结果"];
-    }
+    [[ActionHandler defaultHandler]actionOnSave:product];
+//    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_ADD_FAVORITE actionValue:1];
+//    [GroupBuyReport reportClickSaveProduct:product];
+//    if ([ProductManager createProductForFavorite:product]){
+//        [self popupHappyMessage:@"团购商品收藏成功" title:@"收藏结果"];
+//    }
 }
  
 - (IBAction)clickForward:(id)sender
 {
-    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_FORWARD actionValue:1];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLS(@"取消") destructiveButtonTitle:nil otherButtonTitles:NSLS(@"短信转发"), NSLS(@"邮件转发"), nil];
-    
-    [actionSheet showFromTabBar:self.tabBarController.tabBar];
-    [actionSheet release];
+    [[ActionHandler defaultHandler] actionOnForward:product viewController:self];
+//    [GlobalGetProductService() actionOnProduct:product.productId actionName:PRODUCT_ACTION_FORWARD actionValue:1];
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLS(@"取消") destructiveButtonTitle:nil otherButtonTitles:NSLS(@"短信转发"), NSLS(@"邮件转发"), nil];
+//    
+//    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+//    [actionSheet release];
 }
 
 - (void)clickUp:(id)sender

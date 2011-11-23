@@ -7,7 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MessageUI/MessageUI.h>
+@class Product;
 
-@interface ActionHandler : NSObject
+@protocol ActionDelegate <NSObject>
+
+@optional
+-(void)ActionDidSend:(NSInteger)actionType actionName:(NSString *) actionName Product:(Product *)product;
+@end
+
+@interface ActionHandler : NSObject<UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
+{
+    Product *_product;
+    UIViewController *_callingViewController;
+}
++(ActionHandler *)defaultHandler;
+-(void)actionOnSave:(Product *)product;
+-(void)actionOnForward:(Product *)product viewController:(UIViewController *)viewController;
 
 @end
+
+extern ActionHandler *GlobalGetActionHandler();
