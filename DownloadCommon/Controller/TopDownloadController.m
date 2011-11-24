@@ -259,8 +259,8 @@
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:NSLS(@"kDownloaded_Before")   
                                                        message:NSLS(@"kRedownload")   
                                                       delegate:self   
-                                             cancelButtonTitle:NSLS(@"kRedownload_NO")  
-                                             otherButtonTitles:NSLS(@"kRedownload_YES"),nil];
+                                             cancelButtonTitle:NSLS(@"NO")  
+                                             otherButtonTitles:NSLS(@"YES"),nil];
         [alert show];  
         [alert release];  
     } else {

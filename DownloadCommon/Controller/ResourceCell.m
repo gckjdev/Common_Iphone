@@ -57,7 +57,7 @@
     if ([fileType length] > 0)
         self.fileTypeLabel.text = fileType;
     else{
-        self.fileTypeLabel.text = NSLS(@"FileType_Other");
+        self.fileTypeLabel.text = NSLS(@"kFileType_other");
     }    
 }
 
