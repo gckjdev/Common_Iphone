@@ -355,7 +355,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
+    BOOL canSelected = YES;
+    id canSelectedObj = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFCanViewProductDetail"] ;
+    if(canSelectedObj){
+        canSelected = [canSelectedObj boolValue];
+    }
+    if (!canSelected) {
+        return;
+    }
     if ([self isMoreRow:indexPath.row]){
         [self showActivityWithText:@"加载数据中..."];
         [self.moreLoadingView startAnimating];
