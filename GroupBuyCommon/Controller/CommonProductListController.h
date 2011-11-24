@@ -10,14 +10,9 @@
 #import "PPTableViewController.h"
 #import "ProductService.h"
 #import "AdViewUtils.h"
+#import "CommonProductTextCell.h"
 
 @class CommonProductListController;
-
-enum PRODUCT_DISPLAY_TYPE{
-
-    PRODUCT_DISPLAY_GROUPBUY,
-    PRODUCT_DISPLAY_TAOBAO
-};
 
 @protocol ProductDataLoader <NSObject>
 

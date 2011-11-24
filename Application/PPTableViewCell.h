@@ -22,6 +22,7 @@
 + (NSString*)getCellIdentifier;
 + (CGFloat)getCellHeight;
 
+- (void)setCellStyle;
 @property (nonatomic, assign) id delegate;
 @property (nonatomic, retain) NSIndexPath *indexPath;
 @property (nonatomic, retain) PPTableViewController *tableViewController;

@@ -240,6 +240,7 @@
 #define PARA_MAX_DISTANCE @"md"
 #define PARA_TODAY_ONLY @"to"
 #define PARA_SORT_BY @"sb"
+#define PARA_PRODUCT_TYPE @"pt"
 
 #define PARA_START_PRICE @"sp"
 #define PARA_END_PRICE @"ep"
@@ -269,6 +270,7 @@
 
 #define CATEGORY_TAOBAO_MIAOSHA         100
 #define CATEGORY_TAOBAO_ZHEKOU          150
+#define CATEGORY_AD                     200
 
 #define DATA_UNDEFINE                   (-1)
 

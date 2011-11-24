@@ -299,6 +299,15 @@
     [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate distance:distance image:product.image];
 }
 
+- (void)setActionHandler:(ActionHandler *)hander
+{
+    
+}
+- (ActionHandler *)actionHander
+{
+    return nil; 
+}
+
 - (void)dealloc {
     
     [productDescLabel release];

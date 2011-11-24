@@ -1,12 +1,12 @@
 //
-//  TaobaoProductTextCell.m
+//  AdProductTextCell.m
 //  groupbuy
 //
 //  Created by qqn_pipi on 11-7-23.
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#import "TaobaoProductTextCell.h"
+#import "AdProductTextCell.h"
 #import "Product.h"
 #import "LocationService.h"
 #import "Product.h"
@@ -19,10 +19,14 @@
 #import "NumberUtil.h"
 #import "FontUtils.h"
 
+#import "GroupBuyReport.h"
+#import "ProductService.h"
+#import "ActionHandler.h"
 
-@implementation TaobaoProductTextCell
+@implementation AdProductTextCell
 
 @synthesize imageView;
+@synthesize offsetLabel;
 @synthesize productDescLabel;
 @synthesize valueLabel;
 @synthesize priceLabel;
@@ -31,47 +35,64 @@
 @synthesize distanceLabel;
 @synthesize boughtLabel;
 @synthesize siteNameLabel;
+@synthesize product=_product;
+@synthesize actionHandler = _handler;
 
 
 
 // just replace PPTableViewCell by the new Cell Class Name
 + (PPTableViewCell<CommonProductTextCell>*)createCell:(id)delegate
 {
-    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"TaobaoProductTextCell" 
+    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"AdProductTextCell" 
                                                              owner:self options:nil];
     // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).  
     if (topLevelObjects == nil || [topLevelObjects count] <= 0){
-        NSLog(@"create <TaobaoProductTextCell> but cannot find cell object from Nib");
+        NSLog(@"create <AdProductTextCell> but cannot find cell object from Nib");
         return nil;
     }
+    AdProductTextCell *cell = ((AdProductTextCell*)[topLevelObjects objectAtIndex:0]);
+    cell.delegate = delegate;
+
     
-    ((TaobaoProductTextCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
-    
-    return (TaobaoProductTextCell*)[topLevelObjects objectAtIndex:0];
+    return cell;
 }
 
 - (void)setCellStyle
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.leftTimeLabel.hidden = NO;
+    self.leftTimeLabel.hidden = YES;
     self.valueLabel.hidden = YES;
-    self.siteNameLabel.hidden = YES;
-//    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    self.boughtLabel.hidden = YES;
+    self.priceLabel.hidden = YES;
+    
 }
 
 + (NSString*)getCellIdentifier
 {
-    return @"TaobaoProductTextCell";
+    return @"AdProductTextCell";
 }
 
 + (CGFloat)getCellHeight
 {
-    return 116.0f;
+    return 175;
 }
 
 + (BOOL)needReloadVisiableCellTimer
 {
     return YES;
+}
+//- (void)popupHappyMessage:(NSString*)msg title:(NSString*)title
+//{
+//	NSString* newMsg = [NSString stringWithFormat:@"%@ %@", kHappyFace, msg];
+//	[self popupMessage:newMsg title:title];
+//}
+- (IBAction)clickSave:(id)sender {
+    
+    [[self actionHander] actionOnSave];
+}
+
+- (IBAction)clickForward:(id)sender {
+    [[self actionHander] actionOnForward];
 }
 
 - (NSString*)getTimeInfo:(int)seconds
@@ -156,6 +177,7 @@
                             rebate:(NSNumber*)rebate
                           distance:(double)distance
                                image:(NSString*)image
+                            offset:(int)offset
 
 {
     int leftSeconds = [endDate timeIntervalSinceNow];
@@ -172,7 +194,7 @@
     distanceLabel.textColor = textColor2;
     boughtLabel.textColor = textColor2;    
     
-    self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];    
+    self.productDescLabel.text = [NSString stringWithFormat:@"%@", title];    
 //    self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [self getValue:value]];        
     
     NSInteger priceInteger = [price integerValue];
@@ -202,6 +224,7 @@
     self.leftTimeLabel.text = [NSString stringWithFormat:@"距离结束: %@", timeInfo];
     self.leftTimeLabel.textColor = textColor2;
 
+    self.offsetLabel.text = [NSString stringWithFormat:@"%d", offset];
     
 //    if (distance > 0.0f && distance < MAXFLOAT){
 //        NSString *distanceStr = [self getDistance:distance];    
@@ -211,8 +234,8 @@
 //        self.distanceLabel.text = @"";         
 //    }
     
-//    self.siteNameLabel.text = siteName;
-    self.boughtLabel.text = [NSString stringWithFormat:@"累计售出: %@", [self getBoughtInfo:bought]]; 
+    self.siteNameLabel.text = siteName;
+//    self.boughtLabel.text = [NSString stringWithFormat:@"累计售出: %@", [self getBoughtInfo:bought]]; 
     
 //    if ([price isEqualToNumber:value]){
 //        self.rebateLabel.text = @"";
@@ -270,7 +293,7 @@
 {
 }
 
-- (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath
+- (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPathValue
 {
     NSDate* endDate = dateFromUTCStringByFormat([product objectForKey:PARA_END_DATE], DEFAULT_DATE_FORMAT);
     NSString* siteName = [product objectForKey:PARA_SITE_NAME];
@@ -280,6 +303,7 @@
     NSNumber* bought = [product objectForKey:PARA_BOUGHT];
     NSNumber* rebate = [product objectForKey:PARA_REBATE];    
     NSString* image = [product objectForKey:PARA_IMAGE];
+    int offset = indexPathValue.row + 1;
     
     LocationService *locationService = GlobalGetLocationService();
     CLLocation *location = [locationService currentLocation];
@@ -287,29 +311,25 @@
     double distance = [ProductManager calcShortestDistance:[ProductManager gpsArray:[product objectForKey:PARA_GPS]]
                                            currentLocation:location];
     
-    [self setCellInfoWithProductInfo:endDate siteName:siteName title:title value:value price:price bought:bought rebate:rebate distance:distance image:image];
+    [self setCellInfoWithProductInfo:endDate siteName:siteName title:title value:value price:price bought:bought rebate:rebate distance:distance image:image offset:offset];
 }
 
 
-- (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath
+- (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPathValue
 {
+    self.product = product;
     LocationService *locationService = GlobalGetLocationService();
     CLLocation *location = [locationService currentLocation];
 
     double distance = [ProductManager calcShortestDistance:[product gpsArray] currentLocation:location];
     
-    [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate distance:distance image:product.image];
-}
-
-
-- (void)setActionHandler:(ActionHandler *)hander
-{
+    int offset = indexPathValue.row + 1;
     
+    [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate distance:distance image:product.image offset:offset];
 }
-- (ActionHandler *)actionHander
-{
-    return nil;
-}
+
+
+
 - (void)dealloc {
     
     [productDescLabel release];
@@ -321,6 +341,9 @@
     [boughtLabel release];
     [imageView release];
     [siteNameLabel release];
+    [offsetLabel release];
+    [_product release];
+    [_handler release];
     [super dealloc];
 }
 

@@ -8,7 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class PPTableViewCell;
 @class Product;
+@class ActionHandler;
+
+enum PRODUCT_DISPLAY_TYPE{
+    
+    PRODUCT_DISPLAY_GROUPBUY,
+    PRODUCT_DISPLAY_TAOBAO,
+    PRODUCT_DISPLAY_AD,
+};
 
 @protocol CommonProductTextCell <NSObject>
 
@@ -20,4 +29,7 @@
 - (void)setCellInfoWithProduct:(Product*)product indexPath:(NSIndexPath*)indexPath;
 - (void)setCellInfoWithProductDictionary:(NSDictionary*)product indexPath:(NSIndexPath*)indexPath;
 
+@required
+- (void)setActionHandler:(ActionHandler *)hander;
+- (ActionHandler *)actionHander;
 @end

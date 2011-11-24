@@ -16,7 +16,18 @@
 
 const int MAX_COUNT = DEFAULT_MAX_COUNT;
 
+static int globalProductType = -1;
+
 @implementation GroupBuyNetworkRequest
+
++ (int)getProductType
+{
+    if (globalProductType == -1){
+        globalProductType = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFProductType"] intValue];
+    }
+    
+    return globalProductType;
+}
 
 + (CommonNetworkOutput *)getAllCategory:(NSString *)baseURL
                                   appId:(NSString *)appId
@@ -292,6 +303,11 @@ const int MAX_COUNT = DEFAULT_MAX_COUNT;
             str = [str stringByAddQueryParameter:PARA_CATEGORIES value:category];
         }
         
+        int productType = [GroupBuyNetworkRequest getProductType];
+        if (productType > 0){
+            str = [str stringByAddQueryParameter:PARA_PRODUCT_TYPE intValue:productType];            
+        }
+        
         return str;
     };
     
@@ -349,6 +365,11 @@ const int MAX_COUNT = DEFAULT_MAX_COUNT;
         
         str = [str stringByAddQueryParameter:PARA_START_OFFSET intValue:startOffset];
         str = [str stringByAddQueryParameter:PARA_SORT_BY intValue:sortBy];
+        
+        int productType = [GroupBuyNetworkRequest getProductType];
+        if (productType > 0){
+            str = [str stringByAddQueryParameter:PARA_PRODUCT_TYPE intValue:productType];            
+        }
         
         return str;
     };
