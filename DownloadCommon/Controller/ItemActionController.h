@@ -15,15 +15,21 @@
 @class DownloadItem;
 
 @interface ItemActionController : PPViewController <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
-{
-    NSNumber *alertViewNumber;
-    UITextView* textViewOfAlertView;
-}
+
+@property (retain, nonatomic) IBOutlet UIButton *openButton;
+@property (retain, nonatomic) IBOutlet UIButton *renameButton;
+@property (retain, nonatomic) IBOutlet UIButton *DeleteButton;
+@property (retain, nonatomic) IBOutlet UIButton *facebookButton;
+@property (retain, nonatomic) IBOutlet UIButton *twitterButton;
+@property (retain, nonatomic) IBOutlet UIButton *emailShareButton;
+@property (retain, nonatomic) IBOutlet UIButton *SMSButton;
+@property (retain, nonatomic) IBOutlet UIButton *moreButton;
+@property (retain, nonatomic) IBOutlet UIButton *albumButton;
+@property (retain, nonatomic) IBOutlet UIButton *emailSendButton;
 
 @property (nonatomic, retain) DownloadItem *item;
 @property (nonatomic, retain) UIViewController<CommonFileActionProtocol> *playItemController;
 @property (retain, nonatomic) IBOutlet UIView *playItemSuperView;
-@property (retain, nonatomic) IBOutlet UILabel *Message;
 @property (retain, nonatomic) NSNumber *alertViewNumber;
 @property (retain, nonatomic) UITextView* textViewOfAlertView;
 
@@ -39,5 +45,7 @@
 - (void)displayComposeEmailForSend;
 - (void)launchMailAppOnDevice;
 - (void)displaySMSComposerSheet;
+
+- (void)updateSaveAlbumButton;
 
 @end

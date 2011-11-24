@@ -25,10 +25,12 @@
 #import "GroupBuyControllerExt.h"
 #import "UIAlertViewUtils.h"
 #import "TaobaoProductTextCell.h"
+#import "ActionHandler.h"
 
 @implementation CommonProductListController
 
 @synthesize superController;
+@synthesize noProductLabel;
 @synthesize dataLoader;
 @synthesize categoryId;
 @synthesize type;
@@ -50,6 +52,7 @@
     [dataLoader release];
     [categoryId release];
     [type release];
+    [noProductLabel release];
     [super dealloc];
 }
 
@@ -62,6 +65,16 @@
 }
 
 #pragma mark - View lifecycle
+
+- (void)showNoProductLabel
+{
+    if ([self.dataList count] == 0){
+        self.noProductLabel.hidden = NO;
+    }
+    else{
+        self.noProductLabel.hidden = YES;
+    }
+}
 
 // to be override
 - (NSArray*)requestProductListFromDB
@@ -106,6 +119,8 @@
     if ([self isReloading]){
         [self dataSourceDidFinishLoadingNewData];
     }
+    
+    [self showNoProductLabel];
 }
 
 - (void)initDataList
@@ -122,22 +137,38 @@
 }
 
 - (void)initDisplayCellClass
-{
-    if (productDisplayType == PRODUCT_DISPLAY_TAOBAO)
-        productDisplayClass = [TaobaoProductTextCell class];
-    else
-        productDisplayClass = [ProductTextCell class];
+{    
+    switch (productDisplayType) {
+        case PRODUCT_DISPLAY_TAOBAO:
+            productDisplayClass = NSClassFromString(@"ProductTextCell");
+            break;
+            
+        case PRODUCT_DISPLAY_GROUPBUY:
+            productDisplayClass = NSClassFromString(@"TaobaoProductTextCell");
+            break;
+
+        case PRODUCT_DISPLAY_AD:
+            productDisplayClass = NSClassFromString(@"AdProductTextCell");
+            break;
+
+        default:
+            break;
+    }
+    
+    if (productDisplayClass == nil){
+        NSLog(@"ERROR! Cannot find class for product display!");
+    }
 }
 
 - (void)initReloadTableViewVisiableCellTimer
 {
     if ([productDisplayClass needReloadVisiableCellTimer]){
-        [self scheduleReloadVisiableCellTimer];
+        [self scheduleReloadVisiableCellTimer:5]; // reload every 5 seconds
     }
 }
 
 - (void)viewDidLoad
-{    
+{        
     // set product display cell class
     [self initDisplayCellClass];
     [self initReloadTableViewVisiableCellTimer];
@@ -160,7 +191,18 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (bannerView == nil){
+        bannerView = [AdViewUtils allocAdMobView:self];  
+        if (bannerView != nil){
+            CGRect rect = self.dataTableView.frame;
+            rect.size.height -= 50;
+            self.dataTableView.frame = rect;
+        }
+    }
+    
     self.dataList = [self requestProductListFromDB]; 
+    [self showNoProductLabel];
+
     if (self.dataList == nil || [dataList count] == 0){
         [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];                
@@ -172,11 +214,10 @@
     [super viewDidAppear:YES];
 }
 
-
-
-
 - (void)viewDidUnload
 {
+    [bannerView release];
+    [self setNoProductLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -287,6 +328,8 @@
 
     cell.indexPath = indexPath;
 	
+
+    
 	// set text label
 	int row = [indexPath row];	
 	int count = [dataList count];
@@ -296,8 +339,15 @@
 	}
 	
 	Product* product = [dataList objectAtIndex:row];
+    
+    UIViewController *controller = (self.superController == nil) ? self : self.superController;
+    
+    ActionHandler *handler = [[ActionHandler alloc] initWithProduct:product callingViewController:controller];
+    [cell setActionHandler:handler];    
+    [handler release];
     [cell setCellInfoWithProduct:product indexPath:indexPath];    
-	
+    [cell setCellStyle];
+
 	return cell;
 	
 }
@@ -305,7 +355,20 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	    
+    
+    BOOL canSelected = YES;
+    id canSelectedObj = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFCanViewProductDetail"] ;
+    if(canSelectedObj){
+        canSelected = [canSelectedObj boolValue];
+    }
+    if (!canSelected) {
+        Product *product = [dataList objectAtIndex:indexPath.row];
+        UIViewController *controller = (self.superController == nil) ? self : self.superController;
+        [[ActionHandler defaultHandler] actionOnBuy:product viewController:controller];
+        return;
+    }
+    
+    
     if ([self isMoreRow:indexPath.row]){
         [self showActivityWithText:@"加载数据中..."];
         [self.moreLoadingView startAnimating];

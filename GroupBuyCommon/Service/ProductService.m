@@ -137,6 +137,13 @@
             }
                 break;
                 
+            case USE_FOR_END_DATE:
+            {
+                output = [GroupBuyNetworkRequest findAllProductsWithEndDate:SERVER_URL appId:appId startOffset:startOffset city:city category:nil];
+            }
+                break;
+            
+                
             default:
             {
                 if (useFor >= USE_FOR_CATEGORY_TOPSCORE_BELOW_TEN && useFor < USE_FOR_CATEGORY_TOPSCORE_ABOVE_TEN) {

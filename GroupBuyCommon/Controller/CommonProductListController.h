@@ -9,14 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "PPTableViewController.h"
 #import "ProductService.h"
+#import "AdViewUtils.h"
+#import "CommonProductTextCell.h"
 
 @class CommonProductListController;
-
-enum PRODUCT_DISPLAY_TYPE{
-
-    PRODUCT_DISPLAY_GROUPBUY,
-    PRODUCT_DISPLAY_TAOBAO
-};
 
 @protocol ProductDataLoader <NSObject>
 
@@ -38,9 +34,12 @@ enum PRODUCT_DISPLAY_TYPE{
     NSInteger                       appearCount;
     
     Class                           productDisplayClass;
+    
+    GADBannerView                   *bannerView;
 }
 
 @property (nonatomic, retain) UIViewController                *superController;
+@property (retain, nonatomic) IBOutlet UILabel *noProductLabel;
 @property (nonatomic, retain) NSObject<ProductDataLoader>     *dataLoader;
 @property (nonatomic, retain) NSString                        *categoryId;
 @property (nonatomic, retain) NSString                        *type;

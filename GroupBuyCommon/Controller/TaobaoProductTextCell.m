@@ -163,17 +163,17 @@
     
     UIColor* textColor = [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
     UIColor* textColor2 = [UIColor colorWithRed:183/255.0 green:177/255.0 blue:169/255.0 alpha:1.0];
+    UIColor* textColor3 = [UIColor colorWithRed:245/255.0 green:109/255.0 blue:42/255.0 alpha:1.0f];
     
     productDescLabel.textColor = textColor;
-    priceLabel.textColor = [UIColor colorWithRed:245/255.0 green:109/255.0 blue:42/255.0 alpha:1.0];
+    priceLabel.textColor = textColor3;
     siteNameLabel.textColor = textColor;
     rebateLabel.textColor = textColor2;
     distanceLabel.textColor = textColor2;
-    boughtLabel.textColor = textColor2;
-    
+    boughtLabel.textColor = textColor2;    
     
     self.productDescLabel.text = [NSString stringWithFormat:@"%@ - %@", siteName, title];    
-    self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [self getValue:value]];        
+//    self.valueLabel.text = [NSString stringWithFormat:@"原价: %@元", [self getValue:value]];        
     
     NSInteger priceInteger = [price integerValue];
     NSInteger priceDecimal = getDecimal([price floatValue]);
@@ -185,11 +185,12 @@
     }
 
     NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:priceText];
-
+    
     [attrStr setFont:[FontUtils HeitiSC:24]];
-	[attrStr setTextColor:[UIColor colorWithRed:245/255.0 green:109/255.0 blue:42/255.0 alpha:1.0f]];    
-	[attrStr setTextColor:[UIColor colorWithRed:111/255.0f green:104/255.0f blue:94/255.0f alpha:1.f] range:[priceText rangeOfString:@"元"]];
-	[attrStr setFont:[FontUtils HeitiSC:12] range:[priceText rangeOfString:@"元"]];
+	[attrStr setTextColor:textColor3];    
+    NSRange rangeOfUnit = [priceText rangeOfString:@"元"];
+	[attrStr setTextColor:textColor range:rangeOfUnit];
+	[attrStr setFont:[FontUtils HeitiSC:12] range:rangeOfUnit];
         
     if (priceDecimal != 0) {
         NSString *text = [NSString stringWithFormat:@".%d",priceDecimal];
@@ -197,41 +198,40 @@
     }
     self.priceLabel.attributedText = attrStr;
     self.priceLabel.backgroundColor = [UIColor clearColor];
-    
-    
+        
     self.leftTimeLabel.text = [NSString stringWithFormat:@"距离结束: %@", timeInfo];
     self.leftTimeLabel.textColor = textColor2;
 
     
-    if (distance > 0.0f && distance < MAXFLOAT){
-        NSString *distanceStr = [self getDistance:distance];    
-        self.distanceLabel.text = [NSString stringWithFormat:@"距离: %@",distanceStr];
-    }
-    else{
-        self.distanceLabel.text = @"";         
-    }
+//    if (distance > 0.0f && distance < MAXFLOAT){
+//        NSString *distanceStr = [self getDistance:distance];    
+//        self.distanceLabel.text = [NSString stringWithFormat:@"距离: %@",distanceStr];
+//    }
+//    else{
+//        self.distanceLabel.text = @"";         
+//    }
     
-    self.siteNameLabel.text = siteName;
+//    self.siteNameLabel.text = siteName;
     self.boughtLabel.text = [NSString stringWithFormat:@"累计售出: %@", [self getBoughtInfo:bought]]; 
     
-    if ([price isEqualToNumber:value]){
-        self.rebateLabel.text = @"";
-    }
-    else{
-        self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [self getRebateString:rebate]]; 
-    }
+//    if ([price isEqualToNumber:value]){
+//        self.rebateLabel.text = @"";
+//    }
+//    else{
+//        self.rebateLabel.text = [NSString stringWithFormat:@"折扣: %@折", [self getRebateString:rebate]]; 
+//    }
     
 //    NSLog(@"rebate=%f, rebate=%@", [rebate doubleValue], [rebate description]);
     
 //    if ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == ReachableViaWiFi){
-        self.imageView.hidden = NO;
-        self.imageView.callbackOnSetImage = self;
+//        self.imageView.hidden = NO;
+//        self.imageView.callbackOnSetImage = self;
         [self.imageView clear];
         self.imageView.url = [NSURL URLWithString:image];
         [GlobalGetImageCache() manage:self.imageView];
         
         
-        self.productDescLabel.hidden = NO;        
+//        self.productDescLabel.hidden = NO;        
 //    }
 //    else{
 //        self.imageView.hidden = YES;
@@ -301,6 +301,15 @@
     [self setCellInfoWithProductInfo:product.endDate siteName:product.siteName title:product.title value:product.value price:product.price bought:product.bought rebate:product.rebate distance:distance image:product.image];
 }
 
+
+- (void)setActionHandler:(ActionHandler *)hander
+{
+    
+}
+- (ActionHandler *)actionHander
+{
+    return nil;
+}
 - (void)dealloc {
     
     [productDescLabel release];

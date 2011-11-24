@@ -193,7 +193,8 @@ DownloadItemManager* globalDownloadManager;
 
 - (BOOL)deleteItem:(DownloadItem*)item
 {
-    if ([[NSFileManager defaultManager] removeItemAtPath:item.localPath error:nil])
+    NSError *error = nil;
+    if ([[NSFileManager defaultManager] removeItemAtPath:item.localPath error:&error])
     {
         item.deleteFlag = [NSNumber numberWithInt:1];
         [[CoreDataManager dataManager] save];
@@ -201,6 +202,7 @@ DownloadItemManager* globalDownloadManager;
     }
     else
     {
+        PPDebug(@"delete item fail, error = %@", [error description]);
         return NO;
     }
 }
@@ -212,11 +214,25 @@ DownloadItemManager* globalDownloadManager;
     NSMutableString *filepath = [[NSMutableString alloc] initWithFormat:@""];
     [filepath appendString:item.localPath];
     
-    [filepath replaceCharactersInRange:rgn withString:newFileName];
+    NSString *realNewFileName;
     
-    if ([[NSFileManager defaultManager] moveItemAtPath:item.localPath toPath:filepath error:nil])
+    
+    if (0 == [[newFileName pathExtension] length])
     {
-        item.fileName=newFileName;
+        realNewFileName = [NSString stringWithFormat:@"%@.%@",newFileName,[item.fileName pathExtension]];
+    }
+    else
+    {
+        realNewFileName = [NSString stringWithFormat:@"%@",newFileName];
+    }
+    
+    
+    [filepath replaceCharactersInRange:rgn withString:realNewFileName];
+    
+    NSError *error = nil;
+    if ([[NSFileManager defaultManager] moveItemAtPath:item.localPath toPath:filepath error:&error])
+    {
+        item.fileName=realNewFileName;
         item.localPath=filepath;
         [[CoreDataManager dataManager] save];
         [filepath release];
@@ -224,6 +240,7 @@ DownloadItemManager* globalDownloadManager;
     }
     else
     {
+        PPDebug(@"delete item fail, error = %@", [error description]);
         [filepath release];
         return NO;
     }

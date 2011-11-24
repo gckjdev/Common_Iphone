@@ -18,6 +18,10 @@
 @synthesize currentSelection;
 @synthesize actionController;
 @synthesize lastPlayingItem;
+@synthesize filterAllButton;
+@synthesize filterCompleteButton;
+@synthesize filterDownloadingButton;
+@synthesize filterStarredButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,6 +44,10 @@
 {
     [actionController release];
     [lastPlayingItem release];
+    [filterAllButton release];
+    [filterCompleteButton release];
+    [filterDownloadingButton release];
+    [filterStarredButton release];
     [super dealloc];
 }
 
@@ -71,6 +79,11 @@
 
 - (void)viewDidLoad
 {
+    [self.filterAllButton setTitle:NSLS(@"kFilterAllButtonTitle") forState:UIControlStateNormal];
+    [self.filterCompleteButton setTitle:NSLS(@"kFilterCompleteButtonTitle") forState:UIControlStateNormal];
+    [self.filterDownloadingButton setTitle:NSLS(@"kFilterDownloadingButtonTitle") forState:UIControlStateNormal];
+    [self.filterStarredButton setTitle:NSLS(@"kFilterStarredButtonTitle") forState:UIControlStateNormal];
+    
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateProgressTimer) userInfo:nil repeats:YES];
     
     [super viewDidLoad];
@@ -78,8 +91,6 @@
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
-
-    
 }
 
 - (void) clickNowPlaying:(id) sender
@@ -115,6 +126,10 @@
 
 - (void)viewDidUnload
 {
+    [self setFilterAllButton:nil];
+    [self setFilterCompleteButton:nil];
+    [self setFilterDownloadingButton:nil];
+    [self setFilterStarredButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
