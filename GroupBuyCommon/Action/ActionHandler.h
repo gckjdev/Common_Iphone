@@ -24,7 +24,18 @@
 +(ActionHandler *)defaultHandler;
 -(void)actionOnSave:(Product *)product;
 -(void)actionOnForward:(Product *)product viewController:(UIViewController *)viewController;
+-(void)actionOnComment:(Product *)product viewController:(UIViewController *)viewController;
+-(void)actionOnBuy:(Product *)product viewController:(UIViewController *)viewController;
 
+-(void)actionOnForward;
+-(void)actionOnComment;
+-(void)actionOnBuy;
+-(void)actionOnSave;
+
+-(id)initWithProduct:(Product *)aProduct callingViewController:(UIViewController *)aViewController;
+
+@property(nonatomic, retain)UIViewController *callingViewController;
+@property(nonatomic, retain)Product *product;
 @end
 
 extern ActionHandler *GlobalGetActionHandler();

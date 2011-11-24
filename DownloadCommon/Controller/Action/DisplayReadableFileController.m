@@ -70,8 +70,8 @@
 
 - (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
 {
-    [self docControllerPreview:viewController downloadItem:item];
-//    [self quickLookPreview:viewController downloadItem:item];
+//    [self docControllerPreview:viewController downloadItem:item];
+    [self quickLookPreview:viewController downloadItem:item];
 }
 
 - (void)showPlayerView

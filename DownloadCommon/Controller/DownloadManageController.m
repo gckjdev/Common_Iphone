@@ -96,7 +96,11 @@
 - (void) clickNowPlaying:(id) sender
 {
     DownloadService * service = [DownloadService defaultService];
-    [service playItem:lastPlayingItem viewController:self];
+   // [service playItem:lastPlayingItem viewController:self];
+    
+    NSArray *imageList = [self filterDownloadItemByImage];
+    int indexValue = [imageList indexOfObject:lastPlayingItem];
+    [service playItem:imageList index:indexValue viewController:self];
 }
 
 - (void) updateNowPlayingButton
@@ -223,6 +227,21 @@
     [self.dataTableView reloadRowsAtIndexPaths:[self.dataTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
 }
 
+- (NSArray*)filterDownloadItemByImage
+{
+    NSArray *allList = [[DownloadItemManager defaultManager]findAllCompleteItems];
+    NSMutableArray *retList = [[[NSMutableArray alloc] init] autorelease];
+
+    for (DownloadItem *item in allList) {
+        if ([item canView]) {
+            [retList addObject:item];
+        }
+    }
+    
+    return retList;
+}
+
+
 #pragma Download Cell Delegate
 
 - (void)clickPause:(id)sender atIndexPath:(NSIndexPath*)indexPath
@@ -245,8 +264,11 @@
         lastPlayingItem = [self.dataList objectAtIndex:row];
         [self updateNowPlayingButton];
     }
-    else if([item canView]){
-        [service playItem:item viewController:self];
+    else if([item canView]){        
+        NSArray *imageList = [self filterDownloadItemByImage];
+        int indexValue = [imageList indexOfObject:item];
+        [service playItem:imageList index:indexValue viewController:self];
+        
         lastPlayingItem = [self.dataList objectAtIndex:row];
         [self updateNowPlayingButton];
     }

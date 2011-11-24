@@ -1,0 +1,3 @@
+[submodule "MWPhotoBrowser"]
+	path = MWPhotoBrowser
+	url = https://github.com/mwaterfall/MWPhotoBrowser.git

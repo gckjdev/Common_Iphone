@@ -32,4 +32,7 @@ enum {
 - (IBAction)clickFilterComplete:(id)sender;
 - (IBAction)clickFilterDownloading:(id)sender;
 - (IBAction)clickFilterStarred:(id)sender;
+
+- (NSArray*)filterDownloadItemByImage;
+
 @end

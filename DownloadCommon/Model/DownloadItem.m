@@ -168,6 +168,16 @@
     return [fileTypeSet containsObject:[[self.fileName pathExtension] lowercaseString]];
 }
 
+- (BOOL)isZipFile
+{
+    return [[[self.fileName pathExtension] lowercaseString] isEqualToString:(@"zip")];
+}
+
+- (BOOL)isRarFile
+{
+    return [[[self.fileName pathExtension] lowercaseString] isEqualToString:(@"rar")];
+}
+
 - (BOOL)isReadableFile
 {
     NSSet* fileTypeSet = [NSSet setWithObjects:@"pdf", @"doc", @"txt", @"xls", @"ppt", @"rtf",

@@ -24,6 +24,7 @@
 #import "PlayAudioVideoController.h"
 #import "DisplayReadableFileController.h"
 #import "CommonFileActionController.h"
+#import "ViewImageController.h"
 
 #define DOWNLOAD_DIR                @"/download/incoming/"
 #define DOWNLOAD_TEMP_DIR           @"/download/temp/"
@@ -40,12 +41,15 @@ DownloadService* globalDownloadService;
 @synthesize videoPlayController;
 @synthesize fileViewController;
 @synthesize iCloudDir;
+@synthesize viewImageController;
 
 - (void)dealloc
 {
     [downloadDir release];
     [iCloudDir release];
     [downloadTempDir release];
+    [videoPlayController release];
+    [fileViewController release];
     [videoPlayController release];
     [queue release];
     [super dealloc];
@@ -71,6 +75,7 @@ DownloadService* globalDownloadService;
     
     self.videoPlayController = [[[PlayAudioVideoController alloc] init] autorelease];    
     self.fileViewController = [[[DisplayReadableFileController alloc] init] autorelease];
+    self.viewImageController = [[[ViewImageController alloc] init] autorelease];
     return self;
 }
 
@@ -186,6 +191,9 @@ DownloadService* globalDownloadService;
     else if ([downloadItem isReadableFile]){
         return fileViewController;
     }
+    else if([downloadItem isImage]) {
+        return viewImageController;
+    }
     else{
         return [[[DisplayReadableFileController alloc] initWithDownloadItem:downloadItem] autorelease];
     }
@@ -207,6 +215,12 @@ DownloadService* globalDownloadService;
 {
     UIViewController<CommonFileActionProtocol>* playController = [self getViewControllerByItem:item];
     [playController preview:viewController downloadItem:item];
+}
+
+- (void)playItem:(NSArray *)list index:(int)indexValue viewController:(UIViewController *)viewController
+{
+    UIViewController<CommonFileActionProtocol>* playController = [self getViewControllerByItem:[list objectAtIndex:indexValue]];
+    [playController preview:viewController itemList:list index:indexValue];
 }
 
 - (void)pauseAllDownloadItem

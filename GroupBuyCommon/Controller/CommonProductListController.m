@@ -25,6 +25,7 @@
 #import "GroupBuyControllerExt.h"
 #import "UIAlertViewUtils.h"
 #import "TaobaoProductTextCell.h"
+#import "ActionHandler.h"
 
 @implementation CommonProductListController
 
@@ -327,6 +328,8 @@
 
     cell.indexPath = indexPath;
 	
+
+    
 	// set text label
 	int row = [indexPath row];	
 	int count = [dataList count];
@@ -336,8 +339,15 @@
 	}
 	
 	Product* product = [dataList objectAtIndex:row];
+    
+    UIViewController *controller = (self.superController == nil) ? self : self.superController;
+    
+    ActionHandler *handler = [[ActionHandler alloc] initWithProduct:product callingViewController:controller];
+    [cell setActionHandler:handler];    
+    [handler release];
     [cell setCellInfoWithProduct:product indexPath:indexPath];    
-	
+    [cell setCellStyle];
+
 	return cell;
 	
 }
@@ -345,7 +355,20 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	    
+    
+    BOOL canSelected = YES;
+    id canSelectedObj = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFCanViewProductDetail"] ;
+    if(canSelectedObj){
+        canSelected = [canSelectedObj boolValue];
+    }
+    if (!canSelected) {
+        Product *product = [dataList objectAtIndex:indexPath.row];
+        UIViewController *controller = (self.superController == nil) ? self : self.superController;
+        [[ActionHandler defaultHandler] actionOnBuy:product viewController:controller];
+        return;
+    }
+    
+    
     if ([self isMoreRow:indexPath.row]){
         [self showActivityWithText:@"加载数据中..."];
         [self.moreLoadingView startAnimating];
