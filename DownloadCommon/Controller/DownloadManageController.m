@@ -96,7 +96,11 @@
 - (void) clickNowPlaying:(id) sender
 {
     DownloadService * service = [DownloadService defaultService];
-    [service playItem:lastPlayingItem viewController:self];
+   // [service playItem:lastPlayingItem viewController:self];
+    
+    NSArray *imageList = [self filterDownloadItemByImage];
+    int indexValue = [imageList indexOfObject:lastPlayingItem];
+    [service playItem:imageList index:indexValue viewController:self];
 }
 
 - (void) updateNowPlayingButton
