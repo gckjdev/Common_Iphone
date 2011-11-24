@@ -98,7 +98,7 @@
 @property (nonatomic, retain) NSTimer           *reloadVisibleCellTimer;
 @property (nonatomic, assign) BOOL              enableReloadVisableCellTimer;
 @property (nonatomic, assign) int               reloadVisibleCellTimerInterval;
-
+@property (nonatomic, retain) UILabel*          tipsLabel;
 
 //@property (nonatomic, retain) CustomIndexView	*customIndexView;
 
@@ -160,6 +160,10 @@
 // for reload visiable cell timer, just choose one of method below, the first one use 1 second as default
 - (void)scheduleReloadVisiableCellTimer;
 - (void)scheduleReloadVisiableCellTimer:(int)interval;
+
+//to show tips when the dataTableView is null
+- (void)showTipsOnTableView:(NSString*)text;
+- (void)hideTipsOnTableView;
 
 
 @end
