@@ -88,6 +88,10 @@
     [searchButton setBackgroundImage:buttonBgImage forState:UIControlStateNormal];
     
 //    [self setNavigationRightButton:@"语音搜索" action:@selector(speechSearch:)];
+    
+    if (bannerView_ == nil){
+        bannerView_ = [AdViewUtils allocAdMobView:self];  
+    }
 }
 
 - (void)viewDidUnload
