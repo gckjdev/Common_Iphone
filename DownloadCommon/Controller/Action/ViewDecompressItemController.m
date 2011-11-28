@@ -26,6 +26,12 @@
     return self;
 }
 
+-(void)dealloc
+{
+    [decompressItemList release];
+    [super release];
+}
+
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -43,7 +49,7 @@
 
 - (void) loadDataFromDecompressArray
 {    
-    NSMutableArray *array = [NSMutableArray array];
+    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
     for (DecompressItem *item in decompressItemList) {
         [array addObject:item.fileName];
     }
