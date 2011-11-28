@@ -68,7 +68,8 @@
         dispatch_queue_t q = (dispatch_queue_t)[queue longValue];
         dispatch_release(q);
     }
-    
+    [workingQueueDict release];
+    [workingQueueOperationDict release];
     [super dealloc];
 }
 

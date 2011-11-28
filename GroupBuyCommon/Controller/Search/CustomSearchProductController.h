@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PPViewController.h"
+#import "GADBannerView.h"
 
 //#import "ASREngine.h"
 
@@ -21,6 +22,8 @@
     IBOutlet UIImageView *searchTextFieldBackground;
     IBOutlet UIImageView *searchBackgroundView;
 
+    
+    GADBannerView *bannerView_;     
 //    ASREngine   *asrEngine;
 }
 @property (retain, nonatomic) IBOutlet UIButton *testButton;

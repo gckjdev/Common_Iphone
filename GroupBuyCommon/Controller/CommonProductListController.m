@@ -139,11 +139,11 @@
 - (void)initDisplayCellClass
 {    
     switch (productDisplayType) {
-        case PRODUCT_DISPLAY_TAOBAO:
+        case PRODUCT_DISPLAY_GROUPBUY:
             productDisplayClass = NSClassFromString(@"ProductTextCell");
             break;
             
-        case PRODUCT_DISPLAY_GROUPBUY:
+        case PRODUCT_DISPLAY_TAOBAO:
             productDisplayClass = NSClassFromString(@"TaobaoProductTextCell");
             break;
 
