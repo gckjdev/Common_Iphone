@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DecompressItem.h"
+
+@class DownloadItem;
 
 @interface DecompressManager : NSObject
 
++ (DecompressManager*) defaultManager;
+- (DecompressItem*) createDecompressItem:(NSString*)localPath
+                                fileName:(NSString*)fileName;
+- (NSArray*) decompressDownloadItem:(DownloadItem*) downloadItem;
 @end

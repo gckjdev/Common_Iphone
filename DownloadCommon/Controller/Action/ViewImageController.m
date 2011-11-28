@@ -9,6 +9,7 @@
 #import "ViewImageController.h"
 #import "MWPhotoBrowser.h"
 #import "DownloadItem.h"
+#import "DecompressItem.h"
 #import "LogUtil.h"
 
 @implementation ViewImageController
@@ -68,6 +69,17 @@
     
 }
 
+- (void)preview:(UIViewController*)viewController image:(UIImage*)image
+{
+    NSMutableArray *photos = [NSMutableArray array];
+    [photos addObject:[MWPhoto photoWithImage:image]];
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithPhotos:photos];
+        
+    [viewController.navigationController pushViewController:browser animated:YES];
+    
+    [browser release];
+}
+
 - (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
 {
     NSMutableArray *photos = [NSMutableArray array];
@@ -85,13 +97,33 @@
     [browser release];
 }
 
+- (void)preview:(UIViewController *)viewController decompressItem:(DecompressItem *)item
+{
+    NSMutableArray *photos = [NSMutableArray array];
+    [photos addObject:[MWPhoto photoWithURL:[NSURL fileURLWithPath:item.localPath]]];
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithPhotos:photos];
+        
+    [viewController.navigationController pushViewController:browser animated:YES];
+    
+    [browser release];
+}
+
 - (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
-    for (DownloadItem *item in list) {
-        PPDebug(@"add photo (%@)", item.localPath);
-        [photos addObject:[MWPhoto photoWithURL:[NSURL fileURLWithPath:item.localPath]]];
+    if ([[list objectAtIndex:0] isKindOfClass:[DownloadItem class]]) {
+        for (DownloadItem *item in list) {
+            PPDebug(@"add photo (%@)", item.localPath);
+            [photos addObject:[MWPhoto photoWithURL:[NSURL fileURLWithPath:item.localPath]]];
+        }
     }
+    else if ([[list objectAtIndex:0] isKindOfClass:[DecompressItem class]]) {
+        for (DecompressItem *item in list) {
+            PPDebug(@"add photo (%@)", item.localPath);
+            [photos addObject:[MWPhoto photoWithURL:[NSURL fileURLWithPath:item.localPath]]];
+        }
+    }
+    
     
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithPhotos:photos];
     [browser setInitialPageIndex:indexValue]; 

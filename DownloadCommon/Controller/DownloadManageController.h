@@ -18,10 +18,12 @@ enum {
 };
 
 @class ItemActionController;
+@class ViewDecompressItemController;
 
 @interface DownloadManageController : PPTableViewController <DownloadItemCellDelegate>
 
 @property (nonatomic, retain) ItemActionController *actionController;
+@property (nonatomic, retain) ViewDecompressItemController *viewDecompressItemController;
 @property (nonatomic, assign) int currentSelection;
 @property (nonatomic, retain) DownloadItem* lastPlayingItem;
 @property (retain, nonatomic) IBOutlet UIButton *filterAllButton;

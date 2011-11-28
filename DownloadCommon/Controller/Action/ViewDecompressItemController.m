@@ -6,9 +6,16 @@
 //  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#import "ViewDirectoryController.h"
+#import "ViewDecompressItemController.h"
+#import "FileUtil.h"
+#import "DownloadService.h"
+#import "LogUtil.h"
+#import "DecompressItem.h"
+#import "DecompressService.h"
 
-@implementation ViewDirectoryController
+@implementation ViewDecompressItemController
+
+@synthesize decompressItemList;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,12 +34,41 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    
+    [self loadDataFromDecompressArray];
+    [self.dataTableView reloadData];
+}
+
+- (void) loadDataFromDecompressArray
+{    
+    NSMutableArray *array = [NSMutableArray array];
+    for (DecompressItem *item in decompressItemList) {
+        [array addObject:item.fileName];
+    }
+    self.dataList = array;
+}
+
+- (NSArray *) findAllDecompressImage
+{
+    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
+    for (DecompressItem *item in decompressItemList) {
+        if ([item isImage]) {
+            [array addObject:item];
+        }
+    }
+    return array;
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.dataTableView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)viewDidUnload
@@ -46,6 +82,58 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *CellIdentifier = @"ViewDecompressItemCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    NSUInteger row = [indexPath row];
+    cell.textLabel.text = [self.dataList objectAtIndex:row];
+        
+    return cell;
+
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.dataList count];
+
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return NO;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"";
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row > [dataList count] - 1)
+		return;
+    NSUInteger row = indexPath.row;
+    
+    DecompressItem* item = [decompressItemList objectAtIndex:row];
+    DecompressService *service = [DecompressService defaultService];
+    
+    if ([item isImage]) {
+        NSArray *imageList = [self findAllDecompressImage];
+        int indexValue = [imageList indexOfObject:item];
+        [service playItem:imageList index:indexValue viewController:self];
+    }
+    else{
+        [service playItem:item viewController:self];
+    }
+    
 }
 
 @end

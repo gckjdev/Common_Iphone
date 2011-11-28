@@ -8,10 +8,12 @@
 
 #import "DisplayReadableFileController.h"
 #import "DownloadItem.h"
+#import "DecompressItem.h"
 
 @implementation DisplayReadableFileController
 
 @synthesize downloadItem;
+@synthesize decompressItem;
 @synthesize docController;
 @synthesize superViewController;
 @synthesize previewController;
@@ -29,6 +31,30 @@
         isItemChange = YES;
     }
 
+    self.superViewController = viewController;
+    
+    if (self.previewController == nil){
+        self.previewController = [[[QLPreviewController alloc] init] autorelease];
+        self.previewController.delegate = self;          
+        self.previewController.dataSource = self;                
+    }    
+    
+    [self.superViewController.navigationController pushViewController:self.previewController animated:YES];
+}
+
+- (void)quickLookPreview:(UIViewController*)viewController decompressItem:(DecompressItem*)item
+{    
+    if ([QLPreviewController canPreviewItem:item] == NO){
+        [UIUtils alert:NSLS(@"kCannotPreviewFile")];
+        return;
+    }
+    
+    BOOL isItemChange = NO;
+    if (self.decompressItem != item){
+        self.decompressItem = item;
+        isItemChange = YES;
+    }
+    
     self.superViewController = viewController;
     
     if (self.previewController == nil){
@@ -72,6 +98,12 @@
 {
 //    [self docControllerPreview:viewController downloadItem:item];
     [self quickLookPreview:viewController downloadItem:item];
+}
+
+- (void)preview:(UIViewController *)viewController decompressItem:(DecompressItem *)item
+{
+    [self quickLookPreview:viewController downloadItem:item];
+
 }
 
 - (void)showPlayerView

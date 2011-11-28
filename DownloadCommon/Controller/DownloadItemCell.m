@@ -118,6 +118,12 @@
         else if ([item canView]){
             [self.pauseButton setTitle:NSLS(@"View") forState:UIControlStateNormal];        
         }
+        else if ([item isZipFile]){
+            [self.pauseButton setTitle:NSLS(@"Unzip") forState:UIControlStateNormal];        
+        }
+        else if ([item isRarFile]){
+            [self.pauseButton setTitle:NSLS(@"Unrar") forState:UIControlStateNormal];        
+        }
         else{
             [self.pauseButton setTitle:@"" forState:UIControlStateNormal];
             [self.pauseButton setHidden:YES];            

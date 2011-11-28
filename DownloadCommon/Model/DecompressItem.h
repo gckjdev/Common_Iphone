@@ -7,7 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QuickLook/QuickLook.h>
 
-@interface DecompressItem : NSObject
+@interface DecompressItem : NSObject <QLPreviewItem>
+
+@property (nonatomic, retain) NSNumber* fileSize;
+@property (nonatomic, retain) NSString * fileName;
+@property (nonatomic, retain) NSNumber* fileType;
+@property (nonatomic, retain) NSString* localPath;
+
+- (id)initWithLocalPath:(NSString*)localPathValue
+               fileName:(NSString*) fileNameValue;
+- (BOOL)isAudio;
+- (BOOL)isVideo;
+- (BOOL)isReadableFile;
+- (BOOL)isImage;
 
 @end

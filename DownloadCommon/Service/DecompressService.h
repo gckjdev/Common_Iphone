@@ -7,7 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DecompressItem.h"
+#import "CommonFileActionController.h"
+
+@class PlayAudioVideoController;
+@class DisplayReadableFileController;
+@class ViewImageController;
 
 @interface DecompressService : NSObject
 
+@property (nonatomic, retain) PlayAudioVideoController *videoPlayController;
+@property (nonatomic, retain) DisplayReadableFileController *fileViewController;
+@property (nonatomic, retain) ViewImageController *viewImageController;
++ (DecompressService*) defaultService;
+- (UIViewController<CommonFileActionProtocol>*)getViewControllerByItem:(DecompressItem*)item;
+- (void)playItem:(DecompressItem*)item viewController:(UIViewController*)viewController;
+- (void)playItem:(NSArray*)list index:(int)indexValue viewController:(UIViewController*)viewController;
 @end

@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPTableViewController.h"
 
-@interface ViewDirectoryController : UIViewController
+@interface ViewDecompressItemController : PPTableViewController
 
+@property(nonatomic, retain) NSArray* decompressItemList;
+
+- (void) loadDataFromDecompressArray;
 @end

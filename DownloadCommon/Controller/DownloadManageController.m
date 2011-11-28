@@ -12,6 +12,12 @@
 #import "DownloadItemManager.h"
 #import "DownloadService.h"
 #import "ItemActionController.h"
+#import "LogUtil.h"
+#import "SSZipArchive.h"
+#import "FileUtil.h"
+#import "Unrar4iOS.h"
+#import "DecompressManager.h"
+#import "ViewDecompressItemController.h"
 
 @implementation DownloadManageController
 
@@ -22,6 +28,7 @@
 @synthesize filterCompleteButton;
 @synthesize filterDownloadingButton;
 @synthesize filterStarredButton;
+@synthesize viewDecompressItemController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,6 +55,7 @@
     [filterCompleteButton release];
     [filterDownloadingButton release];
     [filterStarredButton release];
+    [viewDecompressItemController release];
     [super dealloc];
 }
 
@@ -241,7 +249,6 @@
     return retList;
 }
 
-
 #pragma Download Cell Delegate
 
 - (void)clickPause:(id)sender atIndexPath:(NSIndexPath*)indexPath
@@ -249,7 +256,7 @@
     int row = [indexPath row];
     if (row >= [self.dataList count])
         return;
-    
+   
     DownloadService* service = [DownloadService defaultService];
 
     DownloadItem* item = [self.dataList objectAtIndex:row];
@@ -271,6 +278,18 @@
         
         lastPlayingItem = [self.dataList objectAtIndex:row];
         [self updateNowPlayingButton];
+    }
+    else if([item isZipFile] || [item isRarFile]){
+        NSArray *itemList = [[DecompressManager defaultManager] decompressDownloadItem:item];
+        
+        //go to ViewDirectoryController
+        if (self.viewDecompressItemController == nil){
+            self.viewDecompressItemController = [[[ViewDecompressItemController alloc] init] autorelease];
+        }
+        [viewDecompressItemController setDecompressItemList:itemList];
+
+        [self.navigationController setTitle:item.fileName]; 
+        [self.navigationController pushViewController:viewDecompressItemController animated:YES];
     }
 }
 

@@ -11,6 +11,7 @@
 #import "DownloadItem.h"
 #import "FileUtil.h"
 #import "LogUtil.h"
+#import "DecompressItem.h"
 
 @implementation PlayAudioVideoController
 
@@ -61,6 +62,31 @@
     [viewController.navigationController pushViewController:self animated:YES];
     [player play];    
 }
+
+- (void)preview:(UIViewController*)viewController decompressItem:(DecompressItem*)item
+{
+    
+    NSURL* url = [NSURL fileURLWithPath:item.localPath];    
+    if (player == nil){
+                
+        self.player = [[[MPMoviePlayerController alloc] initWithContentURL:url] autorelease];
+        
+        self.view.frame = viewController.view.bounds;
+        CGRect frame = [self.view bounds];
+        [[player view] setFrame:frame]; // size to fit parent view exactly
+        [self.view addSubview:player.view];
+    }
+    else{
+            [player setContentURL:url];
+        }
+    
+    [self.navigationItem setTitle:item.fileName];
+    
+    [viewController.navigationController pushViewController:self animated:YES];
+    [player play];     
+       
+}
+
 
 - (id)initWithDownloadItem:(DownloadItem*)item
 {

@@ -10,6 +10,10 @@
 #import "CommonService.h"
 #import "ASIHTTPRequestDelegate.h"
 
+#define DOWNLOAD_DIR                @"/download/incoming/"
+#define DOWNLOAD_TEMP_DIR           @"/download/temp/"
+#define DOWNLOAD_ICLOUD_DIR           @"/download/iCloud/"
+
 @class DownloadItem;
 @class TopDownloadItem;
 @class PlayAudioVideoController;

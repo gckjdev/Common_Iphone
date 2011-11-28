@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class DownloadItem;
+@class DecompressItem;
 
 @protocol CommonFileActionProtocol <NSObject>
 
@@ -18,5 +19,8 @@
 
 @optional
 - (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue;
+- (void)preview:(UIViewController*)viewController image:(UIImage*)image;
+
+- (void)preview:(UIViewController*)viewController decompressItem:(DecompressItem*)item;
 
 @end
