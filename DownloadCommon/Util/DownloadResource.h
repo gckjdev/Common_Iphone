@@ -8,12 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DownloadResource : NSObject
+#define TOP_ICON        @"tu_03-02"
+#define RESOURCE_ICON   @"png_08"
+#define BROWSE_ICON     @"png_10"
+#define DOWNLOAD_ICON   @"png_12"
+#define ABOUT_ICON      @"png_14"
 
-+ (NSString*)background;
-+ (UIImage*)backgroundImage;
+#define TOP_PRESS_ICON        @"png_33"
+#define RESOURCE_PRESS_ICON   @"png_34"
+#define BROWSE_PRESS_ICON     @"png_35"
+#define DOWNLOAD_PRESS_ICON   @"png_36"
+#define ABOUT_PRESS_ICON      @"png_37"
 
-+ (NSString*)tabBarBackground;
-+ (UIImage*)tabBarBackgroundImage;
+#define BACKGROUND              @""
+#define TABBAR_BACKGROUND       @"tu_16.png"
 
-@end
+
