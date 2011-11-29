@@ -59,8 +59,6 @@
 - (NSURL*)previewItemURL
 {
     NSURL* url = [NSURL fileURLWithPath:self.localPath];
-    PPDebug(@"*******%@", url);
-
     return url;
 }
 
