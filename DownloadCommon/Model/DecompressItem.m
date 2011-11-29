@@ -45,7 +45,7 @@
 
 - (BOOL)isReadableFile
 {
-    NSSet* fileTypeSet = [NSSet setWithObjects:@"pdf", @"doc", @"txt", @"xls", @"ppt", @"rtf", @"epub", nil];
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"pdf", @"doc", @"txt", @"xls", @"ppt", @"rtf", @"epub", @"html", @"htm", nil];
     return [fileTypeSet containsObject:[[self.fileName pathExtension] lowercaseString]];
 }
 

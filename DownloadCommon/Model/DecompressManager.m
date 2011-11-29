@@ -39,13 +39,17 @@ DecompressManager* globalDecompressManager;
     NSMutableArray* decompressItemList = [NSMutableArray array];
     NSString *destinationDir = [[downloadItem localPath] stringByDeletingPathExtension];
     NSString *destinationPath = [[downloadItem localPath] stringByDeletingLastPathComponent];
+    BOOL result = NO;
     if (downloadItem.isZipFile) {
        
         //check if already unzip
         BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:destinationDir];
         if (!exist) {
             PPDebug(@"Unzip destination Path: (%@)", destinationPath);
-            [SSZipArchive unzipFileAtPath:[downloadItem localPath] toDestination:destinationPath];
+            result = [SSZipArchive unzipFileAtPath:[downloadItem localPath] toDestination:destinationPath];
+            if (!result){
+                PPDebug(@"Unzip item (%@) but fail to unzip file", [downloadItem itemId]);                    
+            }
         }
     }
     else if (downloadItem.isRarFile) {
@@ -58,7 +62,13 @@ DecompressManager* globalDecompressManager;
             Unrar4iOS *unrar = [[Unrar4iOS alloc] init];
             unrarOk = [unrar unrarOpenFile:[downloadItem localPath]];
             if (unrarOk) {
-                [unrar unrarFileTo:destinationDir overWrite:YES];
+                result = [unrar unrarFileTo:destinationDir overWrite:YES];
+                if (!result){
+                    PPDebug(@"Unrar item (%@) but fail to unrar file", [downloadItem itemId]);                    
+                }
+            }
+            else{
+                PPDebug(@"Unrar item (%@) but fail to open file", [downloadItem itemId]);
             }
             [unrar unrarCloseFile];               
             [unrar release];

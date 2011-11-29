@@ -102,8 +102,7 @@
 
 - (void)preview:(UIViewController *)viewController decompressItem:(DecompressItem *)item
 {
-    [self quickLookPreview:viewController downloadItem:item];
-
+    [self quickLookPreview:viewController decompressItem:item];
 }
 
 - (void)showPlayerView

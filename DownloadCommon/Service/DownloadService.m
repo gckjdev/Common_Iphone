@@ -409,7 +409,7 @@ DownloadService* globalDownloadService;
     [[DownloadItemManager defaultManager] downloadFailure:item];
     PPDebug(@"item (%@) download failure, response done = %@", [item itemId], [error description]);
     
-    NSString* fileInfo = ([item.fileName length] > 0) ? item.fileName : item.url;
+//    NSString* fileInfo = ([item.fileName length] > 0) ? item.fileName : item.url;
 
 //    NSString* statusText = [NSString stringWithFormat:NSLS(@"kDownloadFailure"), fileInfo];
 //    [StatusView showtStatusText:statusText vibrate:NO duration:10.0];

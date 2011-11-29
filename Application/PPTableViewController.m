@@ -774,7 +774,10 @@
 - (void)showTipsOnTableView:(NSString *)text
 { 
     if (self.tipsLabel == nil) {
-        self.tipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 320, 40)];
+        [label setFont:[UIFont systemFontOfSize:14]];
+        self.tipsLabel = label;
+        [label release];
         [self.tipsLabel setTextAlignment:UITextAlignmentCenter];
         [self.dataTableView addSubview:self.tipsLabel];
     }
