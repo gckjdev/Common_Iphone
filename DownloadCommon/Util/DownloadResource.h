@@ -10,4 +10,10 @@
 
 @interface DownloadResource : NSObject
 
++ (NSString*)background;
++ (UIImage*)backgroundImage;
+
++ (NSString*)tabBarBackground;
++ (UIImage*)tabBarBackgroundImage;
+
 @end

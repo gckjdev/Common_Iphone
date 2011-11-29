@@ -10,4 +10,24 @@
 
 @implementation DownloadResource
 
++ (NSString*)background
+{
+    return nil;
+}
+
++ (UIImage*)backgroundImage
+{
+    return nil;
+}
+
++ (NSString*)tabBarBackground
+{
+    return nil;
+}
+
++ (UIImage*)tabBarBackgroundImage
+{
+    return nil;
+}
+
 @end
