@@ -83,11 +83,11 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [self.backButton setImage:RETURN_IMAGE forState:UIControlStateNormal];    
     [self.backButton centerImageAndTitle];
     
-    [self.backButton setTitle:NSLS(@"kBackwardButtonTitle") forState:UIControlStateNormal];
+    [self.backwardButton setTitle:NSLS(@"kBackwardButtonTitle") forState:UIControlStateNormal];
     [self.backwardButton setImage:BACKWARD_IMAGE forState:UIControlStateNormal];    
     [self.backwardButton centerImageAndTitle];
     
-    [self.backButton setTitle:NSLS(@"kForwardButtonTitle") forState:UIControlStateNormal];
+    [self.forwardButton setTitle:NSLS(@"kForwardButtonTitle") forState:UIControlStateNormal];
     [self.forwardButton setImage:FORWARD_IMAGE forState:UIControlStateNormal];    
     [self.forwardButton centerImageAndTitle];
     
