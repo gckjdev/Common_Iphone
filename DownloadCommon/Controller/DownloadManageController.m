@@ -288,7 +288,6 @@
         }
         [viewDecompressItemController setDecompressItemList:itemList];
 
-        [self.navigationController setTitle:item.fileName]; 
         [self.navigationController pushViewController:viewDecompressItemController animated:YES];
     }
 }
