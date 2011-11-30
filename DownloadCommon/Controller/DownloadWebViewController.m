@@ -35,6 +35,8 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 @synthesize reloadButton;
 @synthesize addFavoriteButton;
 @synthesize urlFileType;
+@synthesize backwardButton;
+@synthesize forwardButton;
 
 -(id)init
 {
@@ -78,13 +80,28 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 - (void)viewDidLoad
 {
     [self.backButton setTitle:NSLS(@"kBackButtonTitle") forState:UIControlStateNormal];
-    [self.backButton setImage:BACK_IMAGE forState:UIControlStateNormal];    
+    [self.backButton setImage:RETURN_IMAGE forState:UIControlStateNormal];    
     [self.backButton centerImageAndTitle];
     
+    [self.backButton setTitle:NSLS(@"kBackwardButtonTitle") forState:UIControlStateNormal];
+    [self.backwardButton setImage:BACKWARD_IMAGE forState:UIControlStateNormal];    
+    [self.backwardButton centerImageAndTitle];
+    
+    [self.backButton setTitle:NSLS(@"kForwardButtonTitle") forState:UIControlStateNormal];
+    [self.forwardButton setImage:FORWARD_IMAGE forState:UIControlStateNormal];    
+    [self.forwardButton centerImageAndTitle];
+    
     [self.stopButton setTitle:NSLS(@"kStopButtonTitle") forState:UIControlStateNormal];
+    [self.stopButton setImage:STOP_IMAGE forState:UIControlStateNormal];
+    [self.stopButton centerImageAndTitle];
+    
     [self.reloadButton setTitle:NSLS(@"kReloadButtonTitle") forState:UIControlStateNormal];
+    [self.reloadButton setImage:REFRESH_IMAGE forState:UIControlStateNormal];
+    [self.reloadButton centerImageAndTitle];
+    
     [self.addFavoriteButton setTitle:NSLS(@"kAddFavoriteButtonTitle") forState:UIControlStateNormal];
-
+    [self.addFavoriteButton setImage:FAVOURITE_IMAGE forState:UIControlStateNormal];
+    [self.addFavoriteButton centerImageAndTitle];
     
     self.view.backgroundColor = [UIColor clearColor];
 

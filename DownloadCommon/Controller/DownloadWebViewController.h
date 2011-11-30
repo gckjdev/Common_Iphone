@@ -29,6 +29,8 @@ typedef void (^WebViewBackHandler)(UIViewController*);
 @property (retain, nonatomic) IBOutlet UIButton *stopButton;
 @property (retain, nonatomic) IBOutlet UIButton *reloadButton;
 @property (retain, nonatomic) IBOutlet UIButton *addFavoriteButton;
+@property (retain, nonatomic) IBOutlet UIButton *backwardButton;
+@property (retain, nonatomic) IBOutlet UIButton *forwardButton;
 
 - (IBAction) clickBackButton;
 - (IBAction) clickForwardButton;
