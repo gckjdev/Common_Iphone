@@ -292,6 +292,7 @@ DownloadService* globalDownloadService;
     
     NSString* str = [[[NSString alloc] initWithUTF8String:charArray] autorelease];    
     if (str == nil){
+        // if UTF8 conversion fails, then use GB_18030
         NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
         str = [NSString stringWithCString:charArray encoding:enc];
     }    
