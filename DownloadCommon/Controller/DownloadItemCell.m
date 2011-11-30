@@ -9,6 +9,7 @@
 #import "DownloadItemCell.h"
 #import "DownloadItem.h"
 #import "LocaleUtils.h"
+#import "DownloadResource.h"
 
 @implementation DownloadItemCell
 @synthesize starButton;
@@ -40,6 +41,8 @@
     }
     
     ((DownloadItemCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    
+        
     
     return (DownloadItemCell*)[topLevelObjects objectAtIndex:0];
 }
@@ -104,6 +107,9 @@
 
 - (void)setPauseButtonInfo:(DownloadItem*)item
 {
+    
+    [self.pauseButton setBackgroundImage:ACTION_BUTTON_IMAGE forState:UIControlStateNormal];
+    
     [self.pauseButton setHidden:NO];
     if ([item canPause]){
         [self.pauseButton setTitle:NSLS(@"Pause") forState:UIControlStateNormal];

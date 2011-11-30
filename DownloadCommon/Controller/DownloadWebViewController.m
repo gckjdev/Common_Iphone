@@ -6,6 +6,8 @@
 #import "DownloadService.h"
 #import "DownloadItem.h"
 #import "TopSiteManager.h"
+#import "DownloadResource.h"
+#import "UIButtonExt.h"
 
 DownloadWebViewController *downloadWebViewController;
 
@@ -76,6 +78,9 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 - (void)viewDidLoad
 {
     [self.backButton setTitle:NSLS(@"kBackButtonTitle") forState:UIControlStateNormal];
+    [self.backButton setImage:BACK_IMAGE forState:UIControlStateNormal];    
+    [self.backButton centerImageAndTitle];
+    
     [self.stopButton setTitle:NSLS(@"kStopButtonTitle") forState:UIControlStateNormal];
     [self.reloadButton setTitle:NSLS(@"kReloadButtonTitle") forState:UIControlStateNormal];
     [self.addFavoriteButton setTitle:NSLS(@"kAddFavoriteButtonTitle") forState:UIControlStateNormal];
