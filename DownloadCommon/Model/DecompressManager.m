@@ -29,6 +29,7 @@ DecompressManager* globalDecompressManager;
                                 fileName:(NSString*)fileName
 {
     DecompressItem* item = [[[DecompressItem alloc]initWithLocalPath:localPath fileName:fileName] autorelease];
+    
     return item;
 }
 
@@ -38,15 +39,16 @@ DecompressManager* globalDecompressManager;
 
     NSMutableArray* decompressItemList = [NSMutableArray array];
     NSString *destinationDir = [[downloadItem localPath] stringByDeletingPathExtension];
-    NSString *destinationPath = [[downloadItem localPath] stringByDeletingLastPathComponent];
+    NSString *repeatDir =  [destinationDir stringByAppendingPathComponent:[downloadItem.fileName stringByDeletingPathExtension]];
     BOOL result = NO;
+    
     if (downloadItem.isZipFile) {
        
         //check if already unzip
         BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:destinationDir];
         if (!exist) {
-            PPDebug(@"Unzip destination Path: (%@)", destinationPath);
-            result = [SSZipArchive unzipFileAtPath:[downloadItem localPath] toDestination:destinationPath];
+            PPDebug(@"Unzip destination Path: (%@)", destinationDir);
+            result = [SSZipArchive unzipFileAtPath:[downloadItem localPath] toDestination:destinationDir];
             if (!result){
                 PPDebug(@"Unzip item (%@) but fail to unzip file", [downloadItem itemId]);                    
             }
@@ -58,7 +60,7 @@ DecompressManager* globalDecompressManager;
         BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:destinationDir];
         BOOL unrarOk;
         if (!exist) {
-            PPDebug(@"Unzip destination Path: (%@)", destinationPath);
+            PPDebug(@"Unzip destination Path: (%@)", destinationDir);
             Unrar4iOS *unrar = [[Unrar4iOS alloc] init];
             unrarOk = [unrar unrarOpenFile:[downloadItem localPath]];
             if (unrarOk) {
@@ -76,10 +78,28 @@ DecompressManager* globalDecompressManager;
         
     }
     
-    NSArray * directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:destinationDir error:nil];
+    NSArray * directoryContents;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:repeatDir]) {
+        directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:repeatDir error:nil];
+    } else {
+        directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:destinationDir error:nil];
+    }
+    
     for (NSString *content in directoryContents) {
         PPDebug(@"list decompress file: %@",content);
         NSString *localPath = [destinationDir stringByAppendingPathComponent:content];
+
+        BOOL isDir;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:&isDir] && isDir) {
+            NSArray * subDirectoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:localPath error:nil];
+            for (NSString *subContent in subDirectoryContents) {
+                NSString *subPath = [localPath stringByAppendingPathComponent:subContent];
+                PPDebug(@"DecompressItem subPath: %@", subPath);
+                DecompressItem* item = [self createDecompressItem:subPath fileName:subContent];
+                [decompressItemList addObject:item];
+            }
+        }
+        
         PPDebug(@"DecompressItem localpath: %@", localPath);
         DecompressItem* item = [self createDecompressItem:localPath fileName:content];
         [decompressItemList addObject:item];
