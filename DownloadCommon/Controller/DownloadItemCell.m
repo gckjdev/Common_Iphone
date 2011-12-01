@@ -164,7 +164,7 @@
 
 - (void)setCellInfoWithItem:(DownloadItem*)item indexPath:(NSIndexPath*)indexPath
 {
-    self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:FILETYPE_LABEL_IMAGE];
+    self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:FILETYPE_LABEL_BG_IMAGE];
     
     self.fileTypeLabel.opaque = YES;
     

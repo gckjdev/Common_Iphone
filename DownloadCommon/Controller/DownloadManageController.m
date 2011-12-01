@@ -31,6 +31,7 @@
 @synthesize filterStarredButton;
 @synthesize viewDecompressItemController;
 @synthesize lastSelectedButton;
+@synthesize filterBackgroundView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -88,23 +89,25 @@
 }
 
 - (void)viewDidLoad
-{    
+{   
+    [self.filterBackgroundView setImage:DOWNLOAD_FILTER_BG_IMAGE];
+    
     [self.filterAllButton setTitle:NSLS(@"kFilterAllButtonTitle") forState:UIControlStateNormal];
     
-    [self.filterAllButton setImage:[UIImage imageNamed:FILETER_ALL_BUTTON] forState:UIControlStateNormal];
-    [self.filterAllButton setImage:[UIImage imageNamed:FILETER_ALL_BUTTON_PRESS] forState:UIControlStateSelected];
+    [self.filterAllButton setImage:FILETER_ALL_BUTTON_IMAGE forState:UIControlStateNormal];
+    [self.filterAllButton setImage:FILETER_ALL_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
     
     [self.filterCompleteButton setTitle:NSLS(@"kFilterCompleteButtonTitle") forState:UIControlStateNormal];
-    [self.filterCompleteButton setImage:[UIImage imageNamed:FILETER_COMPLETE_BUTTON] forState:UIControlStateNormal];
-    [self.filterCompleteButton setImage:[UIImage imageNamed:FILETER_COMPLETE_BUTTON_PRESS] forState:UIControlStateSelected];
+    [self.filterCompleteButton setImage:FILETER_COMPLETE_BUTTON_IMAGE forState:UIControlStateNormal];
+    [self.filterCompleteButton setImage:FILETER_COMPLETE_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
     
     [self.filterDownloadingButton setTitle:NSLS(@"kFilterDownloadingButtonTitle") forState:UIControlStateNormal];
-    [self.filterDownloadingButton setImage:[UIImage imageNamed:FILETER_DOWNLOADING_BUTTON] forState:UIControlStateNormal];
-    [self.filterDownloadingButton setImage:[UIImage imageNamed:FILETER_DOWNLOADING_BUTTON_PRESS] forState:UIControlStateSelected];
+    [self.filterDownloadingButton setImage:FILETER_DOWNLOADING_BUTTON_IMAGE forState:UIControlStateNormal];
+    [self.filterDownloadingButton setImage:FILETER_DOWNLOADING_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
     
     [self.filterStarredButton setTitle:NSLS(@"kFilterStarredButtonTitle") forState:UIControlStateNormal];
-    [self.filterStarredButton setImage:[UIImage imageNamed:FILETER_STARRED_BUTTON] forState:UIControlStateNormal];
-    [self.filterStarredButton setImage:[UIImage imageNamed:FILETER_STARRED_BUTTON_PRESS] forState:UIControlStateSelected];
+    [self.filterStarredButton setImage:FILETER_STARRED_BUTTON_IMAGE forState:UIControlStateNormal];
+    [self.filterStarredButton setImage:FILETER_STARRED_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateProgressTimer) userInfo:nil repeats:YES];
     

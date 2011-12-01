@@ -30,6 +30,7 @@ enum {
 @property (retain, nonatomic) IBOutlet UIButton *filterCompleteButton;
 @property (retain, nonatomic) IBOutlet UIButton *filterDownloadingButton;
 @property (retain, nonatomic) IBOutlet UIButton *filterStarredButton;
+@property (retain, nonatomic) IBOutlet UIImageView *filterBackgroundView;
 @property (retain, nonatomic)  UIButton *lastSelectedButton;
 
 - (IBAction)clickFilterComplete:(id)sender;
