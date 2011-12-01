@@ -23,7 +23,12 @@
 
 - (void)setCellStyle
 {
-    self.selectionStyle = UITableViewCellSelectionStyleNone;		   
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    UIImageView *view= [[UIImageView alloc] initWithImage:DOWNLOAD_CELL_BG_IMAGE];
+    view.frame = self.bounds;
+    self.backgroundView = view;
+    [view release];
 }
 
 - (void)awakeFromNib{
@@ -40,11 +45,16 @@
         return nil;
     }
     
-    ((DownloadItemCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    DownloadItemCell* cell = (DownloadItemCell*)[topLevelObjects objectAtIndex:0];
+    cell.delegate = delegate;
+
+    UIImageView *bgView = [[UIImageView alloc]initWithImage:DOWNLOAD_CELL_SELECTED_BG_IMAGE];
+    bgView.frame = cell.bounds;
+    cell.selectedBackgroundView = bgView;
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    [bgView release];
     
-        
-    
-    return (DownloadItemCell*)[topLevelObjects objectAtIndex:0];
+    return cell;
 }
 
 + (NSString*)getCellIdentifier
@@ -141,11 +151,26 @@
     }
 }
 
+- (void)setLabel:(UILabel *)label Background:(UIImage *)image
+{
+//    CALayer *layer = [[CALayer alloc]init];
+//    layer.frame = label.bounds;
+//    layer.contents = (id)image.CGImage;
+//    [label.layer insertSublayer:layer atIndex:0];
+//    layer.backgroundColor = [UIColor clearColor].CGColor;
+//    [layer release];
+
+}
+
 - (void)setCellInfoWithItem:(DownloadItem*)item indexPath:(NSIndexPath*)indexPath
 {
+    self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:FILETYPE_LABEL_IMAGE];
+    
+    self.fileTypeLabel.opaque = YES;
+    
     self.fileTypeLabel.text = [item.fileName pathExtension];
     self.fileNameLabel.text = item.fileName;
-    self.statusLabel.text = [item statusText];
+    self.statusLabel.text = [item statusText];    
     
     NSString* sizeInfo = [self getSizeInfo:item];
     NSString* percentageInfo = [self getPercentageInfo:item];
@@ -157,12 +182,12 @@
     
     [self setPauseButtonInfo:item];
     
-    if ([item isDownloadFinished]){
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    else{
-        self.accessoryType = UITableViewCellAccessoryNone;
-    }
+//    if ([item isDownloadFinished]){
+//        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    }
+//    else{
+//        self.accessoryType = UITableViewCellAccessoryNone;
+//    }
     
     if ([item isStarred]){
         [self.starButton setSelected:YES];

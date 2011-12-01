@@ -48,4 +48,25 @@
 #define ACTION_BUTTON           @"tu_88"
 #define ACTION_BUTTON_IMAGE     ([UIImage strectchableImageName:ACTION_BUTTON])
 
+#define FILETYPE_LABEL          @"tu_34.png"
+#define FILETYPE_LABEL_IMAGE [UIImage imageNamed:FILETYPE_LABEL]
+
+#define FILETER_ALL_BUTTON      @"png_107"
+#define FILETER_COMPLETE_BUTTON      @"png_108"
+#define FILETER_DOWNLOADING_BUTTON      @"png_109"
+#define FILETER_STARRED_BUTTON      @"tu_56"
+
+#define FILETER_ALL_BUTTON_PRESS      @"png_111"
+#define FILETER_COMPLETE_BUTTON_PRESS      @"png_112"
+#define FILETER_DOWNLOADING_BUTTON_PRESS      @"png_113"
+#define FILETER_STARRED_BUTTON_PRESS      @"png_11"
+
+#define DOWNLOAD_CELL_BG          @"tu_100"
+#define DOWNLOAD_SELECTED_BG        @"tu_102"
+
+#define DOWNLOAD_CELL_BG_IMAGE    [UIImage strectchableImageName:DOWNLOAD_CELL_BG leftCapWidth:(218/2-1)]
+#define DOWNLOAD_CELL_SELECTED_BG_IMAGE    [UIImage strectchableImageName:DOWNLOAD_SELECTED_BG leftCapWidth:(218/2-1)]
+
+
+
 

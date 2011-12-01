@@ -18,6 +18,7 @@
 #import "Unrar4iOS.h"
 #import "DecompressManager.h"
 #import "ViewDecompressItemController.h"
+#import "DownloadResource.h"
 
 @implementation DownloadManageController
 
@@ -29,6 +30,7 @@
 @synthesize filterDownloadingButton;
 @synthesize filterStarredButton;
 @synthesize viewDecompressItemController;
+@synthesize lastSelectedButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -86,13 +88,28 @@
 }
 
 - (void)viewDidLoad
-{
+{    
     [self.filterAllButton setTitle:NSLS(@"kFilterAllButtonTitle") forState:UIControlStateNormal];
+    
+    [self.filterAllButton setImage:[UIImage imageNamed:FILETER_ALL_BUTTON] forState:UIControlStateNormal];
+    [self.filterAllButton setImage:[UIImage imageNamed:FILETER_ALL_BUTTON_PRESS] forState:UIControlStateSelected];
+    
     [self.filterCompleteButton setTitle:NSLS(@"kFilterCompleteButtonTitle") forState:UIControlStateNormal];
+    [self.filterCompleteButton setImage:[UIImage imageNamed:FILETER_COMPLETE_BUTTON] forState:UIControlStateNormal];
+    [self.filterCompleteButton setImage:[UIImage imageNamed:FILETER_COMPLETE_BUTTON_PRESS] forState:UIControlStateSelected];
+    
     [self.filterDownloadingButton setTitle:NSLS(@"kFilterDownloadingButtonTitle") forState:UIControlStateNormal];
+    [self.filterDownloadingButton setImage:[UIImage imageNamed:FILETER_DOWNLOADING_BUTTON] forState:UIControlStateNormal];
+    [self.filterDownloadingButton setImage:[UIImage imageNamed:FILETER_DOWNLOADING_BUTTON_PRESS] forState:UIControlStateSelected];
+    
     [self.filterStarredButton setTitle:NSLS(@"kFilterStarredButtonTitle") forState:UIControlStateNormal];
+    [self.filterStarredButton setImage:[UIImage imageNamed:FILETER_STARRED_BUTTON] forState:UIControlStateNormal];
+    [self.filterStarredButton setImage:[UIImage imageNamed:FILETER_STARRED_BUTTON_PRESS] forState:UIControlStateSelected];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateProgressTimer) userInfo:nil repeats:YES];
+    
+    [filterAllButton setSelected:YES];
+    lastSelectedButton = filterAllButton;
     
     [super viewDidLoad];
         
@@ -317,6 +334,9 @@
     }
     
     currentSelection = SELECT_COMPLETE_ITEM;
+    [filterCompleteButton setSelected:YES];
+    [lastSelectedButton setSelected:NO];
+    lastSelectedButton = filterCompleteButton;
     
     self.dataList = [[DownloadItemManager defaultManager] findAllCompleteItems];
     [self.dataTableView reloadData];    
@@ -329,6 +349,9 @@
     }
 
     currentSelection = SELECT_DOWNLOADING_ITEM;
+    [filterDownloadingButton setSelected:YES];
+    [lastSelectedButton setSelected:NO];
+    lastSelectedButton = filterDownloadingButton;
 
     self.dataList = [[DownloadItemManager defaultManager] findAllDownloadingItems];
     [self.dataTableView reloadData];    
@@ -341,6 +364,10 @@
     }
 
     currentSelection = SELECT_STARRED_ITEM;
+    [filterStarredButton setSelected:YES];
+    [lastSelectedButton setSelected:NO];
+    lastSelectedButton = filterStarredButton;
+
     self.dataList = [[DownloadItemManager defaultManager] findAllStarredItems];
     [self.dataTableView reloadData];    
 
@@ -352,7 +379,11 @@
         return;
     }
     
-    currentSelection = SELECT_ALL_ITEM;
+    currentSelection = SELECT_ALL_ITEM;    
+    [filterAllButton setSelected:YES];
+    [lastSelectedButton setSelected:NO];
+    lastSelectedButton = filterAllButton;
+    
     self.dataList = [[DownloadItemManager defaultManager] findAllItems];
     [self.dataTableView reloadData];    
     
