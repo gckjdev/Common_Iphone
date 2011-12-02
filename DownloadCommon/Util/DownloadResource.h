@@ -53,20 +53,20 @@
 #define DOWNLOAD_FILTER_BG    @"tu_03.png" 
 #define DOWNLOAD_FILTER_BG_IMAGE ([UIImage imageNamed:DOWNLOAD_FILTER_BG])
 
-#define FILETER_ALL_BUTTON      @"png_107"
-#define FILETER_COMPLETE_BUTTON      @"png_108"
+#define FILETER_ALL_BUTTON              @"png_107"
+#define FILETER_COMPLETE_BUTTON         @"png_108"
 #define FILETER_DOWNLOADING_BUTTON      @"png_109"
-#define FILETER_STARRED_BUTTON      @"tu_56"
+#define FILETER_STARRED_BUTTON          @"tu_56"
 
-#define FILETER_ALL_BUTTON_IMAGE      ([UIImage imageNamed:FILETER_ALL_BUTTON])
-#define FILETER_COMPLETE_BUTTON_IMAGE      ([UIImage imageNamed:FILETER_COMPLETE_BUTTON])
-#define FILETER_DOWNLOADING_BUTTON_IMAGE     ([UIImage imageNamed:FILETER_DOWNLOADING_BUTTON])
-#define FILETER_STARRED_BUTTON_IMAGE     ([UIImage imageNamed:FILETER_STARRED_BUTTON])
+#define FILETER_ALL_BUTTON_IMAGE            ([UIImage imageNamed:FILETER_ALL_BUTTON])
+#define FILETER_COMPLETE_BUTTON_IMAGE       ([UIImage imageNamed:FILETER_COMPLETE_BUTTON])
+#define FILETER_DOWNLOADING_BUTTON_IMAGE    ([UIImage imageNamed:FILETER_DOWNLOADING_BUTTON])
+#define FILETER_STARRED_BUTTON_IMAGE        ([UIImage imageNamed:FILETER_STARRED_BUTTON])
 
-#define FILETER_ALL_BUTTON_PRESS      @"png_111"
-#define FILETER_COMPLETE_BUTTON_PRESS      @"png_112"
-#define FILETER_DOWNLOADING_BUTTON_PRESS      @"png_113"
-#define FILETER_STARRED_BUTTON_PRESS      @"png_11"
+#define FILETER_ALL_BUTTON_PRESS            @"png_111"
+#define FILETER_COMPLETE_BUTTON_PRESS       @"png_112"
+#define FILETER_DOWNLOADING_BUTTON_PRESS    @"png_113"
+#define FILETER_STARRED_BUTTON_PRESS        @"png_11"
 
 #define FILETER_ALL_BUTTON_PRESS_IMAGE              ([UIImage imageNamed:FILETER_ALL_BUTTON_PRESS])
 #define FILETER_COMPLETE_BUTTON_PRESS_IMAGE      ([UIImage imageNamed:FILETER_COMPLETE_BUTTON_PRESS])
@@ -74,12 +74,13 @@
 #define FILETER_STARRED_BUTTON_PRESS_IMAGE      ([UIImage imageNamed:FILETER_STARRED_BUTTON_PRESS])
 
 
-#define DOWNLOAD_CELL_BG          @"tu_100"
+#define DOWNLOAD_CELL_BG            @"tu_100"
 #define DOWNLOAD_SELECTED_BG        @"tu_102"
 
-#define DOWNLOAD_CELL_BG_IMAGE    [UIImage strectchableImageName:DOWNLOAD_CELL_BG leftCapWidth:(218/2-1)]
-#define DOWNLOAD_CELL_SELECTED_BG_IMAGE    [UIImage strectchableImageName:DOWNLOAD_SELECTED_BG leftCapWidth:(218/2-1)]
+#define DOWNLOAD_CELL_BG_IMAGE              [UIImage strectchableImageName:DOWNLOAD_CELL_BG leftCapWidth:(218/2-1)]
+#define DOWNLOAD_CELL_SELECTED_BG_IMAGE     [UIImage strectchableImageName:DOWNLOAD_SELECTED_BG leftCapWidth:(218/2-1)]
 
+#define NAVIGATION_BAR_BG           @"tu_17"
 
 
 
