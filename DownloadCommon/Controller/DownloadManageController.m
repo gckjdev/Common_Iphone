@@ -91,6 +91,8 @@
 
 - (void)viewDidLoad
 {   
+    [self setDownloadNavigationTitle:NSLS(@"kFourthViewTitle")];
+
     [self.filterBackgroundView setImage:DOWNLOAD_FILTER_BG_IMAGE];
     
     [self.filterAllButton setTitle:NSLS(@"kFilterAllButtonTitle") forState:UIControlStateNormal];

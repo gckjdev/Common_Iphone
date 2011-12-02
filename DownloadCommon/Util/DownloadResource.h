@@ -38,18 +38,28 @@
 #define STOP_ICON                       @"tu_90"
 #define FAVOURITE_ICON                  @"tu_94-92"
 
-#define RETURN_IMAGE              ([UIImage imageNamed:RETURN_ICON])
+#define RETURN_IMAGE                ([UIImage imageNamed:RETURN_ICON])
 #define BACKWARD_IMAGE              ([UIImage imageNamed:BACKWARD_ICON])
-#define FORWARD_IMAGE              ([UIImage imageNamed:FORWARD_ICON])
-#define REFRESH_IMAGE              ([UIImage imageNamed:REFRESH_ICON])
-#define STOP_IMAGE              ([UIImage imageNamed:STOP_ICON])
-#define FAVOURITE_IMAGE         ([UIImage imageNamed:FAVOURITE_ICON])
+#define FORWARD_IMAGE               ([UIImage imageNamed:FORWARD_ICON])
+#define REFRESH_IMAGE               ([UIImage imageNamed:REFRESH_ICON])
+#define STOP_IMAGE                  ([UIImage imageNamed:STOP_ICON])
+#define FAVOURITE_IMAGE             ([UIImage imageNamed:FAVOURITE_ICON])
 
 #define ACTION_BUTTON                   @"tu_88"
-#define ACTION_BUTTON_IMAGE     ([UIImage strectchableImageName:ACTION_BUTTON])
+#define ACTION_BUTTON_PRESS             @"tu_89"
 
-#define FILETYPE_LABEL                  @"tu_34.png"
-#define FILETYPE_LABEL_BG_IMAGE [UIImage imageNamed:FILETYPE_LABEL]
+#define ACTION_BUTTON_IMAGE           ([UIImage strectchableImageName:ACTION_BUTTON])
+#define ACTION_BUTTON_PRESS_IMAGE     ([UIImage strectchableImageName:ACTION_BUTTON_PRESS])
+
+#define AUDIOTYPE_LABEL                  @"tu_34.png"
+#define IMAGETYPE_LABEL                  @"tu_36.png"
+#define ALLTYPE_LABEL                  @"tu_38.png"
+
+#define AUDIOTYPE_LABEL_BG_IMAGE [UIImage strectchableImageName:AUDIOTYPE_LABEL]
+#define IMAGETYPE_LABEL_BG_IMAGE [UIImage strectchableImageName:IMAGETYPE_LABEL]
+#define ALLTYPE_LABEL_BG_IMAGE [UIImage strectchableImageName:ALLTYPE_LABEL]
+
+
 #define DOWNLOAD_FILTER_BG              @"tu_22.png" 
 #define DOWNLOAD_FILTER_BG_IMAGE ([UIImage imageNamed:DOWNLOAD_FILTER_BG])
 

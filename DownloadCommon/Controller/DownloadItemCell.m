@@ -119,7 +119,8 @@
 {
     
     [self.pauseButton setBackgroundImage:ACTION_BUTTON_IMAGE forState:UIControlStateNormal];
-    
+    [self.pauseButton setBackgroundImage:ACTION_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+
     [self.pauseButton setHidden:NO];
     if ([item canPause]){
         [self.pauseButton setTitle:NSLS(@"Pause") forState:UIControlStateNormal];
@@ -164,8 +165,14 @@
 
 - (void)setCellInfoWithItem:(DownloadItem*)item indexPath:(NSIndexPath*)indexPath
 {
-    self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:FILETYPE_LABEL_BG_IMAGE];
-    
+    if ([item canPlay]) {
+        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:AUDIOTYPE_LABEL_BG_IMAGE];
+    } else if ([item canView]) {
+        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:IMAGETYPE_LABEL_BG_IMAGE];
+    } else {
+        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:ALLTYPE_LABEL_BG_IMAGE];
+    }
+        
     self.fileTypeLabel.opaque = YES;
     
     self.fileTypeLabel.text = [item.fileName pathExtension];
