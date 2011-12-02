@@ -11,6 +11,7 @@
 #import "TopSiteManager.h"
 #import "ResourceCell.h"
 #import "DownloadWebViewController.h"
+#import "DownloadResource.h"
 
 @implementation ResourceCategoryController
 
@@ -154,10 +155,24 @@
 
 - (void)viewDidLoad
 {
+    [self setDownloadNavigationTitle:(@"kSecondViewTitle")];
+    
     [self.topButton setTitle:NSLS(@"kTopButtonTitle") forState:UIControlStateNormal];
+    [self.topButton setImage:RESOURCE_TOP_BUTTON_IMAGE forState:UIControlStateNormal];
+    [self.topButton setImage:RESOURCE_TOP_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    
     [self.hotButton setTitle:NSLS(@"kHotButtonTitle") forState:UIControlStateNormal];
+    [self.hotButton setImage:RESOURCE_HOT_BUTTON_IMAGE forState:UIControlStateNormal];
+    [self.hotButton setImage:RESOURCE_HOT_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    
     [self.newButton setTitle:NSLS(@"kNewButtonTitle") forState:UIControlStateNormal];
+    [self.newButton setImage:RESOURCE_NEW_BUTTON_IMAGE forState:UIControlStateNormal];
+    [self.newButton setImage:RESOURCE_NEW_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    
+    
     [self.starredButton setTitle:NSLS(@"kStarredButtonTitle") forState:UIControlStateNormal];
+    [self.starredButton setImage:RESOURCE_STARRED_BUTTON_IMAGE forState:UIControlStateNormal];
+    [self.starredButton setImage:RESOURCE_STARRED_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
     
     supportRefreshHeader = YES;
     [self setRefreshHeaderViewFrame:CGRectMake(0, 0-self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.width)];

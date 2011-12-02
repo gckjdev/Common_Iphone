@@ -59,7 +59,7 @@
 #define IMAGETYPE_LABEL_BG_IMAGE [UIImage strectchableImageName:IMAGETYPE_LABEL]
 #define ALLTYPE_LABEL_BG_IMAGE [UIImage strectchableImageName:ALLTYPE_LABEL]
 
-
+//download
 #define DOWNLOAD_FILTER_BG              @"tu_22.png" 
 #define DOWNLOAD_FILTER_BG_IMAGE ([UIImage imageNamed:DOWNLOAD_FILTER_BG])
 
@@ -105,3 +105,26 @@
 
 #define KEYWORD_FONT_SIZE           12
 #define KEYWORD_UICOLOR             [UIColor colorWithRed:(36/255.0) green:(71/255.0) blue:(133/255.0) alpha:1.0]
+
+
+//Resource
+#define RESOURCE_TOP_BUTTON         @"tu_44"
+#define RESOURCE_HOT_BUTTON         @"tu_45"
+#define RESOURCE_NEW_BUTTON         @"png_94"
+#define RESOURCE_STARRED_BUTTON     @"tu_47"
+
+#define RESOURCE_TOP_BUTTON_IMAGE          ([UIImage imageNamed:RESOURCE_TOP_BUTTON])
+#define RESOURCE_HOT_BUTTON_IMAGE          ([UIImage imageNamed:RESOURCE_HOT_BUTTON])
+#define RESOURCE_NEW_BUTTON_IMAGE          ([UIImage imageNamed:RESOURCE_NEW_BUTTON])
+#define RESOURCE_STARRED_BUTTON_IMAGE      ([UIImage imageNamed:RESOURCE_STARRED_BUTTON])
+
+#define RESOURCE_TOP_BUTTON_PRESS         @"tu_48"
+#define RESOURCE_HOT_BUTTON_PRESS         @"tu_97"
+#define RESOURCE_NEW_BUTTON_PRESS         @"png_98"
+#define RESOURCE_STARRED_BUTTON_PRESS     @"tu_51"
+
+#define RESOURCE_TOP_BUTTON_PRESS_IMAGE          ([UIImage imageNamed:RESOURCE_TOP_BUTTON_PRESS])
+#define RESOURCE_HOT_BUTTON_PRESS_IMAGE          ([UIImage imageNamed:RESOURCE_HOT_BUTTON_PRESS])
+#define RESOURCE_NEW_BUTTON_PRESS_IMAGE          ([UIImage imageNamed:RESOURCE_NEW_BUTTON_PRESS])
+#define RESOURCE_STARRED_BUTTON_PRESS_IMAGE      ([UIImage imageNamed:RESOURCE_STARRED_BUTTON_PRESS])
+
