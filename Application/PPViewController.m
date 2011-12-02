@@ -841,6 +841,21 @@
                            hasEdgeInSet:YES];
 }
 
+- (void)setDownloadNavigationTitle:(NSString*)titleString
+{
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
+    label.text = titleString;
+    label.textColor = [UIColor colorWithRed:101/255.0 green:134/255.0 blue:156/255.0 alpha:1.0];
+    label.font = [UIFont boldSystemFontOfSize:18];
+    label.shadowColor = [UIColor colorWithRed:241/255.0 green:246/255.0 blue:249/255.0 alpha:1.0];
+    label.textAlignment = UITextAlignmentCenter;
+    label.backgroundColor = [UIColor clearColor];
+        
+    self.navigationItem.titleView = label;
+    
+    [label release];
+}
+
 - (void)setGroupBuyNavigationTitle:(NSString*)titleString
 {
     UILabel* label = [[UILabel alloc] init];

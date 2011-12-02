@@ -59,6 +59,7 @@
     [filterDownloadingButton release];
     [filterStarredButton release];
     [viewDecompressItemController release];
+    [filterBackgroundView release];
     [super dealloc];
 }
 

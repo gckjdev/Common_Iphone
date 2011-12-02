@@ -130,4 +130,7 @@
 - (void)setGroupBuyNavigationTitle:(NSString*)titleString;
 - (void)setGroupBuyNavigationRightButton:(NSString*)buttonTitle action:(SEL)action;
 
+// for download
+- (void)setDownloadNavigationTitle:(NSString*)titleString;
+
 @end
