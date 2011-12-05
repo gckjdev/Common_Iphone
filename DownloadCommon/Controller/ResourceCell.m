@@ -22,7 +22,6 @@
 - (void)setCellStyle
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;		
-//    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_IMAGE];
     
     UIImageView *view= [[UIImageView alloc] initWithImage:RESOURCE_CELL_BG_IMAGE];

@@ -157,6 +157,28 @@
     [[ResourceService defaultService] findAllSites:self requestType:self.requestType];
 }
 
+- (void)clickRefresh
+{
+    [self loadSiteFromServer];
+}
+
+- (void)setRightBarButton
+{
+    float buttonHigh = 27.5;
+    float refeshButtonLen = 32.5;
+    
+    UIButton *refleshButton = [[UIButton alloc]initWithFrame:CGRectMake(125, 0, refeshButtonLen, buttonHigh)];
+    [refleshButton setBackgroundImage:DOWNLOAD_REFRESH_ICON_IMAGE forState:UIControlStateNormal];
+    [refleshButton setTitle:@"" forState:UIControlStateNormal];
+    [refleshButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [refleshButton addTarget:self action:@selector(clickRefresh) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:refleshButton];    
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    [rightBarButton release];
+    
+}
+
 - (void)viewDidLoad
 {
     [self setDownloadNavigationTitle:NSLS(@"kSecondViewTitle")];
@@ -184,13 +206,15 @@
     supportRefreshHeader = YES;
     [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
     [self.refreshHeaderView setBackgroundColor:[UIColor clearColor]];
+    
     [topButton setSelected:YES];
     lastSelectedButton = topButton;
     
-    [super viewDidLoad];
-        
-    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadSiteFromServer)];
+    [self setRightBarButton];        
+//    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadSiteFromServer)];
     
+    [super viewDidLoad];
+
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
     

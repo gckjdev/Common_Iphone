@@ -93,6 +93,8 @@
 #define NAVIGATION_BAR_BG           @"tu_17"
 #define NAVIGATION_BAR_TITLE_COLOR  [UIColor colorWithRed:(101/255.0) green:(134/255.0) blue:(156/255.0) alpha:1.0]
 
+#define NOWPLAYING_ICON             @"png_31"
+
 //Action
 #define ITEM_ACTION_INNER_BG          @"tu_124-93"
 #define ITEM_ACTION_INNER_BG_IMAGE    [UIImage strectchableImageName:ITEM_ACTION_INNER_BG]
@@ -137,7 +139,11 @@
 #define ITEM_MORE_PRESS_IMAGE       [UIImage strectchableImageName:ITEM_MORE_PRESS]
 #define ITEM_ALBUM_PRESS_IMAGE      [UIImage strectchableImageName:ITEM_ALBUM_PRESS]
 
+#define ITEM_BACK_ICON          @"tu_24"
+#define ITEM_BACK_ICON_IMAGE    [UIImage strectchableImageName:ITEM_BACK_ICON]
 
+#define ITEM_NEXT_ICON          @"tu_22-10"
+#define ITEM_NEXT_ICON_IMAGE    [UIImage strectchableImageName:ITEM_NEXT_ICON]
 
 //Browser
 #define BROWSER_BG                  @"tu_85-77"
@@ -177,14 +183,17 @@
 #define RESOURCE_NAVIGATION_RIGHT_BUTTON        @"tu_26"
 #define RESOURCE_NAVIGATION_RIGHT_BUTTON_IMAGE  [UIImage strectchableImageName:RESOURCE_NAVIGATION_RIGHT_BUTTON]
 
-#define DOWNLOADCOUNT_LABEL_BG               @"tu_27"
-#define DOWNLOADCOUNT_LABEL_BG_IMAGE         [UIImage imageNamed:DOWNLOADCOUNT_LABEL_BG]
+#define DOWNLOADCOUNT_LABEL_BG                  @"tu_27"
+#define DOWNLOADCOUNT_LABEL_BG_IMAGE            [UIImage imageNamed:DOWNLOADCOUNT_LABEL_BG]
 
-#define ACCESSORY_ICON                      @"tu_24-21"
-#define ACCESSORY_ICON_IMAGE                [UIImage imageNamed:ACCESSORY_ICON]
+#define ACCESSORY_ICON                          @"tu_24-21"
+#define ACCESSORY_ICON_IMAGE                    [UIImage imageNamed:ACCESSORY_ICON]
 
-#define RESOURCE_CELL_BG            @"tu_96"
-#define RESOURCED_SELECTED_BG        @"tu_102"
+#define RESOURCE_CELL_BG                        @"tu_96"
+#define RESOURCED_SELECTED_BG                   @"tu_102"
 
-#define RESOURCE_CELL_BG_IMAGE              [UIImage strectchableImageName:RESOURCE_CELL_BG]
-#define RESOURCE_CELL_SELECTED_BG_IMAGE     [UIImage strectchableImageName:RESOURCED_SELECTED_BG]
+#define RESOURCE_CELL_BG_IMAGE                  [UIImage strectchableImageName:RESOURCE_CELL_BG]
+#define RESOURCE_CELL_SELECTED_BG_IMAGE         [UIImage strectchableImageName:RESOURCED_SELECTED_BG]
+
+#define DOWNLOAD_REFRESH_ICON                   @"tu_26"
+#define DOWNLOAD_REFRESH_ICON_IMAGE             ([UIImage imageNamed:DOWNLOAD_REFRESH_ICON])

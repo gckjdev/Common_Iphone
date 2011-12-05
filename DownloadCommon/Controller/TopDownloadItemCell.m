@@ -20,8 +20,12 @@
 
 - (void)setCellStyle
 {
-    self.selectionStyle = UITableViewCellSelectionStyleNone;		
-//    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;		   
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+	
+	UIImageView *view= [[UIImageView alloc] initWithImage:RESOURCE_CELL_BG_IMAGE];
+    view.frame = self.bounds;
+    self.backgroundView = view;
+    [view release];
 }
 
 - (void)awakeFromNib{

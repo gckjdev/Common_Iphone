@@ -88,8 +88,8 @@
         [self createPlayItemView];
     }
     
-    self.navigationItem.title = self.item.fileName;
-    
+//    self.navigationItem.title = self.item.fileName;
+    [self setDownloadNavigationTitle:self.item.fileName];
     [self updateSaveAlbumButton];
 }
 
@@ -103,6 +103,42 @@
     {
         self.albumButton.enabled = NO;
     }    
+}
+
+- (void)setLeftBarButton
+{
+    float buttonHigh = 27.5;
+    float refeshButtonLen = 60;
+    
+    UIButton *refleshButton = [[UIButton alloc]initWithFrame:CGRectMake(8, 0, refeshButtonLen, buttonHigh)];
+    [refleshButton setBackgroundImage:ITEM_BACK_ICON_IMAGE forState:UIControlStateNormal];
+    [refleshButton.titleLabel setFont:[UIFont fontWithName:@"" size:9]];
+    [refleshButton setTitle:NSLS(@"kBack") forState:UIControlStateNormal];
+    [refleshButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [refleshButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:refleshButton];    
+    self.navigationItem.leftBarButtonItem = leftBarButton;
+    [leftBarButton release];
+    
+}
+
+- (void)setRightBarButton
+{
+    float buttonHigh = 27.5;
+    float refeshButtonLen = 60;
+    
+    UIButton *refleshButton = [[UIButton alloc]initWithFrame:CGRectMake(218, 0, refeshButtonLen, buttonHigh)];
+    [refleshButton setBackgroundImage:ITEM_NEXT_ICON_IMAGE forState:UIControlStateNormal];
+    [refleshButton.titleLabel setFont:[UIFont fontWithName:@"" size:9]];
+    [refleshButton setTitle:NSLS(@"kNextItem") forState:UIControlStateNormal];
+    [refleshButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [refleshButton addTarget:self action:@selector(clickNext:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:refleshButton];    
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    [rightBarButton release];
+    
 }
 
 - (void)viewDidLoad
@@ -134,13 +170,16 @@
     [self.emailSendButton setImage:ITEM_EMAIL_PRESS_IMAGE forState:UIControlStateSelected];
 
     self.view.backgroundColor = [UIColor whiteColor];
-    [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
-    [self setNavigationRightButton:NSLS(@"Next Item") action:@selector(clickNext:)];
-    self.navigationItem.title = self.item.fileName;
-//    [self setDownloadNavigationTitle:self.item.fileName];
+//    [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
+//    [self setNavigationRightButton:NSLS(@"Next Item") action:@selector(clickNext:)];
     
-    
+    [self setLeftBarButton];
+    [self setRightBarButton];
 
+    
+//    self.navigationItem.title = self.item.fileName;
+    [self setDownloadNavigationTitle:self.item.fileName];
+    
 }	
 
 //- (void)viewDidAppear:(BOOL)animated

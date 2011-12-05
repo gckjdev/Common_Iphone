@@ -137,16 +137,18 @@
 
 - (void) updateNowPlayingButton
 {
-    if (lastPlayingItem != nil) {
-        if ([lastPlayingItem canPlay] ) {
-            [self setNavigationRightButton:NSLS(@"kNowPlaying") action:@selector(clickNowPlaying:)];
-        } else if ([lastPlayingItem canView]) {
-            [self setNavigationRightButton:NSLS(@"kNowViewing") action:@selector(clickNowPlaying:)];
-        }
-        else{
-            self.navigationItem.rightBarButtonItem = nil;
-        }
-    }
+//    if (lastPlayingItem != nil) {
+//        if ([lastPlayingItem canPlay] ) {
+//            [self setNavigationRightButton:NSLS(@"kNowPlaying") action:@selector(clickNowPlaying:)];
+//        } else if ([lastPlayingItem canView]) {
+//            [self setNavigationRightButton:NSLS(@"kNowViewing") action:@selector(clickNowPlaying:)];
+//        }
+//        else{
+//            self.navigationItem.rightBarButtonItem = nil;
+//        }
+//    }
+    
+    [self setNavigationRightButton:nil imageName:NOWPLAYING_ICON action:@selector(clickNowPlaying:)];
     
 }
 
