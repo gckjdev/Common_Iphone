@@ -93,6 +93,58 @@
 #define NAVIGATION_BAR_BG           @"tu_17"
 #define NAVIGATION_BAR_TITLE_COLOR  [UIColor colorWithRed:(101/255.0) green:(134/255.0) blue:(156/255.0) alpha:1.0]
 
+#define NOWPLAYING_ICON             @"png_31"
+
+//Action
+#define ITEM_ACTION_INNER_BG          @"tu_124-93"
+#define ITEM_ACTION_INNER_BG_IMAGE    [UIImage strectchableImageName:ITEM_ACTION_INNER_BG]
+
+#define ITEM_OPEN       @"tu_24-23"
+#define ITEM_RENAME     @"tu_24-24"
+#define ITEM_DELETE     @"png_63"
+#define ITEM_FACEBOOK   @"png_65"
+#define ITEM_TWITTER    @"png_66"
+#define ITEM_EMAIL      @"png_64"
+#define ITEM_SMS        @"png_67"
+#define ITEM_MORE       @"png_68"
+#define ITEM_ALBUM      @"png_69"
+
+#define ITEM_OPEN_IMAGE       [UIImage strectchableImageName:ITEM_OPEN]
+#define ITEM_RENAME_IMAGE     [UIImage strectchableImageName:ITEM_RENAME]
+#define ITEM_DELETE_IMAGE     [UIImage strectchableImageName:ITEM_DELETE]
+#define ITEM_FACEBOOK_IMAGE   [UIImage strectchableImageName:ITEM_FACEBOOK]
+#define ITEM_TWITTER_IMAGE    [UIImage strectchableImageName:ITEM_TWITTER]
+#define ITEM_EMAIL_IMAGE      [UIImage strectchableImageName:ITEM_EMAIL]
+#define ITEM_SMS_IMAGE        [UIImage strectchableImageName:ITEM_SMS]
+#define ITEM_MORE_IMAGE       [UIImage strectchableImageName:ITEM_MORE]
+#define ITEM_ALBUM_IMAGE      [UIImage strectchableImageName:ITEM_ALBUM]
+
+#define ITEM_OPEN_PRESS       @"png_81"
+#define ITEM_RENAME_PRESS     @"png_82"
+#define ITEM_DELETE_PRESS     @"png_83"
+#define ITEM_FACEBOOK_PRESS   @"png_85"
+#define ITEM_TWITTER_PRESS    @"png_86"
+#define ITEM_EMAIL_PRESS      @"png_84"
+#define ITEM_SMS_PRESS        @"png_87"
+#define ITEM_MORE_PRESS       @"png_88"
+#define ITEM_ALBUM_PRESS      @"png_89"
+
+#define ITEM_OPEN_PRESS_IMAGE       [UIImage strectchableImageName:ITEM_OPEN_PRESS]
+#define ITEM_RENAME_PRESS_IMAGE     [UIImage strectchableImageName:ITEM_RENAME_PRESS]
+#define ITEM_DELETE_PRESS_IMAGE     [UIImage strectchableImageName:ITEM_DELETE_PRESS]
+#define ITEM_FACEBOOK_PRESS_IMAGE   [UIImage strectchableImageName:ITEM_FACEBOOK_PRESS]
+#define ITEM_TWITTER_PRESS_IMAGE    [UIImage strectchableImageName:ITEM_TWITTER_PRESS]
+#define ITEM_EMAIL_PRESS_IMAGE      [UIImage strectchableImageName:ITEM_EMAIL_PRESS]
+#define ITEM_SMS_PRESS_IMAGE        [UIImage strectchableImageName:ITEM_SMS_PRESS]
+#define ITEM_MORE_PRESS_IMAGE       [UIImage strectchableImageName:ITEM_MORE_PRESS]
+#define ITEM_ALBUM_PRESS_IMAGE      [UIImage strectchableImageName:ITEM_ALBUM_PRESS]
+
+#define ITEM_BACK_ICON          @"tu_24"
+#define ITEM_BACK_ICON_IMAGE    [UIImage strectchableImageName:ITEM_BACK_ICON]
+
+#define ITEM_NEXT_ICON          @"tu_22-10"
+#define ITEM_NEXT_ICON_IMAGE    [UIImage strectchableImageName:ITEM_NEXT_ICON]
+
 //Browser
 #define BROWSER_BG                  @"tu_85-77"
 #define BROWSER_BG_IMAGE            [UIImage strectchableImageName:BROWSER_BG]
@@ -119,7 +171,7 @@
 #define RESOURCE_STARRED_BUTTON_IMAGE      ([UIImage imageNamed:RESOURCE_STARRED_BUTTON])
 
 #define RESOURCE_TOP_BUTTON_PRESS         @"tu_48"
-#define RESOURCE_HOT_BUTTON_PRESS         @"tu_97"
+#define RESOURCE_HOT_BUTTON_PRESS         @"png_97"
 #define RESOURCE_NEW_BUTTON_PRESS         @"png_98"
 #define RESOURCE_STARRED_BUTTON_PRESS     @"tu_51"
 
@@ -128,3 +180,20 @@
 #define RESOURCE_NEW_BUTTON_PRESS_IMAGE          ([UIImage imageNamed:RESOURCE_NEW_BUTTON_PRESS])
 #define RESOURCE_STARRED_BUTTON_PRESS_IMAGE      ([UIImage imageNamed:RESOURCE_STARRED_BUTTON_PRESS])
 
+#define RESOURCE_NAVIGATION_RIGHT_BUTTON        @"tu_26"
+#define RESOURCE_NAVIGATION_RIGHT_BUTTON_IMAGE  [UIImage strectchableImageName:RESOURCE_NAVIGATION_RIGHT_BUTTON]
+
+#define DOWNLOADCOUNT_LABEL_BG                  @"tu_27"
+#define DOWNLOADCOUNT_LABEL_BG_IMAGE            [UIImage imageNamed:DOWNLOADCOUNT_LABEL_BG]
+
+#define ACCESSORY_ICON                          @"tu_24-21"
+#define ACCESSORY_ICON_IMAGE                    [UIImage imageNamed:ACCESSORY_ICON]
+
+#define RESOURCE_CELL_BG                        @"tu_96"
+#define RESOURCED_SELECTED_BG                   @"tu_102"
+
+#define RESOURCE_CELL_BG_IMAGE                  [UIImage strectchableImageName:RESOURCE_CELL_BG]
+#define RESOURCE_CELL_SELECTED_BG_IMAGE         [UIImage strectchableImageName:RESOURCED_SELECTED_BG]
+
+#define DOWNLOAD_REFRESH_ICON                   @"tu_26"
+#define DOWNLOAD_REFRESH_ICON_IMAGE             ([UIImage imageNamed:DOWNLOAD_REFRESH_ICON])

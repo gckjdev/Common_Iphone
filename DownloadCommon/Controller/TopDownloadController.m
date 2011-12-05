@@ -13,6 +13,7 @@
 #import "DownloadWebViewController.h"
 #import "DownloadService.h"
 #import "MoreTableViewCell.h"
+#import "DownloadResource.h"
 
 @implementation TopDownloadController
 
@@ -89,26 +90,46 @@
     [[ResourceService defaultService] findAllTopDownloadItems:self startOffset:startOffset requestType:self.requestType];
 }
 
-- (void)clickRefresh:(id)sender
+- (void)setRightBarButton
+{
+    float buttonHigh = 27.5;
+    float refeshButtonLen = 32.5;
+    
+    UIButton *refleshButton = [[UIButton alloc]initWithFrame:CGRectMake(125, 0, refeshButtonLen, buttonHigh)];
+    [refleshButton setBackgroundImage:DOWNLOAD_REFRESH_ICON_IMAGE forState:UIControlStateNormal];
+    [refleshButton setTitle:@"" forState:UIControlStateNormal];
+    [refleshButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [refleshButton addTarget:self action:@selector(clickRefresh) forControlEvents:UIControlEventTouchUpInside];
+
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:refleshButton];    
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    [rightBarButton release];
+}
+
+
+- (void)clickRefresh
 {
     [self loadTopDownLoadItemFromServer:YES];
 }
 
 - (void)viewDidLoad
 {
+    [self setDownloadNavigationTitle:NSLS(@"kFirstViewTitle")];
+     
     supportRefreshHeader = YES;
-    [super viewDidLoad];
-    
     [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.width)];
     
-    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(clickRefresh:)];
+    [self setRightBarButton];
+//    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(clickRefresh:)];
     
+    [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
     
     
     // Do any additional setup after loading the view from its nib.
     [self loadTopDownLoadItemFromServer:YES];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated

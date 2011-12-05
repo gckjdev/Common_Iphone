@@ -12,6 +12,7 @@
 #import "DownloadItem.h"
 #import "DownloadItemManager.h"
 #import "LogUtil.h"
+#import "DownloadResource.h"
 
 @implementation ItemActionController
 
@@ -30,6 +31,8 @@
 @synthesize playItemSuperView;
 @synthesize alertViewNumber;
 @synthesize textViewOfAlertView;
+@synthesize itemActionInnerView;
+@synthesize lastSelectedButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,6 +68,7 @@
     [moreButton release];
     [albumButton release];
     [emailSendButton release];
+    [itemActionInnerView release];
     [super dealloc];
 }
 
@@ -84,8 +88,8 @@
         [self createPlayItemView];
     }
     
-    self.navigationItem.title = self.item.fileName;
-    
+//    self.navigationItem.title = self.item.fileName;
+    [self setDownloadNavigationTitle:self.item.fileName];
     [self updateSaveAlbumButton];
 }
 
@@ -101,15 +105,81 @@
     }    
 }
 
+- (void)setLeftBarButton
+{
+    float buttonHigh = 27.5;
+    float refeshButtonLen = 60;
+    
+    UIButton *refleshButton = [[UIButton alloc]initWithFrame:CGRectMake(8, 0, refeshButtonLen, buttonHigh)];
+    [refleshButton setBackgroundImage:ITEM_BACK_ICON_IMAGE forState:UIControlStateNormal];
+    [refleshButton.titleLabel setFont:[UIFont fontWithName:@"" size:9]];
+    [refleshButton setTitle:NSLS(@"kBack") forState:UIControlStateNormal];
+    [refleshButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [refleshButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:refleshButton];    
+    self.navigationItem.leftBarButtonItem = leftBarButton;
+    [leftBarButton release];
+    
+}
+
+- (void)setRightBarButton
+{
+    float buttonHigh = 27.5;
+    float refeshButtonLen = 60;
+    
+    UIButton *refleshButton = [[UIButton alloc]initWithFrame:CGRectMake(218, 0, refeshButtonLen, buttonHigh)];
+    [refleshButton setBackgroundImage:ITEM_NEXT_ICON_IMAGE forState:UIControlStateNormal];
+    [refleshButton.titleLabel setFont:[UIFont fontWithName:@"" size:9]];
+    [refleshButton setTitle:NSLS(@"kNextItem") forState:UIControlStateNormal];
+    [refleshButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [refleshButton addTarget:self action:@selector(clickNext:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:refleshButton];    
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    [rightBarButton release];
+    
+}
+
 - (void)viewDidLoad
 {    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [self.itemActionInnerView setImage:ITEM_ACTION_INNER_BG_IMAGE];
+    
+    [self.openButton setImage:ITEM_OPEN_IMAGE forState:UIControlStateNormal];
+    [self.openButton setImage:ITEM_OPEN_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.DeleteButton setImage:ITEM_DELETE_IMAGE forState:UIControlStateNormal];
+    [self.DeleteButton setImage:ITEM_DELETE_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.renameButton setImage:ITEM_RENAME_IMAGE forState:UIControlStateNormal];
+    [self.renameButton  setImage:ITEM_RENAME_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.facebookButton setImage:ITEM_FACEBOOK_IMAGE forState:UIControlStateNormal];
+    [self.facebookButton setImage:ITEM_FACEBOOK_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.twitterButton setImage:ITEM_TWITTER_IMAGE forState:UIControlStateNormal];
+    [self.twitterButton setImage:ITEM_TWITTER_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.emailShareButton setImage:ITEM_EMAIL_IMAGE forState:UIControlStateNormal];
+    [self.emailShareButton  setImage:ITEM_EMAIL_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.SMSButton setImage:ITEM_SMS_IMAGE forState:UIControlStateNormal];
+    [self.SMSButton setImage:ITEM_SMS_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.moreButton setImage:ITEM_MORE_IMAGE forState:UIControlStateNormal];
+    [self.moreButton setImage:ITEM_MORE_IMAGE forState:UIControlStateSelected];
+    [self.albumButton setImage:ITEM_ALBUM_IMAGE forState:UIControlStateNormal];
+    [self.albumButton setImage:ITEM_ALBUM_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.emailSendButton setImage:ITEM_EMAIL_IMAGE forState:UIControlStateNormal];
+    [self.emailSendButton setImage:ITEM_EMAIL_PRESS_IMAGE forState:UIControlStateSelected];
 
     self.view.backgroundColor = [UIColor whiteColor];
-    [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
-    [self setNavigationRightButton:NSLS(@"Next Item") action:@selector(clickNext:)];
-    self.navigationItem.title = self.item.fileName;
+//    [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
+//    [self setNavigationRightButton:NSLS(@"Next Item") action:@selector(clickNext:)];
+    
+    [self setLeftBarButton];
+    [self setRightBarButton];
+
+    
+//    self.navigationItem.title = self.item.fileName;
+    [self setDownloadNavigationTitle:self.item.fileName];
+    
 }	
 
 //- (void)viewDidAppear:(BOOL)animated
@@ -132,6 +202,7 @@
     [self setMoreButton:nil];
     [self setAlbumButton:nil];
     [self setEmailSendButton:nil];
+    [self setItemActionInnerView:nil];
     [super viewDidUnload];
     
     // Release any retained subviews of the main view.
@@ -161,6 +232,10 @@
     
     [alert show];
     
+    [self.lastSelectedButton setSelected:NO];
+    [self.renameButton setSelected:YES];
+    self.lastSelectedButton = renameButton;
+    
 }
 
 - (IBAction)deleteFile:(id)sender
@@ -175,6 +250,10 @@
     
     [alert show];
     [alert release];
+    
+    [self.lastSelectedButton setSelected:NO];
+    [self.DeleteButton setSelected:YES];
+    self.lastSelectedButton = DeleteButton;
 }
 
 - (IBAction)shareWithEmail:(id)sender
@@ -196,6 +275,9 @@
 	{
 		[self launchMailAppOnDevice];
 	}
+    [self.lastSelectedButton setSelected:NO];
+    [self.emailShareButton setSelected:YES];
+    self.lastSelectedButton = emailShareButton;
 }
 
 - (IBAction)sendWithEmail:(id)sender
@@ -217,6 +299,10 @@
 	{
 		[self launchMailAppOnDevice];
 	}
+    
+    [self.lastSelectedButton setSelected:NO];
+    [self.emailSendButton setSelected:YES];
+    self.lastSelectedButton = emailSendButton;
 }
 
 - (IBAction)shareWithSMS:(id)sender
@@ -235,6 +321,10 @@
 	else {
         [self popupUnhappyMessage:NSLS(@"kCanNotSendSMS") title:nil];
 	}
+    
+    [self.lastSelectedButton setSelected:NO];
+    [self.SMSButton setSelected:YES];
+    self.lastSelectedButton = SMSButton;
 }
 
 - (void)            image: (UIImage *) image 
@@ -288,6 +378,10 @@
     {
         [self popupUnhappyMessage:NSLS(@"kSaveAlbumFail") title:nil];
     }
+    
+    [self.lastSelectedButton setSelected:NO];
+    [self.albumButton setSelected:YES];
+    self.lastSelectedButton = albumButton;
 }
 
 - (void)displayComposeEmailForShare

@@ -24,6 +24,8 @@
 @synthesize hotButton;
 @synthesize newButton;
 @synthesize starredButton;
+@synthesize resourceBackgroundView;
+@synthesize lastSelectedButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,6 +61,8 @@
     [hotButton release];
     [newButton release];
     [starredButton release];
+    [resourceBackgroundView release];
+    [lastSelectedButton release];
     [super dealloc];
 }
 
@@ -153,9 +157,34 @@
     [[ResourceService defaultService] findAllSites:self requestType:self.requestType];
 }
 
+- (void)clickRefresh
+{
+    [self loadSiteFromServer];
+}
+
+- (void)setRightBarButton
+{
+    float buttonHigh = 27.5;
+    float refeshButtonLen = 32.5;
+    
+    UIButton *refleshButton = [[UIButton alloc]initWithFrame:CGRectMake(125, 0, refeshButtonLen, buttonHigh)];
+    [refleshButton setBackgroundImage:DOWNLOAD_REFRESH_ICON_IMAGE forState:UIControlStateNormal];
+    [refleshButton setTitle:@"" forState:UIControlStateNormal];
+    [refleshButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [refleshButton addTarget:self action:@selector(clickRefresh) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:refleshButton];    
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    [rightBarButton release];
+    
+}
+
 - (void)viewDidLoad
 {
-    [self setDownloadNavigationTitle:(@"kSecondViewTitle")];
+    [self setDownloadNavigationTitle:NSLS(@"kSecondViewTitle")];
+    
+    [self.resourceBackgroundView setImage:DOWNLOAD_FILTER_BG_IMAGE];
+
     
     [self.topButton setTitle:NSLS(@"kTopButtonTitle") forState:UIControlStateNormal];
     [self.topButton setImage:RESOURCE_TOP_BUTTON_IMAGE forState:UIControlStateNormal];
@@ -175,12 +204,17 @@
     [self.starredButton setImage:RESOURCE_STARRED_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
     
     supportRefreshHeader = YES;
-    [self setRefreshHeaderViewFrame:CGRectMake(0, 0-self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.width)];
+    [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
+    [self.refreshHeaderView setBackgroundColor:[UIColor clearColor]];
+    
+    [topButton setSelected:YES];
+    lastSelectedButton = topButton;
+    
+    [self setRightBarButton];        
+//    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadSiteFromServer)];
     
     [super viewDidLoad];
-        
-    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadSiteFromServer)];
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
     
@@ -200,6 +234,7 @@
     [self setHotButton:nil];
     [self setNewButton:nil];
     [self setStarredButton:nil];
+    [self setResourceBackgroundView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -284,7 +319,11 @@
     }
     else{
         [self reloadData];
-    }    
+    }
+    
+    [lastSelectedButton setSelected:NO];
+    [hotButton setSelected:YES];
+    lastSelectedButton = hotButton;
 }
 
 - (IBAction)clickTop:(id)sender
@@ -295,7 +334,11 @@
     }
     else{
         [self reloadData];
-    }    
+    }
+    
+    [lastSelectedButton setSelected:NO];
+    [topButton setSelected:YES];
+    lastSelectedButton = topButton;
     
 }
 
@@ -307,7 +350,11 @@
     }
     else{
         [self reloadData];
-    }    
+    }
+    
+    [lastSelectedButton setSelected:NO];
+    [newButton setSelected:YES];
+    lastSelectedButton = newButton;
     
 }
 
@@ -315,7 +362,11 @@
 {
     self.requestType = SITE_REQUEST_TYPE_NONE;
     self.starredList = [[TopSiteManager defaultManager] findAllFavoriteSites];
-    [self reloadData];    
+    [self reloadData]; 
+    
+    [lastSelectedButton setSelected:NO];
+    [starredButton setSelected:YES];
+    lastSelectedButton = starredButton;
 }
 
 #pragma Pull Refresh Delegate

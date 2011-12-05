@@ -69,4 +69,24 @@
     
 }
 
+- (BOOL)isImageFileType
+{
+    NSString* extension = [[self.fileName pathExtension] lowercaseString];
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"jpg", @"png", @"bmp", @"jpeg", nil];
+    return [fileTypeSet containsObject:extension];
+}
+
+- (BOOL)isAudioVideo
+{
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mid", @"mp4", @"3pg", @"mov", @"avi", @"flv", @"rm", @"rmvb", @"ogg", @"wmv", @"m4v", @"wav", @"caf", @"m4v", @"aac", @"aiff", @"dvix",
+                          nil];
+    return [fileTypeSet containsObject:[[self.fileName pathExtension] lowercaseString]];
+}
+
+- (BOOL)isReadableFile
+{
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"pdf", @"doc", @"txt", @"xls", @"ppt", @"rtf",
+                          @"epub", nil];
+    return [fileTypeSet containsObject:[[self.fileName pathExtension] lowercaseString]];
+}
 @end

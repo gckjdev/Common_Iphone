@@ -31,6 +31,8 @@
 
 - (void)viewDidLoad
 {
+    [self setDownloadNavigationTitle:NSLS(@"Settings")];
+
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }

@@ -24,5 +24,6 @@
 
 - (void)setCellInfoWithTopSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath;
 - (void)setCellInfoWithSite:(Site*)site atIndexPath:(NSIndexPath*)indexPath;
+- (void)setFileTypeBgImage:(NSString*)fileType;
 
 @end
