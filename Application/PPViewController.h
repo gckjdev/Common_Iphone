@@ -133,4 +133,7 @@
 // for download
 - (void)setDownloadNavigationTitle:(NSString*)titleString;
 
+
++ (UIScrollView*)createButtonScrollViewByButtonArray:(NSArray*)buttons 
+                                      buttonsPerLine:(int)buttonsPerLine; 
 @end
