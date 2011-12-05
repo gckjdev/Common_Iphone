@@ -10,4 +10,11 @@
 
 @interface FileTypeManager : NSObject
 
++ (FileTypeManager*) defaultManager;
+
+- (BOOL)isVideoAudio:(NSString*) fileType;
+- (BOOL)isImage:(NSString*) fileType;
+- (BOOL)isAll:(NSString*) fileType;
+
+
 @end

@@ -9,6 +9,7 @@
 #import "TopDownloadItemCell.h"
 #import "TopDownloadItem.h"
 #import "LocaleUtils.h"
+#import "DownloadResource.h"
 
 @implementation TopDownloadItemCell
 @synthesize rankLabel;
@@ -20,7 +21,7 @@
 - (void)setCellStyle
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;		
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;		   
+//    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;		   
 }
 
 - (void)awakeFromNib{
@@ -36,9 +37,18 @@
         return nil;
     }
     
-    ((TopDownloadItemCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
     
-    return (TopDownloadItemCell*)[topLevelObjects objectAtIndex:0];
+    TopDownloadItemCell* cell = (TopDownloadItemCell*)[topLevelObjects objectAtIndex:0];
+    cell.delegate = delegate;
+    
+    UIImageView *bgView = [[UIImageView alloc]initWithImage:DOWNLOAD_CELL_SELECTED_BG_IMAGE];
+    bgView.frame = cell.bounds;
+    cell.selectedBackgroundView = bgView;
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    [bgView release];
+
+    
+    return cell;
 }
 
 + (NSString*)getCellIdentifier
@@ -53,6 +63,15 @@
 
 - (void)setCellInfoWithTopDownloadItem:(TopDownloadItem*)item atIndexPath:(NSIndexPath*)indexPathValue
 {
+    self.totalDownloadLabel.backgroundColor = [UIColor colorWithPatternImage:DOWNLOADCOUNT_LABEL_BG_IMAGE];
+    if ([item isAudioVideo]) {
+        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:AUDIOTYPE_LABEL_BG_IMAGE];
+    } else if ([item isImageFileType]) {
+        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:IMAGETYPE_LABEL_BG_IMAGE];
+    } else {
+        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:ALLTYPE_LABEL_BG_IMAGE];
+    }
+    
     self.rankLabel.text = [NSString stringWithFormat:@"%d", [indexPathValue row] + 1];
     self.fileTypeLabel.text = item.fileType;
     if ([item.fileName length] > 0){
@@ -66,6 +85,7 @@
         self.webSiteNameLabel.text = [NSString stringWithFormat:NSLS(@"kFromWebSite"), item.webSite];
     }    
     self.totalDownloadLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), item.totalDownload];
+    
 }
 
 - (void)dealloc

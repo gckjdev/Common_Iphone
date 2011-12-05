@@ -26,12 +26,14 @@
 @property (retain, nonatomic) IBOutlet UIButton *moreButton;
 @property (retain, nonatomic) IBOutlet UIButton *albumButton;
 @property (retain, nonatomic) IBOutlet UIButton *emailSendButton;
+@property (retain, nonatomic) UIButton *lastSelectedButton;
 
 @property (nonatomic, retain) DownloadItem *item;
 @property (nonatomic, retain) UIViewController<CommonFileActionProtocol> *playItemController;
 @property (retain, nonatomic) IBOutlet UIView *playItemSuperView;
 @property (retain, nonatomic) NSNumber *alertViewNumber;
 @property (retain, nonatomic) UITextView* textViewOfAlertView;
+@property (retain, nonatomic) IBOutlet UIImageView *itemActionInnerView;
 
 - (void)showItem:(DownloadItem*)newItem;
 - (IBAction)shareWithEmail:(id)sender;

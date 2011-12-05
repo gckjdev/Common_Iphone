@@ -96,6 +96,8 @@
 
 - (void)viewDidLoad
 {
+    [self setDownloadNavigationTitle:NSLS(@"kFirstViewTitle")];
+     
     supportRefreshHeader = YES;
     [super viewDidLoad];
     

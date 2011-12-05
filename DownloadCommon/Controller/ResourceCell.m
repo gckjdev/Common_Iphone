@@ -10,6 +10,8 @@
 #import "TopSite.h"
 #import "LocaleUtils.h"
 #import "Site.h"
+#import "DownloadResource.h"
+#import "FileTypeManager.h"
 
 @implementation ResourceCell
 @synthesize siteUrlLabel;
@@ -20,7 +22,13 @@
 - (void)setCellStyle
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;		
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_IMAGE];
+    
+    UIImageView *view= [[UIImageView alloc] initWithImage:RESOURCE_CELL_BG_IMAGE];
+    view.frame = self.bounds;
+    self.backgroundView = view;
+    [view release];
 }
 
 - (void)awakeFromNib{
@@ -37,9 +45,16 @@
         return nil;
     }
     
-    ((ResourceCell*)[topLevelObjects objectAtIndex:0]).delegate = delegate;
+    ResourceCell* cell = (ResourceCell*)[topLevelObjects objectAtIndex:0];
+    cell.delegate = delegate;
     
-    return (ResourceCell*)[topLevelObjects objectAtIndex:0];
+    UIImageView *bgView = [[UIImageView alloc]initWithImage:DOWNLOAD_CELL_SELECTED_BG_IMAGE];
+    bgView.frame = cell.bounds;
+    cell.selectedBackgroundView = bgView;
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    [bgView release];
+    
+    return cell;
 }
 
 + (NSString*)getCellIdentifier
@@ -54,11 +69,28 @@
 
 - (void)setFileType:(NSString*)fileType
 {
-    if ([fileType length] > 0)
+    if ([fileType length] > 0) {
         self.fileTypeLabel.text = fileType;
-    else{
+
+    }
+        else{
         self.fileTypeLabel.text = NSLS(@"kFileType_other");
-    }    
+    }
+    
+    [self setFileTypeBgImage:fileType];
+}
+
+- (void)setFileTypeBgImage:(NSString*)fileType
+{
+    FileTypeManager* manager = [FileTypeManager defaultManager];
+    if ([manager isImage:fileType]) {
+        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:IMAGETYPE_LABEL_BG_IMAGE];
+    } else if ([manager isVideoAudio:fileType]) {
+        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:AUDIOTYPE_LABEL_BG_IMAGE];
+    } else {
+        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:ALLTYPE_LABEL_BG_IMAGE];
+    }
+
 }
 
 - (void)setSiteName:(NSString*)siteName siteURL:(NSString*)siteURL
@@ -82,6 +114,7 @@
     else{
         self.downloadCountLabel.text = @"";
     }
+    self.downloadCountLabel.backgroundColor = [UIColor colorWithPatternImage:DOWNLOADCOUNT_LABEL_BG_IMAGE];
 }
 
 - (void)setCellInfoWithTopSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath
@@ -94,6 +127,7 @@
 
 - (void)setCellInfoWithSite:(Site*)site atIndexPath:(NSIndexPath*)indexPath
 {
+    
     [self setFileType:site.siteFileType];
     [self setSiteName:site.siteName siteURL:site.siteURL];
     [self setSiteURL:site.siteURL];

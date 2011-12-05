@@ -22,6 +22,8 @@
 @property (retain, nonatomic) IBOutlet UIButton *hotButton;
 @property (retain, nonatomic) IBOutlet UIButton *newButton;
 @property (retain, nonatomic) IBOutlet UIButton *starredButton;
+@property (retain, nonatomic) IBOutlet UIImageView *resourceBackgroundView;
+@property (retain, nonatomic)  UIButton *lastSelectedButton;
 
 - (IBAction)clickHot:(id)sender;
 - (IBAction)clickTop:(id)sender;

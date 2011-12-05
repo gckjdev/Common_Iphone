@@ -24,6 +24,8 @@
 @synthesize hotButton;
 @synthesize newButton;
 @synthesize starredButton;
+@synthesize resourceBackgroundView;
+@synthesize lastSelectedButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,6 +61,8 @@
     [hotButton release];
     [newButton release];
     [starredButton release];
+    [resourceBackgroundView release];
+    [lastSelectedButton release];
     [super dealloc];
 }
 
@@ -155,7 +159,10 @@
 
 - (void)viewDidLoad
 {
-    [self setDownloadNavigationTitle:(@"kSecondViewTitle")];
+    [self setDownloadNavigationTitle:NSLS(@"kSecondViewTitle")];
+    
+    [self.resourceBackgroundView setImage:DOWNLOAD_FILTER_BG_IMAGE];
+
     
     [self.topButton setTitle:NSLS(@"kTopButtonTitle") forState:UIControlStateNormal];
     [self.topButton setImage:RESOURCE_TOP_BUTTON_IMAGE forState:UIControlStateNormal];
@@ -175,7 +182,10 @@
     [self.starredButton setImage:RESOURCE_STARRED_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
     
     supportRefreshHeader = YES;
-    [self setRefreshHeaderViewFrame:CGRectMake(0, 0-self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.width)];
+    [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
+    [self.refreshHeaderView setBackgroundColor:[UIColor clearColor]];
+    [topButton setSelected:YES];
+    lastSelectedButton = topButton;
     
     [super viewDidLoad];
         
@@ -200,6 +210,7 @@
     [self setHotButton:nil];
     [self setNewButton:nil];
     [self setStarredButton:nil];
+    [self setResourceBackgroundView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -284,7 +295,11 @@
     }
     else{
         [self reloadData];
-    }    
+    }
+    
+    [lastSelectedButton setSelected:NO];
+    [hotButton setSelected:YES];
+    lastSelectedButton = hotButton;
 }
 
 - (IBAction)clickTop:(id)sender
@@ -295,7 +310,11 @@
     }
     else{
         [self reloadData];
-    }    
+    }
+    
+    [lastSelectedButton setSelected:NO];
+    [topButton setSelected:YES];
+    lastSelectedButton = topButton;
     
 }
 
@@ -307,7 +326,11 @@
     }
     else{
         [self reloadData];
-    }    
+    }
+    
+    [lastSelectedButton setSelected:NO];
+    [newButton setSelected:YES];
+    lastSelectedButton = newButton;
     
 }
 
@@ -315,7 +338,11 @@
 {
     self.requestType = SITE_REQUEST_TYPE_NONE;
     self.starredList = [[TopSiteManager defaultManager] findAllFavoriteSites];
-    [self reloadData];    
+    [self reloadData]; 
+    
+    [lastSelectedButton setSelected:NO];
+    [starredButton setSelected:YES];
+    lastSelectedButton = starredButton;
 }
 
 #pragma Pull Refresh Delegate

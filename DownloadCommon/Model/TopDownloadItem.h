@@ -36,4 +36,8 @@
            countryCode:(NSString *)countryCodeValue
               language:(NSString *)languageValue;
 
+- (BOOL)isAudioVideo;
+- (BOOL)isReadableFile;
+- (BOOL)isImageFileType;
+
 @end
