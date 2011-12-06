@@ -28,7 +28,7 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *pauseButton;
 @property (retain, nonatomic) IBOutlet UIButton *starButton;
-@property (retain, nonatomic) IBOutlet UILabel *fileTypeLabel;
+@property (retain, nonatomic) IBOutlet UIButton *fileTypeButton;
 @property (retain, nonatomic) IBOutlet UILabel *fileNameLabel;
 @property (retain, nonatomic) IBOutlet UILabel *statusLabel;
 @property (retain, nonatomic) IBOutlet UIProgressView *downloadProgress;
@@ -38,4 +38,6 @@
 - (IBAction)clickPause:(id)sender;
 - (IBAction)clickStar:(id)sender;
 
+- (void)setCellSelectedColor;
+- (void)resetCellColor;
 @end
