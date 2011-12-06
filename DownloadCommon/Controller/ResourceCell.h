@@ -15,7 +15,7 @@
 
 @interface ResourceCell : PPTableViewCell
 @property (retain, nonatomic) IBOutlet UILabel *siteUrlLabel;
-@property (retain, nonatomic) IBOutlet UILabel *downloadCountLabel;
+@property (retain, nonatomic) IBOutlet UIButton *downloadCountButton;
 @property (retain, nonatomic) IBOutlet UILabel *siteNameLabel;
 @property (retain, nonatomic) IBOutlet UIButton *fileTypeButton;
 

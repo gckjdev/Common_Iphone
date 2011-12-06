@@ -196,7 +196,7 @@
 #define ACCESSORY_ICON_SELECT_IMAGE             [UIImage imageNamed:ACCESSORY_SELECT_ICON]
 
 #define RESOURCE_CELL_BG                        @"tu_96"
-#define RESOURCED_SELECTED_BG                   @"tu_102"
+#define RESOURCED_SELECTED_BG                   @"png_128"
 
 #define RESOURCE_CELL_BG_IMAGE                  [UIImage strectchableImageName:RESOURCE_CELL_BG]
 #define RESOURCE_CELL_SELECTED_BG_IMAGE         [UIImage strectchableImageName:RESOURCED_SELECTED_BG]
