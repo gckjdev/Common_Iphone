@@ -57,11 +57,11 @@
 
 #define AUDIOTYPE_LABEL_BG_IMAGE [UIImage strectchableImageName:AUDIOTYPE_LABEL]
 #define IMAGETYPE_LABEL_BG_IMAGE [UIImage strectchableImageName:IMAGETYPE_LABEL]
-#define ALLTYPE_LABEL_BG_IMAGE [UIImage strectchableImageName:ALLTYPE_LABEL]
+#define ALLTYPE_LABEL_BG_IMAGE   [UIImage strectchableImageName:ALLTYPE_LABEL]
 
 //download
 #define DOWNLOAD_FILTER_BG              @"tu_22.png" 
-#define DOWNLOAD_FILTER_BG_IMAGE ([UIImage imageNamed:DOWNLOAD_FILTER_BG])
+#define DOWNLOAD_FILTER_BG_IMAGE        ([UIImage imageNamed:DOWNLOAD_FILTER_BG])
 
 #define FILETER_ALL_BUTTON              @"png_107"
 #define FILETER_COMPLETE_BUTTON         @"png_108"
@@ -78,10 +78,10 @@
 #define FILETER_DOWNLOADING_BUTTON_PRESS    @"png_113"
 #define FILETER_STARRED_BUTTON_PRESS        @"png_11"
 
-#define FILETER_ALL_BUTTON_PRESS_IMAGE              ([UIImage imageNamed:FILETER_ALL_BUTTON_PRESS])
+#define FILETER_ALL_BUTTON_PRESS_IMAGE           ([UIImage imageNamed:FILETER_ALL_BUTTON_PRESS])
 #define FILETER_COMPLETE_BUTTON_PRESS_IMAGE      ([UIImage imageNamed:FILETER_COMPLETE_BUTTON_PRESS])
 #define FILETER_DOWNLOADING_BUTTON_PRESS_IMAGE   ([UIImage imageNamed:FILETER_DOWNLOADING_BUTTON_PRESS])
-#define FILETER_STARRED_BUTTON_PRESS_IMAGE      ([UIImage imageNamed:FILETER_STARRED_BUTTON_PRESS])
+#define FILETER_STARRED_BUTTON_PRESS_IMAGE       ([UIImage imageNamed:FILETER_STARRED_BUTTON_PRESS])
 
 
 #define DOWNLOAD_CELL_BG            @"tu_100"
@@ -165,20 +165,20 @@
 #define RESOURCE_NEW_BUTTON         @"png_94"
 #define RESOURCE_STARRED_BUTTON     @"tu_47"
 
-#define RESOURCE_TOP_BUTTON_IMAGE          ([UIImage imageNamed:RESOURCE_TOP_BUTTON])
-#define RESOURCE_HOT_BUTTON_IMAGE          ([UIImage imageNamed:RESOURCE_HOT_BUTTON])
-#define RESOURCE_NEW_BUTTON_IMAGE          ([UIImage imageNamed:RESOURCE_NEW_BUTTON])
-#define RESOURCE_STARRED_BUTTON_IMAGE      ([UIImage imageNamed:RESOURCE_STARRED_BUTTON])
+#define RESOURCE_TOP_BUTTON_IMAGE          ([UIImage strectchableImageName:RESOURCE_TOP_BUTTON])
+#define RESOURCE_HOT_BUTTON_IMAGE          ([UIImage strectchableImageName:RESOURCE_HOT_BUTTON])
+#define RESOURCE_NEW_BUTTON_IMAGE          ([UIImage strectchableImageName:RESOURCE_NEW_BUTTON])
+#define RESOURCE_STARRED_BUTTON_IMAGE      ([UIImage strectchableImageName:RESOURCE_STARRED_BUTTON])
 
 #define RESOURCE_TOP_BUTTON_PRESS         @"tu_48"
 #define RESOURCE_HOT_BUTTON_PRESS         @"png_97"
 #define RESOURCE_NEW_BUTTON_PRESS         @"png_98"
 #define RESOURCE_STARRED_BUTTON_PRESS     @"tu_51"
 
-#define RESOURCE_TOP_BUTTON_PRESS_IMAGE          ([UIImage imageNamed:RESOURCE_TOP_BUTTON_PRESS])
-#define RESOURCE_HOT_BUTTON_PRESS_IMAGE          ([UIImage imageNamed:RESOURCE_HOT_BUTTON_PRESS])
-#define RESOURCE_NEW_BUTTON_PRESS_IMAGE          ([UIImage imageNamed:RESOURCE_NEW_BUTTON_PRESS])
-#define RESOURCE_STARRED_BUTTON_PRESS_IMAGE      ([UIImage imageNamed:RESOURCE_STARRED_BUTTON_PRESS])
+#define RESOURCE_TOP_BUTTON_PRESS_IMAGE          ([UIImage strectchableImageName:RESOURCE_TOP_BUTTON_PRESS])
+#define RESOURCE_HOT_BUTTON_PRESS_IMAGE          ([UIImage strectchableImageName:RESOURCE_HOT_BUTTON_PRESS])
+#define RESOURCE_NEW_BUTTON_PRESS_IMAGE          ([UIImage strectchableImageName:RESOURCE_NEW_BUTTON_PRESS])
+#define RESOURCE_STARRED_BUTTON_PRESS_IMAGE      ([UIImage strectchableImageName:RESOURCE_STARRED_BUTTON_PRESS])
 
 #define RESOURCE_NAVIGATION_RIGHT_BUTTON        @"tu_26"
 #define RESOURCE_NAVIGATION_RIGHT_BUTTON_IMAGE  [UIImage strectchableImageName:RESOURCE_NAVIGATION_RIGHT_BUTTON]
@@ -186,8 +186,14 @@
 #define DOWNLOADCOUNT_LABEL_BG                  @"tu_27"
 #define DOWNLOADCOUNT_LABEL_BG_IMAGE            [UIImage imageNamed:DOWNLOADCOUNT_LABEL_BG]
 
+#define DOWNLOADCOUNT_LABEL_SELECT_BG           @"png_53"
+#define DOWNLOADCOUNT_LABEL_SELECT_BG_IMAGE     [UIImage imageNamed:DOWNLOADCOUNT_LABEL_SELECT_BG]
+
 #define ACCESSORY_ICON                          @"tu_24-21"
 #define ACCESSORY_ICON_IMAGE                    [UIImage imageNamed:ACCESSORY_ICON]
+
+#define ACCESSORY_SELECT_ICON                   @"png_57"
+#define ACCESSORY_ICON_SELECT_IMAGE             [UIImage imageNamed:ACCESSORY_SELECT_ICON]
 
 #define RESOURCE_CELL_BG                        @"tu_96"
 #define RESOURCED_SELECTED_BG                   @"tu_102"
