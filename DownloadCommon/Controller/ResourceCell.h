@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @class TopSite;
 @class Site;
@@ -26,4 +27,6 @@
 - (void)setCellInfoWithSite:(Site*)site atIndexPath:(NSIndexPath*)indexPath;
 - (void)setFileTypeBgImage:(NSString*)fileType;
 
+- (void)setCellSelectedColor;
+- (void)resetCellColor;
 @end
