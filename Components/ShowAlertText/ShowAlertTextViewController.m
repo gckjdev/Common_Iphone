@@ -91,13 +91,13 @@ ShowAlertTextViewController *globalShowAlertTextViewController;
     if (globalShowAlertTextViewController == nil)
     {
         globalShowAlertTextViewController = [[ShowAlertTextViewController alloc] init];
-        
-        CGRect rect = globalShowAlertTextViewController.view.bounds;
-        rect.origin = CGPointMake(100, 150);
-        globalShowAlertTextViewController.view.frame = rect;
     }
     
     [globalShowAlertTextViewController removeFromSuperView];
+    
+    CGRect rect = globalShowAlertTextViewController.view.bounds;
+    rect.origin = CGPointMake(100, 150);
+    globalShowAlertTextViewController.view.frame = rect;
     
     [superView addSubview:globalShowAlertTextViewController.view];
     
