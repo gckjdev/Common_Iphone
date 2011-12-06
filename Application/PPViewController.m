@@ -918,8 +918,10 @@
 
 
 #pragma mark - static method
+
+//if buttonSeparatorY < 0, we will use the default value.
 + (UIScrollView*)createButtonScrollViewByButtonArray:(NSArray*)buttons 
-                                      buttonsPerLine:(int)buttonsPerLine 
+                                      buttonsPerLine:(int)buttonsPerLine buttonSeparatorY:(CGFloat)buttonSeparatorY
 {
     float buttonLen;
     float buttonHeight;
@@ -938,7 +940,9 @@
     } 
     
     float buttonSeparatorX = (320-fitButtonsPerLine*buttonLen)/(fitButtonsPerLine+1);
-    float buttonSeparatorY =2*buttonHeight/fitButtonsPerLine;
+    if (buttonSeparatorY < 0) {
+        buttonSeparatorY =2 * buttonHeight/fitButtonsPerLine;
+    }
     
     for (int i=0; i<[buttons count]; i++) {
         //
