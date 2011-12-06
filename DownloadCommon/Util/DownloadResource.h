@@ -150,6 +150,8 @@
 #define BROWSER_BG_IMAGE            [UIImage strectchableImageName:BROWSER_BG]
 #define BROSWER_VISIT_BG            @"tu_120-85"
 #define BROSWER_VISIT_BG_IMAGE      [UIImage strectchableImageName:BROSWER_VISIT_BG]
+#define BROSWER_VISITED_BG          @"tu_124"
+#define BROSWER_VISITED_BG_IMAGE    [UIImage strectchableImageName:BROSWER_VISITED_BG]
 #define BROSWER_INNER_BG            @"tu_03"
 #define BROSWER_INNER_BG_IMAGE      [UIImage strectchableImageName:BROSWER_INNER_BG]
 #define BROSWER_TEXTFIELD_BG        @"tu_120"

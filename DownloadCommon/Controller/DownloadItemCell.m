@@ -15,7 +15,7 @@
 @synthesize starButton;
 @synthesize webSiteLabel;
 @synthesize pauseButton;
-@synthesize fileTypeLabel;
+@synthesize fileTypeButton;
 @synthesize fileNameLabel;
 @synthesize statusLabel;
 @synthesize downloadProgress;
@@ -166,16 +166,13 @@
 - (void)setCellInfoWithItem:(DownloadItem*)item indexPath:(NSIndexPath*)indexPath
 {
     if ([item canPlay]) {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:AUDIOTYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:AUDIOTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     } else if ([item canView]) {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:IMAGETYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:AUDIOTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     } else {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:ALLTYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:AUDIOTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     }
-        
-    self.fileTypeLabel.opaque = YES;
-    
-    self.fileTypeLabel.text = [item.fileName pathExtension];
+    [self.fileTypeButton setTitle:[item.fileName pathExtension] forState:UIControlStateNormal];
     self.fileNameLabel.text = item.fileName;
     self.statusLabel.text = [item statusText];    
     
@@ -204,6 +201,23 @@
     }
 }
 
+- (void)setCellSelectedColor
+{
+    self.fileNameLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
+    self.webSiteLabel.textColor = [UIColor colorWithRed:210/255.0 green:217/255.0 blue:133/255.0 alpha:1.0];
+    self.statusLabel.textColor = [UIColor colorWithRed:210/255.0 green:217/255.0 blue:133/255.0 alpha:1.0];
+    self.downloadDetailLabel.textColor = [UIColor colorWithRed:210/255.0 green:217/255.0 blue:133/255.0 alpha:1.0];
+}
+
+- (void)resetCellColor
+{
+    self.fileNameLabel.textColor = [UIColor colorWithRed:123/255.0 green:134/255.0 blue:148/255.0 alpha:1.0];
+    self.webSiteLabel.textColor = [UIColor colorWithRed:189/255.0 green:199/255.0 blue:211/255.0 alpha:1.0];
+    self.statusLabel.textColor = [UIColor colorWithRed:189/255.0 green:199/255.0 blue:211/255.0 alpha:1.0];
+    self.downloadDetailLabel.textColor = [UIColor colorWithRed:189/255.0 green:199/255.0 blue:211/255.0 alpha:1.0];
+}
+
+
 - (IBAction)clickPause:(id)sender
 {
     if (delegate && [delegate respondsToSelector:@selector(clickPause:atIndexPath:)])
@@ -217,7 +231,7 @@
 }
 
 - (void)dealloc {
-    [fileTypeLabel release];
+    [fileTypeButton release];
     [fileNameLabel release];
     [statusLabel release];
     [downloadDetailLabel release];

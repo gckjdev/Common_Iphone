@@ -123,6 +123,7 @@
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
+    
 }
 
 - (void) clickNowPlaying:(id) sender
@@ -197,6 +198,10 @@
     return 1;		// default implementation
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return NO;
+}
+
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.dataList count];
@@ -224,7 +229,7 @@
 	
     DownloadItem* downloadItem = [self.dataList objectAtIndex:row];
     [cell setCellInfoWithItem:downloadItem indexPath:indexPath];    
-	
+	[cell resetCellColor];
 	return cell;
 	
 }
@@ -233,6 +238,9 @@
         
 	if (indexPath.row > [dataList count] - 1)
 		return;
+    
+    DownloadItemCell *cell = (DownloadItemCell*)[tableView cellForRowAtIndexPath:indexPath];
+    [cell setCellSelectedColor];
     
     DownloadItem* item = [self.dataList objectAtIndex:indexPath.row];
     if ([item isDownloadFinished] == NO){

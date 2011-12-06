@@ -98,7 +98,7 @@
 - (void)setCellSelectedColor
 {
     self.fileNameLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
-    self.webSiteNameLabel.textColor = [UIColor colorWithRed:112/255.0 green:144/255.0 blue:165/255.0 alpha:1.0];
+    self.webSiteNameLabel.textColor = [UIColor colorWithRed:210/255.0 green:217/255.0 blue:133/255.0 alpha:1.0];
     [self.totalDownloadButton setBackgroundImage:DOWNLOADCOUNT_LABEL_SELECT_BG_IMAGE forState:UIControlStateNormal];
 //    self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_SELECT_IMAGE];
     
