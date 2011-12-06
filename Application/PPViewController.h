@@ -135,5 +135,6 @@
 
 
 + (UIScrollView*)createButtonScrollViewByButtonArray:(NSArray*)buttons 
-                                      buttonsPerLine:(int)buttonsPerLine; 
+                                      buttonsPerLine:(int)buttonsPerLine 
+                                    buttonSeparatorY:(CGFloat)buttonSeparatorY; 
 @end
