@@ -16,7 +16,6 @@
 #import "TKAlertCenter.h"
 #import "UIBlankView.h"
 #import "UIImageUtil.h"
-#import "ColorManager.h"
 
 //#import "PPSegmentControl.h"
 @implementation PPViewController
@@ -949,7 +948,10 @@
         [scrollView addSubview:button];
     }
     [scrollView setContentSize:CGSizeMake(320, ([buttons count]/fitButtonsPerLine+1)*(buttonHeight+buttonSeparatorY))];
-    [scrollView setBackgroundColor:[ColorManager scrollViewBackgroundColor]];
+    [scrollView setBackgroundColor:[UIColor colorWithRed:0xF8/255.0
+                                                   green:0xFC/255.0
+                                                    blue:0xFE/255.0 
+                                                   alpha:1]];
     return scrollView;   
 }
 
