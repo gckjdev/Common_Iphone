@@ -221,7 +221,8 @@
 	}
     TopDownloadItem* downloadItem = [self.dataList objectAtIndex:row];
 	[cell setCellInfoWithTopDownloadItem:downloadItem atIndexPath:indexPath];
-    
+    [cell resetCellColor];
+
 	return cell;
 	
 }

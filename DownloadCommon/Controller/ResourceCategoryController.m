@@ -27,6 +27,7 @@
 @synthesize resourceBackgroundView;
 @synthesize lastSelectedButton;
 @synthesize lastSelectedCell;
+@synthesize underlineView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,6 +66,7 @@
     [resourceBackgroundView release];
     [lastSelectedButton release];
     [lastSelectedCell release];
+    [underlineView release];
     [super dealloc];
 }
 
@@ -184,10 +186,8 @@
 - (void)viewDidLoad
 {
     [self setDownloadNavigationTitle:NSLS(@"kSecondViewTitle")];
-    
     [self.resourceBackgroundView setImage:DOWNLOAD_FILTER_BG_IMAGE];
 
-    
     [self.topButton setTitle:NSLS(@"kTopButtonTitle") forState:UIControlStateNormal];
     [self.topButton setImage:RESOURCE_TOP_BUTTON_IMAGE forState:UIControlStateNormal];
     [self.topButton setImage:RESOURCE_TOP_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
@@ -219,6 +219,11 @@
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
+    
+    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 38, 70, 2)];
+    [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
+    [resourceBackgroundView addSubview:underlineView];
+
     
     // Do any additional setup after loading the view from its nib.
     [self loadSiteFromServer];
@@ -299,7 +304,7 @@
         TopSite* site = [self.dataList objectAtIndex:row];
         [cell setCellInfoWithTopSite:site atIndexPath:indexPath];    
     }
-	
+	[cell resetCellColor];
 	return cell;
 	
 }
@@ -333,6 +338,13 @@
     [lastSelectedButton setSelected:NO];
     [hotButton setSelected:YES];
     lastSelectedButton = hotButton;
+
+        
+    [UIImageView beginAnimations:nil context:NULL];
+    [UIImageView setAnimationDuration:0.5];
+    [UIImageView setAnimationBeginsFromCurrentState:YES];
+    [underlineView setFrame:CGRectMake(83, 38, 70, 2)];
+    [UIImageView commitAnimations];
 }
 
 - (IBAction)clickTop:(id)sender
@@ -349,6 +361,11 @@
     [topButton setSelected:YES];
     lastSelectedButton = topButton;
     
+    [UIImageView beginAnimations:nil context:NULL];
+    [UIImageView setAnimationDuration:0.5];
+    [UIImageView setAnimationBeginsFromCurrentState:YES];
+    [underlineView setFrame:CGRectMake(8, 38, 70, 2)];
+    [UIImageView commitAnimations];
 }
 
 - (IBAction)clickNew:(id)sender
@@ -365,6 +382,12 @@
     [newButton setSelected:YES];
     lastSelectedButton = newButton;
     
+    [UIImageView beginAnimations:nil context:NULL];
+    [UIImageView setAnimationDuration:0.5];
+    [UIImageView setAnimationBeginsFromCurrentState:YES];
+    [underlineView setFrame:CGRectMake(160, 38, 70, 2)];
+    [UIImageView commitAnimations];
+    
 }
 
 - (IBAction)clickStarred:(id)sender
@@ -376,6 +399,12 @@
     [lastSelectedButton setSelected:NO];
     [starredButton setSelected:YES];
     lastSelectedButton = starredButton;
+    
+    [UIImageView beginAnimations:nil context:NULL];
+    [UIImageView setAnimationDuration:0.5];
+    [UIImageView setAnimationBeginsFromCurrentState:YES];
+    [underlineView setFrame:CGRectMake(238, 38, 70, 2)];
+    [UIImageView commitAnimations];
 }
 
 #pragma Pull Refresh Delegate

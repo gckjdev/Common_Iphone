@@ -108,16 +108,17 @@
 - (void)setLeftBarButton
 {
     float buttonHigh = 27.5;
-    float refeshButtonLen = 60;
+    float backButtonLen = 60;
     
-    UIButton *refleshButton = [[UIButton alloc]initWithFrame:CGRectMake(8, 0, refeshButtonLen, buttonHigh)];
-    [refleshButton setBackgroundImage:ITEM_BACK_ICON_IMAGE forState:UIControlStateNormal];
-    [refleshButton.titleLabel setFont:[UIFont fontWithName:@"" size:9]];
-    [refleshButton setTitle:NSLS(@"kBack") forState:UIControlStateNormal];
-    [refleshButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [refleshButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(8, 0, backButtonLen, buttonHigh)];
+    [backButton setBackgroundImage:ITEM_BACK_ICON_IMAGE forState:UIControlStateNormal];
+    UIFont *font = [UIFont boldSystemFontOfSize:10];
+    [backButton.titleLabel setFont:font];
+    [backButton setTitleColor:[UIColor colorWithRed:99/255.0 green:124/255.0 blue:141/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [backButton setTitle:NSLS(@"kBack") forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:refleshButton];    
+    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:backButton];    
     self.navigationItem.leftBarButtonItem = leftBarButton;
     [leftBarButton release];
     
@@ -126,16 +127,19 @@
 - (void)setRightBarButton
 {
     float buttonHigh = 27.5;
-    float refeshButtonLen = 60;
+    float nextButtonLen = 60;
     
-    UIButton *refleshButton = [[UIButton alloc]initWithFrame:CGRectMake(218, 0, refeshButtonLen, buttonHigh)];
-    [refleshButton setBackgroundImage:ITEM_NEXT_ICON_IMAGE forState:UIControlStateNormal];
-    [refleshButton.titleLabel setFont:[UIFont fontWithName:@"" size:9]];
-    [refleshButton setTitle:NSLS(@"kNextItem") forState:UIControlStateNormal];
-    [refleshButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [refleshButton addTarget:self action:@selector(clickNext:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *nextButton = [[UIButton alloc]initWithFrame:CGRectMake(218, 0, nextButtonLen, buttonHigh)];
+    [nextButton setBackgroundImage:ITEM_NEXT_ICON_IMAGE forState:UIControlStateNormal];
     
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:refleshButton];    
+    UIFont *font = [UIFont boldSystemFontOfSize:10];
+    [nextButton.titleLabel setFont:font];
+    [nextButton setTitleColor:[UIColor colorWithRed:99/255.0 green:124/255.0 blue:141/255.0 alpha:1.0] forState:UIControlStateNormal];
+    
+    [nextButton setTitle:NSLS(@"kNextItem") forState:UIControlStateNormal];
+    [nextButton addTarget:self action:@selector(clickNext:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:nextButton];    
     self.navigationItem.rightBarButtonItem = rightBarButton;
     [rightBarButton release];
     

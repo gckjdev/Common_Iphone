@@ -32,6 +32,7 @@
 @synthesize viewDecompressItemController;
 @synthesize lastSelectedButton;
 @synthesize filterBackgroundView;
+@synthesize underlineView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,6 +62,7 @@
     [viewDecompressItemController release];
     [filterBackgroundView release];
     [lastSelectedButton release];
+    [underlineView release];
     [super dealloc];
 }
 
@@ -117,6 +119,10 @@
     
     [filterAllButton setSelected:YES];
     lastSelectedButton = filterAllButton;
+    
+    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 38, 70, 2)];
+    [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
+    [filterBackgroundView addSubview:underlineView];
     
     [super viewDidLoad];
         
@@ -355,6 +361,12 @@
     [lastSelectedButton setSelected:NO];
     lastSelectedButton = filterCompleteButton;
     
+    [UIImageView beginAnimations:nil context:NULL];
+    [UIImageView setAnimationDuration:0.5];
+    [UIImageView setAnimationBeginsFromCurrentState:YES];
+    [underlineView setFrame:CGRectMake(83, 38, 70, 2)];
+    [UIImageView commitAnimations];
+    
     self.dataList = [[DownloadItemManager defaultManager] findAllCompleteItems];
     [self.dataTableView reloadData];    
 }
@@ -369,6 +381,12 @@
     [filterDownloadingButton setSelected:YES];
     [lastSelectedButton setSelected:NO];
     lastSelectedButton = filterDownloadingButton;
+    
+    [UIImageView beginAnimations:nil context:NULL];
+    [UIImageView setAnimationDuration:0.5];
+    [UIImageView setAnimationBeginsFromCurrentState:YES];
+    [underlineView setFrame:CGRectMake(160, 38, 70, 2)];
+    [UIImageView commitAnimations];
 
     self.dataList = [[DownloadItemManager defaultManager] findAllDownloadingItems];
     [self.dataTableView reloadData];    
@@ -384,6 +402,12 @@
     [filterStarredButton setSelected:YES];
     [lastSelectedButton setSelected:NO];
     lastSelectedButton = filterStarredButton;
+    
+    [UIImageView beginAnimations:nil context:NULL];
+    [UIImageView setAnimationDuration:0.5];
+    [UIImageView setAnimationBeginsFromCurrentState:YES];
+    [underlineView setFrame:CGRectMake(238, 38, 70, 2)];
+    [UIImageView commitAnimations];
 
     self.dataList = [[DownloadItemManager defaultManager] findAllStarredItems];
     [self.dataTableView reloadData];    
@@ -400,6 +424,12 @@
     [filterAllButton setSelected:YES];
     [lastSelectedButton setSelected:NO];
     lastSelectedButton = filterAllButton;
+    
+    [UIImageView beginAnimations:nil context:NULL];
+    [UIImageView setAnimationDuration:0.5];
+    [UIImageView setAnimationBeginsFromCurrentState:YES];
+    [underlineView setFrame:CGRectMake(8, 38, 70, 2)];
+    [UIImageView commitAnimations];
     
     self.dataList = [[DownloadItemManager defaultManager] findAllItems];
     [self.dataTableView reloadData];    
