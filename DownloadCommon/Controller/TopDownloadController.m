@@ -21,11 +21,13 @@
 @synthesize requestType;
 @synthesize currentSelectItem;
 @synthesize startOffset;
+@synthesize lastSelectedCell;
 
 - (void)dealloc
 {
     [toplist release];
     [currentSelectItem release];
+    [lastSelectedCell release];
     [super dealloc];
 }
 
@@ -125,8 +127,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
-    
-    
+         
     // Do any additional setup after loading the view from its nib.
     [self loadTopDownLoadItemFromServer:YES];
     
@@ -194,7 +195,11 @@
         // check if it's last row - to load more
         MoreTableViewCell* moreCell = [MoreTableViewCell createCell:theTableView];
         self.moreLoadingView = moreCell.loadingView;
-        moreCell.textLabel.textColor = [self getDefaultTextColor];
+        
+        moreCell.textLabel.textColor = [UIColor colorWithRed:101/255.0 green:134/255.0 blue:156/255.0 alpha:1.0];
+        moreCell.textLabel.font = [UIFont boldSystemFontOfSize:18];
+        moreCell.textLabel.shadowColor = [UIColor colorWithRed:241/255.0 green:246/255.0 blue:249/255.0 alpha:1.0];
+        
         moreCell.selectionStyle = UITableViewCellSelectionStyleNone;
         return moreCell;
     }
@@ -214,7 +219,6 @@
 		NSLog(@"[WARN] cellForRowAtIndexPath, row(%d) > data list total number(%d)", row, count);
 		return cell;
 	}
-	
     TopDownloadItem* downloadItem = [self.dataList objectAtIndex:row];
 	[cell setCellInfoWithTopDownloadItem:downloadItem atIndexPath:indexPath];
     
@@ -233,6 +237,14 @@
     
 	if (indexPath.row > [dataList count] - 1)
 		return;
+    
+    if (lastSelectedCell != nil) {
+        [lastSelectedCell resetCellColor];
+    }
+    TopDownloadItemCell *cell = (TopDownloadItemCell*)[tableView cellForRowAtIndexPath:indexPath];
+    [cell setCellSelectedColor];
+    lastSelectedCell = cell;
+
     
     TopDownloadItem* item = [self.dataList objectAtIndex:indexPath.row];    
     self.currentSelectItem = item;

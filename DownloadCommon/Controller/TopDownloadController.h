@@ -11,6 +11,7 @@
 #import "ResourceService.h"
 
 @class TopDownloadItem;
+@class TopDownloadItemCell;
 
 @interface TopDownloadController : PPTableViewController <ResourceServiceDelegate, UIActionSheetDelegate> {
     int requestType;
@@ -23,7 +24,7 @@
 @property (nonatomic, assign) int startOffset;
 @property (nonatomic, retain) NSMutableArray* toplist;
 @property (nonatomic, retain) TopDownloadItem* currentSelectItem;
-
+@property (nonatomic, retain) TopDownloadItemCell* lastSelectedCell;
 - (void)askDownload;
 - (void) hasDownloaded:(TopDownloadItem*) downloadItem;
 - (UIColor*)getDefaultTextColor;

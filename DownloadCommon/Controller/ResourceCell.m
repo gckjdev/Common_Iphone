@@ -15,9 +15,9 @@
 
 @implementation ResourceCell
 @synthesize siteUrlLabel;
-@synthesize downloadCountLabel;
+@synthesize downloadCountButton;
 @synthesize siteNameLabel;
-@synthesize fileTypeLabel;
+@synthesize fileTypeButton;
 
 - (void)setCellStyle
 {
@@ -47,10 +47,11 @@
     ResourceCell* cell = (ResourceCell*)[topLevelObjects objectAtIndex:0];
     cell.delegate = delegate;
     
-    UIImageView *bgView = [[UIImageView alloc]initWithImage:DOWNLOAD_CELL_SELECTED_BG_IMAGE];
+    UIImageView *bgView = [[UIImageView alloc]initWithImage:RESOURCE_CELL_SELECTED_BG_IMAGE];
     bgView.frame = cell.bounds;
     cell.selectedBackgroundView = bgView;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [bgView release];
     
     return cell;
@@ -69,11 +70,10 @@
 - (void)setFileType:(NSString*)fileType
 {
     if ([fileType length] > 0) {
-        self.fileTypeLabel.text = fileType;
-
+        [self.fileTypeButton setTitle:fileType forState:UIControlStateNormal];
     }
         else{
-        self.fileTypeLabel.text = NSLS(@"kFileType_other");
+        [self.fileTypeButton setTitle:NSLS(@"kFileType_other") forState:UIControlStateNormal];
     }
     
     [self setFileTypeBgImage:fileType];
@@ -83,11 +83,13 @@
 {
     FileTypeManager* manager = [FileTypeManager defaultManager];
     if ([manager isImage:fileType]) {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:IMAGETYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:IMAGETYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     } else if ([manager isVideoAudio:fileType]) {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:AUDIOTYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:AUDIOTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
+
     } else {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:ALLTYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:ALLTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
+
     }
 
 }
@@ -108,12 +110,13 @@
 
 - (void)setDownloadCount:(int)downloadCount{
     if (downloadCount >= 0){
-        self.downloadCountLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), downloadCount];    
+        NSString *count = [NSString stringWithFormat:NSLS(@"kDownloadCount"), downloadCount];  
+        [self.downloadCountButton setTitle:count forState:UIControlStateNormal];
     }
     else{
-        self.downloadCountLabel.text = @"";
+        [self.downloadCountButton setTitle:@"" forState:UIControlStateNormal];
     }
-    self.downloadCountLabel.backgroundColor = [UIColor colorWithPatternImage:DOWNLOADCOUNT_LABEL_BG_IMAGE];
+    [self.downloadCountButton setBackgroundImage:DOWNLOADCOUNT_LABEL_BG_IMAGE forState:UIControlStateNormal];
 }
 
 - (void)setCellInfoWithTopSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath
@@ -133,11 +136,28 @@
     [self setDownloadCount:-1];
 }
 
+- (void)setCellSelectedColor
+{
+    self.siteNameLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
+    self.siteUrlLabel.textColor = [UIColor colorWithRed:112/255.0 green:144/255.0 blue:165/255.0 alpha:1.0];
+    [self.downloadCountButton setBackgroundImage:DOWNLOADCOUNT_LABEL_SELECT_BG_IMAGE forState:UIControlStateNormal];
+    self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_SELECT_IMAGE];
+    
+}
+
+- (void)resetCellColor
+{
+    self.siteNameLabel.textColor = [UIColor colorWithRed:123/255.0 green:134/255.0 blue:148/255.0 alpha:1.0];
+    self.siteUrlLabel.textColor = [UIColor colorWithRed:189/255.0 green:199/255.0 blue:211/255.0 alpha:1.0];
+    [self.downloadCountButton setBackgroundImage:DOWNLOADCOUNT_LABEL_BG_IMAGE forState:UIControlStateNormal];
+    self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_IMAGE];
+}
+
 - (void)dealloc {
     [siteNameLabel release];
     [siteUrlLabel release];
-    [downloadCountLabel release];
-    [fileTypeLabel release];
+    [downloadCountButton release];
+    [fileTypeButton release];
     [super dealloc];
 }
 @end

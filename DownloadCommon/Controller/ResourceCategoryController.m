@@ -26,6 +26,7 @@
 @synthesize starredButton;
 @synthesize resourceBackgroundView;
 @synthesize lastSelectedButton;
+@synthesize lastSelectedCell;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -63,6 +64,7 @@
     [starredButton release];
     [resourceBackgroundView release];
     [lastSelectedButton release];
+    [lastSelectedCell release];
     [super dealloc];
 }
 
@@ -306,6 +308,13 @@
     
 	if (indexPath.row > [dataList count] - 1)
 		return;
+    
+    if (lastSelectedCell != nil) {
+        [lastSelectedCell resetCellColor];
+    }
+    ResourceCell *cell = (ResourceCell*)[tableView cellForRowAtIndexPath:indexPath];
+    [cell setCellSelectedColor];
+    lastSelectedCell = cell;
     
     TopSite* site = [self.dataList objectAtIndex:indexPath.row];
     [DownloadWebViewController show:self url:site.siteURL];

@@ -8,15 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @class TopSite;
 @class Site;
 
 @interface ResourceCell : PPTableViewCell
 @property (retain, nonatomic) IBOutlet UILabel *siteUrlLabel;
-@property (retain, nonatomic) IBOutlet UILabel *downloadCountLabel;
+@property (retain, nonatomic) IBOutlet UIButton *downloadCountButton;
 @property (retain, nonatomic) IBOutlet UILabel *siteNameLabel;
-@property (retain, nonatomic) IBOutlet UILabel *fileTypeLabel;
+@property (retain, nonatomic) IBOutlet UIButton *fileTypeButton;
 
 + (ResourceCell*) createCell:(id)delegate;
 + (NSString*)getCellIdentifier;
@@ -26,4 +27,6 @@
 - (void)setCellInfoWithSite:(Site*)site atIndexPath:(NSIndexPath*)indexPath;
 - (void)setFileTypeBgImage:(NSString*)fileType;
 
+- (void)setCellSelectedColor;
+- (void)resetCellColor;
 @end

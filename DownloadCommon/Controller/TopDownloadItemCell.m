@@ -14,8 +14,8 @@
 @implementation TopDownloadItemCell
 @synthesize rankLabel;
 @synthesize fileNameLabel;
-@synthesize totalDownloadLabel;
-@synthesize fileTypeLabel;
+@synthesize totalDownloadButton;
+@synthesize fileTypeButton;
 @synthesize webSiteNameLabel;
 
 - (void)setCellStyle
@@ -45,7 +45,7 @@
     TopDownloadItemCell* cell = (TopDownloadItemCell*)[topLevelObjects objectAtIndex:0];
     cell.delegate = delegate;
     
-    UIImageView *bgView = [[UIImageView alloc]initWithImage:DOWNLOAD_CELL_SELECTED_BG_IMAGE];
+    UIImageView *bgView = [[UIImageView alloc]initWithImage:RESOURCE_CELL_SELECTED_BG_IMAGE];
     bgView.frame = cell.bounds;
     cell.selectedBackgroundView = bgView;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -67,17 +67,19 @@
 
 - (void)setCellInfoWithTopDownloadItem:(TopDownloadItem*)item atIndexPath:(NSIndexPath*)indexPathValue
 {
-    self.totalDownloadLabel.backgroundColor = [UIColor colorWithPatternImage:DOWNLOADCOUNT_LABEL_BG_IMAGE];
+    [self.totalDownloadButton setBackgroundImage:DOWNLOADCOUNT_LABEL_BG_IMAGE forState:UIControlStateNormal];
     if ([item isAudioVideo]) {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:AUDIOTYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:AUDIOTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     } else if ([item isImageFileType]) {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:IMAGETYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:IMAGETYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     } else {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:ALLTYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:ALLTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     }
     
-    self.rankLabel.text = [NSString stringWithFormat:@"%d", [indexPathValue row] + 1];
-    self.fileTypeLabel.text = item.fileType;
+//  self.rankLabel.text = [NSString stringWithFormat:@"%d", [indexPathValue row] + 1];
+    
+    [self.fileTypeButton setTitle:item.fileType forState:UIControlStateNormal]; 
+    
     if ([item.fileName length] > 0){
         self.fileNameLabel.text = item.fileName;
     } else {
@@ -87,16 +89,35 @@
         self.webSiteNameLabel.text = [NSString stringWithFormat:NSLS(@"kFromWebSite"), item.webSiteName];
     } else {
         self.webSiteNameLabel.text = [NSString stringWithFormat:NSLS(@"kFromWebSite"), item.webSite];
-    }    
-    self.totalDownloadLabel.text = [NSString stringWithFormat:NSLS(@"kDownloadCount"), item.totalDownload];
+    } 
+    NSString *count = [NSString stringWithFormat:NSLS(@"kDownloadCount"), item.totalDownload];
+    [self.totalDownloadButton setTitle:count forState:UIControlStateNormal];
     
 }
+
+- (void)setCellSelectedColor
+{
+    self.fileNameLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
+    self.webSiteNameLabel.textColor = [UIColor colorWithRed:112/255.0 green:144/255.0 blue:165/255.0 alpha:1.0];
+    [self.totalDownloadButton setBackgroundImage:DOWNLOADCOUNT_LABEL_SELECT_BG_IMAGE forState:UIControlStateNormal];
+//    self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_SELECT_IMAGE];
+    
+}
+
+- (void)resetCellColor
+{
+    self.fileNameLabel.textColor = [UIColor colorWithRed:123/255.0 green:134/255.0 blue:148/255.0 alpha:1.0];
+    self.webSiteNameLabel.textColor = [UIColor colorWithRed:189/255.0 green:199/255.0 blue:211/255.0 alpha:1.0];
+    [self.totalDownloadButton setBackgroundImage:DOWNLOADCOUNT_LABEL_BG_IMAGE forState:UIControlStateNormal];
+//    self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_IMAGE];
+}
+
 
 - (void)dealloc
 {
     [webSiteNameLabel release];
-    [fileTypeLabel release];
-    [totalDownloadLabel release];
+    [fileTypeButton release];
+    [totalDownloadButton release];
     [fileNameLabel release];
     [rankLabel release];
     
