@@ -17,7 +17,7 @@
 @synthesize siteUrlLabel;
 @synthesize downloadCountLabel;
 @synthesize siteNameLabel;
-@synthesize fileTypeLabel;
+@synthesize fileTypeButton;
 
 - (void)setCellStyle
 {
@@ -69,11 +69,10 @@
 - (void)setFileType:(NSString*)fileType
 {
     if ([fileType length] > 0) {
-        self.fileTypeLabel.text = fileType;
-
+        [self.fileTypeButton setTitle:fileType forState:UIControlStateNormal];
     }
         else{
-        self.fileTypeLabel.text = NSLS(@"kFileType_other");
+        [self.fileTypeButton setTitle:NSLS(@"kFileType_other") forState:UIControlStateNormal];
     }
     
     [self setFileTypeBgImage:fileType];
@@ -83,12 +82,12 @@
 {
     FileTypeManager* manager = [FileTypeManager defaultManager];
     if ([manager isImage:fileType]) {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:IMAGETYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:IMAGETYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     } else if ([manager isVideoAudio:fileType]) {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:AUDIOTYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:AUDIOTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
 
     } else {
-        self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:ALLTYPE_LABEL_BG_IMAGE];
+        [self.fileTypeButton setBackgroundImage:ALLTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
 
     }
 
@@ -156,7 +155,7 @@
     [siteNameLabel release];
     [siteUrlLabel release];
     [downloadCountLabel release];
-    [fileTypeLabel release];
+    [fileTypeButton release];
     [super dealloc];
 }
 @end
