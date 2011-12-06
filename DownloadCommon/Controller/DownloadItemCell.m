@@ -154,12 +154,12 @@
 
 - (void)setLabel:(UILabel *)label Background:(UIImage *)image
 {
-//    CALayer *layer = [[CALayer alloc]init];
-//    layer.frame = label.bounds;
-//    layer.contents = (id)image.CGImage;
-//    [label.layer insertSublayer:layer atIndex:0];
-//    layer.backgroundColor = [UIColor clearColor].CGColor;
-//    [layer release];
+    CALayer *layer = [[CALayer alloc]init];
+    layer.frame = label.bounds;
+    layer.contents = (id)image.CGImage;
+    [label.layer insertSublayer:layer atIndex:0];
+    layer.backgroundColor = [UIColor clearColor].CGColor;
+    [layer release];
 
 }
 

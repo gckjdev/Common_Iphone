@@ -10,6 +10,8 @@
 #import "PPTableViewController.h"
 #import "ResourceService.h"
 
+@class ResourceCell;
+
 @interface ResourceCategoryController : PPTableViewController <ResourceServiceDelegate>
 
 @property (nonatomic, assign) int requestType;
@@ -24,7 +26,7 @@
 @property (retain, nonatomic) IBOutlet UIButton *starredButton;
 @property (retain, nonatomic) IBOutlet UIImageView *resourceBackgroundView;
 @property (retain, nonatomic)  UIButton *lastSelectedButton;
-
+@property (retain, nonatomic) ResourceCell* lastSelectedCell;
 - (IBAction)clickHot:(id)sender;
 - (IBAction)clickTop:(id)sender;
 - (IBAction)clickNew:(id)sender;

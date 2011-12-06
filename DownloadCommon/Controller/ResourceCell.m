@@ -86,8 +86,10 @@
         self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:IMAGETYPE_LABEL_BG_IMAGE];
     } else if ([manager isVideoAudio:fileType]) {
         self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:AUDIOTYPE_LABEL_BG_IMAGE];
+
     } else {
         self.fileTypeLabel.backgroundColor = [UIColor colorWithPatternImage:ALLTYPE_LABEL_BG_IMAGE];
+
     }
 
 }
@@ -114,6 +116,7 @@
         self.downloadCountLabel.text = @"";
     }
     self.downloadCountLabel.backgroundColor = [UIColor colorWithPatternImage:DOWNLOADCOUNT_LABEL_BG_IMAGE];
+
 }
 
 - (void)setCellInfoWithTopSite:(TopSite*)site atIndexPath:(NSIndexPath*)indexPath
@@ -131,6 +134,22 @@
     [self setSiteName:site.siteName siteURL:site.siteURL];
     [self setSiteURL:site.siteURL];
     [self setDownloadCount:-1];
+}
+
+- (void)setCellSelectedColor
+{
+    self.siteNameLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
+    self.siteUrlLabel.textColor = [UIColor colorWithRed:112/255.0 green:144/255.0 blue:165/255.0 alpha:1.0];
+    self.downloadCountLabel.backgroundColor = [UIColor colorWithPatternImage:DOWNLOADCOUNT_LABEL_SELECT_BG_IMAGE];
+    self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_SELECT_IMAGE];
+}
+
+- (void)resetCellColor
+{
+    self.siteNameLabel.textColor = [UIColor colorWithRed:123/255.0 green:134/255.0 blue:148/255.0 alpha:1.0];
+    self.siteUrlLabel.textColor = [UIColor colorWithRed:189/255.0 green:199/255.0 blue:211/255.0 alpha:1.0];
+    self.downloadCountLabel.backgroundColor = [UIColor colorWithPatternImage:DOWNLOADCOUNT_LABEL_BG_IMAGE];
+    self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_IMAGE];
 }
 
 - (void)dealloc {
