@@ -16,6 +16,7 @@
 #import "TKAlertCenter.h"
 #import "UIBlankView.h"
 #import "UIImageUtil.h"
+#import "ColorManager.h"
 
 //#import "PPSegmentControl.h"
 @implementation PPViewController
@@ -913,6 +914,43 @@
 
     [item release];    
     [view release];
+}
+
+
+#pragma mark - static method
++ (UIScrollView*)createButtonScrollViewByButtonArray:(NSArray*)buttons 
+                                      buttonsPerLine:(int)buttonsPerLine 
+{
+    float buttonLen;
+    float buttonHeight;
+    int fitButtonsPerLine;
+    int rowIndex;
+    int columnIndex;
+    UIScrollView* scrollView = [[[UIScrollView alloc] init] autorelease];
+    
+    UIButton* button1 = [buttons objectAtIndex:0];
+    buttonLen = button1.frame.size.width;
+    buttonHeight = button1.frame.size.height;
+    fitButtonsPerLine = 320/buttonLen;
+    
+    if (buttonLen*buttonsPerLine <=  320 && buttonsPerLine >= 0) {
+        fitButtonsPerLine = buttonsPerLine;
+    } 
+    
+    float buttonSeparatorX = (320-fitButtonsPerLine*buttonLen)/(fitButtonsPerLine+1);
+    float buttonSeparatorY =2*buttonHeight/fitButtonsPerLine;
+    
+    for (int i=0; i<[buttons count]; i++) {
+        //
+        rowIndex = i/buttonsPerLine;
+        columnIndex = i%buttonsPerLine;
+        UIButton *button = [buttons objectAtIndex:i];
+        button.frame = CGRectMake(buttonSeparatorX+columnIndex*(buttonSeparatorX+buttonLen), rowIndex*(buttonHeight+buttonSeparatorY),buttonLen, buttonHeight);
+        [scrollView addSubview:button];
+    }
+    [scrollView setContentSize:CGSizeMake(320, ([buttons count]/fitButtonsPerLine+1)*(buttonHeight+buttonSeparatorY))];
+    [scrollView setBackgroundColor:[ColorManager scrollViewBackgroundColor]];
+    return scrollView;   
 }
 
 @end
