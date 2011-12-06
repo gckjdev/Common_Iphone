@@ -64,6 +64,7 @@
     [starredButton release];
     [resourceBackgroundView release];
     [lastSelectedButton release];
+    [lastSelectedCell release];
     [super dealloc];
 }
 

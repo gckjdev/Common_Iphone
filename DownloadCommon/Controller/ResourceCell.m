@@ -51,6 +51,7 @@
     bgView.frame = cell.bounds;
     cell.selectedBackgroundView = bgView;
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [bgView release];
     
     return cell;

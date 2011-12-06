@@ -15,8 +15,8 @@
 
 @property (retain, nonatomic) IBOutlet UILabel *rankLabel;
 @property (retain, nonatomic) IBOutlet UILabel *fileNameLabel;
-@property (retain, nonatomic) IBOutlet UILabel *totalDownloadLabel;
-@property (retain, nonatomic) IBOutlet UILabel *fileTypeLabel;
+@property (retain, nonatomic) IBOutlet UIButton *totalDownloadButton;
+@property (retain, nonatomic) IBOutlet UIButton *fileTypeButton;
 @property (retain, nonatomic) IBOutlet UILabel *webSiteNameLabel;
 
 + (TopDownloadItemCell*) createCell:(id)delegate;
@@ -25,4 +25,6 @@
 
 - (void)setCellInfoWithTopDownloadItem:(TopDownloadItem*)item atIndexPath:(NSIndexPath*)indexPath;
 
+- (void)setCellSelectedColor;
+- (void)resetCellColor;
 @end
