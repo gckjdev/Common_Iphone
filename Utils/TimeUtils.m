@@ -7,13 +7,13 @@
 //
 
 #import "TimeUtils.h"
-static  NSArray *weekDays; 
+NSArray *weekDays = nil; 
 
 NSArray *getWeekDayArray()
 {
-    if(!weekDays)
+    if(weekDays == nil)
     {
-        weekDays = [NSArray arrayWithObjects: @"星期日", @"星期一", @"星期二",
+        weekDays = [[NSArray alloc]initWithObjects: @"星期日", @"星期一", @"星期二",
                       @"星期三",@"星期四",@"星期五",@"星期六", nil];
     }
     return weekDays;
@@ -235,8 +235,9 @@ NSString *chineseWeekDayFromDate(NSDate *date)
     NSDateComponents *dc = getChineseDateComponents(date);
     [dc setTimeZone:[NSTimeZone timeZoneWithName:TIME_ZONE_GMT]];
     NSInteger weekIndex = [dc weekday];
-    if(weekIndex >= [getWeekDayArray() count])
+    if(weekIndex >= [getWeekDayArray() count]){
         return @"";
+    }
     return [getWeekDayArray() objectAtIndex:weekIndex-1];
 }
 /*
