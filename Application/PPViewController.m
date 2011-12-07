@@ -290,6 +290,7 @@
 	[loadingView setMessage:loadingText];
 	[loadingView startAnimating];
 	loadingView.hidden = NO;
+    [self.view bringSubviewToFront:loadingView];
 }
 
 - (void)showActivity
