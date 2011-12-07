@@ -41,6 +41,12 @@
     return [image stretchableImageWithLeftCapWidth:0 topCapHeight:topCapHeight];    
 }
 
++ (UIImage*)strectchableImageName:(NSString*)name leftCapWidth:(int)leftCapWidth topCapHeight:(int)topCapHeight
+{
+    UIImage* image = [UIImage imageNamed:name];
+    return [image stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:topCapHeight];    
+}
+
 + (UIImageView*)strectchableImageView:(NSString*)name viewWidth:(int)viewWidth
 {
     UIImage* image = [UIImage strectchableImageName:name];

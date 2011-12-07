@@ -87,7 +87,6 @@
     NSArray* array = [NSArray arrayWithObjects:
                       NSLS(@"DOWNLOAD_STATUS_NOT_STARTED"), 
                       NSLS(@"DOWNLOAD_STATUS_STARTED"), 
-                      NSLS(@"DOWNLOAD_STATUS_FINISH"), 
                       NSLS(@"DOWNLOAD_STATUS_PAUSE"), 
                       NSLS(@"DOWNLOAD_STATUS_FAIL"), 
                       nil];
@@ -95,8 +94,12 @@
     int index = [self.status intValue];
     if (index >=0 && index < [array count])
         return [array objectAtIndex:index];
-    else
+    else if (index == DOWNLOAD_STATUS_FINISH){
+        return NSLS(@"DOWNLOAD_STATUS_FINISH");
+    }
+    else{
         return @"";
+    }
 }
 
 - (BOOL)isStarred

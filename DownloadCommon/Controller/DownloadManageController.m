@@ -94,6 +94,8 @@
 
 - (void)viewDidLoad
 {   
+    [self setBackgroundImageName:DOWNLOAD_BG];
+
     [self setDownloadNavigationTitle:NSLS(@"kFourthViewTitle")];
 
     [self.filterBackgroundView setImage:DOWNLOAD_FILTER_BG_IMAGE];
@@ -102,18 +104,22 @@
     
     [self.filterAllButton setImage:FILETER_ALL_BUTTON_IMAGE forState:UIControlStateNormal];
     [self.filterAllButton setImage:FILETER_ALL_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.filterAllButton.titleLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];
     
     [self.filterCompleteButton setTitle:NSLS(@"kFilterCompleteButtonTitle") forState:UIControlStateNormal];
     [self.filterCompleteButton setImage:FILETER_COMPLETE_BUTTON_IMAGE forState:UIControlStateNormal];
     [self.filterCompleteButton setImage:FILETER_COMPLETE_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.filterCompleteButton.titleLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];
     
     [self.filterDownloadingButton setTitle:NSLS(@"kFilterDownloadingButtonTitle") forState:UIControlStateNormal];
     [self.filterDownloadingButton setImage:FILETER_DOWNLOADING_BUTTON_IMAGE forState:UIControlStateNormal];
     [self.filterDownloadingButton setImage:FILETER_DOWNLOADING_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.filterDownloadingButton.titleLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];
     
     [self.filterStarredButton setTitle:NSLS(@"kFilterStarredButtonTitle") forState:UIControlStateNormal];
     [self.filterStarredButton setImage:FILETER_STARRED_BUTTON_IMAGE forState:UIControlStateNormal];
     [self.filterStarredButton setImage:FILETER_STARRED_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.filterStarredButton.titleLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateProgressTimer) userInfo:nil repeats:YES];
     
@@ -127,8 +133,6 @@
     [super viewDidLoad];
         
     // Do any additional setup after loading the view from its nib.
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.dataTableView.backgroundColor = [UIColor whiteColor];
     
 }
 

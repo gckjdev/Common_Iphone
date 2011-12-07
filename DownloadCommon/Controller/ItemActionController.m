@@ -153,6 +153,8 @@
 
 - (void)viewDidLoad
 {    
+    [self setBackgroundImageName:BROWSER_BG];
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -207,7 +209,7 @@
     
     [self setLeftBarButton];
     [self setRightBarButton];
-
+    
     
 //    self.navigationItem.title = self.item.fileName;
     [self setDownloadNavigationTitle:self.item.fileName];
@@ -270,6 +272,8 @@
     [self.lastSelectedButton setSelected:NO];
     [self.renameButton setSelected:YES];
     self.lastSelectedButton = renameButton;
+    
+    
     
 }
 
@@ -525,7 +529,7 @@
             case 1:
                 if ([[DownloadItemManager defaultManager] renameFile:self.item newFileName:self.textViewOfAlertView.text])
                 {
-                    self.navigationItem.title = self.item.fileName;
+                    [self setDownloadNavigationTitle:self.item.fileName];
                 }
                 else
                 {

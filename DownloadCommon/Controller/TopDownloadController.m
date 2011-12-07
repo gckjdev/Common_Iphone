@@ -116,7 +116,8 @@
 
 - (void)viewDidLoad
 {
-    [self setDownloadNavigationTitle:NSLS(@"kFirstViewTitle")];
+    [self setBackgroundImageName:DOWNLOAD_BG];
+    [self setDownloadNavigationTitle:NSLS(@"kTopDownload")];
      
     supportRefreshHeader = YES;
     [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.width)];
@@ -125,8 +126,6 @@
 //    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(clickRefresh:)];
     
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.dataTableView.backgroundColor = [UIColor whiteColor];
     
     UIImageView *view= [[UIImageView alloc] initWithImage:RESOURCE_CELL_BG_IMAGE];
     self.dataTableView.backgroundView = view;

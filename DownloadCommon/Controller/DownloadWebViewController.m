@@ -79,35 +79,48 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    self.view.backgroundColor = [UIColor clearColor];    
+    [self.webView registerLongPressHandler];    
+    [super viewDidLoad];
+    
     [self.backButton setTitle:NSLS(@"kBackButtonTitle") forState:UIControlStateNormal];
     [self.backButton setImage:RETURN_IMAGE forState:UIControlStateNormal];    
+    self.backButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.backButton centerImageAndTitle];
+    self.backButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
     
     [self.backwardButton setTitle:NSLS(@"kBackwardButtonTitle") forState:UIControlStateNormal];
     [self.backwardButton setImage:BACKWARD_IMAGE forState:UIControlStateNormal];    
+    self.backwardButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.backwardButton centerImageAndTitle];
+    self.backwardButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
     
     [self.forwardButton setTitle:NSLS(@"kForwardButtonTitle") forState:UIControlStateNormal];
     [self.forwardButton setImage:FORWARD_IMAGE forState:UIControlStateNormal];    
+    self.forwardButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.forwardButton centerImageAndTitle];
+    self.forwardButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
     
     [self.stopButton setTitle:NSLS(@"kStopButtonTitle") forState:UIControlStateNormal];
     [self.stopButton setImage:STOP_IMAGE forState:UIControlStateNormal];
+    self.stopButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.stopButton centerImageAndTitle];
+    self.stopButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
     
     [self.reloadButton setTitle:NSLS(@"kReloadButtonTitle") forState:UIControlStateNormal];
     [self.reloadButton setImage:REFRESH_IMAGE forState:UIControlStateNormal];
+    self.reloadButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.reloadButton centerImageAndTitle];
+    self.reloadButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
     
     [self.addFavoriteButton setTitle:NSLS(@"kAddFavoriteButtonTitle") forState:UIControlStateNormal];
     [self.addFavoriteButton setImage:FAVOURITE_IMAGE forState:UIControlStateNormal];
+    self.addFavoriteButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.addFavoriteButton centerImageAndTitle];
-    
-    self.view.backgroundColor = [UIColor clearColor];
+    self.addFavoriteButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
 
-    [self.webView registerLongPressHandler];
     
-    [super viewDidLoad];
+
     
     
 //    [self.webView setScalesPageToFit:YES];
@@ -172,6 +185,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 }
 
 - (IBAction) clickReloadButton{
+    [self showActivityWithText:NSLS(@"kLoadingURL")];
     [self.webView stopLoading];
     [self.webView reload];
 }
@@ -184,6 +198,8 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 {
     [[TopSiteManager defaultManager] addFavoriteSite:[self.webView getTitle] 
                                              siteURL:self.currentURL];
+    
+    [self popupHappyMessage:NSLS(@"kSaveFavoriteOK") title:@""];
 }
 
 - (void)longpressTouch:(UIWebView*)webView info:(HTMLLinkInfo*)linkInfo

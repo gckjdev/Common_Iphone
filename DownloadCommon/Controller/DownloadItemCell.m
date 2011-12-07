@@ -64,7 +64,7 @@
 
 + (CGFloat)getCellHeight
 {
-    return 106.0f;
+    return 100.0f;
 }
 
 #define SIZE_ONE_MB (1000000.0)
@@ -174,12 +174,12 @@
     }
     [self.fileTypeButton setTitle:[item.fileName pathExtension] forState:UIControlStateNormal];
     self.fileNameLabel.text = item.fileName;
-    self.statusLabel.text = [item statusText];    
+//    self.statusLabel.text = [item statusText];    
     
     NSString* sizeInfo = [self getSizeInfo:item];
     NSString* percentageInfo = [self getPercentageInfo:item];
     NSString* leftInfo = [self getLeftInfo:item];    
-    self.downloadDetailLabel.text = [NSString stringWithFormat:@"%@ %@ %@", sizeInfo, percentageInfo, leftInfo];
+    self.downloadDetailLabel.text = [NSString stringWithFormat:@"%@   %@ %@ %@", [item statusText], sizeInfo, percentageInfo, leftInfo];
     self.downloadProgress.progress = [item.downloadProgress floatValue];
     
     self.webSiteLabel.text = [NSString stringWithFormat:NSLS(@"kFromWebSite"), item.webSite];

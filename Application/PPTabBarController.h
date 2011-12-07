@@ -13,6 +13,14 @@ enum TAB_BUTTON_STYLE {
     TAB_BUTTON_STYLE_ICON = 1
 };
 
+// defaults to looking at the cube from the outside
+typedef enum {
+	CubeTabBarControllerAnimationNone = -1,
+	CubeTabBarControllerAnimationOutside = 0,
+	CubeTabBarControllerAnimationInside
+} CubeTabBarControllerAnimation;
+
+
 @interface PPTabBarController : UITabBarController {
 	NSMutableArray *buttons;
 	int currentSelectedIndex;
@@ -32,6 +40,9 @@ enum TAB_BUTTON_STYLE {
 @property (nonatomic,retain) UIColor* normalTextColor;
 @property (nonatomic,retain) UIColor* selectTextColor;
 
+@property(nonatomic, assign) CubeTabBarControllerAnimation animation;
+@property(nonatomic, retain) UIColor *backgroundColor;
+
 // for external call
 - (void)setBarBackground:(NSString*)backgroundImageName;
 
@@ -41,5 +52,7 @@ enum TAB_BUTTON_STYLE {
 - (void)selectedTab:(UIButton *)button;
 - (void)setBadgeValue:(NSString*)value buttonTag:(NSInteger)tag;
 - (void)setTextColor:(UIColor*)normalTextColor selectTextColor:(UIColor*)selectTextColor;
+
+
 
 @end

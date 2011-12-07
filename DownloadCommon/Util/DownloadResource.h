@@ -87,8 +87,8 @@
 #define DOWNLOAD_CELL_BG            @"tu_100"
 #define DOWNLOAD_SELECTED_BG        @"tu_102"
 
-#define DOWNLOAD_CELL_BG_IMAGE              [UIImage strectchableImageName:DOWNLOAD_CELL_BG leftCapWidth:(218/2-1)]
-#define DOWNLOAD_CELL_SELECTED_BG_IMAGE     [UIImage strectchableImageName:DOWNLOAD_SELECTED_BG leftCapWidth:(218/2-1)]
+#define DOWNLOAD_CELL_BG_IMAGE              [UIImage strectchableImageName:DOWNLOAD_CELL_BG leftCapWidth:(218/2-1) topCapHeight:(82/2/2)]
+#define DOWNLOAD_CELL_SELECTED_BG_IMAGE     [UIImage strectchableImageName:DOWNLOAD_SELECTED_BG leftCapWidth:(218/2-1) topCapHeight:(82/2/2)]
 
 #define NAVIGATION_BAR_BG           @"tu_17"
 #define NAVIGATION_BAR_TITLE_COLOR  [UIColor colorWithRed:(101/255.0) green:(134/255.0) blue:(156/255.0) alpha:1.0]
@@ -160,6 +160,9 @@
 #define KEYWORD_FONT_SIZE           12
 #define KEYWORD_UICOLOR             [UIColor colorWithRed:(36/255.0) green:(71/255.0) blue:(133/255.0) alpha:1.0]
 
+#define DOWNLOAD_BG                  @"tu_85-77"
+#define DOWNLOAD_BG_IMAGE            [UIImage strectchableImageName:DOWNLOAD_BG]
+
 
 //Resource
 #define RESOURCE_TOP_BUTTON         @"tu_44"
@@ -205,3 +208,15 @@
 
 #define DOWNLOAD_REFRESH_ICON                   @"tu_26"
 #define DOWNLOAD_REFRESH_ICON_IMAGE             ([UIImage imageNamed:DOWNLOAD_REFRESH_ICON])
+
+#define BAR_BUTTON_TEXT_COLOR                   [UIColor colorWithRed:240/255.0 green:210/255.0 blue:145/255.0 alpha:1.0]
+
+#define BAR_BUTTON_TEXT_NORMAL_COLOR            [UIColor colorWithRed:80/255.0 green:80/255.0 blue:80/255.0 alpha:1.0]
+
+
+#define BUTTON_TEXT_NORMAL_COLOR                [UIColor colorWithRed:112/255.0 green:144/255.0 blue:165/255.0 alpha:1.0]
+
+
+#define BAR_BUTTON_TEXT_FONT                    [UIFont boldSystemFontOfSize:11]
+
+

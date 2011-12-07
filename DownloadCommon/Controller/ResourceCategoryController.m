@@ -185,25 +185,30 @@
 
 - (void)viewDidLoad
 {
-    [self setDownloadNavigationTitle:NSLS(@"kSecondViewTitle")];
+    [self setDownloadNavigationTitle:NSLS(@"kResourceSites")];
+    
+    [self setBackgroundImageName:DOWNLOAD_BG];
     [self.resourceBackgroundView setImage:DOWNLOAD_FILTER_BG_IMAGE];
 
     [self.topButton setTitle:NSLS(@"kTopButtonTitle") forState:UIControlStateNormal];
     [self.topButton setImage:RESOURCE_TOP_BUTTON_IMAGE forState:UIControlStateNormal];
     [self.topButton setImage:RESOURCE_TOP_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.topButton.titleLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];
     
     [self.hotButton setTitle:NSLS(@"kHotButtonTitle") forState:UIControlStateNormal];
     [self.hotButton setImage:RESOURCE_HOT_BUTTON_IMAGE forState:UIControlStateNormal];
     [self.hotButton setImage:RESOURCE_HOT_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.hotButton.titleLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];
     
     [self.newButton setTitle:NSLS(@"kNewButtonTitle") forState:UIControlStateNormal];
     [self.newButton setImage:RESOURCE_NEW_BUTTON_IMAGE forState:UIControlStateNormal];
     [self.newButton setImage:RESOURCE_NEW_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
-    
+    [self.newButton.titleLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];    
     
     [self.starredButton setTitle:NSLS(@"kStarredButtonTitle") forState:UIControlStateNormal];
     [self.starredButton setImage:RESOURCE_STARRED_BUTTON_IMAGE forState:UIControlStateNormal];
     [self.starredButton setImage:RESOURCE_STARRED_BUTTON_PRESS_IMAGE forState:UIControlStateSelected];
+    [self.starredButton.titleLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];
     
     supportRefreshHeader = YES;
     [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
@@ -216,9 +221,6 @@
 //    [self setNavigationRightButtonWithSystemStyle:UIBarButtonSystemItemRefresh action:@selector(loadSiteFromServer)];
     
     [super viewDidLoad];
-
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.dataTableView.backgroundColor = [UIColor whiteColor];
     
     underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 38, 70, 2)];
     [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];

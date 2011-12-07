@@ -114,7 +114,7 @@
         [self.downloadCountButton setTitle:count forState:UIControlStateNormal];
     }
     else{
-        [self.downloadCountButton setTitle:@"" forState:UIControlStateNormal];
+        [self.downloadCountButton setTitle:@"0" forState:UIControlStateNormal];
     }
     [self.downloadCountButton setBackgroundImage:DOWNLOADCOUNT_LABEL_BG_IMAGE forState:UIControlStateNormal];
 }
