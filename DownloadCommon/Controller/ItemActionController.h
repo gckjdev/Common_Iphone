@@ -27,6 +27,9 @@
 @property (retain, nonatomic) IBOutlet UIButton *albumButton;
 @property (retain, nonatomic) IBOutlet UIButton *emailSendButton;
 @property (retain, nonatomic) UIButton *lastSelectedButton;
+@property (retain, nonatomic) IBOutlet UILabel *previewLabel;
+@property (retain, nonatomic) IBOutlet UILabel *shareLabel;
+@property (retain, nonatomic) IBOutlet UILabel *SendToLabel;
 
 @property (nonatomic, retain) DownloadItem *item;
 @property (nonatomic, retain) UIViewController<CommonFileActionProtocol> *playItemController;
