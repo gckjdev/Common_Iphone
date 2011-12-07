@@ -33,6 +33,9 @@
 @synthesize textViewOfAlertView;
 @synthesize itemActionInnerView;
 @synthesize lastSelectedButton;
+@synthesize previewLabel;
+@synthesize shareLabel;
+@synthesize SendToLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -69,6 +72,9 @@
     [albumButton release];
     [emailSendButton release];
     [itemActionInnerView release];
+    [previewLabel release];
+    [shareLabel release];
+    [SendToLabel release];
     [super dealloc];
 }
 
@@ -151,25 +157,47 @@
     // Do any additional setup after loading the view from its nib.
     
     [self.itemActionInnerView setImage:ITEM_ACTION_INNER_BG_IMAGE];
+    [self.previewLabel setText:NSLS(@"kPreview")];
+    [self.shareLabel setText:NSLS(@"kShare")];
+    [self.SendToLabel setText:NSLS(@"kSendto")];
     
+    [self.openButton setTitle:NSLS(@"kOpen") forState:UIControlStateNormal];
     [self.openButton setImage:ITEM_OPEN_IMAGE forState:UIControlStateNormal];
     [self.openButton setImage:ITEM_OPEN_PRESS_IMAGE forState:UIControlStateSelected];
+    
+    [self.DeleteButton setTitle:NSLS(@"kDelete") forState:UIControlStateNormal];
     [self.DeleteButton setImage:ITEM_DELETE_IMAGE forState:UIControlStateNormal];
     [self.DeleteButton setImage:ITEM_DELETE_PRESS_IMAGE forState:UIControlStateSelected];
+    
+    [self.renameButton setTitle:NSLS(@"kRename") forState:UIControlStateNormal];
     [self.renameButton setImage:ITEM_RENAME_IMAGE forState:UIControlStateNormal];
     [self.renameButton  setImage:ITEM_RENAME_PRESS_IMAGE forState:UIControlStateSelected];
+    
+    [self.facebookButton setTitle:NSLS(@"kFacebook") forState:UIControlStateNormal];
     [self.facebookButton setImage:ITEM_FACEBOOK_IMAGE forState:UIControlStateNormal];
     [self.facebookButton setImage:ITEM_FACEBOOK_PRESS_IMAGE forState:UIControlStateSelected];
+    
+    [self.twitterButton setTitle:NSLS(@"kTwitter") forState:UIControlStateNormal];
     [self.twitterButton setImage:ITEM_TWITTER_IMAGE forState:UIControlStateNormal];
     [self.twitterButton setImage:ITEM_TWITTER_PRESS_IMAGE forState:UIControlStateSelected];
+    
+    [self.emailShareButton setTitle:NSLS(@"kEmail") forState:UIControlStateNormal];
     [self.emailShareButton setImage:ITEM_EMAIL_IMAGE forState:UIControlStateNormal];
     [self.emailShareButton  setImage:ITEM_EMAIL_PRESS_IMAGE forState:UIControlStateSelected];
+    
+    [self.SMSButton setTitle:NSLS(@"kSMS") forState:UIControlStateNormal];
     [self.SMSButton setImage:ITEM_SMS_IMAGE forState:UIControlStateNormal];
     [self.SMSButton setImage:ITEM_SMS_PRESS_IMAGE forState:UIControlStateSelected];
+    
+    [self.moreButton setTitle:NSLS(@"kMore") forState:UIControlStateNormal];
     [self.moreButton setImage:ITEM_MORE_IMAGE forState:UIControlStateNormal];
     [self.moreButton setImage:ITEM_MORE_IMAGE forState:UIControlStateSelected];
+    
+    [self.albumButton setTitle:NSLS(@"kAlbum") forState:UIControlStateNormal];
     [self.albumButton setImage:ITEM_ALBUM_IMAGE forState:UIControlStateNormal];
     [self.albumButton setImage:ITEM_ALBUM_PRESS_IMAGE forState:UIControlStateSelected];
+    
+    [self.emailSendButton setTitle:NSLS(@"kEmail") forState:UIControlStateNormal];
     [self.emailSendButton setImage:ITEM_EMAIL_IMAGE forState:UIControlStateNormal];
     [self.emailSendButton setImage:ITEM_EMAIL_PRESS_IMAGE forState:UIControlStateSelected];
 
@@ -207,6 +235,9 @@
     [self setAlbumButton:nil];
     [self setEmailSendButton:nil];
     [self setItemActionInnerView:nil];
+    [self setPreviewLabel:nil];
+    [self setShareLabel:nil];
+    [self setSendToLabel:nil];
     [super viewDidUnload];
     
     // Release any retained subviews of the main view.

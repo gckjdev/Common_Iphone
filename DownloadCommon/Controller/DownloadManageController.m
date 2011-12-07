@@ -120,7 +120,7 @@
     [filterAllButton setSelected:YES];
     lastSelectedButton = filterAllButton;
     
-    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 38, 70, 2)];
+    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 38, 55, 2)];
     [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
     [filterBackgroundView addSubview:underlineView];
     
@@ -364,7 +364,7 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(83, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(65, 38, 70, 2)];
     [UIImageView commitAnimations];
     
     self.dataList = [[DownloadItemManager defaultManager] findAllCompleteItems];
@@ -385,7 +385,7 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(160, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(150, 38, 90, 2)];
     [UIImageView commitAnimations];
 
     self.dataList = [[DownloadItemManager defaultManager] findAllDownloadingItems];
@@ -406,7 +406,7 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(238, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(248, 38, 70, 2)];
     [UIImageView commitAnimations];
 
     self.dataList = [[DownloadItemManager defaultManager] findAllStarredItems];
@@ -428,7 +428,8 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(8, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(8, 38, 50, 2)];
+//    [underlineView.layer setPosition:CGPointMake(28, 38)];
     [UIImageView commitAnimations];
     
     self.dataList = [[DownloadItemManager defaultManager] findAllItems];
