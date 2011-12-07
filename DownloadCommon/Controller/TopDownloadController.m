@@ -128,7 +128,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataTableView.backgroundColor = [UIColor whiteColor];
     
-    UIImageView *view= [[UIImageView alloc] initWithImage:DOWNLOAD_CELL_BG_IMAGE];
+    UIImageView *view= [[UIImageView alloc] initWithImage:RESOURCE_CELL_BG_IMAGE];
     self.dataTableView.backgroundView = view;
     [view release];
          
