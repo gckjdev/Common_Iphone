@@ -16,11 +16,11 @@
 - (id)initWithDownloadItem:(DownloadItem*)item;
 - (void)show:(UIView*)superView;
 - (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item;
+- (NSArray*)findAllRelatedItems;
+- (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue;
 
 @optional
-- (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue;
 - (void)preview:(UIViewController*)viewController image:(UIImage*)image;
-
 - (void)preview:(UIViewController*)viewController decompressItem:(DecompressItem*)item;
 
 @end

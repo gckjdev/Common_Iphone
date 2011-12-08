@@ -127,10 +127,8 @@
     
     [super viewDidLoad];
     
-    UIImageView *view= [[UIImageView alloc] initWithImage:RESOURCE_CELL_BG_IMAGE];
-    self.dataTableView.backgroundView = view;
-    [view release];
-         
+    [self setRefreshHeaderViewFrame:CGRectMake(0, 0-self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
+    
     // Do any additional setup after loading the view from its nib.
     [self loadTopDownLoadItemFromServer:YES];
     
@@ -174,7 +172,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self isMoreRow:indexPath.row]){
-        return [MoreTableViewCell getRowHeight];
+        return [TopDownloadItemCell getCellHeight];
     }
     
 	return [TopDownloadItemCell getCellHeight];
@@ -200,10 +198,16 @@
         self.moreLoadingView = moreCell.loadingView;
         
         moreCell.textLabel.textColor = [UIColor colorWithRed:101/255.0 green:134/255.0 blue:156/255.0 alpha:1.0];
-        moreCell.textLabel.font = [UIFont boldSystemFontOfSize:18];
+        moreCell.textLabel.font = [UIFont systemFontOfSize:15];
         moreCell.textLabel.shadowColor = [UIColor colorWithRed:241/255.0 green:246/255.0 blue:249/255.0 alpha:1.0];
         
         moreCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        UIImageView* imageView = [[UIImageView alloc] initWithImage:RESOURCE_CELL_BG_IMAGE];
+        [moreCell setBackgroundView:imageView];
+        [imageView release];
+        
+        moreCell.loadingView.hidesWhenStopped = YES;
         return moreCell;
     }
     

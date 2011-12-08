@@ -21,7 +21,6 @@
 #define DOWNLOAD_PRESS_ICON   @"png_36"
 #define ABOUT_PRESS_ICON      @"png_37"
 
-#define BACKGROUND              @""
 #define TABBAR_BACKGROUND       @"tu_16.png"
 
 #define RETURN_ICON_PRESS               @"png_150"
@@ -158,7 +157,7 @@
 #define BROSWER_TEXTFIELD_BG_IMAGE  [UIImage strectchableImageName:BROSWER_TEXTFIELD_BG]
 
 #define KEYWORD_FONT_SIZE           12
-#define KEYWORD_UICOLOR             [UIColor colorWithRed:(36/255.0) green:(71/255.0) blue:(133/255.0) alpha:1.0]
+#define KEYWORD_UICOLOR             [UIColor colorWithRed:(111/255.0) green:(104/255.0) blue:(94/255.0) alpha:1.0]
 
 #define DOWNLOAD_BG                  @"tu_85-77"
 #define DOWNLOAD_BG_IMAGE            [UIImage strectchableImageName:DOWNLOAD_BG]
@@ -219,4 +218,5 @@
 
 #define BAR_BUTTON_TEXT_FONT                    [UIFont boldSystemFontOfSize:11]
 
+#define CELL_TEXT_COLOR                         [UIColor colorWithRed:112/255.0 green:144/255.0 blue:165/255.0 alpha:1.0]
 

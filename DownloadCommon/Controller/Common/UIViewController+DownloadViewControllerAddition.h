@@ -10,4 +10,7 @@
 
 @interface UIViewController (DownloadViewControllerAddition)
 
+- (void)setDownloadRightBarButton:(NSString*)buttonText selector:(SEL)selector;
+- (void)setBackButton;
+
 @end

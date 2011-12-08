@@ -12,10 +12,45 @@
 #import "LogUtil.h"
 #import "DecompressItem.h"
 #import "DecompressService.h"
+#import "DecompressManager.h"
+#import "DownloadItemManager.h"
+#import "DownloadResource.h"
+#import "UIViewController+DownloadViewControllerAddition.h"
 
 @implementation ViewDecompressItemController
 
 @synthesize decompressItemList;
+
+// not used
+- (id)initWithDownloadItem:(DownloadItem*)item
+{
+    self = [super init];
+    return self;
+}
+
+// not used
+- (void)show:(UIView*)superView
+{
+    NSLog(@"<ViewDecompressItemController> NO IMPLEMENTATION");
+}
+
+- (NSArray*)findAllRelatedItems
+{
+    return [[DownloadItemManager defaultManager] findAllCompressItems];
+}
+
+- (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
+{
+    NSArray *itemList = [[DecompressManager defaultManager] decompressDownloadItem:item];    
+    [self setDecompressItemList:itemList];    
+    [self setDownloadNavigationTitle:[item fileName]];
+    [viewController.navigationController pushViewController:self animated:YES];
+}
+
+- (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
+{
+    [self preview:viewController downloadItem:[list objectAtIndex:indexValue]];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -71,10 +106,10 @@
 
 - (void)viewDidLoad
 {
+    [self setBackButton];
+    [self setBackgroundImageName:DOWNLOAD_BG];
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.dataTableView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)viewDidUnload
@@ -90,6 +125,11 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50.0f;
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *CellIdentifier = @"ViewDecompressItemCell";
@@ -97,6 +137,23 @@
     if (cell == nil) {
         
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+                
+        UIImageView *view= [[UIImageView alloc] initWithImage:RESOURCE_CELL_BG_IMAGE];
+        view.frame = cell.contentView.bounds;
+        cell.backgroundView = view;
+        [view release];
+        
+        UIImageView *bgView = [[UIImageView alloc]initWithImage:RESOURCE_CELL_SELECTED_BG_IMAGE];
+        bgView.frame = cell.contentView.bounds;
+        cell.selectedBackgroundView = bgView;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        [bgView release];
+        
+        cell.textLabel.backgroundColor = [UIColor clearColor];
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.textLabel.textColor = CELL_TEXT_COLOR;
+        
+        cell.accessoryView = [[[UIImageView alloc] initWithImage:ACCESSORY_ICON_IMAGE] autorelease];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     

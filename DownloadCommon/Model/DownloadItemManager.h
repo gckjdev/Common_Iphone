@@ -37,6 +37,11 @@
 - (NSArray*)findAllDownloadingItems;
 - (NSArray*)findAllStarredItems;
 
+- (NSArray*)findAllImageDownloadItem;
+- (NSArray*)findAllCompressItems;
+- (NSArray*)findAllReadableItems;
+- (NSArray*)findAllAudioVideoItems;
+
 - (NSString*)adjustImageFileName:(DownloadItem*)item newFileName:(NSString*)newFileName;
 - (void)setFileInfo:(DownloadItem*)item newFileName:(NSString*)newFileName fileSize:(long)fileSize;
 - (void)starItem:(DownloadItem*)item;

@@ -24,7 +24,7 @@
 
 @synthesize currentSelection;
 @synthesize actionController;
-@synthesize lastPlayingItem;
+//@synthesize lastPlayingItem;
 @synthesize filterAllButton;
 @synthesize filterCompleteButton;
 @synthesize filterDownloadingButton;
@@ -54,7 +54,7 @@
 - (void)dealloc
 {
     [actionController release];
-    [lastPlayingItem release];
+//    [lastPlayingItem release];
     [filterAllButton release];
     [filterCompleteButton release];
     [filterDownloadingButton release];
@@ -67,6 +67,31 @@
 }
 
 #pragma mark - View lifecycle
+
+- (void)updateNavigationTitle
+{
+    NSString* countString = [NSString stringWithFormat:@"%d", [dataList count]];
+    switch (currentSelection) {
+        case SELECT_COMPLETE_ITEM:
+            [self setDownloadNavigationTitle:[NSString stringWithFormat:@"%@ (%@)", NSLS(@"kCompleteDownloads"), countString]];
+            break;
+            
+        case SELECT_ALL_ITEM:
+            [self setDownloadNavigationTitle:[NSString stringWithFormat:@"%@ (%@)", NSLS(@"kAllDownloads"), countString]];
+            break;
+            
+        case SELECT_DOWNLOADING_ITEM:
+            [self setDownloadNavigationTitle:[NSString stringWithFormat:@"%@ (%@)", NSLS(@"kOngoingDownloads"), countString]];
+            break;
+            
+        case SELECT_STARRED_ITEM:
+            [self setDownloadNavigationTitle:[NSString stringWithFormat:@"%@ (%@)", NSLS(@"kStaredDownloads"), countString]];
+            break;            
+            
+        default:
+            break;
+    }    
+}
 
 - (void)loadDataBySelectType
 {
@@ -89,7 +114,7 @@
             
         default:
             break;
-    }
+    }    
 }
 
 - (void)viewDidLoad
@@ -126,7 +151,7 @@
     [filterAllButton setSelected:YES];
     lastSelectedButton = filterAllButton;
     
-    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 38, 55, 2)];
+    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 40, 55, 2)];
     [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
     [filterBackgroundView addSubview:underlineView];
     
@@ -138,12 +163,12 @@
 
 - (void) clickNowPlaying:(id) sender
 {
-    DownloadService * service = [DownloadService defaultService];
-   // [service playItem:lastPlayingItem viewController:self];
+    DownloadService * service = [DownloadService defaultService];    
+    [service playItem:service.nowPlayingItem viewController:self];
     
-    NSArray *imageList = [self filterDownloadItemByImage];
-    int indexValue = [imageList indexOfObject:lastPlayingItem];
-    [service playItem:imageList index:indexValue viewController:self];
+//    NSArray *imageList = [[DownloadItemManager defaultManager] findAllImageDownloadItem];
+//    int indexValue = [imageList indexOfObject:lastPlayingItem];
+//    [service playItem:imageList index:indexValue viewController:self];
 }
 
 - (void) updateNowPlayingButton
@@ -159,13 +184,21 @@
 //        }
 //    }
     
-    [self setNavigationRightButton:nil imageName:NOWPLAYING_ICON action:@selector(clickNowPlaying:)];
+    DownloadService * service = [DownloadService defaultService]; 
+    if ([service nowPlayingItem] != nil){
+        [self setNavigationRightButton:nil imageName:NOWPLAYING_ICON action:@selector(clickNowPlaying:)];
+    }
+    else{
+        self.navigationItem.rightBarButtonItem = nil;
+    }
     
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self updateNowPlayingButton];
     [self loadDataBySelectType];
+    [self updateNavigationTitle];
     [self.dataTableView reloadData];
     [super viewDidAppear:animated];
     
@@ -253,7 +286,8 @@
     [cell setCellSelectedColor];
     
     DownloadItem* item = [self.dataList objectAtIndex:indexPath.row];
-    if ([item isDownloadFinished] == NO){
+    if ([item isDownloading]){
+        // if it's downloading, then cannot open/delete it
         return;
     }
     
@@ -279,19 +313,7 @@
     [self.dataTableView reloadRowsAtIndexPaths:[self.dataTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
 }
 
-- (NSArray*)filterDownloadItemByImage
-{
-    NSArray *allList = [[DownloadItemManager defaultManager]findAllCompleteItems];
-    NSMutableArray *retList = [[[NSMutableArray alloc] init] autorelease];
 
-    for (DownloadItem *item in allList) {
-        if ([item canView]) {
-            [retList addObject:item];
-        }
-    }
-    
-    return retList;
-}
 
 #pragma Download Cell Delegate
 
@@ -310,29 +332,9 @@
     else if ([item canResume]){
         [service resumeDownloadItem:item];
     }
-    else if ([item canPlay]){
+    else {        
         [service playItem:item viewController:self];
-        lastPlayingItem = [self.dataList objectAtIndex:row];
         [self updateNowPlayingButton];
-    }
-    else if([item canView]){        
-        NSArray *imageList = [self filterDownloadItemByImage];
-        int indexValue = [imageList indexOfObject:item];
-        [service playItem:imageList index:indexValue viewController:self];
-        
-        lastPlayingItem = [self.dataList objectAtIndex:row];
-        [self updateNowPlayingButton];
-    }
-    else if([item isZipFile] || [item isRarFile]){
-        NSArray *itemList = [[DecompressManager defaultManager] decompressDownloadItem:item];
-        
-        //go to ViewDirectoryController
-        if (self.viewDecompressItemController == nil){
-            self.viewDecompressItemController = [[[ViewDecompressItemController alloc] init] autorelease];
-        }
-        [viewDecompressItemController setDecompressItemList:itemList];
-
-        [self.navigationController pushViewController:viewDecompressItemController animated:YES];
     }
 }
 
@@ -360,7 +362,9 @@
         return;
     }
     
+    
     currentSelection = SELECT_COMPLETE_ITEM;
+    
     [filterCompleteButton setSelected:YES];
     [lastSelectedButton setSelected:NO];
     lastSelectedButton = filterCompleteButton;
@@ -368,11 +372,12 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(65, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(65, 40, 70, 2)];
     [UIImageView commitAnimations];
     
     self.dataList = [[DownloadItemManager defaultManager] findAllCompleteItems];
     [self.dataTableView reloadData];    
+    [self updateNavigationTitle];
 }
 
 - (IBAction)clickFilterDownloading:(id)sender
@@ -380,8 +385,10 @@
     if (currentSelection == SELECT_DOWNLOADING_ITEM){
         return;
     }
+    
 
     currentSelection = SELECT_DOWNLOADING_ITEM;
+    
     [filterDownloadingButton setSelected:YES];
     [lastSelectedButton setSelected:NO];
     lastSelectedButton = filterDownloadingButton;
@@ -389,11 +396,13 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(150, 38, 90, 2)];
+    [underlineView setFrame:CGRectMake(150, 40, 90, 2)];
     [UIImageView commitAnimations];
 
     self.dataList = [[DownloadItemManager defaultManager] findAllDownloadingItems];
-    [self.dataTableView reloadData];    
+    [self.dataTableView reloadData]; 
+    [self updateNavigationTitle];
+
 }
 
 - (IBAction)clickFilterStarred:(id)sender
@@ -401,8 +410,10 @@
     if (currentSelection == SELECT_STARRED_ITEM){
         return;
     }
+    
 
     currentSelection = SELECT_STARRED_ITEM;
+
     [filterStarredButton setSelected:YES];
     [lastSelectedButton setSelected:NO];
     lastSelectedButton = filterStarredButton;
@@ -410,11 +421,12 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(248, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(248, 40, 70, 2)];
     [UIImageView commitAnimations];
 
     self.dataList = [[DownloadItemManager defaultManager] findAllStarredItems];
     [self.dataTableView reloadData];    
+    [self updateNavigationTitle];
 
 }
 
@@ -423,8 +435,10 @@
     if (currentSelection == SELECT_ALL_ITEM){
         return;
     }
-    
+        
     currentSelection = SELECT_ALL_ITEM;    
+    
+    
     [filterAllButton setSelected:YES];
     [lastSelectedButton setSelected:NO];
     lastSelectedButton = filterAllButton;
@@ -432,12 +446,13 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(8, 38, 50, 2)];
-//    [underlineView.layer setPosition:CGPointMake(28, 38)];
+    [underlineView setFrame:CGRectMake(8, 40, 50, 2)];
+//    [underlineView.layer setPosition:CGPointMake(28, 40)];
     [UIImageView commitAnimations];
     
     self.dataList = [[DownloadItemManager defaultManager] findAllItems];
     [self.dataTableView reloadData];    
+    [self updateNavigationTitle];
     
 }
 

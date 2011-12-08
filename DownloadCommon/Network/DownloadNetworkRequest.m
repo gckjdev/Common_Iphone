@@ -13,6 +13,7 @@
 #import "JSON.h"
 #import "LocaleUtils.h"
 #import "UIDevice+IdentifierAddition.h"
+#import "LogUtil.h"
 
 @implementation DownloadNetworkRequest
 
@@ -48,7 +49,7 @@
         
         // parse response data and set into output object
         output.jsonDataDict = [dict objectForKey:RET_DATA];
-        NSLog(@"<deviceLogin> data=%@", [output.jsonDataDict description]);
+        PPDebug(@"<deviceLogin> data=%@", [output.jsonDataDict description]);
         return;
     }; 
     
@@ -88,7 +89,7 @@
         // parse response data and set into output object
         output.jsonDataDict = [dict objectForKey:RET_DATA];
         output.jsonDataArray = [output.jsonDataDict objectForKey:PARA_DATA];
-        NSLog(@"<findAllSites> data=%@", [output.jsonDataDict description]);
+        PPDebug(@"<findAllSites> data=%@", [output.jsonDataDict description]);
         return;
     }; 
     
@@ -119,7 +120,7 @@
         // parse response data and set into output object
         output.jsonDataDict = [dict objectForKey:RET_DATA];
         output.jsonDataArray = [output.jsonDataDict objectForKey:PARA_DATA];
-        NSLog(@"<findAllTopDownloadItems> data=%@", [output.jsonDataDict description]);
+        PPDebug(@"<findAllTopDownloadItems> data=%@", [output.jsonDataDict description]);
         return;
     }; 
     

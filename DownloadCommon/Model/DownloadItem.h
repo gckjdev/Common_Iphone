@@ -57,10 +57,13 @@ enum FILE_TYPE {
 - (BOOL)canView;
 - (BOOL)isStarred;
 - (BOOL)isImage;
+- (BOOL)isZipFile;
+- (BOOL)isRarFile;
+- (BOOL)isCompressFile;
+- (BOOL)isDownloading;
 
 - (BOOL)isAudioVideo;
 - (BOOL)isReadableFile;
 - (BOOL)isImageFileType;
-- (BOOL)isZipFile;
-- (BOOL)isRarFile;
+
 @end

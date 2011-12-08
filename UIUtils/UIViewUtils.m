@@ -135,12 +135,13 @@
         int buttonWidth = size.width + BUTTON_WIDTH_EXTEND;            
         
         UIButton* button = [UIButton buttonWithType:templateButton.buttonType];
-        [button.titleLabel setFont:templateButton.titleLabel.font];
-        [button setTitleColor:templateButton.titleLabel.textColor forState:UIControlStateNormal]; 
+        UIColor* color = [templateButton titleColorForState:UIControlStateNormal];
+        [button setTitleColor:color forState:UIControlStateNormal]; 
         [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
         
         button.frame = CGRectMake(buttonLeft, buttonTop, buttonWidth, buttonHeight);        
         [button setTitle:word forState:UIControlStateNormal];
+        [button.titleLabel setFont:templateButton.titleLabel.font];
         [self addSubview:button];
         
         if ( (i+1) < count ){

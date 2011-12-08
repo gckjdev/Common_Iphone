@@ -19,7 +19,7 @@
 @property (nonatomic, retain) NSMutableArray* topList;
 @property (nonatomic, retain) NSMutableArray* hotList;
 @property (nonatomic, retain) NSMutableArray* latestList;
-@property (nonatomic, retain) NSMutableArray* starredList;
+@property (nonatomic, retain) NSArray* starredList;
 @property (retain, nonatomic) IBOutlet UIButton *topButton;
 @property (retain, nonatomic) IBOutlet UIButton *hotButton;
 @property (retain, nonatomic) IBOutlet UIButton *newButton;

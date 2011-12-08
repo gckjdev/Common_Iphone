@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTableViewController.h"
+#import "CommonFileActionController.h"
 
-@interface ViewDecompressItemController : PPTableViewController
+@interface ViewDecompressItemController : PPTableViewController<CommonFileActionProtocol>
 
 @property(nonatomic, retain) NSArray* decompressItemList;
 

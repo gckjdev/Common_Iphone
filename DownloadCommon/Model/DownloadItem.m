@@ -41,14 +41,18 @@
 - (void)setProgress:(float)newProgress
 {
     self.downloadProgress = [NSNumber numberWithFloat:newProgress];
+    if (self.fileSize != nil){
+        self.downloadSize = [NSNumber numberWithLongLong:[self.fileSize longLongValue]*newProgress];
+    }
+    
     PPDebug(@"item (%@) download progress = %f", [self itemId], newProgress);
 }
 
 // Called when the request receives some data - bytes is the length of that data
 - (void)request:(ASIHTTPRequest *)request didReceiveBytes:(long long)bytes
 {
-    self.downloadSize = [NSNumber numberWithLongLong:bytes + [self.downloadSize doubleValue]];
-    PPDebug(@"item (%@) download progress didReceiveBytes = %qi", [self itemId], bytes);    
+//    self.downloadSize = [NSNumber numberWithLongLong:bytes + [self.downloadSize doubleValue]];
+//    PPDebug(@"item (%@) download progress didReceiveBytes = %qi", [self itemId], bytes);    
 }
 
 // Called when a request needs to change the length of the content to download
@@ -107,6 +111,16 @@
     return ([self.starred intValue] == 1);
 }
 
+- (BOOL)isDownloading
+{
+    switch ([self.status intValue]) {
+        case DOWNLOAD_STATUS_STARTED:
+            return YES;
+        default:
+            return NO;
+    }        
+}
+
 - (BOOL)isDownloadFinished
 {
     switch ([self.status intValue]) {
@@ -162,6 +176,11 @@
     NSString* extension = [[self.fileName pathExtension] lowercaseString];
     NSSet* fileTypeSet = [NSSet setWithObjects:@"jpg", @"png", @"bmp", @"jpeg", nil];
     return [fileTypeSet containsObject:extension];
+}
+
+- (BOOL)isCompressFile
+{
+    return [self isZipFile] || [self isRarFile];
 }
 
 - (BOOL)isAudioVideo

@@ -38,7 +38,7 @@
         self.topList = [[[NSMutableArray alloc] init] autorelease];
         self.latestList = [[[NSMutableArray alloc] init] autorelease];
         self.hotList = [[[NSMutableArray alloc] init] autorelease];
-        self.starredList = [[[NSMutableArray alloc] init] autorelease];
+        self.starredList = [[[NSArray alloc] init] autorelease];
 
 
     }
@@ -222,7 +222,7 @@
     
     [super viewDidLoad];
     
-    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 38, 70, 2)];
+    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 40, 70, 2)];
     [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
     [resourceBackgroundView addSubview:underlineView];
 
@@ -345,7 +345,7 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(83, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(83, 40, 70, 2)];
     [UIImageView commitAnimations];
 }
 
@@ -366,7 +366,7 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(8, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(8, 40, 70, 2)];
     [UIImageView commitAnimations];
 }
 
@@ -387,7 +387,7 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(160, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(160, 40, 70, 2)];
     [UIImageView commitAnimations];
     
 }
@@ -405,7 +405,7 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(238, 38, 70, 2)];
+    [underlineView setFrame:CGRectMake(238, 40, 70, 2)];
     [UIImageView commitAnimations];
 }
 

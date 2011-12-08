@@ -11,6 +11,7 @@
 #import "DownloadItem.h"
 #import "DecompressItem.h"
 #import "LogUtil.h"
+#import "DownloadItemManager.h"
 
 @implementation ViewImageController
 @synthesize downloadItem;
@@ -67,6 +68,11 @@
 - (void)show:(UIView*)superView
 {
     
+}
+
+- (NSArray*)findAllRelatedItems
+{
+    return [[DownloadItemManager defaultManager] findAllImageDownloadItem];
 }
 
 - (void)preview:(UIViewController*)viewController image:(UIImage*)image

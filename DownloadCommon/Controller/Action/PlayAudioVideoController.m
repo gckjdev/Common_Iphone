@@ -12,6 +12,8 @@
 #import "FileUtil.h"
 #import "LogUtil.h"
 #import "DecompressItem.h"
+#import "DownloadItemManager.h"
+#import "UIViewController+DownloadViewControllerAddition.h"
 
 @implementation PlayAudioVideoController
 
@@ -63,6 +65,11 @@
     [player play];    
 }
 
+- (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
+{
+    [self preview:viewController downloadItem:[list objectAtIndex:indexValue]];
+}
+
 - (void)preview:(UIViewController*)viewController decompressItem:(DecompressItem*)item
 {
     
@@ -87,6 +94,10 @@
        
 }
 
+- (NSArray*)findAllRelatedItems
+{
+    return [[DownloadItemManager defaultManager] findAllAudioVideoItems];
+}
 
 - (id)initWithDownloadItem:(DownloadItem*)item
 {
@@ -123,13 +134,15 @@
 
 - (void)viewDidLoad
 {        
-    [self setNavigationLeftButton:NSLS(@"Back") action:@selector(clickBack:)];
+    [self setBackButton];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self setDownloadNavigationTitle:self.downloadItem.fileName];
+
     [player play];
     [super viewDidAppear:animated];
 }
@@ -137,7 +150,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     PPDebug(@"Play Video/Audio <viewDidDisappear>");
-    [player pause];
+//    [player pause];
     [super viewDidDisappear:animated];    
 }
 
@@ -157,7 +170,7 @@
 
 - (void)clickBack:(id)sender
 {
-    [player pause];
+//    [player pause];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

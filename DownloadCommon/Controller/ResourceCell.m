@@ -141,7 +141,7 @@
     self.siteNameLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
     self.siteUrlLabel.textColor = [UIColor colorWithRed:210/255.0 green:217/255.0 blue:133/255.0 alpha:1.0];
     [self.downloadCountButton setBackgroundImage:DOWNLOADCOUNT_LABEL_SELECT_BG_IMAGE forState:UIControlStateNormal];
-    self.accessoryView = [[UIImageView alloc] initWithImage:ACCESSORY_ICON_SELECT_IMAGE];
+    self.accessoryView = [[[UIImageView alloc] initWithImage:ACCESSORY_ICON_SELECT_IMAGE] autorelease];
     
 }
 

@@ -19,6 +19,7 @@
 @class PlayAudioVideoController;
 @class DisplayReadableFileController;
 @class ViewImageController;
+@class ViewDecompressItemController;
 
 @interface DownloadService : CommonService <ASIHTTPRequestDelegate>
 
@@ -26,11 +27,13 @@
 @property (nonatomic, retain) NSString* downloadDir;
 @property (nonatomic, retain) NSString* downloadTempDir;
 @property (nonatomic, retain) NSString* iCloudDir;
+@property (nonatomic, retain) DownloadItem* nowPlayingItem;
 @property (nonatomic, assign) int concurrentDownload;
 
 @property (nonatomic, retain) PlayAudioVideoController *videoPlayController;
 @property (nonatomic, retain) DisplayReadableFileController *fileViewController;
 @property (nonatomic, retain) ViewImageController *viewImageController;
+@property (nonatomic, retain) ViewDecompressItemController *viewDecompressItemController;
 
 - (BOOL)downloadFile:(NSString*)url fileType:(int)fileType webSite:(NSString*)webSite webSiteName:(NSString*)webSiteName origUrl:(NSString*)origUrl;
 - (void)pauseDownloadItem:(DownloadItem*)item;
@@ -38,6 +41,7 @@
 - (void)playItem:(DownloadItem*)item viewController:(UIViewController*)viewController;
 - (void)playItem:(NSArray*)list index:(int)indexValue viewController:(UIViewController*)viewController;
 - (void)pauseAllDownloadItem;
+- (void)resumeAllDownloadItem;
 
 + (DownloadService*)defaultService;
 

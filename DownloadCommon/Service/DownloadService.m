@@ -25,6 +25,7 @@
 #import "DisplayReadableFileController.h"
 #import "CommonFileActionController.h"
 #import "ViewImageController.h"
+#import "ViewDecompressItemController.h"
 
 DownloadService* globalDownloadService;
 
@@ -38,15 +39,19 @@ DownloadService* globalDownloadService;
 @synthesize fileViewController;
 @synthesize iCloudDir;
 @synthesize viewImageController;
+@synthesize viewDecompressItemController;
+@synthesize nowPlayingItem;
 
 - (void)dealloc
 {
+    [nowPlayingItem release];
     [downloadDir release];
     [iCloudDir release];
     [downloadTempDir release];
     [videoPlayController release];
     [fileViewController release];
     [viewImageController release];
+    [viewDecompressItemController release];
     [queue release];
     [super dealloc];
 }
@@ -72,6 +77,7 @@ DownloadService* globalDownloadService;
     self.videoPlayController = [[[PlayAudioVideoController alloc] init] autorelease];    
     self.fileViewController = [[[DisplayReadableFileController alloc] init] autorelease];
     self.viewImageController = [[[ViewImageController alloc] init] autorelease];
+    self.viewDecompressItemController = [[[ViewDecompressItemController alloc] init] autorelease];
     return self;
 }
 
@@ -190,6 +196,9 @@ DownloadService* globalDownloadService;
     else if([downloadItem isImage]) {
         return viewImageController;
     }
+    else if ([downloadItem isCompressFile]){
+        return viewDecompressItemController;                
+    }
     else{
         return [[[DisplayReadableFileController alloc] initWithDownloadItem:downloadItem] autorelease];
     }
@@ -207,14 +216,59 @@ DownloadService* globalDownloadService;
     [self startDownload:item];
 }
 
+- (void)resumeAllDownloadItemByStatus:(int)status
+{
+    NSArray* list = [[DownloadItemManager defaultManager] findAllItemsByStatus:status];
+    for (DownloadItem* item in list){
+        [self resumeDownloadItem:item];
+    }
+}
+
+- (void)resumeAllDownloadItem
+{
+    [self resumeAllDownloadItemByStatus:DOWNLOAD_STATUS_FAIL];
+    [self resumeAllDownloadItemByStatus:DOWNLOAD_STATUS_PAUSE];
+    [self resumeAllDownloadItemByStatus:DOWNLOAD_STATUS_NOT_STARTED];
+}
+
+- (void)setNowPlaying:(DownloadItem*)item
+{
+    if ([item isAudioVideo]){
+        self.nowPlayingItem = item;
+    }
+    else{
+//        self.nowPlayingItem = nil;
+    }    
+}
+
 - (void)playItem:(DownloadItem*)item viewController:(UIViewController*)viewController
 {
+    
     UIViewController<CommonFileActionProtocol>* playController = [self getViewControllerByItem:item];
-    [playController preview:viewController downloadItem:item];
+    [self setNowPlaying:item];
+    
+    NSArray *itemList = [playController findAllRelatedItems];
+    int indexValue = [itemList indexOfObject:item];
+    if (indexValue < 0){
+        // not found, this is strange but still can work
+        NSLog(@"<playItem> WARNING, item (%@) not found in all related item list", [item itemId]);
+        [playController preview:viewController downloadItem:item];
+    }
+    else{
+        [playController preview:viewController itemList:itemList index:indexValue];
+    }
 }
 
 - (void)playItem:(NSArray *)list index:(int)indexValue viewController:(UIViewController *)viewController
 {
+    if (indexValue >= [list count] || indexValue < 0){
+        NSLog(@"<playItem> ERROR index value (%d) > list count(%d)", indexValue, [list count]);
+        return;
+    }
+    
+    DownloadItem* item = [list objectAtIndex:indexValue];
+    [self setNowPlaying:item];
+
     UIViewController<CommonFileActionProtocol>* playController = [self getViewControllerByItem:[list objectAtIndex:indexValue]];
     [playController preview:viewController itemList:list index:indexValue];
 }

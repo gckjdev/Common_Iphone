@@ -87,37 +87,37 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [self.backButton setImage:RETURN_IMAGE forState:UIControlStateNormal];    
     self.backButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.backButton centerImageAndTitle];
-    self.backButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
+    [self.backButton setTitleColor:BAR_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
     
     [self.backwardButton setTitle:NSLS(@"kBackwardButtonTitle") forState:UIControlStateNormal];
     [self.backwardButton setImage:BACKWARD_IMAGE forState:UIControlStateNormal];    
     self.backwardButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.backwardButton centerImageAndTitle];
-    self.backwardButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
+    [self.backwardButton setTitleColor:BAR_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
     
     [self.forwardButton setTitle:NSLS(@"kForwardButtonTitle") forState:UIControlStateNormal];
     [self.forwardButton setImage:FORWARD_IMAGE forState:UIControlStateNormal];    
     self.forwardButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.forwardButton centerImageAndTitle];
-    self.forwardButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
+    [self.forwardButton setTitleColor:BAR_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
     
     [self.stopButton setTitle:NSLS(@"kStopButtonTitle") forState:UIControlStateNormal];
     [self.stopButton setImage:STOP_IMAGE forState:UIControlStateNormal];
     self.stopButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.stopButton centerImageAndTitle];
-    self.stopButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
+    [self.stopButton setTitleColor:BAR_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
     
     [self.reloadButton setTitle:NSLS(@"kReloadButtonTitle") forState:UIControlStateNormal];
     [self.reloadButton setImage:REFRESH_IMAGE forState:UIControlStateNormal];
     self.reloadButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.reloadButton centerImageAndTitle];
-    self.reloadButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
+    [self.reloadButton setTitleColor:BAR_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
     
     [self.addFavoriteButton setTitle:NSLS(@"kAddFavoriteButtonTitle") forState:UIControlStateNormal];
     [self.addFavoriteButton setImage:FAVOURITE_IMAGE forState:UIControlStateNormal];
     self.addFavoriteButton.titleLabel.font = BAR_BUTTON_TEXT_FONT;
     [self.addFavoriteButton centerImageAndTitle];
-    self.addFavoriteButton.titleLabel.textColor = BAR_BUTTON_TEXT_COLOR;
+    [self.addFavoriteButton setTitleColor:BAR_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
 
     
 
@@ -373,8 +373,10 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     }];
     
     [superController presentModalViewController:webController animated:YES];
-    [webController openURL:url];  
-    [webController setWebSite:url];
+    if (url != nil){
+        [webController openURL:url];  
+        [webController setWebSite:url];
+    }
     
     
 }

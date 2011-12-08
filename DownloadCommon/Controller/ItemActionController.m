@@ -13,6 +13,8 @@
 #import "DownloadItemManager.h"
 #import "LogUtil.h"
 #import "DownloadResource.h"
+#import "DownloadService.h"
+#import "DecompressManager.h"
 
 @implementation ItemActionController
 
@@ -96,12 +98,12 @@
     
 //    self.navigationItem.title = self.item.fileName;
     [self setDownloadNavigationTitle:self.item.fileName];
-    [self updateSaveAlbumButton];
+    [self updateSaveAlbumButton];    
 }
 
 - (void)updateSaveAlbumButton
 {
-    if (self.item.isImage || UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.item.localPath))
+    if ([self.item isImage] || UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.item.localPath))
     {
         self.albumButton.enabled = YES;	
     }
@@ -208,7 +210,7 @@
 //    [self setNavigationRightButton:NSLS(@"Next Item") action:@selector(clickNext:)];
     
     [self setLeftBarButton];
-    [self setRightBarButton];
+//    [self setRightBarButton];
     
     
 //    self.navigationItem.title = self.item.fileName;
@@ -216,12 +218,18 @@
     
 }	
 
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//    NSLog(@"%@",self.item.fileName);
-//    [self updateSaveAlbumButton];    
-//    [super viewDidAppear:animated];
-//}
+- (void)viewDidAppear:(BOOL)animated
+{
+    if ([self.item isDownloadFinished] == NO){
+        self.openButton.enabled = NO;
+        self.emailSendButton.enabled = NO;
+        self.albumButton.enabled = NO;
+        self.SMSButton.enabled = NO;
+        self.emailShareButton.enabled = NO;
+    }
+    
+    [super viewDidAppear:animated];
+}
 
 - (void)viewDidUnload
 {
@@ -275,6 +283,12 @@
     
     
     
+}
+
+- (IBAction)openFile:(id)sender
+{
+    DownloadService* service = [DownloadService defaultService];
+    [service playItem:self.item viewController:self];
 }
 
 - (IBAction)deleteFile:(id)sender

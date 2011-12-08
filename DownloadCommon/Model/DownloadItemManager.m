@@ -193,6 +193,12 @@ DownloadItemManager* globalDownloadManager;
 
 - (BOOL)deleteItem:(DownloadItem*)item
 {
+    if ([item isDownloadFinished] == NO){
+        item.deleteFlag = [NSNumber numberWithInt:1];
+        [[CoreDataManager dataManager] save];
+        return YES;        
+    }
+    
     NSError *error = nil;
     if ([[NSFileManager defaultManager] removeItemAtPath:item.localPath error:&error])
     {
@@ -244,6 +250,64 @@ DownloadItemManager* globalDownloadManager;
         [filepath release];
         return NO;
     }
+}
+
+- (NSArray*)findAllImageDownloadItem
+{
+    NSArray *allList = [[DownloadItemManager defaultManager] findAllCompleteItems];
+    NSMutableArray *retList = [[[NSMutableArray alloc] init] autorelease];
+    
+    for (DownloadItem *item in allList) {
+        if ([item isImage]) {
+            [retList addObject:item];
+        }
+    }
+    
+    return retList;
+}
+
+- (NSArray*)findAllCompressItems
+{
+    NSArray *allList = [[DownloadItemManager defaultManager] findAllCompleteItems];
+    NSMutableArray *retList = [[[NSMutableArray alloc] init] autorelease];
+    
+    for (DownloadItem *item in allList) {
+        if ([item isCompressFile]) {
+            [retList addObject:item];
+        }
+    }
+    
+    return retList;
+    
+}
+
+- (NSArray*)findAllReadableItems
+{
+    NSArray *allList = [[DownloadItemManager defaultManager] findAllCompleteItems];
+    NSMutableArray *retList = [[[NSMutableArray alloc] init] autorelease];
+    
+    for (DownloadItem *item in allList) {
+        if ([item isReadableFile]) {
+            [retList addObject:item];
+        }
+    }
+    
+    return retList;
+    
+}
+
+- (NSArray*)findAllAudioVideoItems
+{
+    NSArray *allList = [[DownloadItemManager defaultManager] findAllCompleteItems];
+    NSMutableArray *retList = [[[NSMutableArray alloc] init] autorelease];
+    
+    for (DownloadItem *item in allList) {
+        if ([item isAudioVideo]) {
+            [retList addObject:item];
+        }
+    }
+    
+    return retList;    
 }
 
 @end

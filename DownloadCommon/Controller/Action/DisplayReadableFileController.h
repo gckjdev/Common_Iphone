@@ -18,5 +18,6 @@
 @property (nonatomic, retain) UIDocumentInteractionController* docController;
 @property (nonatomic, retain) QLPreviewController* previewController;
 @property (nonatomic, retain) UIViewController* superViewController;
+@property (nonatomic, retain) NSArray* itemList;
 
 @end

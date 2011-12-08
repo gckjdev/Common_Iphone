@@ -45,6 +45,7 @@
 - (IBAction)sendToAlbum:(id)sender;
 - (IBAction)deleteFile:(id)sender;
 - (IBAction)renameFile:(id)sender;
+- (IBAction)openFile:(id)sender;
 
 - (void)displayComposeEmailForShare;
 - (void)displayComposeEmailForSend;

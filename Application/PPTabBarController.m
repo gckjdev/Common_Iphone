@@ -276,7 +276,7 @@
     }
             
     // activate normal tab bar controller
-//    self.selectedViewController = [self.viewControllers objectAtIndex:self.selectedIndex];
+//    self.selectedViewController = [self.viewControllers objectAtIndex:self.currentSelectedIndex];
 	self.selectedIndex = self.currentSelectedIndex;
     
     // animation for slide tab bar background

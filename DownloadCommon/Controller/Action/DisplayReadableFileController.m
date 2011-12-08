@@ -9,6 +9,7 @@
 #import "DisplayReadableFileController.h"
 #import "DownloadItem.h"
 #import "DecompressItem.h"
+#import "DownloadItemManager.h"
 
 @implementation DisplayReadableFileController
 
@@ -17,8 +18,9 @@
 @synthesize docController;
 @synthesize superViewController;
 @synthesize previewController;
+@synthesize itemList;
 
-- (void)quickLookPreview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
+- (void)quickLookPreview:(UIViewController*)viewController downloadItem:(DownloadItem*)item index:(int)index
 {    
     if ([QLPreviewController canPreviewItem:item] == NO){
         [UIUtils alert:NSLS(@"kCannotPreviewFile")];
@@ -36,9 +38,9 @@
     if (self.previewController == nil){
         self.previewController = [[[QLPreviewController alloc] init] autorelease];
         self.previewController.delegate = self;          
-        self.previewController.dataSource = self;                
+        self.previewController.dataSource = self;      
     }    
-    
+    self.previewController.currentPreviewItemIndex = index;    
     [self.superViewController.navigationController pushViewController:self.previewController animated:YES];
 }
 
@@ -94,14 +96,26 @@
     [self.docController presentPreviewAnimated:YES];    
 }
 
+- (NSArray*)findAllRelatedItems
+{
+    return [[DownloadItemManager defaultManager] findAllReadableItems];
+}
+
 - (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
 {
-//    [self docControllerPreview:viewController downloadItem:item];
-    [self quickLookPreview:viewController downloadItem:item];
+    self.itemList = [NSArray arrayWithObject:item];    
+    [self quickLookPreview:viewController downloadItem:item index:0];
+}
+
+- (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
+{
+    self.itemList = list;
+    [self quickLookPreview:viewController downloadItem:[list objectAtIndex:indexValue] index:indexValue];
 }
 
 - (void)preview:(UIViewController *)viewController decompressItem:(DecompressItem *)item
 {
+    self.itemList = [NSArray arrayWithObject:item];    
     [self quickLookPreview:viewController decompressItem:item];
 }
 
@@ -147,6 +161,7 @@
 
 - (void)dealloc
 {
+    [itemList release];
     [previewController release];
     [docController release];
     [downloadItem release];
@@ -196,12 +211,12 @@
 
 - (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
 {
-    return 1;
+    return [itemList count];
 }
 
 - (id <QLPreviewItem>) previewController: (QLPreviewController *) controller previewItemAtIndex: (NSInteger) index
 {
-    return self.downloadItem;
+    return [itemList objectAtIndex:index];
 }
 
 @end

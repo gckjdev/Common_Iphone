@@ -25,7 +25,7 @@
 //
 
 #import "EGORefreshTableHeaderView.h"
-
+#import "LocaleUtils.h"
 
 #define TEXT_COLOR	 [UIColor colorWithRed:87.0/255.0 green:108.0/255.0 blue:137.0/255.0 alpha:1.0]
 #define BORDER_COLOR [UIColor colorWithRed:160.0/255.0 green:173.0/255.0 blue:182.0/255.0 alpha:1.0]
@@ -175,8 +175,18 @@ static NSDateFormatter *refreshFormatter;
 
 - (void)setCurrentDate {
 
-    NSString *dateString = [self getChineseDateString:[NSDate date] withFormat:@"  MM月dd日 HH时mm分"];
-    lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", @"最后更新",dateString];
+    if ([LocaleUtils isChina]){    
+        NSString *dateString = [self getChineseDateString:[NSDate date] withFormat:@"  MM月dd日 HH时mm分"];
+        lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", @"最后更新",dateString];
+    }
+    else{
+        NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle];        
+        lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", @"Last Update",dateString];        
+    }
+    
+    
+    
+    
 //	lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", 
 //                             EGONS(@"kLastUpdated"),
 //                             [refreshFormatter stringFromDate:[NSDate date]]];
