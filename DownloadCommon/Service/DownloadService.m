@@ -28,6 +28,7 @@
 #import "ViewImageController.h"
 #import "DecompressItem.h"
 #import "ViewDecompressItemController.h"
+#import "PlayAudioController.h"
 
 DownloadService* globalDownloadService;
 
@@ -38,6 +39,7 @@ DownloadService* globalDownloadService;
 @synthesize downloadTempDir;
 @synthesize concurrentDownload;
 @synthesize videoPlayController;
+@synthesize audioPlayController;
 @synthesize fileViewController;
 @synthesize iCloudDir;
 @synthesize viewImageController;
@@ -46,6 +48,7 @@ DownloadService* globalDownloadService;
 
 - (void)dealloc
 {
+    [audioPlayController release];
     [nowPlayingItem release];
     [downloadDir release];
     [iCloudDir release];
@@ -80,6 +83,7 @@ DownloadService* globalDownloadService;
     self.fileViewController = [[[DisplayReadableFileController alloc] init] autorelease];
     self.viewImageController = [[[ViewImageController alloc] init] autorelease];
     self.viewDecompressItemController = [[[ViewDecompressItemController alloc] init] autorelease];
+    self.audioPlayController = [[[PlayAudioController alloc] init] autorelease];
     return self;
 }
 
@@ -189,8 +193,11 @@ DownloadService* globalDownloadService;
 
 - (UIViewController<CommonFileActionProtocol>*)getViewControllerByItem:(DownloadItem*)downloadItem
 {
-    if ([downloadItem isAudioVideo]){
+    if ([downloadItem isVideo]){
         return videoPlayController;
+    }
+    else if ([downloadItem isAudio]){
+        return audioPlayController;
     }
     else if ([downloadItem isReadableFile]){
         return fileViewController;

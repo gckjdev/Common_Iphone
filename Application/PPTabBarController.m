@@ -241,6 +241,7 @@
     
 //	[customTabBarView addSubview:slideBg];
 	[self.view insertSubview:customTabBarView atIndex:0];
+    [self.view bringSubviewToFront:customTabBarView];
 
 	[self selectedTab:[self.buttons objectAtIndex:self.selectedIndex]];
 
@@ -277,8 +278,19 @@
             
     // activate normal tab bar controller
 //    self.selectedViewController = [self.viewControllers objectAtIndex:self.currentSelectedIndex];
-	self.selectedIndex = self.currentSelectedIndex;
-    
+//    UIViewController* next = [self.viewControllers objectAtIndex:self.currentSelectedIndex];
+//    [UIView transitionFromView:self.view 
+//                        toView:next.view
+//                      duration:1 /*or whatever time you want*/ 
+//                       options:UIViewAnimationOptionTransitionFlipFromLeft /*specify your animation transition here, they are found in the UIView documentation*/ 
+//                    completion:^(BOOL finished) {
+//                        if (finished) {
+//                        }
+//                    }];
+    self.selectedIndex = self.currentSelectedIndex;
+
+//    [self.view bringSubviewToFront:customTabBarView];
+
     // animation for slide tab bar background
 //	[self performSelector:@selector(slideTabBg:) withObject:button];
 }

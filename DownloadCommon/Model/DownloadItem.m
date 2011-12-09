@@ -197,6 +197,12 @@
     return [fileTypeSet containsObject:[[self.fileName pathExtension] lowercaseString]];
 }
 
+- (BOOL)isAudio
+{
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"mp3", @"mid", @"wav", @"caf", @"m4v", @"aac", nil];
+    return [fileTypeSet containsObject:[[self.fileName pathExtension] lowercaseString]];
+}
+
 - (BOOL)isZipFile
 {
     return [[[self.fileName pathExtension] lowercaseString] isEqualToString:(@"zip")];

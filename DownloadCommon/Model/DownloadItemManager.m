@@ -310,4 +310,18 @@ DownloadItemManager* globalDownloadManager;
     return retList;    
 }
 
+- (NSArray*)findAllAudioItems
+{
+    NSArray *allList = [[DownloadItemManager defaultManager] findAllCompleteItems];
+    NSMutableArray *retList = [[[NSMutableArray alloc] init] autorelease];
+    
+    for (DownloadItem *item in allList) {
+        if ([item isAudio]) {
+            [retList addObject:item];
+        }
+    }
+    
+    return retList;    
+}
+
 @end

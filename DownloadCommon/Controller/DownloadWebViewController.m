@@ -127,8 +127,14 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [self.webView setDelegate:self];
 }
 
+- (void)updateButtonState
+{
+    // TODO
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self updateButtonState];
     [super viewDidAppear:animated];
 }
 

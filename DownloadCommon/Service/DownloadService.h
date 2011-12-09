@@ -21,6 +21,7 @@
 @class ViewImageController;
 @class ViewDecompressItemController;
 @class DecompressItem;
+@class PlayAudioController;
 
 @interface DownloadService : CommonService <ASIHTTPRequestDelegate>
 
@@ -32,6 +33,7 @@
 @property (nonatomic, assign) int concurrentDownload;
 
 @property (nonatomic, retain) PlayAudioVideoController *videoPlayController;
+@property (nonatomic, retain) PlayAudioController *audioPlayController;
 @property (nonatomic, retain) DisplayReadableFileController *fileViewController;
 @property (nonatomic, retain) ViewImageController *viewImageController;
 @property (nonatomic, retain) ViewDecompressItemController *viewDecompressItemController;

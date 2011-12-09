@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CommonFileActionController.h"
 
-@interface PlayAudioController : NSObject
+@class MDAudioPlayerController;
+
+@interface PlayAudioController : UIViewController<CommonFileActionProtocol>
+
+@property (nonatomic, retain) NSArray* itemList;
+@property (nonatomic, retain) MDAudioPlayerController *audioPlayer;
+@property (nonatomic, retain) DownloadItem* currentItem;
 
 @end
