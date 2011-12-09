@@ -41,7 +41,8 @@
         self.previewController.dataSource = self;      
     }    
     self.previewController.currentPreviewItemIndex = index;    
-    [self.superViewController.navigationController pushViewController:self.previewController animated:YES];
+    
+    [self.superViewController presentModalViewController:self.previewController animated:YES];
 }
 
 - (void)quickLookPreview:(UIViewController*)viewController decompressItem:(DecompressItem*)item
@@ -65,7 +66,7 @@
         self.previewController.dataSource = self;                
     }    
     
-    [self.superViewController.navigationController pushViewController:self.previewController animated:YES];
+    [self.superViewController presentModalViewController:self.previewController animated:YES];    
 }
 
 - (void)docControllerPreview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
@@ -216,7 +217,10 @@
 
 - (id <QLPreviewItem>) previewController: (QLPreviewController *) controller previewItemAtIndex: (NSInteger) index
 {
-    return [itemList objectAtIndex:index];
+    if (index >= 0 && index < [itemList count])
+        return [itemList objectAtIndex:index];
+    else   
+        return nil;
 }
 
 @end

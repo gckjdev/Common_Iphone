@@ -62,6 +62,7 @@ enum FILE_TYPE {
 - (BOOL)isCompressFile;
 - (BOOL)isDownloading;
 
+- (BOOL)isVideo;
 - (BOOL)isAudioVideo;
 - (BOOL)isReadableFile;
 - (BOOL)isImageFileType;

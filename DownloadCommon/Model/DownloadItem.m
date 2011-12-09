@@ -190,6 +190,13 @@
     return [fileTypeSet containsObject:[[self.fileName pathExtension] lowercaseString]];
 }
 
+- (BOOL)isVideo
+{
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"mid", @"mp4", @"3pg", @"mov", @"avi", @"flv", @"rm", @"rmvb", @"ogg", @"wmv", @"m4v", @"m4v", @"aiff", @"dvix",
+                          nil];
+    return [fileTypeSet containsObject:[[self.fileName pathExtension] lowercaseString]];
+}
+
 - (BOOL)isZipFile
 {
     return [[[self.fileName pathExtension] lowercaseString] isEqualToString:(@"zip")];
@@ -203,7 +210,7 @@
 - (BOOL)isReadableFile
 {
     NSSet* fileTypeSet = [NSSet setWithObjects:@"pdf", @"doc", @"txt", @"xls", @"ppt", @"rtf",
-                          @"epub", nil];
+                          @"epub", @"htm", @"html", nil];
     return [fileTypeSet containsObject:[[self.fileName pathExtension] lowercaseString]];
 }
 

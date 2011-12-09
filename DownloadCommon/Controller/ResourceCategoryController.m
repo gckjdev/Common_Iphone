@@ -226,8 +226,8 @@
     [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
     [resourceBackgroundView addSubview:underlineView];
 
+    [self setRefreshHeaderViewFrame:CGRectMake(0, 0-self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
     
-    // Do any additional setup after loading the view from its nib.
     [self loadSiteFromServer];
 }
 

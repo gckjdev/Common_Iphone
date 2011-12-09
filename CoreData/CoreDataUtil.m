@@ -195,15 +195,20 @@ CoreDataManager* GlobalGetCoreDataManager()
 	NSFetchRequest* fq = [self.managedObjectModel fetchRequestFromTemplateWithName:fetchRequestName
 														substitutionVariables:dict];
 	
-	NSError* error = nil;
+    if (fq == nil){
+        PPDebug(@"<execute> fetch request (%@) but cannot create object", fetchRequestName);
+        return nil;
+    }
+    
+	NSError* error = nil;    
+    PPDebug(@"<execute> fetch request (%@)", [fq description]);
 	NSArray* objects = [self.managedObjectContext executeFetchRequest:fq error:&error];
 	if (error == nil){
 		PPDebug(@"<execute> execute fetch request (%@) successfully", [fq description]);
 	}
 	else {
 		PPDebug(@"<execute> execute fetch request (%@), error=%@", [fq description], [error localizedDescription]);
-	}		
-	
+	}			
     
 	if (objects && [objects count] > 0)
 		return [objects objectAtIndex:0];

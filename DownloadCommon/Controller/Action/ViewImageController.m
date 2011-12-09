@@ -81,7 +81,9 @@
     [photos addObject:[MWPhoto photoWithImage:image]];
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithPhotos:photos];
         
-    [viewController.navigationController pushViewController:browser animated:YES];
+//    [viewController.navigationController pushViewController:browser animated:YES];
+  
+    [viewController presentModalViewController:browser animated:YES];
     
     [browser release];
 }
@@ -98,7 +100,8 @@
 //    [self.view addSubview:browser.view];
 //    [self.navigationItem setTitle:downloadItem.fileName];
     
-    [viewController.navigationController pushViewController:browser animated:YES];
+//    [viewController.navigationController pushViewController:browser animated:YES];
+    [viewController presentModalViewController:browser animated:YES];
     
     [browser release];
 }
@@ -109,7 +112,7 @@
     [photos addObject:[MWPhoto photoWithURL:[NSURL fileURLWithPath:item.localPath]]];
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithPhotos:photos];
         
-    [viewController.navigationController pushViewController:browser animated:YES];
+    [viewController presentModalViewController:browser animated:YES];
     
     [browser release];
 }
@@ -134,7 +137,8 @@
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithPhotos:photos];
     [browser setInitialPageIndex:indexValue]; 
     
-    [viewController.navigationController pushViewController:browser animated:YES];
+//    [viewController.navigationController pushViewController:browser animated:YES];
+    [viewController presentModalViewController:browser animated:YES];
     
     [photos release];
     [browser release];

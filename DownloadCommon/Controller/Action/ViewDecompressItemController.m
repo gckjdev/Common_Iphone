@@ -186,16 +186,16 @@
     NSUInteger row = indexPath.row;
     
     DecompressItem* item = [decompressItemList objectAtIndex:row];
-    DecompressService *service = [DecompressService defaultService];
+    DownloadService *service = [DownloadService defaultService];
     
-    if ([item isImage]) {
-        NSArray *imageList = [self findAllDecompressImage];
-        int indexValue = [imageList indexOfObject:item];
-        [service playItem:imageList index:indexValue viewController:self];
-    }
-    else{
-        [service playItem:item viewController:self];
-    }
+//    if ([item isImage]) {
+//        NSArray *imageList = [self findAllDecompressImage];
+//        int indexValue = [imageList indexOfObject:item];
+//        [service playItem:imageList index:indexValue viewController:self];
+//    }
+//    else{
+        [service playDecompressItem:item viewController:self];
+//    }
     
 }
 

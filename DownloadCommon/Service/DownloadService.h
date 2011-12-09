@@ -20,6 +20,7 @@
 @class DisplayReadableFileController;
 @class ViewImageController;
 @class ViewDecompressItemController;
+@class DecompressItem;
 
 @interface DownloadService : CommonService <ASIHTTPRequestDelegate>
 
@@ -38,6 +39,7 @@
 - (BOOL)downloadFile:(NSString*)url fileType:(int)fileType webSite:(NSString*)webSite webSiteName:(NSString*)webSiteName origUrl:(NSString*)origUrl;
 - (void)pauseDownloadItem:(DownloadItem*)item;
 - (void)resumeDownloadItem:(DownloadItem*)item;
+- (void)playDecompressItem:(DecompressItem*)item viewController:(UIViewController*)viewController;
 - (void)playItem:(DownloadItem*)item viewController:(UIViewController*)viewController;
 - (void)playItem:(NSArray*)list index:(int)indexValue viewController:(UIViewController*)viewController;
 - (void)pauseAllDownloadItem;

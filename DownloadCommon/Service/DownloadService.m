@@ -20,11 +20,13 @@
 #import "DownloadNetworkRequest.h"
 #import "DownloadNetworkConstants.h"
 #import "PPNetworkRequest.h"
+#import "LogUtil.h"
 
 #import "PlayAudioVideoController.h"
 #import "DisplayReadableFileController.h"
 #import "CommonFileActionController.h"
 #import "ViewImageController.h"
+#import "DecompressItem.h"
 #import "ViewDecompressItemController.h"
 
 DownloadService* globalDownloadService;
@@ -205,6 +207,16 @@ DownloadService* globalDownloadService;
     return nil;
 }
 
+- (UIViewController<CommonFileActionProtocol>*)getViewControllerByDecompressItem:(DecompressItem*)item
+{
+    if([item isImage]) {
+        return viewImageController;
+    }
+    else{
+        return fileViewController;
+    }
+}
+
 - (void)pauseDownloadItem:(DownloadItem*)item
 {
     [[item request] clearDelegatesAndCancel];
@@ -241,6 +253,16 @@ DownloadService* globalDownloadService;
     }    
 }
 
+- (void)playDecompressItem:(DecompressItem*)item viewController:(UIViewController*)viewController
+{
+    
+    UIViewController<CommonFileActionProtocol>* playController = [self getViewControllerByDecompressItem:item];
+//    [self setNowPlaying:item];
+
+    [playController preview:viewController decompressItem:item];    
+}
+
+
 - (void)playItem:(DownloadItem*)item viewController:(UIViewController*)viewController
 {
     
@@ -251,7 +273,7 @@ DownloadService* globalDownloadService;
     int indexValue = [itemList indexOfObject:item];
     if (indexValue < 0){
         // not found, this is strange but still can work
-        NSLog(@"<playItem> WARNING, item (%@) not found in all related item list", [item itemId]);
+        PPDebug(@"<playItem> WARNING, item (%@) not found in all related item list", [item itemId]);
         [playController preview:viewController downloadItem:item];
     }
     else{
@@ -262,7 +284,7 @@ DownloadService* globalDownloadService;
 - (void)playItem:(NSArray *)list index:(int)indexValue viewController:(UIViewController *)viewController
 {
     if (indexValue >= [list count] || indexValue < 0){
-        NSLog(@"<playItem> ERROR index value (%d) > list count(%d)", indexValue, [list count]);
+        PPDebug(@"<playItem> ERROR index value (%d) > list count(%d)", indexValue, [list count]);
         return;
     }
     
@@ -326,7 +348,7 @@ DownloadService* globalDownloadService;
     NSString* str = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
     NSString* str1 = [[NSString alloc] initWithBytes:[data1 bytes] length:[data1 length] encoding:NSUTF8StringEncoding];
         
-    NSLog(@"unicodeString=%@, str=%@, str1=%@", unicodeString, str, str1);
+    PPDebug(@"unicodeString=%@, str=%@, str1=%@", unicodeString, str, str1);
     
 //    return finalString;
     return nil;
@@ -340,7 +362,7 @@ DownloadService* globalDownloadService;
     for (i=0; i<len; i++){
         unichar ch = [yourString characterAtIndex:i];
         charArray[i] = ch;
-//        NSLog(@"char = %02x, %d, %c", ch, ch, ch);
+//        PPDebug(@"char = %02x, %d, %c", ch, ch, ch);
     }
     charArray[i] = '\0';
     
@@ -349,6 +371,7 @@ DownloadService* globalDownloadService;
         // if UTF8 conversion fails, then use GB_18030
         NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
         str = [NSString stringWithCString:charArray encoding:enc];
+        PPDebug(@"UTF8String = %s", [str UTF8String]);
     }    
     return str;
 }
@@ -438,7 +461,7 @@ DownloadService* globalDownloadService;
     NSError* error = nil;
     [[NSFileManager defaultManager] moveItemAtPath:item.localPath toPath:finalFilePath error:&error];
     if (error != nil){
-        NSLog(@"fail to rename file from %@ to %@", item.localPath, finalFilePath);
+        PPDebug(@"fail to rename file from %@ to %@", item.localPath, finalFilePath);
     }
     else{
         [item setLocalPath:finalFilePath];

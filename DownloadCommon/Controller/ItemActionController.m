@@ -103,7 +103,7 @@
 
 - (void)updateSaveAlbumButton
 {
-    if ([self.item isImage] || UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.item.localPath))
+    if ([self.item isImage] || ([self.item isVideo] && UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.item.localPath)))
     {
         self.albumButton.enabled = YES;	
     }
