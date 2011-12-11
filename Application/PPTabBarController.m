@@ -135,17 +135,23 @@
 	[CATransaction commit];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
+- (void)viewDidLoad
+{    
+	[self hideRealTabBar];
+    [super viewDidLoad];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+        
     if (self.normalTextColor == nil)
         self.normalTextColor = [UIColor whiteColor];
     
     if (self.selectTextColor == nil)
         self.selectTextColor = [UIColor whiteColor];
     
-	[self hideRealTabBar];
 	[self customTabBar];
-    
+
     [super viewDidAppear:animated];
 }
 

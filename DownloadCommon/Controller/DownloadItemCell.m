@@ -164,15 +164,19 @@
 }
 
 - (void)setCellInfoWithItem:(DownloadItem*)item indexPath:(NSIndexPath*)indexPath
-{
-    if ([item canPlay]) {
+{    
+    if ([item isAudioVideo]) {
         [self.fileTypeButton setBackgroundImage:AUDIOTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
-    } else if ([item canView]) {
-        [self.fileTypeButton setBackgroundImage:AUDIOTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
+    } else if ([item isImageFileType]) {
+        [self.fileTypeButton setBackgroundImage:IMAGETYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     } else {
-        [self.fileTypeButton setBackgroundImage:AUDIOTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
+        [self.fileTypeButton setBackgroundImage:ALLTYPE_LABEL_BG_IMAGE forState:UIControlStateNormal];
     }
-    [self.fileTypeButton setTitle:[item.fileName pathExtension] forState:UIControlStateNormal];
+    if ([[item.fileName pathExtension] length] > 0)
+        [self.fileTypeButton setTitle:[item.fileName pathExtension] forState:UIControlStateNormal];
+    else
+        [self.fileTypeButton setTitle:NSLS(@"other") forState:UIControlStateNormal];
+    
     self.fileNameLabel.text = item.fileName;
 //    self.statusLabel.text = [item statusText];    
     

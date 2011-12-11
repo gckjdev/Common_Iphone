@@ -331,27 +331,20 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 }
 
 
-- (void)webViewDidStartLoad:(UIWebView *)webView{
-    
-    if (loadActivityIndicator.superview)
-        [loadActivityIndicator removeFromSuperview];
-        
-    [loadActivityIndicator startAnimating];
+- (void)webViewDidStartLoad:(UIWebView *)webView{    
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
 
+    NSLog(@"web view webViewDidFinishLoad");
+    
     // set current URL
     self.currentURL = self.webView.request.URL.absoluteString;
+        
+    [self hideActivity];
     
     // forbid popup call out window
     [self.webView stringByEvaluatingJavaScriptFromString:@"document.body.style.webkitTouchCallout='none';"];
-    
-    [self hideActivity];
-    if (loadActivityIndicator.superview)
-        [loadActivityIndicator removeFromSuperview];
-
-//    [[[[UIApplication sharedApplication] delegate] window] make];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -365,8 +358,6 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     NSLog(@"web view didFailLoadWithError error = %@ ", [error description]);
     [self hideActivity];
-    if (loadActivityIndicator.superview)
-        [loadActivityIndicator removeFromSuperview];
 }
 
 + (void)show:(UIViewController*)superController url:(NSString*)url

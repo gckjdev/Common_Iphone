@@ -14,6 +14,7 @@
 #import "DownloadService.h"
 #import "MoreTableViewCell.h"
 #import "DownloadResource.h"
+#import "DownloadItem.h"
 
 @implementation TopDownloadController
 
@@ -59,6 +60,13 @@
         [self.toplist addObjectsFromArray:newDataList];
     } else {
         [self.toplist addObjectsFromArray:newDataList];
+    }
+    
+    if ([toplist count] == 0){
+        [self showTipsOnTableView:NSLS(@"kNoTopDownloadData")];
+        self.tipsLabel.textColor = CELL_TEXT_COLOR;
+    } else {
+        [self hideTipsOnTableView];
     }
 }
 
@@ -136,7 +144,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    if (self.dataList == nil || [dataList count] == 0){
+    if (self.dataList == nil || [dataList count] == 0){                        
         [self showActivityWithText:NSLS(@"kLoadingData")];
         [self loadTopDownLoadItemFromServer:YES];                
     }
@@ -324,13 +332,16 @@
     };
     switch (buttonIndex) {
         case CLICK_DOWNLOAD:
-            NSLog(@"restart download...");
+        {
+            int fileType = [DownloadItem isImage:currentSelectItem.fileType] 
+                                ? FILE_TYPE_IMAGE : FILE_TYPE_UNKNOWN;
+            
             [[DownloadService defaultService] downloadFile:self.currentSelectItem.url 
-                                                  fileType:[self.currentSelectItem.fileType intValue]
+                                                  fileType:fileType
                                                    webSite:self.currentSelectItem.webSite
                                                webSiteName:self.currentSelectItem.webSiteName             
                                                    origUrl:nil];
-
+        }
             break;
             
         default:
