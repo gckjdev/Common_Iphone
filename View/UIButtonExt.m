@@ -42,7 +42,7 @@
     
     // lower the text and push it left to center it
     self.titleEdgeInsets = UIEdgeInsetsMake(
-                                                  0.0, - imageSize.width - 5.0, - (totalHeight - titleSize.height), 0.0);    
+                                                  0.0, - imageSize.width - 2.0, - (totalHeight - titleSize.height), 0.0);    
 }
 
 - (void)centerImageAndTitle

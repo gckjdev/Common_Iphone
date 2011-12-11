@@ -151,7 +151,7 @@
         str = [str stringByAddQueryParameter:PARA_COUNTRYCODE value:countryCode];        
         str = [str stringByAddQueryParameter:PARA_LANGUAGE value:language];        
         str = [str stringByAddQueryParameter:PARA_FILE_TYPE value:fileType];        
-        str = [str stringByAddQueryParameter:PARA_FILE_URL value:url];        
+        str = [str stringByAddQueryParameter:PARA_FILE_URL value:[url encodedURLParameterString]];        
         str = [str stringByAddQueryParameter:PARA_FILE_NAME value:fileName];        
         str = [str stringByAddQueryParameter:PARA_SITE_URL value:webSite];        
         str = [str stringByAddQueryParameter:PARA_SITE_NAME value:webSiteName];        

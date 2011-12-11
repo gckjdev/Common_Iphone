@@ -171,11 +171,16 @@
     }    
 }
 
++ (BOOL)isImage:(NSString*)extension
+{    
+    NSSet* fileTypeSet = [NSSet setWithObjects:@"jpg", @"png", @"bmp", @"jpeg", nil];
+    return [fileTypeSet containsObject:extension];    
+}
+
 - (BOOL)isImage
 {
     NSString* extension = [[self.fileName pathExtension] lowercaseString];
-    NSSet* fileTypeSet = [NSSet setWithObjects:@"jpg", @"png", @"bmp", @"jpeg", nil];
-    return [fileTypeSet containsObject:extension];
+    return [DownloadItem isImage:extension];
 }
 
 - (BOOL)isCompressFile

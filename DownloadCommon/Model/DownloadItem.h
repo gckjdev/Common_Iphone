@@ -68,4 +68,6 @@ enum FILE_TYPE {
 - (BOOL)isReadableFile;
 - (BOOL)isImageFileType;
 
++ (BOOL)isImage:(NSString*)extension;
+
 @end

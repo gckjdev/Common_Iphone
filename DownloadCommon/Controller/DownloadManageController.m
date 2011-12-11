@@ -93,6 +93,17 @@
     }    
 }
 
+
+- (void)updateNoDataTips
+{
+    if ([dataList count] == 0){
+        [self showTipsOnTableView:NSLS(@"kNoDownloadData")];
+        self.tipsLabel.textColor = CELL_TEXT_COLOR;
+    } else {
+        [self hideTipsOnTableView];
+    }    
+}
+
 - (void)loadDataBySelectType
 {
     switch (currentSelection) {
@@ -115,6 +126,8 @@
         default:
             break;
     }    
+    
+    [self updateNoDataTips];
 }
 
 - (void)viewDidLoad
@@ -378,6 +391,7 @@
     self.dataList = [[DownloadItemManager defaultManager] findAllCompleteItems];
     [self.dataTableView reloadData];    
     [self updateNavigationTitle];
+    [self updateNoDataTips];    
 }
 
 - (IBAction)clickFilterDownloading:(id)sender
@@ -402,7 +416,7 @@
     self.dataList = [[DownloadItemManager defaultManager] findAllDownloadingItems];
     [self.dataTableView reloadData]; 
     [self updateNavigationTitle];
-
+    [self updateNoDataTips];
 }
 
 - (IBAction)clickFilterStarred:(id)sender
@@ -427,7 +441,7 @@
     self.dataList = [[DownloadItemManager defaultManager] findAllStarredItems];
     [self.dataTableView reloadData];    
     [self updateNavigationTitle];
-
+    [self updateNoDataTips];
 }
 
 - (IBAction)clickFilterAll:(id)sender
@@ -453,7 +467,7 @@
     self.dataList = [[DownloadItemManager defaultManager] findAllItems];
     [self.dataTableView reloadData];    
     [self updateNavigationTitle];
-    
+    [self updateNoDataTips];
 }
 
 
