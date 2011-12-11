@@ -57,6 +57,26 @@ BOOL isToday(NSDate *date)
 
 }
 
+BOOL isChineseToday(NSDate *date)
+{
+	// Get Today's YYYY-MM-DD
+	NSDateComponents *today_comps = getChineseDateComponents([NSDate date]);
+	
+	// Given Date's YYYY-MM-DD
+	NSDateComponents *select_comps = getDateComponents(date);		
+	
+	// if it's today, return TODAY
+	if ( [today_comps year] == [select_comps year] &&
+		[today_comps month] == [select_comps month] &&
+		[today_comps day] == [select_comps day]){		
+		return YES;
+	}
+	else {
+		return NO;
+	}
+    
+}
+
 // covert date to string by given locale
 NSString *dateToLocaleString(NSDate *date)
 {
