@@ -18,6 +18,8 @@ NSDateComponents *getDateComponents(NSDate *date);
 
 BOOL isToday(NSDate *date);
 
+BOOL isChineseToday(NSDate *date);
+
 NSString *dateToLocaleString(NSDate *date);
 
 NSString *dateToString(NSDate *date);
