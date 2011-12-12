@@ -14,7 +14,6 @@
 #import <MessageUI/MessageUI.h>
 #import "StringUtil.h"
 #import "TKAlertCenter.h"
-#import "UIBlankView.h"
 #import "UIImageUtil.h"
 
 //#import "PPSegmentControl.h"
@@ -817,6 +816,12 @@
     [self addBlankView:top currentResponder:searchBar];
 }
 
+- (void)setBlankViewDelegate:(id<UIBlankViewDelegate>)delegate
+{
+    if (blankView) {
+        blankView.delegate = delegate;
+    }
+}
 - (void)addBlankView:(CGFloat)top currentResponder:(UIView*)currentResponder
 {
     CGRect frame = CGRectMake(0, top, 320, 480);

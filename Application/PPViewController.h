@@ -15,13 +15,12 @@
 #import <MapKit/MapKit.h>
 #import "TKLoadingView.h"
 #import "PPSegmentControl.h"
-
+#import "UIBlankView.h"
 #define kDefaultBarButton			@"barbutton.png"
 
 #define kLocationUpdateTimeOut		60.0
 #define kTimeOutObjectString		@"Time out"
 
-@class UIBlankView;
 @class PPSegmentControl;
 
 @interface PPViewController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, CLLocationManagerDelegate, MKReverseGeocoderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PPSegmentControlDelegate> {
@@ -123,6 +122,7 @@
 - (void)takePhoto;
 
 - (void)addBlankView:(UIView*)searchBar;
+- (void)setBlankViewDelegate:(id<UIBlankViewDelegate>)delegate;
 - (void)addBlankView:(CGFloat)top currentResponder:(UIView*)currentResponder;
 - (void)removeBlankView;
 
