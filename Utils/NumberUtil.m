@@ -18,9 +18,10 @@ BOOL isInteger(CGFloat number)
 }
 
 
-NSInteger getDecimal(CGFloat number)
+NSInteger getDecimalWithPoint(CGFloat number, NSInteger point)
 {
-    NSString *str = [NSString stringWithFormat:@"%0.2f",number];
+    NSString *temp = [NSString stringWithFormat:@"%%0.%df",point];
+    NSString *str = [NSString stringWithFormat:temp,number];
     NSRange range = [str rangeOfString:@"."];
     NSInteger start = range.location + 1;
     int i = [str length] - 1;
@@ -35,4 +36,25 @@ NSInteger getDecimal(CGFloat number)
         sum += [str characterAtIndex:j] - '0';
     }
     return sum;
+}
+
+NSInteger getDecimal(CGFloat number)
+{
+//    NSString *str = [NSString stringWithFormat:@"%0.2f",number];
+//    NSRange range = [str rangeOfString:@"."];
+//    NSInteger start = range.location + 1;
+//    int i = [str length] - 1;
+//    for (; i >= start; --i) {
+//        if ([str characterAtIndex:i] != '0') {
+//            break;
+//        }
+//    }
+//    int sum = 0;
+//    for (int j = start; j <= i; j++) {
+//        sum *= 10;
+//        sum += [str characterAtIndex:j] - '0';
+//    }
+//    return sum;
+    return getDecimalWithPoint(number,2);
+
 }
