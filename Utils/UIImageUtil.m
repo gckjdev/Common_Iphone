@@ -13,7 +13,7 @@
 
 - (UIImage*)defaultStretchableImage
 {
-    return [self stretchableImageWithLeftCapWidth:self.size.width/2 topCapHeight:0];
+    return [self stretchableImageWithLeftCapWidth:self.size.width/2 topCapHeight:self.size.height/2];
 }
 
 + (UIImage*)strectchableImageName:(NSString*)name
