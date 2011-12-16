@@ -10,3 +10,4 @@
 
 BOOL isInteger(CGFloat number);
 NSInteger getDecimal(CGFloat number);
+NSInteger getDecimalWithPoint(CGFloat number, NSInteger point);

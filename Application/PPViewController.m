@@ -30,6 +30,7 @@
 @synthesize selectedImageSaveFileName;
 @synthesize currentKeyboardType;
 @synthesize blankView;
+@synthesize enableAddressBook;
 
 #pragma mark background and navigation bar buttons
 
@@ -335,6 +336,9 @@
 
 - (void)createAddressBook
 {
+    if (!enableAddressBook)
+        return;
+    
 	if (addressBook != NULL){
 		CFRelease(addressBook);
 		addressBook = NULL;
@@ -371,7 +375,6 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-	[self createAddressBook];
 	[super viewDidAppear:animated];
 }
 
