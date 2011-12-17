@@ -103,7 +103,7 @@
 
 - (void)callTelNumber:(NSString *)number
 {
-    self.selectedTelNumber = [[NSString alloc] initWithFormat:@"tel://%@",number]; 
+    self.selectedTelNumber = [[NSString alloc] initWithFormat:@"%@",number]; 
     NSString *message = [NSString stringWithFormat:@"拨打电话%@吗？",number];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alert show];
