@@ -51,6 +51,8 @@
     UIBlankView             *blankView;
 }
 
+@property (nonatomic, assign) BOOL                  enableAddressBook;
+
 @property (nonatomic, retain) TKLoadingView*        loadingView;
 @property (nonatomic, retain) NSTimer				*timer;
 @property (nonatomic, retain) NSString*				backgroundImageName;

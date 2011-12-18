@@ -267,7 +267,7 @@ NSString *chineseWeekDayFromDate(NSDate *date)
     NSDateComponents *dc = getChineseDateComponents(date);
     [dc setTimeZone:[NSTimeZone timeZoneWithName:TIME_ZONE_GMT]];
     NSInteger weekIndex = [dc weekday];
-    if(weekIndex >= [getWeekDayArray() count]){
+    if(weekIndex > [getWeekDayArray() count]){
         return @"";
     }
     return [getWeekDayArray() objectAtIndex:weekIndex-1];
