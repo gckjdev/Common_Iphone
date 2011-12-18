@@ -19,6 +19,19 @@ NSArray *getWeekDayArray()
     return weekDays;
 }
 
+
+
+NSDateFormatter *dateFormatter = nil;
+NSDateFormatter *getDateFormatter()
+{
+    @synchronized(dateFormatter){
+        if (dateFormatter == nil) {
+            dateFormatter = [[NSDateFormatter alloc] init];
+        }
+        return dateFormatter;
+    }
+}
+
 // return YEAR, MONTH, DAY in NSDateComponents by given NSDate
 NSDateComponents *getDateComponents(NSDate *date)
 {
@@ -80,7 +93,7 @@ BOOL isChineseToday(NSDate *date)
 // covert date to string by given locale
 NSString *dateToLocaleString(NSDate *date)
 {
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *dateFormatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
 	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 	[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
 	 	 
@@ -107,11 +120,11 @@ NSString *dateToChineseString(NSDate *date)
 {
     if(date == nil)
         return nil;
-    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *dateFormatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
     NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:TIME_ZONE_GMT];
-    [formatter setTimeZone:tzGMT];
-    [formatter setDateFormat:DATE_CHINESE_FORMAT];
-    NSString *period = [formatter stringFromDate:date];
+    [dateFormatter setTimeZone:tzGMT];
+    [dateFormatter setDateFormat:DATE_CHINESE_FORMAT];
+    NSString *period = [dateFormatter stringFromDate:date];
     return period;
 }
 
@@ -119,7 +132,7 @@ NSString *dateToChineseStringByFormat(NSDate *date, NSString *format)
 {
     if(date == nil)
         return nil;
-    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
     NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:TIME_ZONE_GMT];
     [formatter setTimeZone:tzGMT];
     [formatter setDateFormat:format];
@@ -131,7 +144,7 @@ NSString *dateToString(NSDate *date)
 {
     if(date == nil)
         return nil;
-    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
     NSTimeZone *tzGMT = [NSTimeZone timeZoneWithName:TIME_ZONE_GMT];
     [formatter setTimeZone:tzGMT];
     [formatter setDateFormat:DATE_FORMAT];
@@ -146,29 +159,29 @@ NSString *dateToStringByFormat(NSDate *date, NSString *format)
 {
     if(date == nil)
         return nil;
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	[dateFormatter setDateFormat:format];
-	return [dateFormatter stringFromDate:date];	
+	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
+	[formatter setDateFormat:format];
+	return [formatter stringFromDate:date];	
 	
 }
 
 NSString *dateToUTCStringByFormat(NSDate *date, NSString *format)
 {
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
 	
-	[dateFormatter setDateFormat:format];
-	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+	[formatter setDateFormat:format];
+	[formatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
 	
-	return [dateFormatter stringFromDate:date];		
+	return [formatter stringFromDate:date];		
 }
 
 // convert string to date by given format
 NSDate *dateFromStringByFormat(NSString *string, NSString *format)
 {
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	[dateFormatter setDateFormat:format];
+	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
+	[formatter setDateFormat:format];
 	
-	return [dateFormatter dateFromString:string];	
+	return [formatter dateFromString:string];	
 	
 }
 	 
@@ -178,12 +191,12 @@ NSDate *dateFromUTCStringByFormat(NSString *string, NSString *format)
 	if (string == nil)
 		return nil;
 	
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
 	 
-	[dateFormatter setDateFormat:format];
-	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+	[formatter setDateFormat:format];
+	[formatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
 	 
-	return [dateFormatter dateFromString:string];	
+	return [formatter dateFromString:string];	
 	 
 }
 
@@ -193,12 +206,11 @@ NSDate *dateFromChineseStringByFormat(NSString *string, NSString *format)
 	if (string == nil)
 		return nil;
 	
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
     
-	[dateFormatter setDateFormat:format];
-	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:TIME_ZONE_GMT]];
-    
-	return [dateFormatter dateFromString:string];	
+	[formatter setDateFormat:format];
+	[formatter setTimeZone:[NSTimeZone timeZoneWithName:TIME_ZONE_GMT]];
+	return [formatter dateFromString:string];	    
     
 }
 
@@ -207,7 +219,7 @@ NSDate *getDateStart(NSDate* date)
 {
 	NSDateComponents* comp = getDateComponents(date);
 	
-	NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
 	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 	
 	NSString *dateString = [NSString stringWithFormat:@"%04d-%02d-%02d 00:00:00", 
@@ -222,7 +234,7 @@ NSDate *getDateEnd(NSDate* date)
 {
 	NSDateComponents* comp = getDateComponents(date);
 	
-	NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
 	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 	
 	NSString *dateString = [NSString stringWithFormat:@"%04d-%02d-%02d 23:59:59", 
