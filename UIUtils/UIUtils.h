@@ -20,6 +20,7 @@
 }
 
 + (void)alert:(NSString *)msg;
++ (void)alertWithTitle:(NSString *)title msg:(NSString *)msg;
 + (void)askYesNo:(NSString *)msg cancelButtonTitle:(NSString *)cancelButtonTitle okButtonTitle:(NSString *)okButtonTitle delegate:(id)delegate;
 + (BOOL) canMakeCall:(NSString *)phoneNumber;
 + (void)makeCall:(NSString *)phoneNumber;

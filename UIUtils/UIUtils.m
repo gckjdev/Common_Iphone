@@ -25,6 +25,12 @@
 	[alertView showWithBackground];
 }
 
++ (void)alertWithTitle:(NSString *)title msg:(NSString *)msg
+{
+    UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] autorelease];
+	[alertView showWithBackground];
+}
+
 + (void)askYesNo:(NSString *)msg cancelButtonTitle:(NSString *)cancelButtonTitle okButtonTitle:(NSString *)okButtonTitle delegate:(id)delegate
 {
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:msg message:@"" delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:okButtonTitle, nil];
