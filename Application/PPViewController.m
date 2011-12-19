@@ -937,11 +937,14 @@
     int rowIndex;
     int columnIndex;
     UIScrollView* scrollView = [[[UIScrollView alloc] init] autorelease];
+
+    if (buttons && [buttons count]>0) {
+        UIButton* button1 = [buttons objectAtIndex:0];
+        buttonLen = button1.frame.size.width;
+        buttonHeight = button1.frame.size.height;
+        fitButtonsPerLine = 320/buttonLen;
+    }
     
-    UIButton* button1 = [buttons objectAtIndex:0];
-    buttonLen = button1.frame.size.width;
-    buttonHeight = button1.frame.size.height;
-    fitButtonsPerLine = 320/buttonLen;
     
     if (buttonLen*buttonsPerLine <=  320 && buttonsPerLine >= 0) {
         fitButtonsPerLine = buttonsPerLine;
