@@ -49,6 +49,8 @@
 	BOOL				repeatAll;
 	BOOL				repeatOne;
 	BOOL				shuffle;
+    
+    UIViewController *_superViewController;
 }
 
 @property (nonatomic, retain) NSMutableArray *soundFiles;
@@ -89,6 +91,9 @@
 @property (nonatomic, assign) BOOL repeatAll;
 @property (nonatomic, assign) BOOL repeatOne;
 @property (nonatomic, assign) BOOL shuffle;
+
+@property (nonatomic, retain) UIViewController *superViewController;
+
 
 - (MDAudioPlayerController *)initWithSoundFiles:(NSMutableArray *)songs atPath:(NSString *)path andSelectedIndex:(int)index;
 - (void)setSoundFiles:(NSMutableArray *)songs selectedIndex:(int)index;

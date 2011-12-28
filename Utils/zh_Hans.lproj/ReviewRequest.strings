@@ -1,0 +1,16 @@
+/* 
+   ReviewRequest.strings
+
+   Created by qqn_pipi on 10-7-18.
+   Copyright 2010 QQN-PIPI.com. All rights reserved.
+ */
+
+"kInfoAppName" = "对%@应用满意吗？";
+
+"kInfoAppDetails" = "如果满意，敬请在AppStore上留下5星好评，这将极大地鼓励我们更好地升级和改进本应用，非常感谢";
+
+"kInfoRateIt" = "是的，我想马上评价";
+
+"kInfoRemindMe"	= "以后再提醒我";
+
+"kInfoAskAgain"	= "不要再询问该问题";

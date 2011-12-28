@@ -78,7 +78,8 @@
         [audioPlayer resume];
     }
     
-    [viewController presentModalViewController:self.audioPlayer animated:YES];
+//    [viewController presentModalViewController:self.audioPlayer animated:YES];	    
+    [viewController.navigationController pushViewController:self.audioPlayer animated:YES];
     [songs release];
 }
 
