@@ -50,6 +50,7 @@
 {
     [_timer invalidate];
     _timer = nil;
+    _lastNetworkStatus = 1;
 }
 
 
