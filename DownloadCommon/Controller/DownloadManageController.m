@@ -326,7 +326,10 @@
     [self.dataTableView reloadRowsAtIndexPaths:[self.dataTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
 }
 
-
+- (BOOL)hasMusicPlayerTab
+{
+    return (BOOL)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFHasMusicPlayerTab"];
+}
 
 #pragma Download Cell Delegate
 

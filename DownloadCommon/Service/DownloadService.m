@@ -269,7 +269,6 @@ DownloadService* globalDownloadService;
     [playController preview:viewController decompressItem:item];    
 }
 
-
 - (void)playItem:(DownloadItem*)item viewController:(UIViewController*)viewController
 {
     

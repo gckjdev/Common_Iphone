@@ -582,7 +582,9 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 		}
 		else
 		{
-			NSLog(@"Could not play %@\n", self.player.url);
+            //rem bu Kaibin
+			//NSLog(@"Could not play %@\n", self.player.url);
+            [self playBySelectedIndex];
 		}
 	}
 	

@@ -11,6 +11,8 @@
 #import "DownloadItemManager.h"
 #import "MDAudioPlayerController.h"
 #import "MDAudioFile.h"
+#import "DownloadAppDelegate.h"
+#import "MusicPlayController.h"
 
 @implementation PlayAudioController
 
@@ -48,8 +50,49 @@
     [self preview:viewController itemList:itemList index:0];
 }
 
+- (BOOL)hasMusicPlayerTab
+{
+    return (BOOL)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFHasMusicPlayerTab"];
+}
+
 - (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
 {    
+    if ([self hasMusicPlayerTab]) {
+        DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
+              
+        
+        MusicPlayController *musicPlayController = [delegate getMusicPlayerTab];
+        
+        NSMutableArray *songs = [[NSMutableArray alloc] init];
+        for (DownloadItem* item in list)
+        {
+            MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
+            [songs addObject:audioFile];
+        }
+       
+        DownloadItem* newItem = [list objectAtIndex:indexValue];
+        BOOL isChange = NO;
+        if (self.currentItem != newItem){
+            isChange = YES;
+        }
+        if (isChange){
+            // if file is changed, then play the file
+            self.currentItem = newItem;
+            [musicPlayController setSoundFiles:songs selectedIndex:indexValue];
+            [musicPlayController playBySelectedIndex];
+        }
+        else{
+            // else do nothing
+             [musicPlayController resume];
+        }
+        
+        [songs release];
+        
+        [delegate gotoMusicPlayerTab];  
+        
+        return;
+    }
+    
     self.itemList = list;
     NSMutableArray *songs = [[NSMutableArray alloc] init];
     for (DownloadItem* item in list)

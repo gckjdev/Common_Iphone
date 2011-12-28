@@ -12,6 +12,8 @@
 #import "DownloadItem.h"
 #import "DownloadItemManager.h"
 
+#define global_queue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+
 @implementation MusicPlayController
 
 @synthesize mdAudioPlayerController;
@@ -52,28 +54,37 @@
 
 - (void)viewDidLoad
 {
-
-    
     // Do any additional setup after loading the view from its nib.
-    NSMutableArray *songs = [[NSMutableArray alloc] init];
+        
+    [super viewDidLoad];
     
-    NSArray *list = [self findAllRelatedItems];
-    for (DownloadItem* item in list)
-    {
-        MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
-        [songs addObject:audioFile];
-    }
+    self.navigationItem.leftBarButtonItem = nil;
     
+  //  dispatch_async(global_queue, ^{
+        
+        NSMutableArray *songs = [[NSMutableArray alloc] init];
+        
+        NSArray *list = [self findAllRelatedItems];
+        for (DownloadItem* item in list)
+        {
+            MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
+            [songs addObject:audioFile];
+        }
+        
+        
+        [self setSoundFiles:songs selectedIndex:0];
+//        [self playBySelectedIndex];
     
-    [self setSoundFiles:songs selectedIndex:0];
-    [self playBySelectedIndex];
-    
-    [songs release];
+        
+        [songs release];
 
+        
+ //    });
 
-
-        [super viewDidLoad];
 }
+
+
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
