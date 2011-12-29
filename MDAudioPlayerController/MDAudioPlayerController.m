@@ -292,7 +292,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	reflectionView.alpha = kDefaultReflectionFraction;
 	//[self.containerView addSubview:reflectionView];
 	
-	self.songTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 368)];
+	self.songTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 368-UP_HEIGHT)];
 	self.songTableView.delegate = self;
 	self.songTableView.dataSource = self;
 	self.songTableView.separatorColor = [UIColor colorWithRed:0.986 green:0.933 blue:0.994 alpha:0.10];

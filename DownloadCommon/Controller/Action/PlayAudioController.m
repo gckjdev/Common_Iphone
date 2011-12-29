@@ -50,31 +50,29 @@
     [self preview:viewController itemList:itemList index:0];
 }
 
-- (BOOL)hasMusicPlayerTab
-{
-    return (BOOL)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFHasMusicPlayerTab"];
-}
+
 
 - (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
 {    
-    if ([self hasMusicPlayerTab]) {
-        DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
-              
-        
+    DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
+    
+    NSMutableArray *songs = [[NSMutableArray alloc] init];
+    for (DownloadItem* item in list)
+    {
+        MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
+        [songs addObject:audioFile];
+    }
+    
+    DownloadItem* newItem = [list objectAtIndex:indexValue];
+    BOOL isChange = NO;
+    if (self.currentItem != newItem){
+        isChange = YES;
+    }
+    //check if is MusicDownload app
+    if ([delegate hasMusicPlayerTab]) {
+                
         MusicPlayController *musicPlayController = [delegate getMusicPlayerTab];
-        
-        NSMutableArray *songs = [[NSMutableArray alloc] init];
-        for (DownloadItem* item in list)
-        {
-            MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
-            [songs addObject:audioFile];
-        }
-       
-        DownloadItem* newItem = [list objectAtIndex:indexValue];
-        BOOL isChange = NO;
-        if (self.currentItem != newItem){
-            isChange = YES;
-        }
+               
         if (isChange){
             // if file is changed, then play the file
             self.currentItem = newItem;
@@ -94,22 +92,10 @@
     }
     
     self.itemList = list;
-    NSMutableArray *songs = [[NSMutableArray alloc] init];
-    for (DownloadItem* item in list)
-    {
-        MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
-        [songs addObject:audioFile];
-    }
-    
     if (self.audioPlayer == nil){
         self.audioPlayer = [[[MDAudioPlayerController alloc] initWithSoundFiles:songs atPath:nil andSelectedIndex:indexValue] autorelease];
     }
     
-    DownloadItem* newItem = [list objectAtIndex:indexValue];
-    BOOL isChange = NO;
-    if (self.currentItem != newItem){
-        isChange = YES;
-    }
     if (isChange){
         // if file is changed, then play the file
         self.currentItem = newItem;
