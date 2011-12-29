@@ -16,6 +16,5 @@
     BOOL _displayMDAudioPlayerController;
 }
 
-//@property (nonatomic, retain) NSMutableArray *songs;
-
+- (void)showMusicPlayer:(BOOL)play index:(int)indexValue;
 @end

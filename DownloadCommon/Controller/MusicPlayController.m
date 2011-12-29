@@ -12,8 +12,6 @@
 #import "DownloadItem.h"
 #import "DownloadItemManager.h"
 
-#define global_queue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-
 @implementation MusicPlayController
 
 //@synthesize songs;
@@ -35,7 +33,6 @@
 
 - (void)dealloc {
     [super dealloc];
-//    [songs release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,32 +50,11 @@
     // Do any additional setup after loading the view from its nib.
         
     [super viewDidLoad];
-    
     self.navigationItem.leftBarButtonItem = nil;
     
-  //  dispatch_async(global_queue, ^{
-        
-//        songs = [[NSMutableArray alloc] init];
-        
-//        NSArray *list = [self findAllRelatedItems];
-//        for (DownloadItem* item in list)
-//        {
-//            MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
-//            [songs addObject:audioFile];
-//        }
-//        
-//        if ([songs count] > 0) {
-//            [self setSoundFiles:songs selectedIndex:0];
-//
-//        } else {
-//            [self setSoundFiles:nil selectedIndex:0];
-//        }
-                
- //    });
-
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)showMusicPlayer:(BOOL)play index:(int)indexValue
 {
     NSMutableArray *songs = [[NSMutableArray alloc] init];
     NSArray *list = [self findAllRelatedItems];
@@ -87,30 +63,40 @@
         MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
         [songs addObject:audioFile];
     }
-    if ([songs count] > 0) {
-        [self.navigationItem.rightBarButtonItem setEnabled:YES];
-        [[self artworkView] setUserInteractionEnabled:YES];
-        [[self playButton] setUserInteractionEnabled:YES];
-        
-        if (self.player.playing == NO) {
-            [self setSoundFiles:songs selectedIndex:0];
-        }
-        [self.songTableView reloadData];
-        
-    } else {
+    
+    [self.songTableView reloadData];
+    
+    if ([songs count] == 0) {
         [self.navigationItem.rightBarButtonItem setEnabled:NO];
         [[self artworkView] setUserInteractionEnabled:NO];
         [[self playButton] setUserInteractionEnabled:NO];
         
         [self setSoundFiles:nil selectedIndex:0];
-
+        
         self.titleLabel.text = @"暂无下载歌曲播放";
-        [[self artworkView] setImage:[UIImage imageNamed:@"AudioPlayerNoArtwork.png"] forState:UIControlStateNormal];
-        
-        
+        [[self artworkView] setImage:[UIImage imageNamed:@"AudioPlayerNoArtwork.png"] forState:UIControlStateNormal];        
     }
-    
+
+    if (play) {
+        [self setSoundFiles:songs selectedIndex:indexValue];
+        [self playBySelectedIndex];
+    } 
+    else {
+        [self.navigationItem.rightBarButtonItem setEnabled:YES];
+        [[self artworkView] setUserInteractionEnabled:YES];
+        [[self playButton] setUserInteractionEnabled:YES];
+        
+        if (self.player.playing == NO) {
+            [self setSoundFiles:songs selectedIndex:indexValue];
+        }
+    } 
+        
     [songs release];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self showMusicPlayer:NO index:0];
 }
 
 - (void)viewDidUnload

@@ -76,8 +76,7 @@
         if (isChange){
             // if file is changed, then play the file
             self.currentItem = newItem;
-            [musicPlayController setSoundFiles:songs selectedIndex:indexValue];
-            [musicPlayController playBySelectedIndex];
+            [musicPlayController showMusicPlayer:YES index:indexValue];
         }
         else{
             // else do nothing
