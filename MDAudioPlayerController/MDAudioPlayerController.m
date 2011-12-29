@@ -169,9 +169,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    if (_superViewController) {
-        [((MusicPlayController *)_superViewController) setDisplayMDAudioPlayerController:NO];
-    }
+    
     [super viewDidDisappear:animated];
 }
 
@@ -391,7 +389,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 - (void)showSongFiles
 {
 	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:5];
+	[UIView setAnimationDuration:1];
 	
 	[UIView setAnimationTransition:([self.songTableView superview] ?
 									UIViewAnimationTransitionFlipFromLeft : UIViewAnimationTransitionFlipFromRight)
@@ -425,6 +423,8 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 		[self.containerView addSubview:songTableView];
 		
 		[[self.containerView layer] insertSublayer:gradientLayer atIndex:0];
+        //add by Kaibin
+        [self.songTableView reloadData];
 	}
 	
 	[UIView commitAnimations];

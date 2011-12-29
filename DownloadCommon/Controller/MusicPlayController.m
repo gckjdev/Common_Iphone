@@ -16,9 +16,7 @@
 
 @implementation MusicPlayController
 
-@synthesize mdAudioPlayerController;
-@synthesize displayMDAudioPlayerController;
-
+//@synthesize songs;
 
 - (NSArray*)findAllRelatedItems
 {
@@ -30,16 +28,14 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-               
-        //mdAudioPlayerController = [[MDAudioPlayerController alloc] init];
 
     }
     return self;
 }
 
 - (void)dealloc {
-    [mdAudioPlayerController release];
     [super dealloc];
+//    [songs release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,33 +58,59 @@
     
   //  dispatch_async(global_queue, ^{
         
-        NSMutableArray *songs = [[NSMutableArray alloc] init];
+//        songs = [[NSMutableArray alloc] init];
         
-        NSArray *list = [self findAllRelatedItems];
-        for (DownloadItem* item in list)
-        {
-            MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
-            [songs addObject:audioFile];
-        }
-        
-        
-        [self setSoundFiles:songs selectedIndex:0];
-//        [self playBySelectedIndex];
-    
-        
-        [songs release];
-
-        
+//        NSArray *list = [self findAllRelatedItems];
+//        for (DownloadItem* item in list)
+//        {
+//            MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
+//            [songs addObject:audioFile];
+//        }
+//        
+//        if ([songs count] > 0) {
+//            [self setSoundFiles:songs selectedIndex:0];
+//
+//        } else {
+//            [self setSoundFiles:nil selectedIndex:0];
+//        }
+                
  //    });
 
 }
 
-
-
-
 - (void)viewDidAppear:(BOOL)animated
 {
+    NSMutableArray *songs = [[NSMutableArray alloc] init];
+    NSArray *list = [self findAllRelatedItems];
+    for (DownloadItem* item in list)
+    {
+        MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
+        [songs addObject:audioFile];
+    }
+    if ([songs count] > 0) {
+        [self.navigationItem.rightBarButtonItem setEnabled:YES];
+        [[self artworkView] setUserInteractionEnabled:YES];
+        [[self playButton] setUserInteractionEnabled:YES];
+        
+        if (self.player.playing == NO) {
+            [self setSoundFiles:songs selectedIndex:0];
+        }
+        [self.songTableView reloadData];
+        
+    } else {
+        [self.navigationItem.rightBarButtonItem setEnabled:NO];
+        [[self artworkView] setUserInteractionEnabled:NO];
+        [[self playButton] setUserInteractionEnabled:NO];
+        
+        [self setSoundFiles:nil selectedIndex:0];
+
+        self.titleLabel.text = @"暂无下载歌曲播放";
+        [[self artworkView] setImage:[UIImage imageNamed:@"AudioPlayerNoArtwork.png"] forState:UIControlStateNormal];
+        
+        
+    }
     
+    [songs release];
 }
 
 - (void)viewDidUnload

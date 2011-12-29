@@ -15,8 +15,7 @@
 {
     BOOL _displayMDAudioPlayerController;
 }
-@property (nonatomic, assign) BOOL displayMDAudioPlayerController;
 
-@property (nonatomic, retain)  MDAudioPlayerController *mdAudioPlayerController;
+//@property (nonatomic, retain) NSMutableArray *songs;
 
 @end
