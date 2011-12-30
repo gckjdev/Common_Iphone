@@ -64,8 +64,10 @@
         [songs addObject:audioFile];
     }
     
+    //更新播放列表
     [self.songTableView reloadData];
     
+    //下载列表为空
     if ([songs count] == 0) {
         [self.navigationItem.rightBarButtonItem setEnabled:NO];
         [[self artworkView] setUserInteractionEnabled:NO];
@@ -73,14 +75,17 @@
         
         [self setSoundFiles:nil selectedIndex:0];
         
-        self.titleLabel.text = @"暂无下载歌曲播放";
+        self.titleLabel.text = NSLS(@"kNoMusicToPlay");
         [[self artworkView] setImage:[UIImage imageNamed:@"AudioPlayerNoArtwork.png"] forState:UIControlStateNormal];        
     }
-
+    
+    //在Download列表里点击播放
     if (play) {
         [self setSoundFiles:songs selectedIndex:indexValue];
         [self playBySelectedIndex];
     } 
+    
+    //点击MusicTab时
     else {
         [self.navigationItem.rightBarButtonItem setEnabled:YES];
         [[self artworkView] setUserInteractionEnabled:YES];
