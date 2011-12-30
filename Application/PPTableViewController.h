@@ -64,6 +64,8 @@
     // for controll row
     NSIndexPath          *tappedIndexPath;
     NSIndexPath          *controlRowIndexPath;
+    UILabel* _tipsLabel;
+    
 }
 
 @property (nonatomic, retain) NSArray			*dataList;

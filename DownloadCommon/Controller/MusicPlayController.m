@@ -12,13 +12,9 @@
 #import "DownloadItem.h"
 #import "DownloadItemManager.h"
 
-#define global_queue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-
 @implementation MusicPlayController
 
-@synthesize mdAudioPlayerController;
-@synthesize displayMDAudioPlayerController;
-
+//@synthesize songs;
 
 - (NSArray*)findAllRelatedItems
 {
@@ -30,15 +26,12 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-               
-        //mdAudioPlayerController = [[MDAudioPlayerController alloc] init];
 
     }
     return self;
 }
 
 - (void)dealloc {
-    [mdAudioPlayerController release];
     [super dealloc];
 }
 
@@ -57,38 +50,58 @@
     // Do any additional setup after loading the view from its nib.
         
     [super viewDidLoad];
-    
     self.navigationItem.leftBarButtonItem = nil;
     
-  //  dispatch_async(global_queue, ^{
-        
-        NSMutableArray *songs = [[NSMutableArray alloc] init];
-        
-        NSArray *list = [self findAllRelatedItems];
-        for (DownloadItem* item in list)
-        {
-            MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
-            [songs addObject:audioFile];
-        }
-        
-        
-        [self setSoundFiles:songs selectedIndex:0];
-//        [self playBySelectedIndex];
-    
-        
-        [songs release];
-
-        
- //    });
-
 }
 
-
-
+- (void)showMusicPlayer:(BOOL)play index:(int)indexValue
+{
+    NSMutableArray *songs = [[NSMutableArray alloc] init];
+    NSArray *list = [self findAllRelatedItems];
+    for (DownloadItem* item in list)
+    {
+        MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
+        [songs addObject:audioFile];
+    }
+    
+    //更新播放列表
+    [self.songTableView reloadData];
+    
+    //下载列表为空
+    if ([songs count] == 0) {
+        [self.navigationItem.rightBarButtonItem setEnabled:NO];
+        [[self artworkView] setUserInteractionEnabled:NO];
+        [[self playButton] setUserInteractionEnabled:NO];
+        
+        [self setSoundFiles:nil selectedIndex:0];
+        
+        self.titleLabel.text = NSLS(@"kNoMusicToPlay");
+        [[self artworkView] setImage:[UIImage imageNamed:@"AudioPlayerNoArtwork.png"] forState:UIControlStateNormal];        
+    }
+    
+    //在Download列表里点击播放
+    if (play) {
+        [self setSoundFiles:songs selectedIndex:indexValue];
+        [self playBySelectedIndex];
+    } 
+    
+    //点击MusicTab时
+    else {
+        [self.navigationItem.rightBarButtonItem setEnabled:YES];
+        [[self artworkView] setUserInteractionEnabled:YES];
+        [[self playButton] setUserInteractionEnabled:YES];
+        
+        if (self.player.playing == NO) {
+            [self setSoundFiles:songs selectedIndex:indexValue];
+        }
+    } 
+        
+    [songs release];
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    
+    [self showMusicPlayer:NO index:0];
 }
 
 - (void)viewDidUnload

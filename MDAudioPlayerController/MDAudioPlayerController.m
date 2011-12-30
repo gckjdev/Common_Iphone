@@ -169,9 +169,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    if (_superViewController) {
-        [((MusicPlayController *)_superViewController) setDisplayMDAudioPlayerController:NO];
-    }
+    
     [super viewDidDisappear:animated];
 }
 
@@ -292,7 +290,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	reflectionView.alpha = kDefaultReflectionFraction;
 	//[self.containerView addSubview:reflectionView];
 	
-	self.songTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 368)];
+	self.songTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 368-UP_HEIGHT)];
 	self.songTableView.delegate = self;
 	self.songTableView.dataSource = self;
 	self.songTableView.separatorColor = [UIColor colorWithRed:0.986 green:0.933 blue:0.994 alpha:0.10];
@@ -391,7 +389,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 - (void)showSongFiles
 {
 	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:5];
+	[UIView setAnimationDuration:1];
 	
 	[UIView setAnimationTransition:([self.songTableView superview] ?
 									UIViewAnimationTransitionFlipFromLeft : UIViewAnimationTransitionFlipFromRight)
@@ -425,6 +423,8 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 		[self.containerView addSubview:songTableView];
 		
 		[[self.containerView layer] insertSublayer:gradientLayer atIndex:0];
+        //add by Kaibin
+        [self.songTableView reloadData];
 	}
 	
 	[UIView commitAnimations];

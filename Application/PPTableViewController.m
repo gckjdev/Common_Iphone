@@ -51,7 +51,7 @@
 @synthesize reloadVisibleCellTimer;
 @synthesize enableReloadVisableCellTimer;
 @synthesize reloadVisibleCellTimerInterval;
-@synthesize tipsLabel;
+@synthesize tipsLabel = _tipsLabel;
 
 - (void)loadCellFromNib:(NSString*)nibFileNameWithoutSuffix 
 {
@@ -333,7 +333,7 @@
 	[sectionLabel release];
 	[footerImage release];
     [reloadVisibleCellTimer release];
-    [tipsLabel release];
+    [_tipsLabel release];
 	[super dealloc];
 }
 
@@ -780,9 +780,9 @@
         [label release];
         [self.tipsLabel setTextAlignment:UITextAlignmentCenter];
         [self.dataTableView addSubview:self.tipsLabel];
+        [self.tipsLabel setBackgroundColor:[UIColor clearColor]];
     }
     [self.tipsLabel setText:text];
-    [self.tipsLabel setBackgroundColor:[UIColor clearColor]];
     [self.tipsLabel setHidden:NO];
 }
 

@@ -15,8 +15,6 @@
 {
     BOOL _displayMDAudioPlayerController;
 }
-@property (nonatomic, assign) BOOL displayMDAudioPlayerController;
 
-@property (nonatomic, retain)  MDAudioPlayerController *mdAudioPlayerController;
-
+- (void)showMusicPlayer:(BOOL)play index:(int)indexValue;
 @end
