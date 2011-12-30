@@ -1,8 +1,8 @@
 //
-//  VideoPlayController.m
+//  MusicPlayController.m
 //  Download
 //
-//  Created by gckj on 11-12-29.
+//  Created by Orange on 11-12-27.
 //  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
 //
 
@@ -10,13 +10,21 @@
 
 @implementation VideoPlayController
 
+
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
     }
     return self;
+}
+
+- (void)dealloc {
+    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -31,8 +39,18 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [super viewDidLoad];
+    
+    self.navigationItem.leftBarButtonItem = nil;
+    
+       
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    
 }
 
 - (void)viewDidUnload

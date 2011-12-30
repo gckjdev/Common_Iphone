@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
+#import "PPTableViewController.h"
 
-@interface VideoPlayController : UIViewController
+@interface VideoPlayController : PPTableViewController
 
 @end
