@@ -10,7 +10,11 @@
 #import "PPViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "PPTableViewController.h"
+#import "PlayAudioVideoController.h"
 
-@interface VideoPlayController : PPTableViewController
+@interface VideoPlayController : PlayAudioVideoController
 
+@property (nonatomic, assign) int currentIndex;
+
+- (void)showVideoPlayer:(BOOL)play index:(int)indexValue;
 @end

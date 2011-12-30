@@ -14,6 +14,8 @@
 #import "DecompressItem.h"
 #import "DownloadItemManager.h"
 #import "UIViewController+DownloadViewControllerAddition.h"
+#import "DownloadAppDelegate.h"
+#import "VideoPlayController.h"
 
 @implementation PlayAudioVideoController
 
@@ -35,6 +37,22 @@
     [self.view setFrame:superView.bounds];
     [superView addSubview:self.view];
     [self showPlayerView];
+}
+
+- (void)preview:(UIViewController*)viewController index:(int)indexValue
+{
+    DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
+    
+    if ([delegate hasVideoPlayerTab]) {
+        
+        VideoPlayController *videoPlayController = [delegate getVideoPlayerTab];
+        
+        [videoPlayController showVideoPlayer:YES index:indexValue];
+        
+        [delegate gotoVideoPlayerTab];
+        
+        return;
+    }
 }
 
 - (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
@@ -67,7 +85,8 @@
 
 - (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
 {
-    [self preview:viewController downloadItem:[list objectAtIndex:indexValue]];
+    //[self preview:viewController downloadItem:[list objectAtIndex:indexValue]];
+    [self preview:viewController index:indexValue];
 }
 
 - (void)preview:(UIViewController*)viewController decompressItem:(DecompressItem*)item
@@ -134,7 +153,7 @@
 
 - (void)viewDidLoad
 {        
-    [self setBackButton];
+//    [self setBackButton];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.    
 }
