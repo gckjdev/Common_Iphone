@@ -14,6 +14,7 @@
 @implementation VideoPlayController
 
 @synthesize currentIndex;
+@synthesize tipsLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +38,28 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void)showTips:(NSString *)text
+{ 
+    if (self.tipsLabel == nil) {
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 320, 40)];
+        [label setFont:[UIFont systemFontOfSize:14]];
+        self.tipsLabel = label;
+        [label release];
+        [self.tipsLabel setTextAlignment:UITextAlignmentCenter];
+        [self.view addSubview:self.tipsLabel];
+        [self.tipsLabel setBackgroundColor:[UIColor clearColor]];
+        [self.tipsLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];
+
+    }
+    [self.tipsLabel setText:text];
+    [self.tipsLabel setHidden:NO];
+}
+
+- (void)hideTips
+{
+    [self.tipsLabel setHidden:YES];
+}
+
 - (void)showVideoPlayer:(BOOL)play index:(int)indexValue
 {
     if (indexValue >= 0) {
@@ -46,13 +69,15 @@
     NSArray *itemList = [self findAllRelatedItems];
     
     if ([itemList count] == 0) {
+
+        [self showTips:@"No video to play!"];
         return;
     }
     
     if (!play) {
         return;
     }
-    
+    [self hideTips];
     DownloadItem *item = [itemList objectAtIndex:indexValue];
     NSURL* url = [NSURL fileURLWithPath:item.localPath];    
     if (self.player == nil){
@@ -159,6 +184,9 @@
     // Do any additional setup after loading the view from its nib.
     [self setPreviousButton];
     [self setNextButton];
+    [self setBackgroundImageName:DOWNLOAD_BG];
+    [self setDownloadNavigationTitle:@"视频"];//NSLS(@"kFourthViewTitle")];
+
     [super viewDidLoad];
        
 }
