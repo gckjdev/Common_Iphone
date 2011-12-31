@@ -76,7 +76,7 @@ BOOL isChineseToday(NSDate *date)
 	NSDateComponents *today_comps = getChineseDateComponents([NSDate date]);
 	
 	// Given Date's YYYY-MM-DD
-	NSDateComponents *select_comps = getDateComponents(date);		
+	NSDateComponents *select_comps = getChineseDateComponents(date);		
 	
 	// if it's today, return TODAY
 	if ( [today_comps year] == [select_comps year] &&
