@@ -203,7 +203,7 @@ NSDate *dateFromUTCStringByFormat(NSString *string, NSString *format)
 // convert string to date by given format
 NSDate *dateFromChineseStringByFormat(NSString *string, NSString *format)
 {
-	if (string == nil)
+	if (string == nil || [string length] == 0)
 		return nil;
 	
 	NSDateFormatter *formatter = getDateFormatter(); //[[[NSDateFormatter alloc] init] autorelease];
