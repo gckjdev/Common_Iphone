@@ -76,7 +76,7 @@
     
     if ([itemList count] == 0) {
 
-        [self showTips:@"No video to play!"];
+        [self showTips:NSLS(@"kNoVideo")];
         return;
     }
     
@@ -92,14 +92,21 @@
         [self setDownloadItem:item];
         
         self.player = [[[MPMoviePlayerController alloc] initWithContentURL:url] autorelease];
-        
         self.view.frame = self.view.bounds;
         CGRect frame = [self.view bounds];
         [[self.player view] setFrame:frame]; // size to fit parent view exactly
         
-//        self.player.view.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 0, 1);
+      
+        if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+//            self.player.view.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 0, 1);
+        }
         
         [self.view addSubview:self.player.view];
+        
+        
+//        MPMoviePlayerViewController * vc = [[[MPMoviePlayerViewController alloc] initWithContentURL:url ] autorelease];
+//        [self presentMoviePlayerViewControllerAnimated:vc];
+//        [vc.moviePlayer play];
         
     }
     else{
@@ -119,7 +126,7 @@
     float backButtonLen = 60;
     
     UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(8, 0, backButtonLen, buttonHigh)];
-    [backButton setBackgroundImage:ITEM_BACK_ICON_IMAGE forState:UIControlStateNormal];
+    [backButton setBackgroundImage:ITEM_NEXT_ICON_IMAGE forState:UIControlStateNormal];
     UIFont *font = [UIFont boldSystemFontOfSize:10];
     [backButton.titleLabel setFont:font];
     [backButton setTitleColor:[UIColor colorWithRed:99/255.0 green:124/255.0 blue:141/255.0 alpha:1.0] forState:UIControlStateNormal];
@@ -132,12 +139,53 @@
     
 }
 
+static inline double radians (double degrees) {return degrees * M_PI/180;}
+UIImage* rotate(UIImage* src, UIImageOrientation orientation)
+{
+    UIGraphicsBeginImageContext(src.size);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    if (orientation == UIImageOrientationRight) {
+        CGContextRotateCTM (context, radians(90));
+    } else if (orientation == UIImageOrientationLeft) {
+        CGContextRotateCTM (context, radians(-90));
+    } else if (orientation == UIImageOrientationDown) {
+        // NOTHING
+    } else if (orientation == UIImageOrientationUp) {
+        CGContextRotateCTM (context, radians(90));
+    }
+    
+    [src drawAtPoint:CGPointMake(0, 0)];
+    
+    return UIGraphicsGetImageFromCurrentImageContext();
+}
+
+UIImage* rotate2(UIImage* src)
+{
+    CGSize size =  src.size;
+    UIGraphicsBeginImageContext(size);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextRotateCTM(ctx, M_PI_2);
+    CGContextDrawImage(UIGraphicsGetCurrentContext(),
+                       CGRectMake(0,0,size.width, size.height),
+                       src.CGImage);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 - (void)setNextButton
 {
     float buttonHigh = 27.5;
     float nextButtonLen = 60;
         
     UIButton *nextButton = [[UIButton alloc]initWithFrame:CGRectMake(218, 0, nextButtonLen, buttonHigh)];
+    
+//    UIImage *rotatedImage = rotate(ITEM_BACK_ICON_IMAGE, UIImageOrientationDown);
+//    UIImage *rotatedImage = [UIImage imageWithCGImage:(ITEM_BACK_ICON_IMAGE).CGImage scale:1.0 orientation:UIImageOrientationDown];
+    
     [nextButton setBackgroundImage:ITEM_NEXT_ICON_IMAGE forState:UIControlStateNormal];
     UIFont *font = [UIFont boldSystemFontOfSize:10];
     [nextButton.titleLabel setFont:font];
@@ -195,7 +243,7 @@
     [self setPreviousButton];
     [self setNextButton];
     [self setBackgroundImageName:DOWNLOAD_BG];
-    [self setDownloadNavigationTitle:@"视频"];
+    [self setDownloadNavigationTitle:NSLS(@"kVideo")];
 
     [super viewDidLoad];
        
@@ -216,7 +264,17 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    
+//    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+//        return(YES);
+//    }
+//    
+//    if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+//        return([self.player isFullscreen]);
+//    }
+//    
 }
 
 @end
