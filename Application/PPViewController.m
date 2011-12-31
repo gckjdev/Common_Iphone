@@ -619,7 +619,13 @@
 	MFMessageComposeViewController* vc = [[[MFMessageComposeViewController alloc] init] autorelease];
 	vc.messageComposeDelegate = self;
 	vc.body = body;
-	vc.recipients = [NSArray arrayWithObject:receiver];
+    
+    if (receiver){
+        vc.recipients = [NSArray arrayWithObject:receiver];
+    }
+    else{
+        vc.recipients = nil;
+    }
 	
 	if ([MFMessageComposeViewController canSendText] == NO){
 		return;
