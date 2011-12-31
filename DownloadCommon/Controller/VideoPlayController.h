@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
+#import "PPTableViewController.h"
+#import "PlayAudioVideoController.h"
 
-@interface VideoPlayController : UIViewController
+@interface VideoPlayController : PlayAudioVideoController
 
+@property (nonatomic, assign) int currentIndex;
+@property (nonatomic, retain) UILabel *tipsLabel;
+
+- (void)showVideoPlayer:(BOOL)play index:(int)indexValue;
 @end
