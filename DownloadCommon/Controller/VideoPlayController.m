@@ -60,6 +60,12 @@
     [self.tipsLabel setHidden:YES];
 }
 
+- (void)updateNavigationTitle:(NSString*)titleString
+{
+    UILabel* label = (UILabel *)self.navigationItem.titleView;
+    label.text = titleString;
+}
+
 - (void)showVideoPlayer:(BOOL)play index:(int)indexValue
 {
     if (indexValue >= 0) {
@@ -74,9 +80,10 @@
         return;
     }
     
-    if (!play) {
+    if (self.player != nil && !play) {
         return;
     }
+    
     [self hideTips];
     DownloadItem *item = [itemList objectAtIndex:indexValue];
     NSURL* url = [NSURL fileURLWithPath:item.localPath];    
@@ -89,7 +96,11 @@
         self.view.frame = self.view.bounds;
         CGRect frame = [self.view bounds];
         [[self.player view] setFrame:frame]; // size to fit parent view exactly
+        
+//        self.player.view.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 0, 1);
+        
         [self.view addSubview:self.player.view];
+        
     }
     else{
         if (self.downloadItem != item){
@@ -98,8 +109,7 @@
         }
     }
     
-    [self.navigationItem setTitle:item.fileName];
-    
+    [self updateNavigationTitle:item.fileName];
     [self.player play];   
 }
 
@@ -185,7 +195,7 @@
     [self setPreviousButton];
     [self setNextButton];
     [self setBackgroundImageName:DOWNLOAD_BG];
-    [self setDownloadNavigationTitle:@"视频"];//NSLS(@"kFourthViewTitle")];
+    [self setDownloadNavigationTitle:@"视频"];
 
     [super viewDidLoad];
        
