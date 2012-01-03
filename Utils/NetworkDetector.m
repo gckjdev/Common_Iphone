@@ -8,6 +8,7 @@
 
 #import "NetworkDetector.h"
 #import "UIUtils.h"
+#import "PPDebug.h"
 
 @implementation NetworkDetector
 @synthesize interval = _interval;
@@ -29,10 +30,10 @@
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
     dispatch_async(queue, ^{
-		NSLog(@"<NetworkDetector:detectNetwork> starting...");
+//		PPDebug(@"<NetworkDetector:detectNetwork> starting...");
         Reachability* r = [Reachability reachabilityForInternetConnection];
 		NetworkStatus status = [r currentReachabilityStatus];
-		NSLog(@"<NetworkDetector:detectNetwork>: status = %d", status);
+//		PPDebug(@"<NetworkDetector:detectNetwork>: status = %d", status);
 		if (status == NotReachable && _lastNetworkStatus != NotReachable){
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[UIUtils alertWithTitle:@"网络连接失效" msg:_errorMessage];
