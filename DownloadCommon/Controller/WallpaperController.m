@@ -8,11 +8,14 @@
 
 #import "WallpaperController.h"
 #import "DownloadResource.h"
+#import "MWPhotoBrowser.h"
+#import "DownloadItem.h"
 
 @implementation WallpaperController
 
 @synthesize currentIndex;
 @synthesize tipsLabel;
+@synthesize browser;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,6 +32,12 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)dealloc
+{
+    [tipsLabel release];
+    [browser release];
 }
 
 - (void)showTips:(NSString *)text
@@ -62,24 +71,40 @@
     NSArray *itemList = [self findAllRelatedItems];
     
     if ([itemList count] == 0) {
-        
         [self showTips:NSLS(@"kNoWallpaper")];
         return;
     }
+    
+    NSMutableArray *photos = [[NSMutableArray alloc] init];
+    for (DownloadItem *item in itemList) {
+        [photos addObject:[MWPhoto photoWithURL:[NSURL fileURLWithPath:item.localPath]]];
+    }
+    
+    browser = [[MWPhotoBrowser alloc] initWithPhotos:photos];
+    [browser setInitialPageIndex:indexValue]; 
+
+    self.view.frame = self.view.bounds;
+    CGRect frame = [self.view bounds];
+    [browser.view setFrame:frame];
+    [self.view addSubview:browser.view];
+    [browser removeDoneButtonItem];
+   [photos release];
 
 }
 
 #pragma mark - View lifecycle
 - (void)viewDidAppear:(BOOL)animated
-{
-    [self showWallpaper:0];
+{  
+
 }
 
 - (void)viewDidLoad
-{
+{    
     [self setBackgroundImageName:DOWNLOAD_BG];
-    [self setDownloadNavigationTitle:NSLS(@"kWallpaper")];
+    [self setDownloadNavigationTitle:NSLS(@"kWallpaper")];    
+    [[[self navigationController] navigationBar] setHidden:YES];
     
+    [self showWallpaper:0];
 
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
