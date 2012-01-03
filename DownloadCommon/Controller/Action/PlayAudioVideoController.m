@@ -42,17 +42,14 @@
 - (void)preview:(UIViewController*)viewController index:(int)indexValue
 {
     DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
-    
-    if ([delegate hasVideoPlayerTab]) {
         
-        VideoPlayController *videoPlayController = [delegate getVideoPlayerTab];
+    VideoPlayController *videoPlayController = [delegate getVideoPlayerTab];
         
-        [videoPlayController showVideoPlayer:YES index:indexValue];
+    [videoPlayController showVideoPlayer:YES index:indexValue];
         
-        [delegate gotoVideoPlayerTab];
+    [delegate gotoVideoPlayerTab];
         
-        return;
-    }
+    return;
 }
 
 - (void)preview:(UIViewController*)viewController downloadItem:(DownloadItem*)item
@@ -85,8 +82,12 @@
 
 - (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
 {
-    //[self preview:viewController downloadItem:[list objectAtIndex:indexValue]];
-    [self preview:viewController index:indexValue];
+    DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
+    if ([delegate hasVideoPlayerTab]) {
+        [self preview:viewController index:indexValue];
+    } else {
+        [self preview:viewController downloadItem:[list objectAtIndex:indexValue]];
+    }
 }
 
 - (void)preview:(UIViewController*)viewController decompressItem:(DecompressItem*)item
