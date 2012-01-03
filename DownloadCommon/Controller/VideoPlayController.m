@@ -264,17 +264,20 @@ UIImage* rotate2(UIImage* src)
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return YES;
 //    return (interfaceOrientation == UIInterfaceOrientationPortrait);
     
 //    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
 //        return(YES);
 //    }
 //    
-//    if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-//        return([self.player isFullscreen]);
-//    }
+    if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+            MPMoviePlayerViewController * vc = [[[MPMoviePlayerViewController alloc] initWithContentURL:nil ] autorelease];
+            [self presentMoviePlayerViewControllerAnimated:vc];
+            [vc.moviePlayer play];
+
+    }
 //    
+    return NO;
 }
 
 @end

@@ -142,6 +142,14 @@
 	
 }
 
+//add by Kaibin
+- (void)removeDoneButtonItem
+{    
+    NSMutableArray *items = [[toolbar.items mutableCopy] autorelease]; 
+    [items removeObject: doneButton]; 
+    toolbar.items = items;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 
 	// Super

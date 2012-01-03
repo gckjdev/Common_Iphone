@@ -74,6 +74,6 @@
 
 // Properties
 - (void)setInitialPageIndex:(NSUInteger)index;
-
+- (void)removeDoneButtonItem;
 @end
 

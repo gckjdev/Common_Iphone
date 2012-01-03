@@ -12,7 +12,7 @@
 #import "DecompressItem.h"
 #import "LogUtil.h"
 #import "DownloadItemManager.h"
-
+#import "DownloadAppDelegate.h"
 @implementation ViewImageController
 @synthesize downloadItem;
 
@@ -119,6 +119,14 @@
 
 - (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
 {
+    DownloadAppDelegate *delegate = (DownloadAppDelegate*)[[UIApplication sharedApplication] delegate];
+    if ([delegate hasWallpaperTab]) {
+        WallpaperController *wallpaperController = [delegate getWallpaperTab];
+        [wallpaperController showWallpaper:indexValue];
+        [delegate gotoWallpaperTab];
+        return;
+    }
+    
     NSMutableArray *photos = [[NSMutableArray alloc] init];
     if ([[list objectAtIndex:0] isKindOfClass:[DownloadItem class]]) {
         for (DownloadItem *item in list) {
