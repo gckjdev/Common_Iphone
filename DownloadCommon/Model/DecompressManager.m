@@ -81,6 +81,7 @@ DecompressManager* globalDecompressManager;
     NSArray * directoryContents;
     if ([[NSFileManager defaultManager] fileExistsAtPath:repeatDir]) {
         directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:repeatDir error:nil];
+        destinationDir = repeatDir;
     } else {
         directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:destinationDir error:nil];
     }

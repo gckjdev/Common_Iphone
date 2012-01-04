@@ -449,11 +449,11 @@ DownloadService* globalDownloadService;
     [self reportDownload:item];
 }
 
-- (void)request:(ASIHTTPRequest *)request willRedirectToURL:(NSURL *)newURL
-{
-    DownloadItem *item = [DownloadItem fromDictionary:request.userInfo];
-    PPDebug(@"item (%@) willRedirectToURL = %@", [item itemId], [newURL description]);    
-}
+//- (void)request:(ASIHTTPRequest *)request willRedirectToURL:(NSURL *)newURL
+//{
+//    DownloadItem *item = [DownloadItem fromDictionary:request.userInfo];
+//    PPDebug(@"item (%@) willRedirectToURL = %@", [item itemId], [newURL description]);    
+//}
 
 - (void)requestRedirected:(ASIHTTPRequest *)request
 {
