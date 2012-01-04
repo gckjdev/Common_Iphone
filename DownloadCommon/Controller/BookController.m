@@ -82,9 +82,9 @@
     }
     
     if (webView == nil) {
-        self.view.frame = self.view.bounds;
-        CGRect frame = [self.view bounds];
-        webView = [[UIWebView alloc]initWithFrame:frame];
+//        self.view.frame = self.view.bounds;
+//        CGRect frame = [self.view bounds];
+        webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, 320, 420)];
         webView.multipleTouchEnabled = YES;
         webView.scalesPageToFit = YES;
     }
