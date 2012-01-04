@@ -56,14 +56,15 @@
 
 #import "Reachability.h"
 #import "UIUtils.h"
+#import "LogUtil.h"
 
-#define kShouldPrintReachabilityFlags 1
+#define kShouldPrintReachabilityFlags 0
 
 static void PrintReachabilityFlags(SCNetworkReachabilityFlags    flags, const char* comment)
 {
 #if kShouldPrintReachabilityFlags
 	
-    NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
+    PPDebug(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
 			(flags & kSCNetworkReachabilityFlagsIsWWAN)				  ? 'W' : '-',
 			(flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
 			
@@ -280,10 +281,10 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	}
 	
 	dispatch_async(queue, ^{
-		NSLog(@"<asyncDetectInternetConnection> starting...");
+		PPDebug(@"<asyncDetectInternetConnection> starting...");
 		Reachability* r = [Reachability reachabilityForInternetConnection];
 		NetworkStatus status = [r currentReachabilityStatus];
-		NSLog(@"<asyncDetectInternetConnection> done, status=%d", status);
+		PPDebug(@"<asyncDetectInternetConnection> done, status=%d", status);
 		if (status == NotReachable){
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[UIUtils alert:errorMsg];
