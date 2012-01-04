@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPViewController.h"
 
-@interface BookController : UIViewController
+@interface BookController : PPViewController<UIWebViewDelegate>
 
+@property (nonatomic, assign) int currentIndex;
+@property (nonatomic, retain) UILabel *tipsLabel;
+@property (nonatomic, retain) UIWebView *webView;
+
+- (void)showBook:(int)indexValue;
 @end

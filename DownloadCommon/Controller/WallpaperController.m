@@ -87,6 +87,7 @@
     CGRect frame = [self.view bounds];
     [browser.view setFrame:frame];
     [self.view addSubview:browser.view];
+    
     [browser removeDoneButtonItem];
    [photos release];
 

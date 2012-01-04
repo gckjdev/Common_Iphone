@@ -10,6 +10,8 @@
 #import "DownloadItem.h"
 #import "DecompressItem.h"
 #import "DownloadItemManager.h"
+#import "BookController.h"
+#import "DownloadAppDelegate.h"
 
 @implementation DisplayReadableFileController
 
@@ -27,6 +29,14 @@
         return;
     }
     
+    DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
+    if ([delegate hasBookTab]) {
+        BookController *bookController = [delegate getBookTab];
+        [bookController showBook:index];
+        [delegate gotoBookTab];
+        return;
+    }
+
     BOOL isItemChange = NO;
     if (self.downloadItem != item){
         self.downloadItem = item;
@@ -66,6 +76,8 @@
         self.previewController.dataSource = self;                
     }    
     
+//    self.previewController.currentPreviewItemIndex = 0;    
+
     [self.superViewController presentModalViewController:self.previewController animated:YES];    
 }
 

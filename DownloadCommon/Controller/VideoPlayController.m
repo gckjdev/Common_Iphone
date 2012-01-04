@@ -85,28 +85,17 @@
     }
     
     [self hideTips];
+    
     DownloadItem *item = [itemList objectAtIndex:indexValue];
     NSURL* url = [NSURL fileURLWithPath:item.localPath];    
     if (self.player == nil){
-        
         [self setDownloadItem:item];
-        
         self.player = [[[MPMoviePlayerController alloc] initWithContentURL:url] autorelease];
         self.view.frame = self.view.bounds;
         CGRect frame = [self.view bounds];
         [[self.player view] setFrame:frame]; // size to fit parent view exactly
-        
-      
-        if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-//            self.player.view.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 0, 1);
-        }
-        
         [self.view addSubview:self.player.view];
         
-        
-//        MPMoviePlayerViewController * vc = [[[MPMoviePlayerViewController alloc] initWithContentURL:url ] autorelease];
-//        [self presentMoviePlayerViewControllerAnimated:vc];
-//        [vc.moviePlayer play];
         
     }
     else{
@@ -139,52 +128,12 @@
     
 }
 
-static inline double radians (double degrees) {return degrees * M_PI/180;}
-UIImage* rotate(UIImage* src, UIImageOrientation orientation)
-{
-    UIGraphicsBeginImageContext(src.size);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    if (orientation == UIImageOrientationRight) {
-        CGContextRotateCTM (context, radians(90));
-    } else if (orientation == UIImageOrientationLeft) {
-        CGContextRotateCTM (context, radians(-90));
-    } else if (orientation == UIImageOrientationDown) {
-        // NOTHING
-    } else if (orientation == UIImageOrientationUp) {
-        CGContextRotateCTM (context, radians(90));
-    }
-    
-    [src drawAtPoint:CGPointMake(0, 0)];
-    
-    return UIGraphicsGetImageFromCurrentImageContext();
-}
-
-UIImage* rotate2(UIImage* src)
-{
-    CGSize size =  src.size;
-    UIGraphicsBeginImageContext(size);
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextRotateCTM(ctx, M_PI_2);
-    CGContextDrawImage(UIGraphicsGetCurrentContext(),
-                       CGRectMake(0,0,size.width, size.height),
-                       src.CGImage);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
-
 - (void)setNextButton
 {
     float buttonHigh = 27.5;
     float nextButtonLen = 60;
         
     UIButton *nextButton = [[UIButton alloc]initWithFrame:CGRectMake(218, 0, nextButtonLen, buttonHigh)];
-    
-//    UIImage *rotatedImage = rotate(ITEM_BACK_ICON_IMAGE, UIImageOrientationDown);
-//    UIImage *rotatedImage = [UIImage imageWithCGImage:(ITEM_BACK_ICON_IMAGE).CGImage scale:1.0 orientation:UIImageOrientationDown];
     
     [nextButton setBackgroundImage:ITEM_NEXT_ICON_IMAGE forState:UIControlStateNormal];
     UIFont *font = [UIFont boldSystemFontOfSize:10];
@@ -208,6 +157,7 @@ UIImage* rotate2(UIImage* src)
         NSArray *itemList = [self findAllRelatedItems];
         DownloadItem *item = [itemList objectAtIndex:currentIndex];
         NSURL* url = [NSURL fileURLWithPath:item.localPath]; 
+        [self updateNavigationTitle:item.fileName];
         [self.player setContentURL:url];
         [self.player play];
     } else {
@@ -226,6 +176,7 @@ UIImage* rotate2(UIImage* src)
         
         DownloadItem *item = [itemList objectAtIndex:currentIndex];
         NSURL* url = [NSURL fileURLWithPath:item.localPath]; 
+        [self updateNavigationTitle:item.fileName];
         [self.player setContentURL:url];
         [self.player play];
     } else {
@@ -276,7 +227,6 @@ UIImage* rotate2(UIImage* src)
             [vc.moviePlayer play];
 
     }
-//    
     return NO;
 }
 
