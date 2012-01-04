@@ -12,5 +12,7 @@
 
 - (void)setDownloadRightBarButton:(NSString*)buttonText selector:(SEL)selector;
 - (void)setBackButton;
-
+- (void)setNextButton;
+- (void)setPreviousButton;
+- (void)updateNavigationTitle:(NSString*)titleString;
 @end
