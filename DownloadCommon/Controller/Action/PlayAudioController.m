@@ -54,7 +54,7 @@
 
 - (void)preview:(UIViewController*)viewController itemList:(NSArray*)list index:(int)indexValue
 {    
-//    DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
+    DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
     
     NSMutableArray *songs = [[NSMutableArray alloc] init];
     for (DownloadItem* item in list)
@@ -68,27 +68,27 @@
     if (self.currentItem != newItem){
         isChange = YES;
     }
-//    //check if is MusicDownload app
-//    if ([delegate hasMusicPlayerTab]) {
-//                
-//        MusicPlayController *musicPlayController = [delegate getMusicPlayerTab];
-//               
-//        if (isChange){
-//            // if file is changed, then play the file
-//            self.currentItem = newItem;
-//            [musicPlayController showMusicPlayer:YES index:indexValue];
-//        }
-//        else{
-//            // else do nothing
-//             [musicPlayController resume];
-//        }
-//        
-//        [songs release];
-//        
-//        [delegate gotoMusicPlayerTab];  
-//        
-//        return;
-//    }
+    //check if is MusicDownload app
+    if ([delegate hasMusicPlayerTab]) {
+                
+        MusicPlayController *musicPlayController = [delegate getMusicPlayerTab];
+               
+        if (isChange){
+            // if file is changed, then play the file
+            self.currentItem = newItem;
+            [musicPlayController showMusicPlayer:YES index:indexValue];
+        }
+        else{
+            // else do nothing
+             [musicPlayController resume];
+        }
+        
+        [songs release];
+        
+        [delegate gotoMusicPlayerTab];  
+        
+        return;
+    }
     
     self.itemList = list;
     if (self.audioPlayer == nil){

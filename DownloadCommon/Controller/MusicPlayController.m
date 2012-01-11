@@ -60,7 +60,7 @@
     NSArray *list = [self findAllRelatedItems];
     
     //下载列表为空
-    if ([songs count] == 0) {
+    if ([list count] == 0) {
         [self.navigationItem.rightBarButtonItem setEnabled:NO];
         [[self artworkView] setUserInteractionEnabled:NO];
         [[self playButton] setUserInteractionEnabled:NO];
@@ -70,6 +70,10 @@
         self.titleLabel.text = NSLS(@"kNoMusicToPlay");
         [[self artworkView] setImage:[UIImage imageNamed:@"AudioPlayerNoArtwork.png"] forState:UIControlStateNormal]; 
         return;
+    } else {
+        [self.navigationItem.rightBarButtonItem setEnabled:YES];
+        [[self artworkView] setUserInteractionEnabled:YES];
+        [[self playButton] setUserInteractionEnabled:YES];
     }
 
     for (DownloadItem* item in list)
@@ -90,10 +94,6 @@
     
     //点击MusicTab时
     else {
-        [self.navigationItem.rightBarButtonItem setEnabled:YES];
-        [[self artworkView] setUserInteractionEnabled:YES];
-        [[self playButton] setUserInteractionEnabled:YES];
-        
         if (self.player.playing == NO) {
             [self setSoundFiles:songs selectedIndex:indexValue];
         }
