@@ -58,14 +58,6 @@
 {
     NSMutableArray *songs = [[NSMutableArray alloc] init];
     NSArray *list = [self findAllRelatedItems];
-    for (DownloadItem* item in list)
-    {
-        MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
-        [songs addObject:audioFile];
-    }
-    
-    //更新播放列表
-    [self.songTableView reloadData];
     
     //下载列表为空
     if ([songs count] == 0) {
@@ -76,9 +68,20 @@
         [self setSoundFiles:nil selectedIndex:0];
         
         self.titleLabel.text = NSLS(@"kNoMusicToPlay");
-        [[self artworkView] setImage:[UIImage imageNamed:@"AudioPlayerNoArtwork.png"] forState:UIControlStateNormal];        
+        [[self artworkView] setImage:[UIImage imageNamed:@"AudioPlayerNoArtwork.png"] forState:UIControlStateNormal]; 
+        return;
+    }
+
+    for (DownloadItem* item in list)
+    {
+        MDAudioFile *audioFile = [[MDAudioFile alloc] initWithPath:[NSURL fileURLWithPath:item.localPath]];
+        [songs addObject:audioFile];
     }
     
+    //更新播放列表
+    [self.songTableView reloadData];
+    
+       
     //在Download列表里点击播放
     if (play) {
         [self setSoundFiles:songs selectedIndex:indexValue];
