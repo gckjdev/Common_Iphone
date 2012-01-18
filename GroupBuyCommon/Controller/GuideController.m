@@ -19,12 +19,11 @@
 #import "UserShopItemService.h"
 #import "LocationService.h"
 #import "GroupBuyNetworkConstants.h"
-#import "CategoryTopScoreController.h"
+#import "CategoryTopScoreController.h" 
 
 //private methods
 @interface GuideController()
 
--(void) refreshLatestSearchHistory;
 -(void) addCategoryButton;
 
 @end
@@ -38,6 +37,8 @@
 @synthesize searchBackgroundView;
 @synthesize scrollView;
 @synthesize categoryArray;
+@synthesize siteNameArray;
+@synthesize siteIdArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,15 +51,16 @@
 
 - (void)dealloc
 {
-//    [asrEngine release];
     [searchBackgroundView release];
-
     [keywordSearchBar release];
     [searchTextField release];
     [searchButton release];
     [searchBackgroundView release];
     [searchTextFieldBackgroundView release];
     [scrollView release];
+    [categoryArray release];
+    [siteNameArray release];
+    [siteIdArray release];
     [super dealloc];
 }
 
@@ -112,6 +114,36 @@
     UIImage* buttonBgImage = [UIImage strectchableImageName:@"tu_48.png"];
     [searchButton setBackgroundImage:buttonBgImage forState:UIControlStateNormal];
     
+    //@"开心"-@"kaixin"
+    //@"饭统"-@"fantong"
+    //@"聚齐"-@"juqi"
+    //@"团宝"-@"tuanbao"
+    //@"QQ团"-@"qq"
+    //@"乐淘"-@"letao"
+    //@"Z团"-@"ztuan",
+    //@"粉团"-@"fentuan"
+    //@"库巴"-@"coo8"
+    //@"36团"-@"36tuan"
+    //@"搜狐爱家"-@"sohu"
+    
+    self.siteNameArray = [NSArray arrayWithObjects:
+                          @"美团",   @"大众点评",  @"拉手",   @"去哪儿",    @"京东团",
+                          @"糯米",   @"满座",     @"高朋",   @"嘀嗒",     @"窝窝团",
+                          @"赶集团", @"爽团",     @"58团",    @"好划算",   @"聚美优品",
+                          @"团好",   @"好特会",   @"星800",  @"爱帮团",   @"新浪团", 
+                          @"24券",   @"最淘",     @"天机88", @"钱库",     @"秀团",   
+                          @"5151团", @"5151泡泡", @"米奇",   @"好易订",   @"F团",
+                          nil];
+    
+    self.siteIdArray = [NSArray arrayWithObjects:  
+                        @"meituan",  @"dianping",   @"lashou",   @"qunaer",     @"jingdong",
+                        @"nuomi",    @"manzuo",     @"gaopeng",  @"dida",       @"wowo",
+                        @"ganji",    @"shuangtuan", @"58",       @"haohuasuan", @"jumeiyoupin",
+                        @"tuanhao",  @"haotehui",   @"xing800",  @"aibang",     @"sina",
+                        @"24quan",   @"zuitao",     @"tianji88", @"qianku",     @"xiutuan",
+                        @"5151tuan", @"5151paopao", @"miqi",     @"haoyiding",  @"ftuan",
+                        nil];
+    
     [self loadCategory];
         
     if (bannerView_ == nil){
@@ -120,15 +152,17 @@
 }
 
 
-#define TITLE_HEIGHT 20    //分组名的高度
+#define TITLE_HEIGHT 21    //分组名的高度
 #define BUTTON_ROW  3      //列数
 #define BUTTON_WIDTH  90   //每个按钮的宽度
-#define BUTTON_HEIGHT  32  //每个按钮的高度
+#define BUTTON_HEIGHT  34  //每个按钮的高度
 #define UNSELECTED_COLOR [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0]
 #define SELECTED_COLOR [UIColor colorWithRed:164/255.0 green:174/255.0 blue:67/255.0 alpha:1.0]
 
 -(void) addCategoryButton
 {
+    CGFloat newX = 0;  //x坐标
+    CGFloat newY = 0;  //y坐标
     
     CGFloat space = (scrollView.frame.size.width - BUTTON_ROW * BUTTON_WIDTH) / (BUTTON_ROW + 1); //按钮之间的空隙
     
@@ -137,48 +171,61 @@
     categoryTitleLabel.text = @"分类导航";
     categoryTitleLabel.font = [UIFont boldSystemFontOfSize:15];
     categoryTitleLabel.textColor = [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
-    categoryTitleLabel.frame = CGRectMake(10, space, 90, TITLE_HEIGHT);
+    newY = space;
+    categoryTitleLabel.frame = CGRectMake(10, newY, 90, TITLE_HEIGHT);
     [scrollView addSubview:categoryTitleLabel];
     [categoryTitleLabel release];
     
+    newY = newY + TITLE_HEIGHT + space;
     
-    //set button
+    //add category button
     UIImage* buttonBgImage = [UIImage strectchableImageName:@"tu_60.png"];
-    CGFloat x,  y,row;
-    int count = 0;  
+    UIImage* buttonSelectImage = [UIImage strectchableImageName:@"tu_71.png"];
+    
+    CGFloat row;
+    int categoryCount = 0;  
     for (NSDictionary *category in categoryArray) {
         NSString *name = [category objectForKey:PARA_CATEGORY_NAME];
         NSNumber *n = [category objectForKey:PARA_CATEGORY_PRODUCTS_NUM];
         NSString *number = [NSString stringWithFormat:@"(%@)", n];
         
-        //UIButton *button = [[UIButton alloc] init];
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:nil forState:UIControlStateNormal];
-        [button setTag:count];
+        [button setTag:categoryCount];
         [button addTarget:self action:@selector(clickCategoryButton:) forControlEvents:UIControlEventTouchUpInside];
         [button setBackgroundImage:buttonBgImage forState:UIControlStateNormal];
-        row = count % BUTTON_ROW;  //第几列
-        x = row * (space + BUTTON_WIDTH) + space;
-        y = space +  TITLE_HEIGHT + count/BUTTON_ROW * (space+BUTTON_HEIGHT) +space;
-        button.frame = CGRectMake(x, y, BUTTON_WIDTH, BUTTON_HEIGHT); 
+        [button setBackgroundImage:buttonSelectImage forState:UIControlStateHighlighted];
+        row = categoryCount % BUTTON_ROW;  //第几列
+        newX = row * (space + BUTTON_WIDTH) + space;
+        if (0 == row) {
+            if (0 == categoryCount) 
+                newY = newY;
+            else
+                newY = newY + BUTTON_HEIGHT + space;
+        }
+        
+        button.frame = CGRectMake(newX, newY, BUTTON_WIDTH, BUTTON_HEIGHT); 
                 
         //set name
         UILabel *nameLabel = [[UILabel alloc] init];
-        nameLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+        nameLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
         CGSize size = [name sizeWithFont:nameLabel.font];
-        x = 5;
+        CGFloat x,  y;
+        x = 8;
         y = (BUTTON_HEIGHT - size.height) / 2;
         nameLabel.frame = CGRectMake(x, y, size.width, size.height);
         nameLabel.text = name;
         nameLabel.textColor = [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
+        [nameLabel setBackgroundColor:[UIColor clearColor]];
         [button addSubview:nameLabel];
         [nameLabel release];
         
         //set number
         x = x + size.width + 2;
         UILabel *numberLabel = [[UILabel alloc] init];
-        numberLabel.font = [UIFont systemFontOfSize:11];
+        numberLabel.font = [UIFont systemFontOfSize:10];
         numberLabel.textColor = [UIColor colorWithRed:207/255.0 green:207/255.0 blue:207/255.0 alpha:1.0];
+        [numberLabel setBackgroundColor:[UIColor clearColor]];
         size = [number sizeWithFont:numberLabel.font];
         y = (BUTTON_HEIGHT - size.height) / 2;
         numberLabel.frame = CGRectMake(x, y, size.width, size.height);
@@ -188,18 +235,59 @@
         
         
         [scrollView addSubview:button];
-        count++;
-    
+        categoryCount++;
     }
+    
+    UIImage *splitLineImage = [UIImage imageNamed:@"tu_179.png"];
+    UIImageView *splitLineImageView = [[UIImageView alloc] initWithImage:splitLineImage];
+    newX = 0;
+    newY = newY + BUTTON_HEIGHT + 2 * space;
+    splitLineImageView.frame = CGRectMake(newX, newY , 306, 2);
+    newY = newY + 2;
+    [scrollView addSubview:splitLineImageView];
+    [splitLineImageView release];
+    
     
     //set website title
     UILabel *websiteTitleLabel = [[UILabel alloc] init];
     websiteTitleLabel.text = @"团购网站";
     websiteTitleLabel.font = [UIFont boldSystemFontOfSize:15];
     websiteTitleLabel.textColor = [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
-    websiteTitleLabel.frame = CGRectMake(10, space + TITLE_HEIGHT + (count/3+1) *(space + BUTTON_HEIGHT) + space, 90, TITLE_HEIGHT);
+    newX = 10;
+    newY = newY + space;
+    websiteTitleLabel.frame = CGRectMake(newX, newY, 90, TITLE_HEIGHT);
     [scrollView addSubview:websiteTitleLabel];
     [websiteTitleLabel release];
+    
+    
+    newY = newY + TITLE_HEIGHT + space;
+    
+    //add website button
+    int websiteCount = 0;
+    for (NSString *website in siteNameArray) {
+        UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:website forState:UIControlStateNormal];
+        [button setTitleColor:UNSELECTED_COLOR forState:UIControlStateNormal];
+        [button setTitleColor:SELECTED_COLOR forState:UIControlStateHighlighted];
+        [button.titleLabel setFont:[UIFont boldSystemFontOfSize:12]];
+        [button setTag:categoryCount + websiteCount ];
+        [button addTarget:self action:@selector(clickWebsiteButton:) forControlEvents:UIControlEventTouchUpInside];
+        [button setBackgroundImage:buttonBgImage forState:UIControlStateNormal];
+        [button setBackgroundImage:buttonSelectImage forState:UIControlStateHighlighted];
+        row = websiteCount % BUTTON_ROW;  //第几列
+        newX = row * (space + BUTTON_WIDTH) + space;
+        if (0 == row) {
+            if (0 == websiteCount) 
+                newY = newY;
+            else
+                newY = newY + BUTTON_HEIGHT + space;
+        }
+        button.frame = CGRectMake(newX, newY, BUTTON_WIDTH, BUTTON_HEIGHT);
+        [scrollView addSubview:button];
+        websiteCount++;
+    }
+    
+    scrollView.contentSize = CGSizeMake(306, newY + BUTTON_HEIGHT + space);
     
 }
 
@@ -219,6 +307,25 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
+- (void)clickWebsiteButton:(id)sender
+{
+    UIButton *button = (UIButton*)sender;
+    NSString *websiteName = [self.siteNameArray objectAtIndex:button.tag - categoryArray.count];
+    NSString *websiteId = [self.siteIdArray objectAtIndex:button.tag - categoryArray.count];
+    
+	CommonProductListController *websiteProductController = [[CommonProductListController alloc] init];
+	websiteProductController.superController = self;
+    
+	websiteProductController.dataLoader = [[ProductWebsiteDataLoader alloc] initWithWebsiteId:websiteId];
+    
+	websiteProductController.navigationItem.title = [NSString stringWithFormat:@"%@", websiteName]; 
+    [websiteProductController setGroupBuyNavigationBackButton];
+    [websiteProductController setGroupBuyNavigationTitle:websiteProductController.navigationItem.title];
+    [websiteProductController setBackgroundImageName:@"background.png"];
+	[self.navigationController pushViewController:websiteProductController animated:YES];
+	[websiteProductController release];
+}
+
 - (void)viewDidUnload
 {        
     [self setSearchTextField:nil];
@@ -226,37 +333,24 @@
     [self setSearchBackgroundView:nil];
     [self setSearchTextFieldBackgroundView:nil];
     [self setScrollView:nil];
+    [self setCategoryArray:nil];
+    [self setSiteNameArray:nil];
+    [self setSiteIdArray:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
-	[self refreshLatestSearchHistory];
-    
     int top = searchBackgroundView.frame.size.height + searchBackgroundView.frame.origin.y;
     [self addBlankView:top currentResponder:searchTextField];
+    
+    if (0 == self.categoryArray.count) {
+        [self loadCategory];
+    }
 	
     [super viewDidAppear:animated];
 }
 
--(void) refreshLatestSearchHistory
-{
-    
-	
-	NSArray* hotKeyWords = [HotKeywordManager getAllHotKeywords];
-	 
-    int START_TAG = 10;
-    int BUTTON_COUNT = 9;
-	for (int i = 0; i < [hotKeyWords count]; i++) {
-		[(UIButton*)[self.view viewWithTag:i+START_TAG] setTitle:((HotKeyword *)[hotKeyWords objectAtIndex:i]).keyword forState:UIControlStateNormal];
-	}
-	for (int j=[hotKeyWords count]; j<BUTTON_COUNT; j++){
-        ((UIButton*)[self.view viewWithTag:j+START_TAG]).hidden = YES;
-    }
-	
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -294,7 +388,6 @@
 	[searchBar resignFirstResponder];
 
 	[SearchHistoryManager createSearchHistory:searchBar.text];	
-	[self refreshLatestSearchHistory];
     
 	[self search:searchBar.text];
 }  
@@ -340,7 +433,6 @@
 	[searchTextField resignFirstResponder];
     
 	[SearchHistoryManager createSearchHistory:searchTextField.text];	
-	[self refreshLatestSearchHistory];
     
 	[self search:searchTextField.text];    
 }

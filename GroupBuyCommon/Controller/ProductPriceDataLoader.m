@@ -544,3 +544,49 @@
 
 @end
 
+
+@implementation ProductWebsiteDataLoader
+
+@synthesize websiteId;
+
+- (id)initWithWebsiteId:(NSString *)websiteIdVal
+{
+    self = [super init];
+    self.websiteId = websiteIdVal;
+    return self;
+}
+
+- (BOOL)supportRemote
+{
+    return YES;
+}
+
+- (BOOL)canDelete
+{
+    return NO;
+}
+
+- (NSArray*)requestProductListFromDB
+{
+    int useFor = USE_FOR_SITE_ID; 
+    return [ProductManager getAllProductsByUseFor:useFor sortByKey:@"offset" sortAsending:YES];  
+}
+
+- (void)requestProductListFromServer:(BOOL)isRequestLastest controller:(CommonProductListController*)controller
+{
+    int useFor = USE_FOR_SITE_ID; 
+	ProductService* productService = GlobalGetProductService();
+    if (isRequestLastest){
+        [productService requestProductData:controller useFor:useFor startOffset:0 cleanData:YES keyword:nil siteId:websiteId];
+    }
+    else{
+        int startOffset = [controller.dataList count];
+        [productService requestProductData:controller useFor:useFor startOffset:startOffset cleanData:NO keyword:nil siteId:websiteId];
+    }
+    
+}
+
+@end
+
+
+

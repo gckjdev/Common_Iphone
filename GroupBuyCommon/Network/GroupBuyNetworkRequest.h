@@ -31,6 +31,19 @@
                      needReturnUser:(BOOL)needReturnUser
                         deviceToken:(NSString*)deviceToken;
 
++ (CommonNetworkOutput*)findProducts:(NSString*)baseURL
+                               appId:(NSString*)appId
+                                city:(NSString*)city
+                         hasLocation:(BOOL)hasLocation
+                           longitude:(double)longitude
+                            latitude:(double)latitude
+                         maxDistance:(double)maxDistance
+                           todayOnly:(BOOL)todayOnly
+                            category:(NSString*)category
+                              siteId:(NSString*)siteId
+                              sortBy:(int)sortBy
+                         startOffset:(int)startOffset
+                            maxCount:(int)maxCount;
 
 + (CommonNetworkOutput*)findProducts:(NSString*)baseURL
                                appId:(NSString*)appId
@@ -93,6 +106,12 @@
                                      startPrice:(NSNumber *)startPrice
                                        endPrice:(NSNumber *)endPrice
                                        category:(NSString *)category;
+
++ (CommonNetworkOutput *) findAllProductsBySiteId:(NSString *)baseURL 
+                                            appId:(NSString *)appId
+                                      startOffset:(int)startOffset 
+                                             city:(NSString *)city
+                                           siteId:(NSString *)siteId;
 
 + (CommonNetworkOutput*)registerUserDevice:(NSString*)baseURL
                                                  appId:(NSString*)appId

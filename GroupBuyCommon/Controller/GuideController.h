@@ -24,8 +24,9 @@
     GADBannerView *bannerView_;    
     
     UIScrollView *scrollView;
-    
     NSArray *categoryArray;
+    NSArray *siteNameArray;
+    NSArray *siteIdArray;
 }
 
 @property (retain, nonatomic) IBOutlet UIImageView *searchTextFieldBackgroundView;
@@ -35,6 +36,8 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic, retain) NSArray *categoryArray;
+@property (nonatomic, retain) NSArray *siteNameArray;
+@property (nonatomic, retain) NSArray *siteIdArray;
 
 - (IBAction) clickSearchButton:(id)sender;
 @end

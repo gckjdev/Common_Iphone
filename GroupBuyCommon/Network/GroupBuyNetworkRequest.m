@@ -234,6 +234,15 @@ static int globalProductType = -1;
 
 }
 
++ (CommonNetworkOutput *) findAllProductsBySiteId:(NSString *)baseURL 
+                                            appId:(NSString *)appId
+                                      startOffset:(int)startOffset 
+                                             city:(NSString *)city
+                                           siteId:(NSString *)siteId
+{
+    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:NO longitude:0.0 latitude:0.0 maxDistance:DEFAULT_MAX_DISTANCE todayOnly:NO category:nil siteId:siteId sortBy:SORT_BY_START_DATE startOffset:startOffset maxCount:DEFAULT_MAX_COUNT];
+}
+
 + (CommonNetworkOutput*)findAllProductsGroupByCategory:(NSString*)baseURL
                                                  appId:(NSString*)appId
                                                   city:(NSString*)city
@@ -324,6 +333,7 @@ static int globalProductType = -1;
                                   output:output];
 }
 
+
 + (CommonNetworkOutput*)findProducts:(NSString*)baseURL
                                appId:(NSString*)appId
                                 city:(NSString*)city
@@ -333,6 +343,23 @@ static int globalProductType = -1;
                          maxDistance:(double)maxDistance
                            todayOnly:(BOOL)todayOnly
                             category:(NSString*)category
+                              sortBy:(int)sortBy
+                         startOffset:(int)startOffset
+                            maxCount:(int)maxCount
+{
+    return [GroupBuyNetworkRequest findProducts:baseURL appId:appId city:city hasLocation:hasLocation longitude:longitude latitude:latitude maxDistance:maxDistance todayOnly:todayOnly category:category siteId:nil sortBy:sortBy startOffset:startOffset maxCount:maxCount];
+}
+
++ (CommonNetworkOutput*)findProducts:(NSString*)baseURL
+                               appId:(NSString*)appId
+                                city:(NSString*)city
+                         hasLocation:(BOOL)hasLocation
+                           longitude:(double)longitude
+                            latitude:(double)latitude
+                         maxDistance:(double)maxDistance
+                           todayOnly:(BOOL)todayOnly
+                            category:(NSString*)category
+                              siteId:(NSString*)siteId
                               sortBy:(int)sortBy
                          startOffset:(int)startOffset
                             maxCount:(int)maxCount
@@ -348,6 +375,10 @@ static int globalProductType = -1;
         str = [str stringByAddQueryParameter:PARA_MAX_COUNT intValue:maxCount];
         str = [str stringByAddQueryParameter:PARA_APPID value:appId];
         str = [str stringByAddQueryParameter:PARA_CITY value:city];
+        
+        if (siteId){
+            str = [str stringByAddQueryParameter:PARA_SITE_ID value:siteId];
+        }
         
         if (hasLocation){
             str = [str stringByAddQueryParameter:PARA_LATITUDE doubleValue:latitude];

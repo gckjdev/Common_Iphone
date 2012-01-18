@@ -160,3 +160,12 @@
 - (id)initWithCategoryId:(NSString*)categoryId;
 
 @end
+
+
+@interface ProductWebsiteDataLoader : NSObject <ProductDataLoader> {
+    NSString    *websiteId;
+}
+@property (nonatomic, retain)     NSString    *websiteId;
+- (id)initWithWebsiteId:(NSString*)websiteId;
+
+@end

@@ -48,12 +48,21 @@
 	[self requestProductData:delegateObject useFor:useFor startOffset:startOffset cleanData:cleanData keyword:nil];
 }
 	
+- (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
+                    useFor:(int)useFor
+               startOffset:(int)startOffset
+                 cleanData:(BOOL)cleanData
+				   keyword:(NSString*)keyword
+{
+    [self requestProductData:delegateObject useFor:useFor startOffset:startOffset cleanData:cleanData keyword:keyword siteId:nil];
+}
 
 - (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
                     useFor:(int)useFor
                startOffset:(int)startOffset
                  cleanData:(BOOL)cleanData
 				   keyword:(NSString*)keyword
+                    siteId:(NSString*)siteId
 
 {    
 //    NSString* userId = [UserManager getUserId];
@@ -142,6 +151,12 @@
                 output = [GroupBuyNetworkRequest findAllProductsWithEndDate:SERVER_URL appId:appId startOffset:startOffset city:city category:nil];
             }
                 break;
+                
+            case USE_FOR_SITE_ID:
+            {
+                output = [GroupBuyNetworkRequest findAllProductsBySiteId:SERVER_URL appId:appId startOffset:startOffset city:city siteId:siteId];
+            }
+                break;
             
                 
             default:
@@ -220,6 +235,7 @@
     }];
     
 }
+
 
 - (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly
 {

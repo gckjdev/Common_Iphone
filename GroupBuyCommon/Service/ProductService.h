@@ -58,6 +58,13 @@
                  cleanData:(BOOL)cleanData
 				   keyword:(NSString*)keyword;
 
+- (void)requestProductData:(id<ProductServiceDelegate>)delegateObject
+                    useFor:(int)useFor
+               startOffset:(int)startOffset
+                 cleanData:(BOOL)cleanData
+				   keyword:(NSString*)keyword
+                    siteId:(NSString*)siteId;
+
 - (void)requestProductDataByCategory:(id<ProductServiceDelegate>)delegateObject todayOnly:(BOOL)todayOnly;
 
 - (void)updateKeywords:(int)type;
