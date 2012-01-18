@@ -156,8 +156,6 @@
 #define BUTTON_ROW  3      //列数
 #define BUTTON_WIDTH  90   //每个按钮的宽度
 #define BUTTON_HEIGHT  34  //每个按钮的高度
-#define UNSELECTED_COLOR [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0]
-#define SELECTED_COLOR [UIColor colorWithRed:164/255.0 green:174/255.0 blue:67/255.0 alpha:1.0]
 
 -(void) addCategoryButton
 {
@@ -267,9 +265,8 @@
     for (NSString *website in siteNameArray) {
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:website forState:UIControlStateNormal];
-        [button setTitleColor:UNSELECTED_COLOR forState:UIControlStateNormal];
-        [button setTitleColor:SELECTED_COLOR forState:UIControlStateHighlighted];
-        [button.titleLabel setFont:[UIFont boldSystemFontOfSize:12]];
+        [button setTitleColor:[UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0] forState:UIControlStateNormal];
+        [button.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12]];
         [button setTag:categoryCount + websiteCount ];
         [button addTarget:self action:@selector(clickWebsiteButton:) forControlEvents:UIControlEventTouchUpInside];
         [button setBackgroundImage:buttonBgImage forState:UIControlStateNormal];
