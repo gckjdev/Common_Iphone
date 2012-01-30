@@ -44,6 +44,8 @@
     DownloadAppDelegate *delegate = ((DownloadAppDelegate *)[UIApplication sharedApplication].delegate);
         
     VideoPlayController *videoPlayController = [delegate getVideoPlayerTab];
+    
+    videoPlayController.view.bounds = viewController.view.bounds;
         
     [videoPlayController showVideoPlayer:YES index:indexValue];
         
