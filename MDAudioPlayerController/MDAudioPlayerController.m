@@ -317,7 +317,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	[buttonBackground release];
 	buttonBackground  = nil;
 	
-	self.playButton = [[UIButton alloc] initWithFrame:CGRectMake(144, 370-BUTTON_UP_HEIGHT, 40, 40)];
+	self.playButton = [[UIButton alloc] initWithFrame:CGRectMake(140, 370-BUTTON_UP_HEIGHT, 40, 40)];
 	[playButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerPlay" ofType:@"png"]] forState:UIControlStateNormal];
 	[playButton addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
 	playButton.showsTouchWhenHighlighted = YES;
@@ -344,7 +344,14 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	previousButton.enabled = [self canGoToPreviousTrack];
 	[self.view addSubview:previousButton];
 	
-	self.volumeSlider = [[UISlider alloc] initWithFrame:CGRectMake(25, 420-BUTTON_UP_HEIGHT, 270, 9)];
+    
+    UIImageView *voiceImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 422-BUTTON_UP_HEIGHT, 19, 19)];
+    [voiceImage setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerVoice" ofType:@"png"]] ]; 
+    [self.view addSubview:voiceImage];
+    [voiceImage release];
+    
+    
+	self.volumeSlider = [[UISlider alloc] initWithFrame:CGRectMake(35, 420-BUTTON_UP_HEIGHT, 265, 9)];
 	[volumeSlider setThumbImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerVolumeKnob" ofType:@"png"]]
                        forState:UIControlStateNormal];
 	[volumeSlider setMinimumTrackImage:[[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerScrubberLeft" ofType:@"png"]] stretchableImageWithLeftCapWidth:5 topCapHeight:3]
