@@ -277,7 +277,7 @@ DownloadService* globalDownloadService;
     
     NSArray *itemList = [playController findAllRelatedItems];
     int indexValue = [itemList indexOfObject:item];
-    if (indexValue < 0){
+    if (NSNotFound == indexValue){
         // not found, this is strange but still can work
         PPDebug(@"<playItem> WARNING, item (%@) not found in all related item list", [item itemId]);
         [playController preview:viewController downloadItem:item];

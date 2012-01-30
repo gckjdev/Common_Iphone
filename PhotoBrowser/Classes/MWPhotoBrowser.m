@@ -108,7 +108,7 @@
 //    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 	
     // Only show toolbar if there's more that 1 photo
-    if (photos.count > 1) {
+    if (photos.count > 0) {
     
         // Toolbar
         toolbar = [[UIToolbar alloc] initWithFrame:[self frameForToolbarAtOrientation:self.interfaceOrientation]];
