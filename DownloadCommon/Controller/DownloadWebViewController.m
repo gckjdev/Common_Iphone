@@ -216,6 +216,13 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 //                                               webSite:webSite 
 //                                           webSiteName:[self.webView getTitle]
 //                                               origUrl:currentURL];
+        
+        if ([linkInfo.href rangeOfString:@"youtube.com"].location != NSNotFound){
+            // don't show youtube 
+            PPDebug(@"Download link is from youtube, skip popup download action sheet. href=%@", linkInfo.href);
+            return;
+        }
+        
         self.urlFileType = FILE_TYPE_UNKNOWN;
         [self askDownload:linkInfo.href];
     }

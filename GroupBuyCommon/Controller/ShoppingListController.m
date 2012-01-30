@@ -19,7 +19,7 @@
 #import "ProductPriceDataLoader.h"
 #import "groupbuyAppDelegate.h"
 #import "NetworkRequestResultCode.h"
-
+#import "StringUtil.h"
 
 @implementation ShoppingListController
 
@@ -51,7 +51,10 @@
     [self setBackgroundImageName:@"background.png"];
 
     self.helpLabel.hidden = YES;
-    self.helpLabel.text = @"暂无团购通知，请点击右上角的按钮添加你想要的信息。";
+    NSString* text = @"暂无团购通知，请点击右上角的按钮添加";
+    text = [text stringByAppendingString:kHappyFace];
+    self.helpLabel.text = text;
+    
     
     //@"团购通知可以帮助您找到您想要购买的商品是否有对应团购。操作如下：\n\n\
     1）添加一个或者多个近期想要购买的商品的信息；\n\n\
@@ -73,7 +76,7 @@
     [self.dataTableView reloadData];
     
     if ([self.dataList count] == 0){
-        [self popupMessage:@"您还没有添加任何你感兴趣的团购目标，点击右上角的按钮添加一个你想要团购的物品信息吧！" title:@""];
+//        [self popupMessage:@"您还没有添加任何你感兴趣的团购目标，点击右上角的按钮添加一个你想要团购的物品信息吧！" title:@""];
         
         self.helpLabel.hidden = NO;
     }
