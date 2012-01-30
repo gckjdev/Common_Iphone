@@ -248,7 +248,7 @@
     
     //set website title
     UILabel *websiteTitleLabel = [[UILabel alloc] init];
-    websiteTitleLabel.text = @"团购网站";
+    websiteTitleLabel.text = @"站点导航";
     websiteTitleLabel.font = [UIFont boldSystemFontOfSize:15];
     websiteTitleLabel.textColor = [UIColor colorWithRed:111/255.0 green:104/255.0 blue:94/255.0 alpha:1.0];
     newX = 10;

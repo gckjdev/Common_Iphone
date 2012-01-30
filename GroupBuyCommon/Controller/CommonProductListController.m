@@ -191,6 +191,8 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+
+    
     if (bannerView == nil){
         bannerView = [AdViewUtils allocAdMobView:self];  
         if (bannerView != nil){
@@ -201,13 +203,12 @@
     }
     
     self.dataList = [self requestProductListFromDB]; 
-    [self showNoProductLabel];
-
     if (self.dataList == nil || [dataList count] == 0){
         [self showActivityWithText:@"获取团购数据中..."];
         [self requestProductListFromServer:YES];                
     }
     else{
+        self.noProductLabel.hidden = YES;
         [self.dataTableView reloadData];
     }
     
