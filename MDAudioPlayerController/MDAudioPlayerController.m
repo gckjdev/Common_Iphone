@@ -120,7 +120,11 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 		nextButton.enabled = YES;
 	else	
 		nextButton.enabled = [self canGoToNextTrack];
-	previousButton.enabled = [self canGoToPreviousTrack];
+    
+    if (repeatOne || repeatAll || shuffle)
+        previousButton.enabled = YES;
+    else
+        previousButton.enabled = [self canGoToPreviousTrack];
 }
 
 -(void)updateViewForPlayerInfo:(AVAudioPlayer*)p
@@ -647,7 +651,31 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 
 - (void)previous
 {
-	NSUInteger newIndex = selectedIndex - 1;
+    NSUInteger newIndex;
+    
+	if (repeatOne)
+	{
+		newIndex = selectedIndex;
+	}
+	else if (shuffle)
+	{
+		newIndex = rand() % [soundFiles count];
+	}
+	else if (repeatAll)
+	{
+		if (selectedIndex == 0)
+			newIndex = [soundFiles count]-1;
+		else
+			newIndex = selectedIndex - 1;
+	}
+	else
+	{
+        if (selectedIndex == 0)
+			newIndex = selectedIndex;
+		else
+			newIndex = selectedIndex - 1;
+	}
+    
 	selectedIndex = newIndex;
     
 	NSError *error = nil;
@@ -674,13 +702,13 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 {
 	NSUInteger newIndex;
 	
-	if (shuffle)
-	{
-		newIndex = rand() % [soundFiles count];
-	}
-	else if (repeatOne)
+    if (repeatOne)
 	{
 		newIndex = selectedIndex;
+	}
+	else if (shuffle)
+	{
+		newIndex = rand() % [soundFiles count];
 	}
 	else if (repeatAll)
 	{
