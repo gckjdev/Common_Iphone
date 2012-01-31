@@ -60,6 +60,8 @@ static const CGFloat kDefaultReflectionOpacity = 0.40;
 
 @synthesize superViewController = _superViewController;
 
+@synthesize voiceView;
+
 
 void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 {
@@ -345,10 +347,9 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	[self.view addSubview:previousButton];
 	
     
-    UIImageView *voiceImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 422-BUTTON_UP_HEIGHT, 19, 19)];
-    [voiceImage setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerVoice" ofType:@"png"]] ]; 
-    [self.view addSubview:voiceImage];
-    [voiceImage release];
+    self.voiceView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 422-BUTTON_UP_HEIGHT, 19, 19)];
+    [voiceView setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerVoice" ofType:@"png"]] ]; 
+    [self.view addSubview:voiceView];
     
     
 	self.volumeSlider = [[UISlider alloc] initWithFrame:CGRectMake(35, 420-BUTTON_UP_HEIGHT, 265, 9)];
@@ -975,6 +976,7 @@ CGContextRef MyCreateBitmapContext(int pixelsWide, int pixelsHigh)
 	[overlayView release], overlayView = nil;
 	[updateTimer invalidate], updateTimer = nil;
     [_superViewController release]; _superViewController = nil;
+    [voiceView release], voiceView = nil;
 	[super dealloc];
 }
 

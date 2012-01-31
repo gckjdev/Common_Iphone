@@ -94,6 +94,8 @@
 
 @property (nonatomic, retain) UIViewController *superViewController;
 
+@property (nonatomic, retain) UIImageView *voiceView;
+
 
 - (MDAudioPlayerController *)initWithSoundFiles:(NSMutableArray *)songs atPath:(NSString *)path andSelectedIndex:(int)index;
 - (void)setSoundFiles:(NSMutableArray *)songs selectedIndex:(int)index;
