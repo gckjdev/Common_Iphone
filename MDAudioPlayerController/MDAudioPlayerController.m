@@ -199,7 +199,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAudioPlayer)];
 	
-	self.toggleButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+	self.toggleButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
 	[toggleButton setImage:[UIImage imageNamed:@"AudioPlayerAlbumInfo.png"] forState:UIControlStateNormal];
 	[toggleButton addTarget:self action:@selector(showSongFiles) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -323,18 +323,18 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	[buttonBackground release];
 	buttonBackground  = nil;
 	
-	self.playButton = [[UIButton alloc] initWithFrame:CGRectMake(140, 370-BUTTON_UP_HEIGHT, 40, 40)];
+	self.playButton = [[UIButton alloc] initWithFrame:CGRectMake(140, 370-BUTTON_UP_HEIGHT, 32, 32)];
 	[playButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerPlay" ofType:@"png"]] forState:UIControlStateNormal];
 	[playButton addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
 	playButton.showsTouchWhenHighlighted = YES;
 	[self.view addSubview:playButton];
     
-	self.pauseButton = [[UIButton alloc] initWithFrame:CGRectMake(140, 370-BUTTON_UP_HEIGHT, 40, 40)];
+	self.pauseButton = [[UIButton alloc] initWithFrame:CGRectMake(140, 370-BUTTON_UP_HEIGHT, 32, 32)];
 	[pauseButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerPause" ofType:@"png"]] forState:UIControlStateNormal];
 	[pauseButton addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
 	pauseButton.showsTouchWhenHighlighted = YES;
 	
-	self.nextButton = [[UIButton alloc] initWithFrame:CGRectMake(220, 370-BUTTON_UP_HEIGHT, 40, 40)];
+	self.nextButton = [[UIButton alloc] initWithFrame:CGRectMake(220, 370-BUTTON_UP_HEIGHT, 32, 32)];
 	[nextButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerNextTrack" ofType:@"png"]] 
 				forState:UIControlStateNormal];
 	[nextButton addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
@@ -342,7 +342,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	nextButton.enabled = [self canGoToNextTrack];
 	[self.view addSubview:nextButton];
 	
-	self.previousButton = [[UIButton alloc] initWithFrame:CGRectMake(60, 370-BUTTON_UP_HEIGHT, 40, 40)];
+	self.previousButton = [[UIButton alloc] initWithFrame:CGRectMake(60, 370-BUTTON_UP_HEIGHT, 32, 32)];
 	[previousButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerPrevTrack" ofType:@"png"]] 
                     forState:UIControlStateNormal];
 	[previousButton addTarget:self action:@selector(previous) forControlEvents:UIControlEventTouchUpInside];
@@ -351,12 +351,12 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	[self.view addSubview:previousButton];
 	
     
-    self.voiceView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 422-BUTTON_UP_HEIGHT, 19, 19)];
+    self.voiceView = [[UIImageView alloc] initWithFrame:CGRectMake(11, 423-BUTTON_UP_HEIGHT, 16, 16)];
     [voiceView setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerVoice" ofType:@"png"]] ]; 
     [self.view addSubview:voiceView];
     
     
-	self.volumeSlider = [[UISlider alloc] initWithFrame:CGRectMake(35, 420-BUTTON_UP_HEIGHT, 265, 9)];
+	self.volumeSlider = [[UISlider alloc] initWithFrame:CGRectMake(32, 420-BUTTON_UP_HEIGHT, 265, 9)];
 	[volumeSlider setThumbImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerVolumeKnob" ofType:@"png"]]
                        forState:UIControlStateNormal];
 	[volumeSlider setMinimumTrackImage:[[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerScrubberLeft" ofType:@"png"]] stretchableImageWithLeftCapWidth:5 topCapHeight:3]
@@ -491,13 +491,13 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 		duration.adjustsFontSizeToFitWidth = YES;
 		currentTime.adjustsFontSizeToFitWidth = YES;
 		
-		self.repeatButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 45, 32, 28)];
+		self.repeatButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 45, 24, 24)];
 		[repeatButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerRepeatOff" ofType:@"png"]] 
 					  forState:UIControlStateNormal];
 		[repeatButton addTarget:self action:@selector(toggleRepeat) forControlEvents:UIControlEventTouchUpInside];
 		[overlayView addSubview:repeatButton];
 		
-		self.shuffleButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 45, 32, 28)];
+		self.shuffleButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 45, 24, 24)];
 		[shuffleButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerShuffleOff" ofType:@"png"]] 
                        forState:UIControlStateNormal];
 		[shuffleButton addTarget:self action:@selector(toggleShuffle) forControlEvents:UIControlEventTouchUpInside];
