@@ -223,6 +223,12 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
             return;
         }
         
+        if ([linkInfo.href rangeOfString:@"imdb.com"].location != NSNotFound){
+            // don't show imdb 
+            PPDebug(@"Download link is from imdb, skip popup download action sheet. href=%@", linkInfo.href);
+            return;
+        }
+        
         self.urlFileType = FILE_TYPE_UNKNOWN;
         [self askDownload:linkInfo.href];
     }
