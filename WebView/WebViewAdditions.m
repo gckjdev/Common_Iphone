@@ -31,8 +31,27 @@
 }
 
 - (BOOL)hasLink
-{
+{    
     return ([href length] > 0);
+}
+
+#define MIN_LAST_PATH_COMPONENT 10
+#define MIN_LINK_LENGTH         40
+
+- (BOOL)isLinkToFile
+{
+    if ([[href pathExtension] length] > 0)
+        return YES;
+    
+    if ([href length] > MIN_LINK_LENGTH){
+        return YES;
+    }
+    
+    if ([[href lastPathComponent] length] > MIN_LAST_PATH_COMPONENT){
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (BOOL)hasImage

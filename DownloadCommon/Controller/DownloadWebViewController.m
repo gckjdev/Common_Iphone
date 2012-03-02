@@ -119,6 +119,10 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
     [self.addFavoriteButton centerImageAndTitle];
     [self.addFavoriteButton setTitleColor:BAR_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
 
+    if (![LocaleUtils isChina]){
+        self.addFavoriteButton.hidden = YES;
+    }
+
     
 
     
@@ -210,7 +214,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
 
 - (void)longpressTouch:(UIWebView*)webView info:(HTMLLinkInfo*)linkInfo
 {
-    if ([linkInfo hasLink]){
+    if ([linkInfo hasLink] && [linkInfo isLinkToFile]){
 //        [self popupHappyMessage:NSLS(@"kTryDownloadNow") title:@""];
 //        [[DownloadService defaultService] downloadFile:linkInfo.href 
 //                                               webSite:webSite 

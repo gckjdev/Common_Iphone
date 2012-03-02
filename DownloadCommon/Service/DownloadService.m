@@ -46,6 +46,17 @@ DownloadService* globalDownloadService;
 @synthesize viewDecompressItemController;
 @synthesize nowPlayingItem;
 
+#include <sys/xattr.h>
+
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
+{    
+    const char* filePath = [[URL path] fileSystemRepresentation];            
+    const char* attrName = "com.apple.MobileBackup";    
+    u_int8_t attrValue = 1;            
+    int result = setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);    
+    return result == 0;    
+}
+
 - (void)dealloc
 {
     [audioPlayController release];
@@ -69,6 +80,20 @@ DownloadService* globalDownloadService;
     self.downloadTempDir = [[FileUtil getAppHomeDir] stringByAppendingFormat:DOWNLOAD_TEMP_DIR];   
     self.iCloudDir = [[FileUtil getAppHomeDir] stringByAppendingFormat:DOWNLOAD_ICLOUD_DIR];
     self.concurrentDownload = 20;  
+    
+    if ([self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:downloadDir]]){
+        NSLog(@"addSkipBackupAttributeToItemAtURL %@ Success!", downloadDir);
+    }
+    else{
+        NSLog(@"addSkipBackupAttributeToItemAtURL %@ Failure!", downloadDir);            
+    }
+
+    if ([self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:downloadTempDir]]){
+        NSLog(@"addSkipBackupAttributeToItemAtURL %@ Success!", downloadTempDir);
+    }
+    else{
+        NSLog(@"addSkipBackupAttributeToItemAtURL %@ Failure!", downloadTempDir);            
+    }
 
     // create queue
     [self setQueue:[[[NSOperationQueue alloc] init] autorelease]];
@@ -460,6 +485,10 @@ DownloadService* globalDownloadService;
     DownloadItem *item = [DownloadItem fromDictionary:request.userInfo];
     PPDebug(@"item (%@) requestRedirected", [item itemId]);        
 }
+
+
+
+
 
 - (void)moveFile:(DownloadItem*)item
 {

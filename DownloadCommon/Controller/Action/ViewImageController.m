@@ -13,6 +13,8 @@
 #import "LogUtil.h"
 #import "DownloadItemManager.h"
 #import "DownloadAppDelegate.h"
+#import "WallpaperController.h"
+
 @implementation ViewImageController
 @synthesize downloadItem;
 

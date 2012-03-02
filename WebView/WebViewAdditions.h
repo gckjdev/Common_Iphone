@@ -17,6 +17,7 @@
     
 - (BOOL)hasLink;
 - (BOOL)hasImage;
+- (BOOL)isLinkToFile;
 
 @end
 
