@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="MainDataModel.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="10K549" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Friend" representedClassName="Friend">
+        <attribute name="createDate" optional="YES" attributeType="Date"/>
+        <attribute name="extraData" optional="YES" attributeType="String"/>
+        <attribute name="friendAvatar" optional="YES" attributeType="String"/>
+        <attribute name="friendId" optional="YES" attributeType="String"/>
+        <attribute name="friendNickName" optional="YES" attributeType="String"/>
+        <attribute name="gender" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="HotKeyword" representedClassName="HotKeyword">
+        <attribute name="keyword" optional="YES" attributeType="String"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0"/>
+    </entity>
+    <entity name="Place" representedClassName="Place">
+        <attribute name="createUser" optional="YES" attributeType="String"/>
+        <attribute name="deleteFlag" optional="YES" attributeType="Boolean"/>
+        <attribute name="deleteTimeStamp" optional="YES" attributeType="Integer 64" defaultValueString="0"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="extraData" optional="YES" attributeType="String"/>
+        <attribute name="followUser" optional="YES" attributeType="String"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="placeId" optional="YES" attributeType="String"/>
+        <attribute name="useFor" optional="YES" attributeType="Integer 16" defaultValueString="0"/>
+    </entity>
+    <entity name="Post" representedClassName="Post">
+        <attribute name="contentType" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="createDate" optional="YES" attributeType="Date"/>
+        <attribute name="deleteFlag" optional="YES" attributeType="Boolean"/>
+        <attribute name="deleteTimeStamp" optional="YES" attributeType="Integer 64" defaultValueString="0"/>
+        <attribute name="extraData" optional="YES" attributeType="String"/>
+        <attribute name="imageURL" optional="YES" attributeType="String" maxValueString="500"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="placeId" optional="YES" attributeType="String"/>
+        <attribute name="placeName" optional="YES" attributeType="String"/>
+        <attribute name="postId" optional="YES" attributeType="String"/>
+        <attribute name="replyPostId" optional="YES" attributeType="String"/>
+        <attribute name="srcPostId" optional="YES" attributeType="String"/>
+        <attribute name="textContent" optional="YES" attributeType="String"/>
+        <attribute name="totalForward" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="totalQuote" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="totalRelated" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="totalReply" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="totalView" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="useFor" optional="YES" attributeType="Integer 16" defaultValueString="0"/>
+        <attribute name="userAvatar" optional="YES" attributeType="String"/>
+        <attribute name="userGender" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="userLatitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="userLongitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="userNickName" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="PrivateMessage" representedClassName="NSManagedObject">
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="createDate" optional="YES" attributeType="Date"/>
+        <attribute name="extraData" optional="YES" attributeType="String"/>
+        <attribute name="messageId" optional="YES" attributeType="String"/>
+        <attribute name="messageUserId" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0"/>
+    </entity>
+    <entity name="PrivateMessageUser" representedClassName="NSManagedObject">
+        <attribute name="extraData" optional="YES" attributeType="String"/>
+        <attribute name="latestMessageContent" optional="YES" attributeType="String"/>
+        <attribute name="latestMessageId" optional="YES" attributeType="String"/>
+        <attribute name="latestModifyDate" optional="YES" attributeType="Date"/>
+        <attribute name="userAvatar" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="userNickName" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Product" representedClassName="Product">
+        <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="bought" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="browseDate" optional="YES" attributeType="Date"/>
+        <attribute name="data" optional="YES" attributeType="String"/>
+        <attribute name="deleteFlag" optional="YES" attributeType="Boolean"/>
+        <attribute name="deleteTimeStamp" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="detail" optional="YES" attributeType="String"/>
+        <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="down" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="endDate" optional="YES" attributeType="Date"/>
+        <attribute name="gps" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="loc" optional="YES" attributeType="String"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="offset" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="productId" optional="YES" attributeType="String"/>
+        <attribute name="rebate" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="shop" optional="YES" attributeType="String"/>
+        <attribute name="siteName" optional="YES" attributeType="String"/>
+        <attribute name="siteURL" optional="YES" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date"/>
+        <attribute name="tel" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="up" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="useFor" optional="YES" attributeType="Integer 64" defaultValueString="0"/>
+        <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="wapURL" optional="YES" attributeType="String"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="useFor"/>
+            </compoundIndex>
+            <compoundIndex>
+                <index value="deleteFlag"/>
+            </compoundIndex>
+            <compoundIndex>
+                <index value="useFor"/>
+                <index value="offset"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="SearchHistory" representedClassName="SearchHistory">
+        <attribute name="keywords" optional="YES" attributeType="String"/>
+        <attribute name="lastModified" optional="YES" attributeType="Date"/>
+    </entity>
+    <entity name="User" representedClassName="User">
+        <attribute name="avatar" optional="YES" attributeType="String"/>
+        <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="extraData" optional="YES" attributeType="String"/>
+        <attribute name="facebookLoginId" optional="YES" attributeType="String"/>
+        <attribute name="gender" optional="YES" attributeType="String"/>
+        <attribute name="loginStatus" optional="YES" attributeType="Boolean"/>
+        <attribute name="mobile" optional="YES" attributeType="String"/>
+        <attribute name="nickName" optional="YES" attributeType="String"/>
+        <attribute name="password" optional="YES" attributeType="String"/>
+        <attribute name="province" optional="YES" attributeType="String"/>
+        <attribute name="qqAccessToken" optional="YES" attributeType="String"/>
+        <attribute name="qqAccessTokenSecret" optional="YES" attributeType="String"/>
+        <attribute name="qqLoginId" optional="YES" attributeType="String"/>
+        <attribute name="queryId" optional="YES" attributeType="String"/>
+        <attribute name="region" optional="YES" attributeType="String"/>
+        <attribute name="renrenLoginId" optional="YES" attributeType="String"/>
+        <attribute name="sinaAccessToken" optional="YES" attributeType="String"/>
+        <attribute name="sinaAccessTokenSecret" optional="YES" attributeType="String"/>
+        <attribute name="sinaLoginId" optional="YES" attributeType="String"/>
+        <attribute name="twitterLoginId" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="userLoginId" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="UserShoppingItem" representedClassName="UserShoppingItem">
+        <attribute name="categoryName" optional="YES" attributeType="String" defaultValueString="0.0"/>
+        <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="createDate" optional="YES" attributeType="Date"/>
+        <attribute name="expireDate" optional="YES" attributeType="Date"/>
+        <attribute name="itemId" optional="YES" attributeType="String" defaultValueString="0"/>
+        <attribute name="keywords" optional="YES" attributeType="String"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="matchCount" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="maxPrice" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="minRebate" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="radius" optional="YES" attributeType="Double" defaultValueString="0"/>
+        <attribute name="status" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="subCategoryName" optional="YES" attributeType="String"/>
+    </entity>
+    <fetchRequest name="findSearchHistoryByKeyword" entity="SearchHistory" predicateString="keywords == $KEYWORDS"/>
+    <fetchRequest name="getAllFollowPlaces" entity="Place" predicateString="useFor == 1 AND deleteFlag == 0"/>
+    <fetchRequest name="getAllHotKeywords" entity="HotKeyword"/>
+    <fetchRequest name="getAllMessageByUser" entity="PrivateMessage" predicateString="messageUserId == $MESSAGE_USER_ID"/>
+    <fetchRequest name="getAllMessageUser" entity="PrivateMessageUser"/>
+    <fetchRequest name="getAllPlacesFollowNearby" entity="Place" predicateString="useFor &lt; 2 AND deleteFlag == 0"/>
+    <fetchRequest name="getAllPlacesForDelete" entity="Place" predicateString="deleteFlag == 1 AND deleteTimeStamp &lt; $beforeTimeStamp"/>
+    <fetchRequest name="getAllPlacesNearby" entity="Place" predicateString="useFor == 0 AND deleteFlag == 0"/>
+    <fetchRequest name="getAllPostByUseFor" entity="Post" predicateString="useFor == $USE_FOR AND deleteFlag == 0"/>
+    <fetchRequest name="getAllPostsForDelete" entity="Post" predicateString="deleteFlag == 1 AND deleteTimeStamp &lt;= $beforeTimeStamp"/>
+    <fetchRequest name="getAllProductsByUseFor" entity="Product" predicateString="useFor == $USE_FOR AND deleteFlag == 0"/>
+    <fetchRequest name="getAllProductsForDelete" entity="Product" predicateString="deleteTimeStamp &lt;= $beforeTimeStamp AND deleteFlag == 1"/>
+    <fetchRequest name="getAllShoppingItems" entity="UserShoppingItem"/>
+    <fetchRequest name="getAtMePost" entity="Post" predicateString="useFor == 3 AND deleteFlag == 0"/>
+    <fetchRequest name="getFollowPostByUser" entity="Post" predicateString="useFor == 2 AND deleteFlag == 0"/>
+    <fetchRequest name="getLatestMessage" entity="PrivateMessage"/>
+    <fetchRequest name="getLatestSearchHistories" entity="SearchHistory"/>
+    <fetchRequest name="getMessageById" entity="PrivateMessage" predicateString="messageId == $MESSAGE_ID"/>
+    <fetchRequest name="getMessageUserById" entity="PrivateMessageUser" predicateString="userId == $MESSAGE_USER_ID"/>
+    <fetchRequest name="getNearbyPost" entity="Post" predicateString="useFor == 1 AND deleteFlag == 0"/>
+    <fetchRequest name="getPlaceUseForFollow" entity="Place" predicateString="useFor == 1 AND deleteFlag == 0 AND placeId == $placeId"/>
+    <fetchRequest name="getPostByPlace" entity="Post" predicateString="placeId == $placeId AND useFor == 0 AND deleteFlag == 0"/>
+    <fetchRequest name="getProductByIdUseFor" entity="Product" predicateString="productId == $PRODUCT_ID AND useFor == $USE_FOR AND deleteFlag == 0"/>
+    <fetchRequest name="getProductHistoryById" entity="Product" predicateString="productId == $PRODUCT_ID AND useFor == 6"/>
+    <fetchRequest name="getShoppingItemByItemId" entity="UserShoppingItem" predicateString="itemId == $ITEM_ID"/>
+    <fetchRequest name="getUser" entity="User" predicateString="queryId == &quot;DEFAULT_USER_QUERY_ID&quot;"/>
+    <elements>
+        <element name="Friend" positionX="279" positionY="426" width="128" height="135"/>
+        <element name="Place" positionX="232" positionY="225" width="128" height="210"/>
+        <element name="SearchHistory" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="PrivateMessageUser" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="Post" positionX="61" positionY="147" width="128" height="435"/>
+        <element name="Product" positionX="0" positionY="0" width="128" height="495"/>
+        <element name="PrivateMessage" positionX="423" positionY="63" width="128" height="135"/>
+        <element name="User" positionX="259" positionY="27" width="128" height="390"/>
+        <element name="UserShoppingItem" positionX="0" positionY="0" width="128" height="255"/>
+        <element name="HotKeyword" positionX="511" positionY="243" width="128" height="75"/>
+    </elements>
+</model>
