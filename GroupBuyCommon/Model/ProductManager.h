@@ -40,6 +40,14 @@ enum {
 }
 
 + (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor offset:(int)offset currentLocation:(CLLocation*)currentLocation;
++ (Product*)createProduct:(NSDictionary*)productDict 
+                   useFor:(int)useFor 
+                   offset:(int)offset 
+          currentLocation:(CLLocation*)currentLocation
+                batchSave:(BOOL)batchSave;
+
++ (void)save;
+
 + (BOOL)createProductHistory:(Product*)product;
 + (BOOL)createProductForFavorite:(Product*)product;
 

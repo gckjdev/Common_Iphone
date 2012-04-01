@@ -223,7 +223,7 @@ DownloadWebViewController *GlobalGetDownloadWebViewController()
         
         if ([linkInfo.href rangeOfString:@"youtube.com"].location != NSNotFound){
             // don't show youtube 
-            PPDebug(@"Download link is from youtube, skip popup download action sheet. href=%@", linkInfo.href);
+            PPDebug(@"Download link is from youtube/imdb.com, skip popup download action sheet. href=%@", linkInfo.href);
             return;
         }
         

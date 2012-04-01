@@ -112,6 +112,14 @@
                 <index value="useFor"/>
                 <index value="offset"/>
             </compoundIndex>
+            <compoundIndex>
+                <index value="useFor"/>
+                <index value="deleteFlag"/>
+            </compoundIndex>
+            <compoundIndex>
+                <index value="useFor"/>
+                <index value="distance"/>
+            </compoundIndex>
         </compoundIndexes>
     </entity>
     <entity name="SearchHistory" representedClassName="SearchHistory">

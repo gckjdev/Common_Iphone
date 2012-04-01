@@ -216,10 +216,17 @@
                 NSArray* productArray = output.jsonDataArray;
                 int offset = startOffset;
                 for (NSDictionary* productDict in productArray){
-                    [ProductManager createProduct:productDict useFor:useFor 
-                                           offset:offset currentLocation:location];
+                    [ProductManager createProduct:productDict 
+                                           useFor:useFor 
+                                           offset:offset 
+                                  currentLocation:location
+                                        batchSave:YES];
                     offset ++;
                 }                    
+                
+                if ([productArray count] > 0){
+                    [ProductManager save];
+                }
             }
             
             // notify UI to refresh data

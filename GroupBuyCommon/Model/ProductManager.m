@@ -63,26 +63,18 @@
         return nil;
 }
 
-+ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor 
-                   offset:(int)offset currentLocation:(CLLocation*)currentLocation
++ (void)save
 {
-    
-//    @property (nonatomic, retain) NSString * data;
-//    @property (nonatomic, retain) NSNumber * useFor;
-//    @property (nonatomic, retain) NSString * productId;
-//    @property (nonatomic, retain) NSDate * startDate;
-//    @property (nonatomic, retain) NSDate * endDate;
-//    @property (nonatomic, retain) NSNumber * latitude;
-//    @property (nonatomic, retain) NSDate * longitude;
-//    @property (nonatomic, retain) NSNumber * price;
-//    @property (nonatomic, retain) NSNumber * value;
-//    @property (nonatomic, retain) NSNumber * rebate;
-//    @property (nonatomic, retain) NSString * title;
-//    @property (nonatomic, retain) NSString * loc;
-//    @property (nonatomic, retain) NSString * image;
-//    @property (nonatomic, retain) NSNumber * deleteFlag;
-//    @property (nonatomic, retain) NSNumber * deleteTimeStamp;    
-    
+    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+    [dataManager save];
+}
+
++ (Product*)createProduct:(NSDictionary*)productDict 
+                   useFor:(int)useFor 
+                   offset:(int)offset 
+          currentLocation:(CLLocation*)currentLocation
+                batchSave:(BOOL)batchSave
+{
     CoreDataManager* dataManager = GlobalGetCoreDataManager();
     NSString* productId = [productDict objectForKey:PARA_ID];
     
@@ -115,15 +107,15 @@
     product.offset = [NSNumber numberWithInt:offset];
     
     product.gps = [ProductManager gpsFromDictionary:productDict];
-
+    
     product.down = [productDict objectForKey:PARA_DOWN];
     product.up = [productDict objectForKey:PARA_UP];
-
+    
     
     SBJsonWriter *writer2 = [[SBJsonWriter alloc] init];                
     product.address = [writer2 stringWithObject:[productDict objectForKey:PARA_ADDRESS]];    
     [writer2 release];
-
+    
     SBJsonWriter *writer3 = [[SBJsonWriter alloc] init];                
     product.tel = [writer3 stringWithObject:[productDict objectForKey:PARA_TEL]];    
     [writer3 release];
@@ -131,20 +123,96 @@
     NSArray* gpsArray = [ProductManager gpsArray:[productDict objectForKey:PARA_GPS]];
     product.distance = [NSNumber numberWithDouble:
                         [ProductManager calcShortestDistance:gpsArray
-                                            currentLocation:currentLocation]];
+                                             currentLocation:currentLocation]];
     
-//    product.longitude = [NSNumber numberWithDouble:longitude];
-//    product.latitude = [NSNumber numberWithDouble:latitude];
     product.useFor = [NSNumber numberWithInt:useFor];
     product.deleteFlag = [NSNumber numberWithBool:NO];
     product.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
-    
-//    PPDebug(@"<createProduct> product=%@", [product description]);
-    
-    if ([dataManager save] == NO)
-        return nil;
-    else
+
+    if (batchSave == NO){
+        if ([dataManager save] == NO)
+            return nil;
+        else
+            return product;        
+    }
+    else{            
         return product;
+    }
+}
+
+
++ (Product*)createProduct:(NSDictionary*)productDict useFor:(int)useFor 
+                   offset:(int)offset currentLocation:(CLLocation*)currentLocation
+{    
+    
+    return [ProductManager createProduct:productDict 
+                           useFor:useFor 
+                           offset:offset 
+                  currentLocation:currentLocation 
+                        batchSave:YES];
+    
+//    CoreDataManager* dataManager = GlobalGetCoreDataManager();
+//    NSString* productId = [productDict objectForKey:PARA_ID];
+//    
+//    if (useFor == USE_FOR_HISTORY){
+//        Product* productHistory = [ProductManager findProductHistoryById:productId];
+//        if (productHistory != nil){
+//            productHistory.browseDate = [NSDate date];
+//            productHistory.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
+//            [dataManager save];
+//            return productHistory;
+//        }
+//    }
+//    
+//    Product* product = [dataManager insert:@"Product"];
+//    product.productId = productId;
+//    product.title = [productDict objectForKey:PARA_TITLE];
+//    product.price = [productDict objectForKey:PARA_PRICE];
+//    product.rebate = [productDict objectForKey:PARA_REBATE];
+//    product.bought = [productDict objectForKey:PARA_BOUGHT];
+//    product.value = [productDict objectForKey:PARA_VALUE];
+//    product.startDate = dateFromUTCStringByFormat([productDict objectForKey:PARA_START_DATE], DEFAULT_DATE_FORMAT);
+//    product.endDate = dateFromUTCStringByFormat([productDict objectForKey:PARA_END_DATE], DEFAULT_DATE_FORMAT);
+//    product.image = [productDict objectForKey:PARA_IMAGE];
+//    product.loc = [productDict objectForKey:PARA_LOC];
+//    product.siteName = [productDict objectForKey:PARA_SITE_NAME];
+//    product.siteURL = [productDict objectForKey:PARA_SITE_URL];
+//    NSString* wapURL = [productDict objectForKey:PARA_WAP_URL];
+//    product.wapURL = wapURL;
+//    product.desc = [productDict objectForKey:PARA_DESC];
+//    product.offset = [NSNumber numberWithInt:offset];
+//    
+//    product.gps = [ProductManager gpsFromDictionary:productDict];
+//
+//    product.down = [productDict objectForKey:PARA_DOWN];
+//    product.up = [productDict objectForKey:PARA_UP];
+//
+//    
+//    SBJsonWriter *writer2 = [[SBJsonWriter alloc] init];                
+//    product.address = [writer2 stringWithObject:[productDict objectForKey:PARA_ADDRESS]];    
+//    [writer2 release];
+//
+//    SBJsonWriter *writer3 = [[SBJsonWriter alloc] init];                
+//    product.tel = [writer3 stringWithObject:[productDict objectForKey:PARA_TEL]];    
+//    [writer3 release];
+//    
+//    NSArray* gpsArray = [ProductManager gpsArray:[productDict objectForKey:PARA_GPS]];
+//    product.distance = [NSNumber numberWithDouble:
+//                        [ProductManager calcShortestDistance:gpsArray
+//                                            currentLocation:currentLocation]];
+//    
+////    product.longitude = [NSNumber numberWithDouble:longitude];
+////    product.latitude = [NSNumber numberWithDouble:latitude];
+//    product.useFor = [NSNumber numberWithInt:useFor];
+//    product.deleteFlag = [NSNumber numberWithBool:NO];
+//    product.deleteTimeStamp = [NSNumber numberWithInt:time(0)];
+//    
+////    PPDebug(@"<createProduct> product=%@", [product description]);
+//    
+//    if ([dataManager save] == NO)
+//        return nil;
+//    else
+//        return product;
 }
 
 + (BOOL)createProductForFavorite:(Product*)product
