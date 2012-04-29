@@ -60,7 +60,7 @@
 
 //download
 #define DOWNLOAD_FILTER_BG              @"tu_22.png" 
-#define DOWNLOAD_FILTER_BG_IMAGE        ([UIImage imageNamed:DOWNLOAD_FILTER_BG])
+#define DOWNLOAD_FILTER_BG_IMAGE        ([UIImage strectchableImageName:DOWNLOAD_FILTER_BG])
 
 #define FILETER_ALL_BUTTON              @"png_107"
 #define FILETER_COMPLETE_BUTTON         @"png_108"

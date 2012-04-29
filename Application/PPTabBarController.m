@@ -216,7 +216,16 @@
 	self.buttons = [NSMutableArray arrayWithCapacity:viewCount];
     
     // set button width & height
-	double _width = 320.0f / viewCount;
+    float WIDTH;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+		WIDTH = 320.0;
+	}
+	else
+	{
+        WIDTH = 768.0;
+    }
+	double _width = WIDTH / viewCount;
 	double _height = self.tabBar.frame.size.height;
     
 	for (int i = 0; i < viewCount; i++) {
@@ -327,6 +336,13 @@
 	[super dealloc];
 }
 
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown;
+    else
+        return toInterfaceOrientation == UIInterfaceOrientationPortrait;
+}
 - (void)setBadgeValue:(NSString *)value buttonTag:(NSInteger)tag
 {
     for (UIButton* b in buttons) {

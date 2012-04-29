@@ -62,7 +62,10 @@
 
 + (CGFloat)getCellHeight
 {
-    return 50;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return 75;
+    else
+        return 50;
 }
 
 - (void)setCellInfoWithTopDownloadItem:(TopDownloadItem*)item atIndexPath:(NSIndexPath*)indexPathValue

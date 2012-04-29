@@ -64,7 +64,11 @@
 
 + (CGFloat)getCellHeight
 {
-    return 100.0f;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return 100.0f;
+    }
+    else
+        return 150.0f;
 }
 
 #define SIZE_ONE_MB (1000000.0)

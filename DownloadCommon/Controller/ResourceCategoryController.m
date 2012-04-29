@@ -183,6 +183,22 @@
     
 }
 
+- (void)createUnderlineView
+{
+    underlineView = [[UIImageView alloc] init];
+    [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
+    [resourceBackgroundView addSubview:underlineView];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(8, 40, 70, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(40, 80, 150, 4)];
+    }
+}
+
 - (void)viewDidLoad
 {
     [self setDownloadNavigationTitle:NSLS(@"kResourceSites")];
@@ -211,7 +227,7 @@
     [self.starredButton.titleLabel setTextColor:BUTTON_TEXT_NORMAL_COLOR];
     
     supportRefreshHeader = YES;
-    [self setRefreshHeaderViewFrame:CGRectMake(0, 0 - self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
+   
     [self.refreshHeaderView setBackgroundColor:[UIColor clearColor]];
     
     [topButton setSelected:YES];
@@ -222,11 +238,9 @@
     
     [super viewDidLoad];
     
-    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 40, 70, 2)];
-    [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
-    [resourceBackgroundView addSubview:underlineView];
-
-    [self setRefreshHeaderViewFrame:CGRectMake(0, 0-self.dataTableView.bounds.size.height, 320, self.dataTableView.bounds.size.height)];
+    [self setRefreshHeaderViewFrame:CGRectMake(0, 0-self.dataTableView.bounds.size.height, [UIScreen mainScreen].bounds.size.width, self.dataTableView.bounds.size.height)];
+        
+    [self createUnderlineView];
     
     [self loadSiteFromServer];
 }
@@ -249,14 +263,12 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
-	return @"";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown;
+    else
+        return toInterfaceOrientation == UIInterfaceOrientationPortrait;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -345,7 +357,15 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(83, 40, 70, 2)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(83, 40, 70, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(200, 80, 150, 4)];
+    }
+
     [UIImageView commitAnimations];
 }
 
@@ -366,7 +386,14 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(8, 40, 70, 2)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(8, 40, 70, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(40, 80, 150, 4)];
+    }
     [UIImageView commitAnimations];
 }
 
@@ -387,7 +414,14 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(160, 40, 70, 2)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(160, 40, 70, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(400, 80, 150, 4)];
+    }
     [UIImageView commitAnimations];
     
 }
@@ -405,7 +439,14 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(238, 40, 70, 2)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(238, 40, 70, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(550, 80, 150, 4)];
+    }
     [UIImageView commitAnimations];
 }
 
