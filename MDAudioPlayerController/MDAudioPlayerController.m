@@ -283,6 +283,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 #define UP_HEIGHT 44
 #define BUTTON_UP_HEIGHT 44*2
 #define SCREEN_WIDTH    [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT   [UIScreen mainScreen].bounds.size.height
     
 	self.artworkView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH-UP_HEIGHT)];
 //	[artworkView setImage:[selectedSong coverImage] forState:UIControlStateNormal];
@@ -327,18 +328,18 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	
     int marginMiddle = [UIScreen mainScreen].bounds.size.width / 2 - 20;
 
-	self.playButton = [[UIButton alloc] initWithFrame:CGRectMake(marginMiddle, [UIScreen mainScreen].bounds.size.height - 110 -BUTTON_UP_HEIGHT, 32, 32)];
+	self.playButton = [[UIButton alloc] initWithFrame:CGRectMake(marginMiddle, SCREEN_HEIGHT - 110 -BUTTON_UP_HEIGHT, 32, 32)];
 	[playButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerPlay" ofType:@"png"]] forState:UIControlStateNormal];
 	[playButton addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
 	playButton.showsTouchWhenHighlighted = YES;
 	[self.view addSubview:playButton];
         
-	self.pauseButton = [[UIButton alloc] initWithFrame:CGRectMake(marginMiddle, [UIScreen mainScreen].bounds.size.height - 110 - BUTTON_UP_HEIGHT, 32, 32)];
+	self.pauseButton = [[UIButton alloc] initWithFrame:CGRectMake(marginMiddle, SCREEN_HEIGHT - 110 - BUTTON_UP_HEIGHT, 32, 32)];
 	[pauseButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerPause" ofType:@"png"]] forState:UIControlStateNormal];
 	[pauseButton addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
 	pauseButton.showsTouchWhenHighlighted = YES;
 	
-	self.nextButton = [[UIButton alloc] initWithFrame:CGRectMake(marginMiddle + 80, [UIScreen mainScreen].bounds.size.height - 110 - BUTTON_UP_HEIGHT, 32, 32)];
+	self.nextButton = [[UIButton alloc] initWithFrame:CGRectMake(marginMiddle + 80, SCREEN_HEIGHT - 110 - BUTTON_UP_HEIGHT, 32, 32)];
 	[nextButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerNextTrack" ofType:@"png"]] 
 				forState:UIControlStateNormal];
 	[nextButton addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
@@ -346,7 +347,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	nextButton.enabled = [self canGoToNextTrack];
 	[self.view addSubview:nextButton];
 	
-	self.previousButton = [[UIButton alloc] initWithFrame:CGRectMake(marginMiddle - 80, [UIScreen mainScreen].bounds.size.height - 110 - BUTTON_UP_HEIGHT, 32, 32)];
+	self.previousButton = [[UIButton alloc] initWithFrame:CGRectMake(marginMiddle - 80, SCREEN_HEIGHT - 110 - BUTTON_UP_HEIGHT, 32, 32)];
 	[previousButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerPrevTrack" ofType:@"png"]] 
                     forState:UIControlStateNormal];
 	[previousButton addTarget:self action:@selector(previous) forControlEvents:UIControlEventTouchUpInside];
@@ -355,7 +356,7 @@ void interruptionListenerCallback (void *userData, UInt32 interruptionState)
 	[self.view addSubview:previousButton];
 	
     
-    self.voiceView = [[UIImageView alloc] initWithFrame:CGRectMake(11, [UIScreen mainScreen].bounds.size.height - 57 -BUTTON_UP_HEIGHT, 16, 16)];
+    self.voiceView = [[UIImageView alloc] initWithFrame:CGRectMake(11, SCREEN_HEIGHT - 57 -BUTTON_UP_HEIGHT, 16, 16)];
     [voiceView setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AudioPlayerVoice" ofType:@"png"]] ]; 
     [self.view addSubview:voiceView];
     	
