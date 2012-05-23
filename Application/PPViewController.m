@@ -833,7 +833,7 @@
 }
 - (void)addBlankView:(CGFloat)top currentResponder:(UIView*)currentResponder
 {
-    CGRect frame = CGRectMake(0, top, 320, 480);
+    CGRect frame = CGRectMake(0, top, [UIScreen mainScreen].bounds.size.width, 480);
     if (self.blankView == nil){
         blankView = [[UIBlankView alloc] initWithFrame:frame];
     }

@@ -774,7 +774,7 @@
 - (void)showTipsOnTableView:(NSString *)text
 { 
     if (self.tipsLabel == nil) {
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 320, 40)];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, [UIScreen mainScreen].bounds.size.width, 40)];
         [label setFont:[UIFont systemFontOfSize:14]];
         self.tipsLabel = label;
         [label release];

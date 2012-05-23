@@ -134,6 +134,22 @@
     [self updateNoDataTips];
 }
 
+- (void)createUnderlineView
+{
+    underlineView = [[UIImageView alloc] init];
+    [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
+    [filterBackgroundView addSubview:underlineView];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(8, 40, 70, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(40, 80, 150, 4)];
+    }
+}
+
 - (void)viewDidLoad
 {   
     [self setBackgroundImageName:DOWNLOAD_BG];
@@ -167,15 +183,11 @@
     
     [filterAllButton setSelected:YES];
     lastSelectedButton = filterAllButton;
-    
-    underlineView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 40, 55, 2)];
-    [underlineView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:78/255.0 blue:0 alpha:1.0]];
-    [filterBackgroundView addSubview:underlineView];
-    
-    [super viewDidLoad];
         
-    // Do any additional setup after loading the view from its nib.
+    [super viewDidLoad];
     
+    [self createUnderlineView];
+
 }
 
 - (void) clickNowPlaying:(id) sender
@@ -243,10 +255,12 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown;
+    else
+        return toInterfaceOrientation == UIInterfaceOrientationPortrait;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {	
@@ -401,7 +415,14 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(65, 40, 70, 2)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(65, 40, 70, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(200, 80, 150, 4)];
+    }
     [UIImageView commitAnimations];
     
     self.dataList = [[DownloadItemManager defaultManager] findAllCompleteItems];
@@ -426,7 +447,14 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(150, 40, 90, 2)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(150, 40, 90, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(370, 80, 150, 4)];
+    }
     [UIImageView commitAnimations];
 
     self.dataList = [[DownloadItemManager defaultManager] findAllDownloadingItems];
@@ -451,7 +479,14 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(248, 40, 70, 2)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(248, 40, 70, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(550, 80, 150, 4)];
+    }
     [UIImageView commitAnimations];
 
     self.dataList = [[DownloadItemManager defaultManager] findAllStarredItems];
@@ -476,8 +511,14 @@
     [UIImageView beginAnimations:nil context:NULL];
     [UIImageView setAnimationDuration:0.5];
     [UIImageView setAnimationBeginsFromCurrentState:YES];
-    [underlineView setFrame:CGRectMake(8, 40, 50, 2)];
-//    [underlineView.layer setPosition:CGPointMake(28, 40)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        [underlineView setFrame:CGRectMake(8, 40, 50, 2)];
+	}
+    else
+    {
+        [underlineView setFrame:CGRectMake(40, 80, 150, 4)];
+    }
     [UIImageView commitAnimations];
     
     self.dataList = [[DownloadItemManager defaultManager] findAllItems];

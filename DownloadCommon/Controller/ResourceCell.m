@@ -64,7 +64,10 @@
 
 + (CGFloat)getCellHeight
 {
-    return 44;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return 75;
+    else
+        return 44;
 }
 
 - (void)setFileType:(NSString*)fileType

@@ -34,5 +34,5 @@
 - (IBAction)clickHot:(id)sender;
 - (IBAction)clickTop:(id)sender;
 - (IBAction)clickNew:(id)sender;
-
+- (IBAction)clickStarred:(id)sender;
 @end
