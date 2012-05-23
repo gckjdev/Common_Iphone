@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "PPViewController.h"
 
+@class GADBannerView;
+
 @interface BookController : PPViewController<UIWebViewDelegate>
 
 @property (nonatomic, assign) int currentIndex;
 @property (nonatomic, retain) UILabel *tipsLabel;
 @property (nonatomic, retain) UIWebView *webView;
+@property (nonatomic, retain) GADBannerView* bannerView;
 
 - (void)showBook:(int)indexValue;
 @end

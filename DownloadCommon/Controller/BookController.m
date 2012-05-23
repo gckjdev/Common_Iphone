@@ -11,12 +11,15 @@
 #import "DownloadItemManager.h"
 #import "DownloadItem.h"
 #import "UIViewController+DownloadViewControllerAddition.h"
+#import "GADBannerView.h"
+#import "DownloadAd.h"
 
 @implementation BookController
 
 @synthesize currentIndex;
 @synthesize tipsLabel;
 @synthesize webView;
+@synthesize bannerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +42,8 @@
 {
     [tipsLabel release];
     [webView release];
+    [bannerView release];
+    [super dealloc];
 }
 
 - (void)showTips:(NSString *)text
@@ -154,7 +159,11 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (bannerView == nil){ 
+        bannerView = [DownloadAd allocAdMobView:self];
+    }
     
+    [super viewDidAppear:animated];
 }
 
 - (void)viewDidUnload
