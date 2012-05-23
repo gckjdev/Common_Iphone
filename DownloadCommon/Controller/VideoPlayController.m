@@ -11,11 +11,14 @@
 #import "DownloadItem.h"
 #import "DownloadResource.h"
 #import "UIViewController+DownloadViewControllerAddition.h"
+#import "GADBannerView.h"
+#import "DownloadAd.h"
 
 @implementation VideoPlayController
 
 @synthesize currentIndex;
 @synthesize tipsLabel;
+@synthesize bannerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,6 +31,8 @@
 }
 
 - (void)dealloc {
+    [tipsLabel release];
+    [bannerView release];
     [super dealloc];
 }
 
@@ -157,6 +162,10 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (bannerView == nil){  
+        bannerView = [DownloadAd allocAdMobView:self];
+    }
+    
     [self showVideoPlayer:NO index:0];
 }
 
