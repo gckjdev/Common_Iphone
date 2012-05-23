@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "UIImageUtil.h"
 
+#define DOWNLOAD_UMENG_APP_KEY  @"4fbb64115270152dc300000d"
+
 #define TOP_ICON        @"tu_03-02"
 #define RESOURCE_ICON   @"png_08"
 #define BROWSE_ICON     @"png_10"

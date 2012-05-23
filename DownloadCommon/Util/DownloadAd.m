@@ -8,10 +8,15 @@
 
 #import "DownloadAd.h"
 #import "GADBannerView.h"
+#import "MobClick.h"
+
+#define ENABLE_AD           @"ENABLE_AD"
+#define VALUE_ENABLE        @"1"
+#define VALUE_NOT_ENABLE    @"0"
+#define PUBLISHER_ID        @"a14fbb62035e7d5" 
 
 @implementation DownloadAd
 
-#define PUBLISHER_ID @"a14fbb62035e7d5" 
 + (GADBannerView*)allocAdMobView:(UIViewController*)superViewController
 {
     // Create a view of the standard size at the bottom of the screen.
@@ -31,7 +36,15 @@
     [superViewController.view addSubview:bannerView_];
     
     // Initiate a generic request to load it with an ad.
-    [bannerView_ loadRequest:[GADRequest request]];   
+    [bannerView_ loadRequest:[GADRequest request]]; 
+    
+    if ([[MobClick getConfigParams:ENABLE_AD] isEqualToString:VALUE_NOT_ENABLE]) {
+        bannerView_.hidden = YES;
+    }else if ([[MobClick getConfigParams:ENABLE_AD] isEqualToString:VALUE_ENABLE]) {
+        bannerView_.hidden = NO;
+    }else {
+        bannerView_.hidden = NO;
+    }
     
     return bannerView_;
 }
