@@ -10,11 +10,15 @@
 #import "ViewImageController.h"
 #import "MWPhotoBrowser.h"
 
+@class GADBannerView;
+
 @interface WallpaperController :ViewImageController
 
 @property (nonatomic, assign) int currentIndex;
 @property (nonatomic, retain) UILabel *tipsLabel;
 @property (nonatomic, retain) MWPhotoBrowser *browser;
+@property (nonatomic, retain) GADBannerView* bannerView;
+
 - (void)showWallpaper:(int)indexValue;
 
 @end

@@ -10,12 +10,15 @@
 #import "DownloadResource.h"
 #import "MWPhotoBrowser.h"
 #import "DownloadItem.h"
+#import "DownloadAd.h"
+#import "GADBannerView.h"
 
 @implementation WallpaperController
 
 @synthesize currentIndex;
 @synthesize tipsLabel;
 @synthesize browser;
+@synthesize bannerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,6 +41,8 @@
 {
     [tipsLabel release];
     [browser release];
+    [bannerView release];
+    [super dealloc];
 }
 
 - (void)showTips:(NSString *)text
@@ -96,7 +101,11 @@
 #pragma mark - View lifecycle
 - (void)viewDidAppear:(BOOL)animated
 {  
-
+    if (bannerView == nil){  
+        bannerView = [DownloadAd allocAdMobView:self];
+    }
+    
+    [super viewDidAppear:animated];
 }
 
 - (void)viewDidLoad
