@@ -19,6 +19,8 @@
 #import "DecompressManager.h"
 #import "ViewDecompressItemController.h"
 #import "DownloadResource.h"
+#import "DownloadAd.h"
+#import "GADBannerView.h"
 
 @implementation DownloadManageController
 
@@ -33,6 +35,7 @@
 @synthesize lastSelectedButton;
 @synthesize filterBackgroundView;
 @synthesize underlineView;
+@synthesize bannerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -63,6 +66,7 @@
     [filterBackgroundView release];
     [lastSelectedButton release];
     [underlineView release];
+    [bannerView release];
     [super dealloc];
 }
 
@@ -209,6 +213,15 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (bannerView == nil){  
+        bannerView = [DownloadAd allocAdMobView:self];
+        if (bannerView != nil){
+            CGRect rect = self.dataTableView.frame;
+            rect.size.height -= 50;
+            self.dataTableView.frame = rect;
+        }
+    }
+    
     [self updateNowPlayingButton];
     [self loadDataBySelectType];
     [self updateNavigationTitle];

@@ -19,6 +19,7 @@ enum {
 
 @class ItemActionController;
 @class ViewDecompressItemController;
+@class GADBannerView;
 
 @interface DownloadManageController : PPTableViewController <DownloadItemCellDelegate>
 
@@ -33,6 +34,7 @@ enum {
 @property (retain, nonatomic) IBOutlet UIImageView *filterBackgroundView;
 @property (retain, nonatomic) UIImageView *underlineView;
 @property (retain, nonatomic) UIButton *lastSelectedButton;
+@property (nonatomic, retain) GADBannerView* bannerView;
 
 - (IBAction)clickFilterComplete:(id)sender;
 - (IBAction)clickFilterDownloading:(id)sender;

@@ -12,6 +12,7 @@
 
 @class TopDownloadItem;
 @class TopDownloadItemCell;
+@class GADBannerView;
 
 @interface TopDownloadController : PPTableViewController <ResourceServiceDelegate, UIActionSheetDelegate> {
     int requestType;
@@ -25,6 +26,7 @@
 @property (nonatomic, retain) NSMutableArray* toplist;
 @property (nonatomic, retain) TopDownloadItem* currentSelectItem;
 @property (nonatomic, retain) TopDownloadItemCell* lastSelectedCell;
+@property (nonatomic, retain) GADBannerView* bannerView;
 - (void)askDownload;
 - (void) hasDownloaded:(TopDownloadItem*) downloadItem;
 - (UIColor*)getDefaultTextColor;

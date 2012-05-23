@@ -12,6 +12,8 @@
 #import "ResourceCell.h"
 #import "DownloadWebViewController.h"
 #import "DownloadResource.h"
+#import "GADBannerView.h"
+#import "DownloadAd.h"
 
 @implementation ResourceCategoryController
 
@@ -28,6 +30,7 @@
 @synthesize lastSelectedButton;
 @synthesize lastSelectedCell;
 @synthesize underlineView;
+@synthesize bannerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,6 +70,7 @@
     [lastSelectedButton release];
     [lastSelectedCell release];
     [underlineView release];
+    [bannerView release];
     [super dealloc];
 }
 
@@ -233,6 +237,16 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (bannerView == nil){  
+        bannerView = [DownloadAd allocAdMobView:self];
+        if (bannerView != nil){
+            CGRect rect = self.dataTableView.frame;
+            rect.size.height -= 50;
+            self.dataTableView.frame = rect;
+        }
+    }
+    
+    
     [self reloadData];
     [super viewDidAppear:animated];
 }

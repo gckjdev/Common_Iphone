@@ -11,6 +11,8 @@
 #import "ResourceService.h"
 
 @class ResourceCell;
+@class GADBannerView;
+
 
 @interface ResourceCategoryController : PPTableViewController <ResourceServiceDelegate>
 
@@ -28,6 +30,7 @@
 @property (retain, nonatomic) UIImageView *underlineView;
 @property (retain, nonatomic) UIButton *lastSelectedButton;
 @property (retain, nonatomic) ResourceCell* lastSelectedCell;
+@property (nonatomic, retain) GADBannerView* bannerView;
 - (IBAction)clickHot:(id)sender;
 - (IBAction)clickTop:(id)sender;
 - (IBAction)clickNew:(id)sender;

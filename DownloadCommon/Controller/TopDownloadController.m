@@ -15,6 +15,8 @@
 #import "MoreTableViewCell.h"
 #import "DownloadResource.h"
 #import "DownloadItem.h"
+#import "GADBannerView.h"
+#import "DownloadAd.h"
 
 @implementation TopDownloadController
 
@@ -23,12 +25,14 @@
 @synthesize currentSelectItem;
 @synthesize startOffset;
 @synthesize lastSelectedCell;
+@synthesize bannerView;
 
 - (void)dealloc
 {
     [toplist release];
     [currentSelectItem release];
     [lastSelectedCell release];
+    [bannerView release];
     [super dealloc];
 }
 
@@ -142,8 +146,19 @@
     
 }
 
+
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (bannerView == nil){ 
+        bannerView = [DownloadAd allocAdMobView:self];
+        if (bannerView != nil){
+            CGRect rect = self.dataTableView.frame;
+            rect.size.height -= 50;
+            self.dataTableView.frame = rect;
+        }
+    }
+    
+    
     if (self.dataList == nil || [dataList count] == 0){                        
         [self showActivityWithText:NSLS(@"kLoadingData")];
         [self loadTopDownLoadItemFromServer:YES];                
