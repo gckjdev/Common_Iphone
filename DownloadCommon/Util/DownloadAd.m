@@ -40,6 +40,8 @@
     
     if ([[MobClick getConfigParams:ENABLE_AD] isEqualToString:VALUE_NOT_ENABLE]) {
         bannerView_.hidden = YES;
+        CGRect rect = CGRectMake(1.0, 1.0, 1.0, 1.0);
+        bannerView_.frame = rect;
     }else if ([[MobClick getConfigParams:ENABLE_AD] isEqualToString:VALUE_ENABLE]) {
         bannerView_.hidden = NO;
     }else {

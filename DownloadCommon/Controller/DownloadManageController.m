@@ -229,7 +229,7 @@
         bannerView = [DownloadAd allocAdMobView:self];
         if (bannerView != nil){
             CGRect rect = self.dataTableView.frame;
-            rect.size.height -= 50;
+            rect.size.height -= bannerView.frame.size.height;
             self.dataTableView.frame = rect;
         }
     }
